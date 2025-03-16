@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/16 12:50:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/16 12:55:07 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char **parsing(char **argv, int argc)
             write(1, "error\n", 6);
             exit(1);
         }
-        ft_strtrim(argv[1], &c);
+        argv[1] = ft_strtrim(argv[1], &c);
     }
     return (argv);
 }
@@ -53,5 +53,8 @@ int main(int argc, char *argv[])
     int i = 0;
     while (argv[++i])
         printf("%s\n", argv[i]);
+    i = 0;
+    while (argv[++i])
+        free(argv[i]);
     return 0;
 }
