@@ -6,41 +6,52 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/15 19:38:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/16 12:50:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static char	**helper(char **argv)
-// {
-// 	int		i;
-// 	char	**d;
-// 	char	*tmp;
-// 	char	*str;
+int check_empty(char *str)
+{
+    int i;
 
-// 	i = 2;
-// 	str = ft_strdup(argv[1]);
-// 	while (argv[i] != NULL)
-// 	{
-// 		tmp = str;
-// 		str = ft_strjoin(str, " ");
-// 		free(tmp);
-// 		tmp = str;
-// 		str = ft_strjoin(str, argv[i]);
-// 		free(tmp);
-// 		i++;
-// 	}
-// 	d = ft_split(str, 32);
-// 	free(str);
-// 	return (d);
-// }
+    i = 0;
+    if (!str)
+        return (0);
+    if (!*str)
+        return (1);
+    while (str[i] == 32)
+        i++;
+    if (str[i] == '\0')
+        return (1);
+    return (0);
+}
 
-// char	**splitter_joinner(char **argv, int argc)
-// {
-// 	char	**d;
+char **parsing(char **argv, int argc)
+{
+    int i;
+    char c;
 
-// 	argc = 0;
-// 	d = helper(argv);
-// 	return (d);
-// }
+    i = 0;
+    c = (char)34;
+    if (argc == 2)
+    {
+        if (check_empty(argv[1]) == 1) 
+        {
+            write(1, "error\n", 6);
+            exit(1);
+        }
+        ft_strtrim(argv[1], &c);
+    }
+    return (argv);
+}
+
+int main(int argc, char *argv[])
+{
+    argv = parsing(argv, argc);
+    int i = 0;
+    while (argv[++i])
+        printf("%s\n", argv[i]);
+    return 0;
+}

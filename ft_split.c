@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:07:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/15 19:38:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/16 12:48:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	countwords(const char *s, char c)
+static int	countwords(char *s, char c)
 {
 	int	count;
 	int	in_word;
@@ -33,7 +33,7 @@ static int	countwords(const char *s, char c)
 	return (count);
 }
 
-static char	*makestrs(const char *s, int start, int end)
+static char	*makestrs(char *s, int start, int end)
 {
 	char	*word;
 	int		i;
@@ -48,7 +48,7 @@ static char	*makestrs(const char *s, int start, int end)
 	return (word);
 }
 
-static int	mktwod(char **split, const char *s, char c, int count)
+static int	mktwod(char **split, char *s, char c, int count)
 {
 	int	start;
 	int	i;
@@ -90,7 +90,7 @@ static void	ft_free(char **split, int count)
 	free(split);
 }
 
-char	**ft_split(const char *s, char c)
+char	**ft_split(char *s, char c)
 {
 	int		count;
 	char	**split;

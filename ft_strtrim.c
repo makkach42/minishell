@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	check(char const c, const char *str)
+static int	check(char c, char *str)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ static int	check(char const c, const char *str)
 	return (0);
 }
 
-static int	getstart(char const *str, int start, char const *set)
+static int	getstart(char *str, int start, char *set)
 {
 	while (str[start] != '\0')
 	{
@@ -38,7 +38,7 @@ static int	getstart(char const *str, int start, char const *set)
 	return (start);
 }
 
-static int	getend(char const *str, int start, int end, char const *set)
+static int	getend(char *str, int start, int end, char *set)
 {
 	while (str[end] != '\0')
 		end++;
@@ -53,7 +53,7 @@ static int	getend(char const *str, int start, int end, char const *set)
 	return (end);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char *s1, char *set)
 {
 	int		start;
 	int		j;
