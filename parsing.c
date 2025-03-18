@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/18 20:03:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/18 20:30:20 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ int	string_recognizer(char *str)
 	{
 		if (str[i] == '\"')
 		{
-			while (str[++i] != '\"'){}
+			while (str[i] != '\"' && str[i] != '\0')
+				i++;
 			if (str[i] == '\"')
 				break ;
 		}
@@ -304,7 +305,11 @@ char *str_remover(char *str)
 	if (!str | !*str)
 		return (NULL);
 	strlenth = ft_strlen(str);
+	while (str[i] == 32)
+		i++;
 	while (str[i] != '\"' && str[i] != '\0')
+		i++;
+	while (str[i] == 32)
 		i++;
 	i++;
 	new_str = ft_substr(str, i, strlenth - i + 1);
@@ -327,11 +332,13 @@ t_list *list_init(char *str)
 		{
 			word = str_extractor(str);
 			str = str_remover(str);
+			str = ft_strtrim(str, " ");
 		}
 		else
 		{
 			word = word_extractor(str);
 			str = first_word_remover(str);
+			str = ft_strtrim(str, " ");
 		}
 		new_node = malloc(sizeof(t_list));
 		new_node->data = word;
