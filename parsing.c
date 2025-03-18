@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/18 20:30:20 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/18 20:34:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,14 +171,6 @@ void	lexer(t_list **head)
 	}
 }
 
-int countargs(char **args)
-{
-	int i = 0;
-	while (args[i])
-		i++;
-	return (i);
-}
-
 int countstrings(char *str)
 {
 	int i = 0;
@@ -192,11 +184,6 @@ int countstrings(char *str)
 	return (count / 2);
 }
 
-int get_next_quote_index(char *str, int pos)
-{
-	while (str[++pos] != '\"'){}
-	return (pos);
-}
 int	*where_string_starts(char *str)
 {
 	int i;
@@ -348,43 +335,6 @@ t_list *list_init(char *str)
 	}
 	return (head);
 }
-// char *spaces_remover(char *str)
-// {
-// 	int i;
-// 	int j;
-// 	int strlenth;
-
-// 	i = 0;
-// 	j = 0;
-// 	strlenth = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == 32)
-// 			break ;
-// 		i++;
-// 	}
-// 	if (str[i] == 32)
-// 	{
-// 		j = i;
-// 		while (str[j] == 32)
-// 			j++;
-		
-
-// 	}
-// }
-
-
-// void cleaner(t_list **head)
-// {
-// 	t_list *tmp;
-
-// 	tmp = *head;
-// 	while (tmp)
-// 	{
-// 		tmp->data = spaces_remover(tmp->data);
-// 		tmp = tmp->next;
-// 	}
-// }                                                                         working progress
 
 int main(void)
 {
@@ -409,5 +359,3 @@ int main(void)
 		}
 	}
 }
-// pipes operators redirections
-// numbers quotes
