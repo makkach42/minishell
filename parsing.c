@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/18 14:39:20 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/18 20:03:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int word_recognizer(char *str)
 	int i;
 
 	i = 0;
-
+	if (!str)
+		return (0);
 	while (str[i] == 32)
 		i++;
 	while (str[i] == '-')
@@ -38,6 +39,26 @@ int word_recognizer(char *str)
 	while (str[i] >= 'a' && str[i] <= 'z')
 		i++;
 	while (str[i] >= 'A' && str[i] <= 'Z')
+		i++;
+	while (str[i] == 32)
+		i++;
+	if (str[i] == '\0')
+		return (1);
+	return (0);	
+}
+
+int number_recognizer(char *str)
+{
+	int i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i] == 32)
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
+		i++;
+	while (str[i] == 32)
 		i++;
 	if (str[i] == '\0')
 		return (1);
@@ -49,6 +70,8 @@ int pipe_recognizer(char *str)
 	int i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == '|')
@@ -59,35 +82,42 @@ int pipe_recognizer(char *str)
 		return (1);
 	return (0);
 }
-
-int	double_quote_recognizer(char *str)
+int operation_recognizer(char *str)
 {
 	int i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
-		if (str[i] == '\"')
+		if (str[i] == '&' || str[i] == '+' || str[i] == '-' ||  str[i] == '*' ||  str[i] == '/')
 			break ;
 		i++;
 	}
-	if (str[i] == '\"')
+	if (str[i] == '&' || str[i] == '+' || str[i] == '-' ||  str[i] == '*' ||  str[i] == '/')
 		return (1);
 	return (0);
 }
 
-int	single_quote_recognizer(char *str)
+int	string_recognizer(char *str)
 {
 	int i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
-		if (str[i] == '\'')
-			break ;
+		if (str[i] == '\"')
+		{
+			while (str[++i] != '\"'){}
+			if (str[i] == '\"')
+				break ;
+		}
 		i++;
 	}
-	if (str[i] == '\'')
+	if (str[i] == '\"')
 		return (1);
 	return (0);
 }
@@ -97,6 +127,8 @@ int redirection_recognizer(char *str)
 	int i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == '>' || str[i] == '<')
@@ -110,16 +142,18 @@ int redirection_recognizer(char *str)
 
 void	tokenizer(t_list *tmp)
 {
-	if (double_quote_recognizer(tmp->data) == 1)
-		tmp->token = "DOUBLE_QUOTE";
-	else if (single_quote_recognizer(tmp->data) == 1)
-		tmp->token = "SINGLE_QUOTE";
+	if (string_recognizer(tmp->data) == 1)
+		tmp->token = "STRING";
 	else if (word_recognizer(tmp->data) == 1)
 		tmp->token = "WORD";
+	else if (number_recognizer(tmp->data) == 1)
+		tmp->token = "NUMBER";
 	else if (pipe_recognizer(tmp->data) == 1)
 		tmp->token = "PIPE";
 	else if (redirection_recognizer(tmp->data) == 1)
 		tmp->token = "REDIRECTION";
+	else if (operation_recognizer(tmp->data) == 1)
+		tmp->token = "OPERATION";
 	else
 		tmp->token = "FUCK YOU";
 }
@@ -135,50 +169,6 @@ void	lexer(t_list **head)
 		tmp = tmp->next;
 	}
 }
-
-
-// static t_list	*set_next(t_list **tmp, int counter)
-// {
-// 	t_list	*tmp3;
-// 	int		counter2;
-
-// 	counter2 = 0;
-// 	counter--;
-// 	tmp3 = tmp[counter2];
-// 	while (counter)
-// 	{
-// 		tmp[counter2]->next = tmp[counter2 + 1];
-// 		counter2++;
-// 		counter--;
-// 	}
-// 	free(tmp);
-// 	return (tmp3);
-// }
-
-// static t_list	*init_list(char **argv, int count)
-// {
-// 	t_list	**tmp;
-// 	t_list	*tmp3;
-// 	int		counter;
-
-// 	counter = 0;
-// 	tmp = (t_list **)malloc(sizeof(t_list *) * count);
-// 	if (!tmp)
-// 		return (free(tmp), NULL);
-// 	while (counter < count)
-// 	{
-// 		tmp[counter] = malloc(sizeof(t_list));
-// 		if (!tmp[counter])
-// 			return (NULL);
-// 		if (counter == 0)
-// 			tmp3 = tmp[counter];
-// 		tmp[counter]->data = argv[counter];
-// 		if (counter + 1 == count)
-// 			tmp[counter]->next = NULL;
-// 		counter++;
-// 	}
-// 	return (set_next(tmp, counter));
-// }
 
 int countargs(char **args)
 {
@@ -263,6 +253,8 @@ char *first_word_remover(char *str)
 	while (str[++i] == 32){}
 	while (str[i] != 32 && str[i] != '\0')
 		i++;
+	while (str[i] == 32)
+		i++;
 	new_str = ft_substr(str, i, strlenth - i + 1);
 	return (new_str);
 }
@@ -276,7 +268,7 @@ t_list *node_maker(char *word)
 	node->next = NULL;
 	return (node);
 }
-char *remove_whites_spaces(char *str)
+char *replace_whites_spaces(char *str)
 {
 	int i;
 
@@ -287,6 +279,36 @@ char *remove_whites_spaces(char *str)
 			str[i] = 32;
 	}
 	return (str);
+}
+char *str_extractor(char *str)
+{
+	int i;
+	char *word;
+
+	i = 1;
+	if (!str | !*str)
+		return (NULL);
+	while (str[i] != '\"' && str[i] != '\0')
+		i++;
+	word = ft_substr(str, 0, i + 1);
+	return (word);
+}
+
+char *str_remover(char *str)
+{
+	int i;
+	int strlenth;
+	char *new_str;
+
+	i = 1;
+	if (!str | !*str)
+		return (NULL);
+	strlenth = ft_strlen(str);
+	while (str[i] != '\"' && str[i] != '\0')
+		i++;
+	i++;
+	new_str = ft_substr(str, i, strlenth - i + 1);
+	return (new_str);
 }
 t_list *list_init(char *str)
 {
@@ -301,8 +323,16 @@ t_list *list_init(char *str)
 	tmp = head;
 	while (str && *str)
 	{
-		word = word_extractor(str);
-		str = first_word_remover(str);
+		if (*str == '\"')
+		{
+			word = str_extractor(str);
+			str = str_remover(str);
+		}
+		else
+		{
+			word = word_extractor(str);
+			str = first_word_remover(str);
+		}
 		new_node = malloc(sizeof(t_list));
 		new_node->data = word;
 		new_node->next = NULL;
@@ -311,6 +341,43 @@ t_list *list_init(char *str)
 	}
 	return (head);
 }
+// char *spaces_remover(char *str)
+// {
+// 	int i;
+// 	int j;
+// 	int strlenth;
+
+// 	i = 0;
+// 	j = 0;
+// 	strlenth = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == 32)
+// 			break ;
+// 		i++;
+// 	}
+// 	if (str[i] == 32)
+// 	{
+// 		j = i;
+// 		while (str[j] == 32)
+// 			j++;
+		
+
+// 	}
+// }
+
+
+// void cleaner(t_list **head)
+// {
+// 	t_list *tmp;
+
+// 	tmp = *head;
+// 	while (tmp)
+// 	{
+// 		tmp->data = spaces_remover(tmp->data);
+// 		tmp = tmp->next;
+// 	}
+// }                                                                         working progress
 
 int main(void)
 {
@@ -323,7 +390,7 @@ int main(void)
 		if (!str)
 			break;
 		add_history(str);
-		str = remove_whites_spaces(str);
+		str = replace_whites_spaces(str);
 		head = list_init(str);
 		lexer(&head);
 		while (head)
