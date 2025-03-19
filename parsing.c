@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/19 13:44:09 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/19 21:37:02 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,16 @@ int operation_recognizer(char *str)
 int	string_recognizer(char *str)
 {
 	int i;
+	int flag;
 
 	i = 0;
+	flag = 0;
 	if (!str)
 		return (0);
 	while (str[i])
 	{
+		if (str[i] != '\"')
+			flag = 1;
 		if (str[i] == '\"')
 		{
 			while (str[i] != '\"' && str[i] != '\0')
@@ -131,8 +135,10 @@ int	string_recognizer(char *str)
 		}
 		i++;
 	}
-	if (str[i] == '\"')
+	if (str[i] == '\"' && flag == 0)
 		return (1);
+	if (str[i] == '\"' && flag == 1)
+		return (2);
 	return (0);
 }
 
@@ -158,6 +164,8 @@ void	tokenizer(t_list *tmp)
 {
 	if (string_recognizer(tmp->data) == 1)
 		tmp->token = "STRING";
+	else if (string_recognizer(tmp->data) == 2)
+		tmp->token = "WORD";
 	else if (command_recognizer(tmp->data) == 1)
 		tmp->token = "COMMAND";
 	else if (word_recognizer(tmp->data) == 1)
