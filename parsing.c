@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/19 10:36:00 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:44:03 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,37 +199,6 @@ int countstrings(char *str)
 		i++;
 	}	
 	return (count / 2);
-}
-
-int	*where_string_starts(char *str)
-{
-	int i;
-	int j;
-	int	flag;
-	int	how_many_strings;
-	int *arr;
-
-	how_many_strings = countstrings(str);
-	i = -1;
-	j = 0;
-	flag = 0;
-	arr = malloc(sizeof(int) * how_many_strings);
-	while (how_many_strings)
-	{
-		while (str[++i] != '\"'){}
-		if (str[i] == '\0')
-			return (NULL);
-		if (flag == 0 && str[i] == '\"')
-		{
-			arr[j] = i;
-			j++;
-            i++;
-			while (str && str[i] && str[i] != '\"')
-				i++;
-			how_many_strings--;
-		}
-	}
-	return (arr);
 }
 
 int	is_operator(char c)
