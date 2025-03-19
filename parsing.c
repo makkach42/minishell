@@ -6,24 +6,35 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/19 10:03:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/19 10:28:26 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-    TOKEN_WHITESPACE,
-    TOKEN_COMMENT,
-    TOKEN_KEYWORD,
-    TOKEN_OPERATOR,
-    TOKEN_STRING,
-    TOKEN_VARIABLE,
-    TOKEN_COMMAND,
-    TOKEN_REDIRECTION,
-    TOKEN_SPECIAL,
-    TOKEN_UNKNOWN
-*/
+int command_recognizer(char *str)
+{
+	int i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	if (ft_strcmp(str, "echo") == 0)
+		return (1);
+	else if (ft_strcmp(str, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(str, "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(str, "env") == 0)
+		return (1);
+	else if (ft_strcmp(str, "export") == 0)
+		return (1);
+	else if (ft_strcmp(str, "exit") == 0)
+		return (1);
+	else if (ft_strcmp(str, "unset") == 0)
+		return (1);
+	return (0);
+}
 
 int word_recognizer(char *str)
 {
@@ -78,8 +89,10 @@ int pipe_recognizer(char *str)
 			break ;
 		i++;
 	}
-	if (str[i] == '|')
+	if ((str[i] == '|' && str[i + 1] && str[i + 1] != '|') || (str[i] == '|' && !str[i + 1]))
 		return (1);
+	else if (str[i] == '|' && str[i + 1] && str[i + 1] == '|')
+		return (2);
 	return (0);
 }
 int operation_recognizer(char *str)
@@ -145,12 +158,16 @@ void	tokenizer(t_list *tmp)
 {
 	if (string_recognizer(tmp->data) == 1)
 		tmp->token = "STRING";
+	else if (command_recognizer(tmp->data) == 1)
+		tmp->token = "COMMAND";
 	else if (word_recognizer(tmp->data) == 1)
 		tmp->token = "WORD";
 	else if (number_recognizer(tmp->data) == 1)
 		tmp->token = "NUMBER";
 	else if (pipe_recognizer(tmp->data) == 1)
 		tmp->token = "PIPE";
+	else if (pipe_recognizer(tmp->data) == 2)
+		tmp->token = "COMMAND";
 	else if (redirection_recognizer(tmp->data) == 1)
 		tmp->token = "REDIRECTION";
 	else if (operation_recognizer(tmp->data) == 1)
@@ -327,13 +344,13 @@ char	*extract_operator(char *str)
 		operator = ft_substr(str, 0, 1);
 	else if (str[i] == '<' && str[i + 1] && str[i + 1] != '<')
 		operator = ft_substr(str, 0, 1);
-	else if (str[i] == '&' && str[i + 1] && str[i + 1] == '&' && str[i + 2] && str[i + 2] != '&')
+	else if (str[i] == '&' && str[i + 1] && str[i + 1] == '&')
 		operator = ft_substr(str, 0, 2);
-	else if (str[i] == '|' && str[i + 1] && str[i + 1] == '|' && str[i + 2] && str[i + 2] != '|')
+	else if (str[i] == '|' && str[i + 1] && str[i + 1] == '|')
 		operator = ft_substr(str, 0, 2);
-	else if (str[i] == '>' && str[i + 1] && str[i + 1] == '>' && str[i + 2] && str[i + 2] != '>')
+	else if (str[i] == '>' && str[i + 1] && str[i + 1] == '>')
 		operator = ft_substr(str, 0, 2);
-	else if (str[i] == '<' && str[i + 1] && str[i + 1] == '<' && str[i + 2] && str[i + 2] != '<')
+	else if (str[i] == '<' && str[i + 1] && str[i + 1] == '<')
 		operator = ft_substr(str, 0, 2);
 	return (operator);
 }
@@ -343,6 +360,8 @@ char *remove_operator(char *str, char *word)
 	int wordlen;
 	int str_len;
 
+	if (!str || !word)
+		return (NULL);
 	wordlen = ft_strlen(word);
 	str_len = ft_strlen(str);
 	str = ft_substr(str, wordlen, str_len - wordlen + 1);
