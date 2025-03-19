@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/18 20:34:49 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/19 10:03:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,13 @@ int	*where_string_starts(char *str)
 	return (arr);
 }
 
+int	is_operator(char c)
+{
+	if (c == '&' || c == '|' || c == '>' || c == '<')
+		return (1);
+	return (0);
+}
+
 char *word_extractor(char *str)
 {
 	int i;
@@ -224,7 +231,7 @@ char *word_extractor(char *str)
 	if (!str || !*str)
 		return (NULL);
 	while (str[++i] == 32){}
-	while (str[i] != 32 && str[i] != '\0')
+	while (str[i] != 32 && !is_operator(str[i]) && str[i] != '\0')
 		i++;
 	word = ft_substr(str, 0, i);
 	return (word);
@@ -239,7 +246,7 @@ char *first_word_remover(char *str)
 	i = -1;
 	strlenth = ft_strlen(str);
 	while (str[++i] == 32){}
-	while (str[i] != 32 && str[i] != '\0')
+	while (str[i] != 32 && !is_operator(str[i]) && str[i] != '\0')
 		i++;
 	while (str[i] == 32)
 		i++;
@@ -302,6 +309,46 @@ char *str_remover(char *str)
 	new_str = ft_substr(str, i, strlenth - i + 1);
 	return (new_str);
 }
+
+char	*extract_operator(char *str)
+{
+	int	i;
+	char *operator;
+
+	if (!str | !*str)
+		return (NULL);
+	i = 0;
+	operator = NULL;
+	if (str[i] == '&' && str[i + 1] && str[i + 1] != '&')
+		operator = ft_substr(str, 0, 1);
+	else if (str[i] == '|' && str[i + 1] && str[i + 1] != '|')
+		operator = ft_substr(str, 0, 1);
+	else if (str[i] == '>' && str[i + 1] && str[i + 1] != '>')
+		operator = ft_substr(str, 0, 1);
+	else if (str[i] == '<' && str[i + 1] && str[i + 1] != '<')
+		operator = ft_substr(str, 0, 1);
+	else if (str[i] == '&' && str[i + 1] && str[i + 1] == '&' && str[i + 2] && str[i + 2] != '&')
+		operator = ft_substr(str, 0, 2);
+	else if (str[i] == '|' && str[i + 1] && str[i + 1] == '|' && str[i + 2] && str[i + 2] != '|')
+		operator = ft_substr(str, 0, 2);
+	else if (str[i] == '>' && str[i + 1] && str[i + 1] == '>' && str[i + 2] && str[i + 2] != '>')
+		operator = ft_substr(str, 0, 2);
+	else if (str[i] == '<' && str[i + 1] && str[i + 1] == '<' && str[i + 2] && str[i + 2] != '<')
+		operator = ft_substr(str, 0, 2);
+	return (operator);
+}
+
+char *remove_operator(char *str, char *word)
+{
+	int wordlen;
+	int str_len;
+
+	wordlen = ft_strlen(word);
+	str_len = ft_strlen(str);
+	str = ft_substr(str, wordlen, str_len - wordlen + 1);
+	return (str);
+}
+
 t_list *list_init(char *str)
 {
 	char *word;
@@ -319,6 +366,12 @@ t_list *list_init(char *str)
 		{
 			word = str_extractor(str);
 			str = str_remover(str);
+			str = ft_strtrim(str, " ");
+		}
+		else if (is_operator(*str))
+		{
+			word = extract_operator(str);
+			str = remove_operator(str, word);
 			str = ft_strtrim(str, " ");
 		}
 		else
