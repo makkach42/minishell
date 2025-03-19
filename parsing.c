@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/19 10:28:26 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/19 10:36:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,11 @@ int operation_recognizer(char *str)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] == '&' || str[i] == '+' || str[i] == '-' ||  str[i] == '*' ||  str[i] == '/')
+		if (str[i] == '&')
 			break ;
 		i++;
 	}
-	if (str[i] == '&' || str[i] == '+' || str[i] == '-' ||  str[i] == '*' ||  str[i] == '/')
+	if ((str[i] == '&' && str[i + 1] && str[i + 1] == '&'))
 		return (1);
 	return (0);
 }
