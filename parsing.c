@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/20 14:32:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/20 21:26:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,6 +307,8 @@ char *first_word_remover(char *str, char *word)
 	int	wordlenth;
 	char *new_str;
 
+	if (!str || !word)
+		return (NULL);
 	strlenth = ft_strlen(str);
 	wordlenth = ft_strlen(word);
 	new_str = ft_substr(str, wordlenth, strlenth - wordlenth + 1);
@@ -391,6 +393,8 @@ char	*extract_operator(char *str)
 	i = 0;
 	operator = NULL;
 	if (str[i] == '&' && str[i + 1] && str[i + 1] != '&')
+		operator = ft_substr(str, 0, 1);
+	else if (str[i] == '*' && str[i + 1] && str[i + 1] != '*')
 		operator = ft_substr(str, 0, 1);
 	else if (str[i] == '|' && str[i + 1] && str[i + 1] != '|')
 		operator = ft_substr(str, 0, 1);
