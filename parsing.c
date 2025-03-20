@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/19 21:37:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/20 00:45:57 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,16 +116,18 @@ int operation_recognizer(char *str)
 int	string_recognizer(char *str)
 {
 	int i;
+	int j;
 	int flag;
 
 	i = 0;
+	j = 0;
 	flag = 0;
 	if (!str)
 		return (0);
+	if (str[i] != '\"')
+		flag = 1;
 	while (str[i])
 	{
-		if (str[i] != '\"')
-			flag = 1;
 		if (str[i] == '\"')
 		{
 			while (str[i] != '\"' && str[i] != '\0')
@@ -135,6 +137,11 @@ int	string_recognizer(char *str)
 		}
 		i++;
 	}
+	j = i;
+	while (str[j])
+		j++;
+	if (str[j - 1] != '\"')
+		flag = 1;
 	if (str[i] == '\"' && flag == 0)
 		return (1);
 	if (str[i] == '\"' && flag == 1)
@@ -215,36 +222,87 @@ int	is_operator(char c)
 		return (1);
 	return (0);
 }
+int	string_in_word_recognizer(char *str)
+{
+	int i;
+	int flag;
+	int	quote_counter;
+
+	i = 0;
+	flag = 0;
+	quote_counter = 0;
+	while (str[i])
+	{
+		if (str[i] == 32 && quote_counter == 0)
+			flag = 1;
+		if (str[i] == '\"')
+			quote_counter++;
+		if (str[i] == 32 && quote_counter % 2 == 0)
+			flag = 1;
+		i++;
+	}
+	if (quote_counter != 0 && quote_counter % 2 == 0 && flag == 0)
+		return (1);
+	return (0);
+}
 
 char *word_extractor(char *str)
 {
 	int i;
+	int flag;
+	int count_quotes;
 	char *word;
 
 	i = -1;
 	if (!str || !*str)
 		return (NULL);
-	while (str[++i] == 32){}
-	while (str[i] != 32 && !is_operator(str[i]) && str[i] != '\0')
-		i++;
-	word = ft_substr(str, 0, i);
+	flag = 0;
+	if (string_in_word_recognizer(str) == 1)
+	{
+		i = 0;
+		count_quotes = 0;
+		while ((count_quotes == 0 || (count_quotes % 2 != 0)) && flag == 0)
+		{
+			while (str[i])
+			{
+				while (str[i] && str[i] != '\"' && str[i] != '\0')
+					i++;
+				if (str[i] == '\"')
+					count_quotes++;
+				i++;
+				while (str[i] && str[i] != '\"' && str[i] != '\0')
+					i++;
+				if (str[i] == '\"')
+					count_quotes++;
+				if (count_quotes % 2 == 0 && ((str[i] && str[i] == 32) || str[i] == '\0'))
+				{
+					flag = 1;
+					break ;
+				}
+				i++;
+			}
+		}
+		return (ft_substr( str, 0, i + 1));
+	}
+	else
+	{
+		while (str[++i] == 32){}
+		while (str[i] != 32 && !is_operator(str[i]) && str[i] != '\0')
+			i++;
+		word = ft_substr(str, 0, i + 1);
+	}
 	return (word);
 }
 
-char *first_word_remover(char *str)
+char *first_word_remover(char *str, char *word)
 {
-	int i;
 	int	strlenth;
+	int	wordlenth;
 	char *new_str;
 
-	i = -1;
 	strlenth = ft_strlen(str);
-	while (str[++i] == 32){}
-	while (str[i] != 32 && !is_operator(str[i]) && str[i] != '\0')
-		i++;
-	while (str[i] == 32)
-		i++;
-	new_str = ft_substr(str, i, strlenth - i + 1);
+	wordlenth = ft_strlen(word);
+	new_str = ft_substr(str, wordlenth, strlenth - wordlenth + 1);
 	return (new_str);
 }
 
@@ -272,35 +330,47 @@ char *replace_whites_spaces(char *str)
 char *str_extractor(char *str)
 {
 	int i;
+	int flag;
 	char *word;
+	int quote_counter;
 
 	i = 1;
-	if (!str | !*str)
+	flag = 0;
+	if (!str || !*str)
 		return (NULL);
 	while (str[i] != '\"' && str[i] != '\0')
 		i++;
-	word = ft_substr(str, 0, i + 1);
+	if (str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0'))
+	{
+		return (ft_substr(str, 0, i + 1));
+	}
+	else
+	{
+		quote_counter = 2;
+		while (str[i] != '\0' && flag == 0)
+		{
+			if (str[i] == '\"')
+				quote_counter++;
+			i++;
+			if (str[i] == 32 && quote_counter % 2 != 0)
+				flag = 1;
+		}
+		word = ft_substr(str, 0, i + 1);
+	}
 	return (word);
 }
 
-char *str_remover(char *str)
+char *str_remover(char *str, char *word)
 {
-	int i;
 	int strlenth;
 	char *new_str;
+	int word_len;
 
-	i = 1;
 	if (!str | !*str)
 		return (NULL);
 	strlenth = ft_strlen(str);
-	while (str[i] == 32)
-		i++;
-	while (str[i] != '\"' && str[i] != '\0')
-		i++;
-	while (str[i] == 32)
-		i++;
-	i++;
-	new_str = ft_substr(str, i, strlenth - i + 1);
+	word_len = ft_strlen(word);
+	new_str = ft_substr(str, word_len, strlenth - word_len);
 	return (new_str);
 }
 
@@ -352,8 +422,25 @@ t_list *list_init(char *str)
 	t_list	*new_node;
 	t_list	*tmp;
 
-	word = word_extractor(str);
-	str = first_word_remover(str);
+	if (*str == '\"')
+	{
+		word = str_extractor(str);
+		str = str_remover(str, word);
+		str = ft_strtrim(str, " ");
+	}
+	else if (is_operator(*str))
+	{
+		word = extract_operator(str);
+		str = remove_operator(str, word);
+		str = ft_strtrim(str, " ");
+	}
+	else
+	{
+		printf("ssss\n");
+		word = word_extractor(str);
+		str = first_word_remover(str, word);
+		str = ft_strtrim(str, " ");
+	}
 	head = node_maker(word);
 	tmp = head;
 	while (str && *str)
@@ -361,7 +448,7 @@ t_list *list_init(char *str)
 		if (*str == '\"')
 		{
 			word = str_extractor(str);
-			str = str_remover(str);
+			str = str_remover(str, word);
 			str = ft_strtrim(str, " ");
 		}
 		else if (is_operator(*str))
@@ -372,8 +459,9 @@ t_list *list_init(char *str)
 		}
 		else
 		{
+			printf("ssss\n");
 			word = word_extractor(str);
-			str = first_word_remover(str);
+			str = first_word_remover(str, word);
 			str = ft_strtrim(str, " ");
 		}
 		new_node = malloc(sizeof(t_list));
@@ -408,3 +496,5 @@ int main(void)
 		}
 	}
 }
+// "dehsh jushsy udy" djshuiodeuy"dejwsh ksjue isydfiu"jdhwsghd
+//djshuiodeuy"dejwsh ksjue isydfiu"jdhwsghd
