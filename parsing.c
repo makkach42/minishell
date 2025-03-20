@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/20 00:45:57 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/20 14:32:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,17 +231,15 @@ int	string_in_word_recognizer(char *str)
 	i = 0;
 	flag = 0;
 	quote_counter = 0;
-	while (str[i])
+	while ((quote_counter % 2 != 0 && quote_counter != 0) || flag == 0)
 	{
-		if (str[i] == 32 && quote_counter == 0)
-			flag = 1;
 		if (str[i] == '\"')
 			quote_counter++;
-		if (str[i] == 32 && quote_counter % 2 == 0)
+		if (!str[i] || (str[i] == 32 && quote_counter == 0) || (str[i] == 32 && quote_counter % 2 == 0))
 			flag = 1;
 		i++;
 	}
-	if (quote_counter != 0 && quote_counter % 2 == 0 && flag == 0)
+	if (quote_counter % 2 == 0 && quote_counter != 0)
 		return (1);
 	return (0);
 }
@@ -261,28 +259,37 @@ char *word_extractor(char *str)
 	{
 		i = 0;
 		count_quotes = 0;
-		while ((count_quotes == 0 || (count_quotes % 2 != 0)) && flag == 0)
+		while ((count_quotes == 0 || (count_quotes % 2 != 0)))
 		{
-			while (str[i])
+			while (str[i] && str[i] != '\"' && str[i] != 32 && str[i] != '\0')
+				i++;
+			if (str[i] == 32)
+				break ;
+			else if (str[i] == '\"')
 			{
-				while (str[i] && str[i] != '\"' && str[i] != '\0')
-					i++;
-				if (str[i] == '\"')
-					count_quotes++;
 				i++;
-				while (str[i] && str[i] != '\"' && str[i] != '\0')
+				while (str[i] != '\"' && str[i] != '\0')
 					i++;
-				if (str[i] == '\"')
-					count_quotes++;
-				if (count_quotes % 2 == 0 && ((str[i] && str[i] == 32) || str[i] == '\0'))
-				{
-					flag = 1;
+				if (str[i] == '\0')
 					break ;
-				}
 				i++;
+				if (str[i] == '\0')
+					break ;
+				if (str[i] == 32)
+					break ;
+				else
+				{
+					while (str[i] != 32 && str[i] != '\0')
+						i++;
+				}
 			}
+			if (!str[i])
+				i--;
+			i++;
+			if (!str[i])
+				break ;
 		}
-		return (ft_substr( str, 0, i + 1));
+		return (ft_substr(str, 0, i));
 	}
 	else
 	{
@@ -436,7 +443,6 @@ t_list *list_init(char *str)
 	}
 	else
 	{
-		printf("ssss\n");
 		word = word_extractor(str);
 		str = first_word_remover(str, word);
 		str = ft_strtrim(str, " ");
@@ -459,7 +465,6 @@ t_list *list_init(char *str)
 		}
 		else
 		{
-			printf("ssss\n");
 			word = word_extractor(str);
 			str = first_word_remover(str, word);
 			str = ft_strtrim(str, " ");
@@ -496,5 +501,3 @@ int main(void)
 		}
 	}
 }
-// "dehsh jushsy udy" djshuiodeuy"dejwsh ksjue isydfiu"jdhwsghd
-//djshuiodeuy"dejwsh ksjue isydfiu"jdhwsghd
