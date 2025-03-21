@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/21 15:26:58 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/21 16:08:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,12 @@ int	string_recognizer(char *str)
 	int i;
 	int j;
 	int flag;
+	int	quote_counter;
 
 	i = 0;
 	j = 0;
 	flag = 0;
+	quote_counter = 0;
 	if (!str)
 		return (0);
 	if (str[i] != '\"')
@@ -129,12 +131,9 @@ int	string_recognizer(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\"')
-		{
-			while (str[i] != '\"' && str[i] != '\0')
-				i++;
-			if (str[i] == '\"')
-				break ;
-		}
+			quote_counter++;
+		if (str[i] == '\"' && quote_counter != 0 && quote_counter % 2 == 0 && str[i + 1] && str[i + 1] != 32)
+			flag = 1;
 		i++;
 	}
 	j = i;
@@ -142,9 +141,9 @@ int	string_recognizer(char *str)
 		j++;
 	if (str[j - 1] != '\"')
 		flag = 1;
-	if (str[i] == '\"' && flag == 0)
+	if (quote_counter != 0 && quote_counter % 2 == 0 && flag == 0)
 		return (1);
-	if (str[i] == '\"' && flag == 1)
+	if (quote_counter != 0 && quote_counter % 2 == 0 && flag == 1)
 		return (2);
 	return (0);
 }
@@ -591,6 +590,7 @@ int main(void)
 	char *str;
 	char **arr;
 	t_list *head;
+	t_list *tmp;
 	int i;
 
 	while (1)
@@ -603,12 +603,20 @@ int main(void)
 		str = replace_whites_spaces(str);
 		head = list_init(str);
 		lexer(&head);
-		arr = converter(&head);
-		while (arr[i])
+		tmp = head;
+		while (tmp)
 		{
-			printf("%s\n", arr[i]);
-			i++;
+			printf("%s\n", tmp->data);
+			printf("%s\n", tmp->token);
+			printf("\n");
+			tmp = tmp->next;
 		}
+		arr = converter(&head);
+		// while (arr[i])
+		// {
+		// 	printf("%s\n", arr[i]);
+		// 	i++;
+		// }
 		free_arr(arr);
 	}
 }
