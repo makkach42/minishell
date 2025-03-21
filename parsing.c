@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/21 14:24:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/21 14:45:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -429,6 +429,7 @@ char *remove_operator(char *str, char *word)
 t_list *list_init(char *str)
 {
 	char *word;
+	char *tmp_char;
 	t_list	*head;
 	t_list	*new_node;
 	t_list	*tmp;
@@ -436,20 +437,32 @@ t_list *list_init(char *str)
 	if (*str == '\"')
 	{
 		word = str_extractor(str);
+		tmp_char = str;
 		str = str_remover(str, word);
+		free(tmp_char);
+		tmp_char = str;
 		str = ft_strtrim(str, " ");
+		free(tmp_char);
 	}
 	else if (is_operator(*str))
 	{
 		word = extract_operator(str);
+		tmp_char = str;
 		str = remove_operator(str, word);
+		free(tmp_char);
+		tmp_char = str;
 		str = ft_strtrim(str, " ");
+		free(tmp_char);
 	}
 	else
 	{
 		word = word_extractor(str);
+		tmp_char = str;
 		str = first_word_remover(str, word);
+		free(tmp_char);
+		tmp_char = str;
 		str = ft_strtrim(str, " ");
+		free(tmp_char);
 	}
 	head = node_maker(word);
 	tmp = head;
@@ -458,20 +471,32 @@ t_list *list_init(char *str)
 		if (*str == '\"')
 		{
 			word = str_extractor(str);
+			tmp_char = str;
 			str = str_remover(str, word);
+			free(tmp_char);
+			tmp_char = str;
 			str = ft_strtrim(str, " ");
+			free(tmp_char);
 		}
 		else if (is_operator(*str))
 		{
 			word = extract_operator(str);
+			tmp_char = str;
 			str = remove_operator(str, word);
+			free(tmp_char);
+			tmp_char = str;
 			str = ft_strtrim(str, " ");
+			free(tmp_char);
 		}
 		else
 		{
 			word = word_extractor(str);
+			tmp_char = str;
 			str = first_word_remover(str, word);
+			free(tmp_char);
+			tmp_char = str;
 			str = ft_strtrim(str, " ");
+			free(tmp_char);
 		}
 		new_node = malloc(sizeof(t_list));
 		new_node->data = word;
@@ -532,14 +557,25 @@ char **converter(t_list **head)
 	return (arr);
 }
 
+void	free_arr(char **arr)
+{
+	int i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
 int main(void)
 {
+	char *str;
+	char **arr;
+	t_list *head;
+	int i;
+
 	while (1)
 	{
-		char *str;
-		char **arr;
-		t_list *head;
-		int i;
 
 		str = readline("minishell$> ");
 		i = 0;
@@ -555,5 +591,7 @@ int main(void)
 			printf("%s\n", arr[i]);
 			i++;
 		}
+		free_arr(arr);
+		free(str);
 	}
 }
