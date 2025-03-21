@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/21 14:46:58 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/21 15:26:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -437,6 +437,9 @@ t_list *list_init(char *str)
 	if (*str == '\"')
 	{
 		word = str_extractor(str);
+		tmp_char = word;
+		word = ft_strtrim(word, " ");
+		free(tmp_char);
 		tmp_char = str;
 		str = str_remover(str, word);
 		free(tmp_char);
@@ -447,6 +450,9 @@ t_list *list_init(char *str)
 	else if (is_operator(*str))
 	{
 		word = extract_operator(str);
+		tmp_char = word;
+		word = ft_strtrim(word, " ");
+		free(tmp_char);
 		tmp_char = str;
 		str = remove_operator(str, word);
 		free(tmp_char);
@@ -457,6 +463,9 @@ t_list *list_init(char *str)
 	else
 	{
 		word = word_extractor(str);
+		tmp_char = word;
+		word = ft_strtrim(word, " ");
+		free(tmp_char);
 		tmp_char = str;
 		str = first_word_remover(str, word);
 		free(tmp_char);
@@ -471,6 +480,9 @@ t_list *list_init(char *str)
 		if (*str == '\"')
 		{
 			word = str_extractor(str);
+			tmp_char = word;
+			word = ft_strtrim(word, " ");
+			free(tmp_char);
 			tmp_char = str;
 			str = str_remover(str, word);
 			free(tmp_char);
@@ -481,6 +493,9 @@ t_list *list_init(char *str)
 		else if (is_operator(*str))
 		{
 			word = extract_operator(str);
+			tmp_char = word;
+			word = ft_strtrim(word, " ");
+			free(tmp_char);
 			tmp_char = str;
 			str = remove_operator(str, word);
 			free(tmp_char);
@@ -491,6 +506,9 @@ t_list *list_init(char *str)
 		else
 		{
 			word = word_extractor(str);
+			tmp_char = word;
+			word = ft_strtrim(word, " ");
+			free(tmp_char);
 			tmp_char = str;
 			str = first_word_remover(str, word);
 			free(tmp_char);
@@ -567,6 +585,7 @@ void	free_arr(char **arr)
 	}
 	free(arr);
 }
+
 int main(void)
 {
 	char *str;
@@ -576,7 +595,6 @@ int main(void)
 
 	while (1)
 	{
-
 		str = readline("minishell$> ");
 		i = 0;
 		if (!str)
