@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/20 21:26:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/21 14:24:32 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -481,27 +481,79 @@ t_list *list_init(char *str)
 	}
 	return (head);
 }
+int	lst_size(t_list **head)
+{
+	t_list *tmp;
+	int	i;
+
+	tmp = *head;
+	i = 0;
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
+void	free_list(t_list **head)
+{
+	t_list *tmp;
+	t_list *tmp2;
+
+	tmp = *head;
+	tmp2 = tmp;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		free(tmp2);
+		tmp2 = tmp;
+	}
+}
+
+char **converter(t_list **head)
+{
+	char **arr;
+	int size_list;
+	int i;
+	t_list *tmp;
+
+	i = 0;
+	tmp = *head;
+	size_list = lst_size(head);
+	arr = malloc(sizeof(char *) * (size_list + 1));
+	while (tmp)
+	{
+		arr[i] = tmp->data;
+		i++;
+		tmp = tmp->next;
+	}
+	arr[i] = NULL;
+	free_list(head);
+	return (arr);
+}
 
 int main(void)
 {
 	while (1)
 	{
 		char *str;
+		char **arr;
 		t_list *head;
+		int i;
 
 		str = readline("minishell$> ");
+		i = 0;
 		if (!str)
 			break;
 		add_history(str);
 		str = replace_whites_spaces(str);
 		head = list_init(str);
 		lexer(&head);
-		while (head)
+		arr = converter(&head);
+		while (arr[i])
 		{
-			printf("%s\n", head->data);
-			printf("%s\n", head->token);
-			printf("\n");
-			head = head->next;
+			printf("%s\n", arr[i]);
+			i++;
 		}
 	}
 }
