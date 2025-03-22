@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/22 14:52:38 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/22 21:07:09 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,7 @@ char *word_extractor(char *str)
 		while (str[++i] == 32){}
 		while (str[i] != 32 && !is_operator(str[i]) && str[i] != '\0')
 			i++;
-		word = ft_substr(str, 0, i + 1);
+		word = ft_substr(str, 0, i);
 	}
 	return (word);
 }
@@ -590,12 +590,70 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
+char	*side_maker(t_list **head, int number)
+{
+	t_list *tmp;
+	char *tmp2;
+	int i;
+
+	tmp = *head;
+	i = 0;
+	tmp2 = NULL;
+	while (i < number - 1)
+	{
+		tmp2 = ft_strjoin(tmp2, tmp->data);
+		tmp2 = ft_strjoin(tmp2, " ");
+		i++;
+		tmp = tmp->next;
+	}
+	return (tmp2);
+}
+
+void	tree_maker(t_list **head, t_tree **tree)
+{
+	t_list *tmp;
+	t_list *tmp2;
+	t_list *tmp3;
+	t_list *tmp4;
+	int i;
+	int j;
+
+	tmp = *head;
+	tmp3 = *head;
+	i = 0;
+	while (tmp)
+	{
+		i++;
+		tmp2 = tmp;
+		if (ft_strcmp(tmp->token, "PIPE") == 0)
+		{
+			j = i;
+			*tree = malloc(sizeof(t_tree));
+			(*tree)->left = side_maker(head, i);
+			(*tree)->right = NULL;
+			tmp2->next = NULL;
+			*head = tmp->next;
+			while (tmp3 != *head)
+			{
+				tmp4 = tmp3;
+				free(tmp3->data);
+				tmp3 = tmp->next;
+				free(tmp4);
+			}
+			tree_maker(&(*head), &(*tree)->right);
+		}
+		tmp = tmp->next;
+	}
+	
+}
+
 int main(void)
 {
 	char *str;
 	char **arr;
 	t_list *head;
 	t_list *tmp;
+	t_tree *tree;
 	int i;
 
 	while (1)
@@ -616,6 +674,7 @@ int main(void)
 			printf("\n");
 			tmp = tmp->next;
 		}
+		tree_maker(&head, &tree);
 		arr = converter(&head);
 		free_arr(arr);
 	}
