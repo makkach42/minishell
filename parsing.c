@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/21 16:08:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/22 14:52:38 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,41 +113,6 @@ int operation_recognizer(char *str)
 	return (0);
 }
 
-int	string_recognizer(char *str)
-{
-	int i;
-	int j;
-	int flag;
-	int	quote_counter;
-
-	i = 0;
-	j = 0;
-	flag = 0;
-	quote_counter = 0;
-	if (!str)
-		return (0);
-	if (str[i] != '\"')
-		flag = 1;
-	while (str[i])
-	{
-		if (str[i] == '\"')
-			quote_counter++;
-		if (str[i] == '\"' && quote_counter != 0 && quote_counter % 2 == 0 && str[i + 1] && str[i + 1] != 32)
-			flag = 1;
-		i++;
-	}
-	j = i;
-	while (str[j])
-		j++;
-	if (str[j - 1] != '\"')
-		flag = 1;
-	if (quote_counter != 0 && quote_counter % 2 == 0 && flag == 0)
-		return (1);
-	if (quote_counter != 0 && quote_counter % 2 == 0 && flag == 1)
-		return (2);
-	return (0);
-}
-
 int redirection_recognizer(char *str)
 {
 	int i;
@@ -166,14 +131,19 @@ int redirection_recognizer(char *str)
 	return (0);	
 }
 
+int variable_recognizer(char *str)
+{
+	if (*str == '$')
+		return (1);
+	return (0);
+}
+
 void	tokenizer(t_list *tmp)
 {
-	if (string_recognizer(tmp->data) == 1)
-		tmp->token = "STRING";
-	else if (string_recognizer(tmp->data) == 2)
-		tmp->token = "WORD";
-	else if (command_recognizer(tmp->data) == 1)
+	if (command_recognizer(tmp->data) == 1)
 		tmp->token = "COMMAND";
+	else if (variable_recognizer(tmp->data) == 1)
+		tmp->token = "VARIABLE";
 	else if (word_recognizer(tmp->data) == 1)
 		tmp->token = "WORD";
 	else if (number_recognizer(tmp->data) == 1)
@@ -187,7 +157,7 @@ void	tokenizer(t_list *tmp)
 	else if (operation_recognizer(tmp->data) == 1)
 		tmp->token = "OPERATION";
 	else
-		tmp->token = "FUCK YOU";
+		tmp->token = "WORD";
 }
 
 void	lexer(t_list **head)
@@ -424,6 +394,15 @@ char *remove_operator(char *str, char *word)
 	str = ft_substr(str, wordlen, str_len - wordlen + 1);
 	return (str);
 }
+char *extract_variable(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != 32 && str[i] != '\0')
+		i++;
+	return (ft_substr(str, 0, i + 1));
+}
 
 t_list *list_init(char *str)
 {
@@ -457,6 +436,19 @@ t_list *list_init(char *str)
 		free(tmp_char);
 		tmp_char = str;
 		str = ft_strtrim(str, " ");
+		free(tmp_char);
+	}
+	else if (*str == '$')
+	{
+		word = extract_variable(str);
+		tmp_char = word;
+		word = ft_strtrim(word, " ");
+		free(tmp_char);
+		tmp_char = str;
+		str = first_word_remover(str, word);
+		free(tmp_char);
+		tmp_char = str;
+		str= ft_strtrim(str, " ");
 		free(tmp_char);
 	}
 	else
@@ -500,6 +492,19 @@ t_list *list_init(char *str)
 			free(tmp_char);
 			tmp_char = str;
 			str = ft_strtrim(str, " ");
+			free(tmp_char);
+		}
+		else if (*str == '$')
+		{
+			word = extract_variable(str);
+			tmp_char = word;
+			word = ft_strtrim(word, " ");
+			free(tmp_char);
+			tmp_char = str;
+			str = first_word_remover(str, word);
+			free(tmp_char);
+			tmp_char = str;
+			str= ft_strtrim(str, " ");
 			free(tmp_char);
 		}
 		else
@@ -612,11 +617,6 @@ int main(void)
 			tmp = tmp->next;
 		}
 		arr = converter(&head);
-		// while (arr[i])
-		// {
-		// 	printf("%s\n", arr[i]);
-		// 	i++;
-		// }
 		free_arr(arr);
 	}
 }
