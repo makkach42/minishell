@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/22 21:07:09 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/23 16:31:01 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -590,7 +590,7 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
-char	*side_maker(t_list **head, int number)
+char	*side_maker(t_list **head, int number, int j)
 {
 	t_list *tmp;
 	char *tmp2;
@@ -599,7 +599,7 @@ char	*side_maker(t_list **head, int number)
 	tmp = *head;
 	i = 0;
 	tmp2 = NULL;
-	while (i < number - 1)
+	while (i < number - j)
 	{
 		tmp2 = ft_strjoin(tmp2, tmp->data);
 		tmp2 = ft_strjoin(tmp2, " ");
@@ -609,50 +609,155 @@ char	*side_maker(t_list **head, int number)
 	return (tmp2);
 }
 
-void	tree_maker(t_list **head, t_tree **tree)
+void tree_maker(t_list **head, t_tree **tree)
 {
-	t_list *tmp;
-	t_list *tmp2;
-	t_list *tmp3;
-	t_list *tmp4;
-	int i;
-	int j;
+    t_list *tmp;
+    t_list *tmp2;
+    t_list *current;
+    t_list *next_part;
+    t_list *to_free;
+    t_tree *command;
+    int i;
 
-	tmp = *head;
-	tmp3 = *head;
-	i = 0;
-	while (tmp)
-	{
-		i++;
-		tmp2 = tmp;
-		if (ft_strcmp(tmp->token, "PIPE") == 0)
-		{
-			j = i;
-			*tree = malloc(sizeof(t_tree));
-			(*tree)->left = side_maker(head, i);
-			(*tree)->right = NULL;
-			tmp2->next = NULL;
-			*head = tmp->next;
-			while (tmp3 != *head)
+    tmp = *head;
+    i = 0;
+    *tree = malloc(sizeof(t_tree));
+    if (!(*tree))
+        return;
+    (*tree)->left = NULL;
+    (*tree)->right = NULL;
+    (*tree)->command = NULL;
+    (*tree)->type = "COMMAND";
+    if (!tmp)
+        return;
+    while (tmp)
+    {
+        i++;
+        tmp2 = tmp;
+        if (ft_strcmp(tmp->token, "PIPE") == 0)
+        {
+            command = malloc(sizeof(t_tree));
+            if (!command)
+                return;
+            command->command = side_maker(head, i - 1, 0);
+            command->left = NULL;
+            command->right = NULL;
+            command->type = "COMMAND";
+            (*tree)->left = command;
+            (*tree)->right = NULL;
+            (*tree)->command = NULL;
+            (*tree)->type = "PIPE";
+            if (tmp->next)
 			{
-				tmp4 = tmp3;
-				free(tmp3->data);
-				tmp3 = tmp->next;
-				free(tmp4);
-			}
-			tree_maker(&(*head), &(*tree)->right);
-		}
-		tmp = tmp->next;
-	}
-	
+                next_part = tmp->next;
+                tmp->next = NULL;
+                
+                current = *head;
+                while (current && current != next_part)
+                {
+                    to_free = current;
+                    current = current->next;
+                    if (to_free->data)
+                        free(to_free->data);
+                    free(to_free);
+                }
+                *head = next_part;
+                if (*head)
+                    tree_maker(head, &(*tree)->right);
+            }
+			else
+			{
+                current = *head;
+                while (current)
+                {
+                    to_free = current;
+                    current = current->next;
+                    if (to_free->data)
+                        free(to_free->data);
+                    free(to_free);
+                }
+                *head = NULL;
+            }
+            return;
+        }
+        tmp = tmp->next;
+    }
+    if (*head)
+    {
+        i = lst_size(head);
+        command = malloc(sizeof(t_tree));
+        if (!command)
+            return;
+            
+        command->command = side_maker(head, i, 0);
+        command->left = NULL;
+        command->right = NULL;
+        command->type = "COMMAND";
+        
+        (*tree)->left = command;
+        (*tree)->right = NULL;
+        (*tree)->command = NULL;
+        (*tree)->type = "COMMAND";
+        
+        current = *head;
+        while (current)
+        {
+            to_free = current;
+            current = current->next;
+            if (to_free->data)
+                free(to_free->data);
+            free(to_free);
+        }
+        *head = NULL;
+    }
 }
+
+void traverse_tree(t_tree *tree, int level)
+{
+    if (!tree)
+        return;
+        for (int i = 0; i < level; i++)
+        printf("  ");
+    printf("Node Type: %s\n", tree->type);
+    if (tree->command)
+    {
+        for (int i = 0; i < level; i++)
+            printf("  ");
+        printf("Command: \"%s\"\n", (char *)tree->command);
+    }
+    else
+    {
+        for (int i = 0; i < level; i++)
+            printf("  ");
+        printf("Command: NULL\n");
+    }
+    for (int i = 0; i < level; i++)
+        printf("  ");
+    printf("Left: %p, Right: %p\n", tree->left, tree->right);
+    
+    if (tree->left)
+    {
+        for (int i = 0; i < level; i++)
+            printf("  ");
+        printf("--- Left Child ---\n");
+        traverse_tree(tree->left, level + 1);
+    }
+    
+    if (tree->right)
+    {
+        for (int i = 0; i < level; i++)
+            printf("  ");
+        printf("--- Right Child ---\n");
+        traverse_tree(tree->right, level + 1);
+    }
+}
+
 
 int main(void)
 {
 	char *str;
 	char **arr;
 	t_list *head;
-	t_list *tmp;
 	t_tree *tree;
 	int i;
 
@@ -666,15 +771,8 @@ int main(void)
 		str = replace_whites_spaces(str);
 		head = list_init(str);
 		lexer(&head);
-		tmp = head;
-		while (tmp)
-		{
-			printf("%s\n", tmp->data);
-			printf("%s\n", tmp->token);
-			printf("\n");
-			tmp = tmp->next;
-		}
 		tree_maker(&head, &tree);
+		traverse_tree(tree, 1);
 		arr = converter(&head);
 		free_arr(arr);
 	}
