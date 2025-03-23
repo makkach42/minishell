@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/23 20:39:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/23 22:29:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -903,7 +903,176 @@ void traverse_tree(t_tree *tree, int level)
         traverse_tree(tree->right, level + 1);
     }
 }
+//sjsjsskskskskskssisosiosissisi
+t_tree *create_tree_node(void *command, char *type)
+{
+    t_tree *node = malloc(sizeof(t_tree));
+    if (!node)
+        return NULL;
+    
+    node->command = command;
+    node->type = type;
+    node->left = NULL;
+    node->right = NULL;
+    
+    return node;
+}
 
+char *extract_command_until_pipe(t_list **head, t_list **pipe_pos)
+{
+    t_list *current = *head;
+    char *command_str = NULL;
+    char *temp;
+    
+    *pipe_pos = NULL;
+    
+    while (current)
+    {
+        if (current->token && ft_strcmp(current->token, "PIPE") == 0)
+        {
+            *pipe_pos = current;
+            break;
+        }
+        
+        if (command_str)
+        {
+            temp = command_str;
+            command_str = ft_strjoin(command_str, " ");
+            free(temp);
+            
+            if (command_str) {
+                temp = command_str;
+                command_str = ft_strjoin(command_str, current->data);
+                free(temp);
+            }
+        }
+        else
+        {
+            command_str = ft_strdup(current->data);
+        }
+        
+        current = current->next;
+    }
+    
+    return command_str;
+}
+
+t_tree *build_pipe_tree(t_list **head)
+{
+    t_list *pipe_pos;
+    t_tree *root = NULL;
+    t_tree *command_node;
+    char *command_str;
+    t_list *next_part;
+    
+    if (!head || !(*head))
+        return NULL;
+    
+    command_str = extract_command_until_pipe(head, &pipe_pos);
+    
+    if (!pipe_pos)
+    {
+        root = create_tree_node(command_str, "COMMAND");
+        return root;
+    }
+    
+    root = create_tree_node(NULL, "PIPE");
+    
+    command_node = create_tree_node(command_str, "COMMAND");
+    root->left = command_node;
+    
+    if (pipe_pos->next)
+    {
+        next_part = pipe_pos->next;
+        pipe_pos->next = NULL;
+        
+        root->right = build_pipe_tree(&next_part);
+    }
+    
+    return root;
+}
+
+void process_command_with_pipes(char *command_str, t_tree **command_tree)
+{
+    t_list *cmd_list;
+    
+    if (!command_str || !(*command_str))
+    {
+        *command_tree = NULL;
+        return;
+    }
+    
+    cmd_list = list_init(command_str);
+    
+    if (cmd_list)
+        lexer(&cmd_list);
+    
+    *command_tree = build_pipe_tree(&cmd_list);
+
+}
+
+void process_pipe_trees(t_tree *tree)
+{
+    t_tree *cmd_tree = NULL;
+    
+    if (!tree)
+        return;
+    
+    if (tree->command && tree->type && ft_strcmp(tree->type, "COMMAND") == 0)
+    {
+        char *command_str = (char *)tree->command;
+        char *command_str_copy = ft_strdup(command_str);
+        if (!command_str_copy)
+            return;
+        process_command_with_pipes(command_str_copy, &cmd_tree);
+        if (cmd_tree)
+        {
+            if (cmd_tree->left || cmd_tree->right)
+            {
+                char *old_command = tree->command;
+                tree->left = cmd_tree->left;
+                tree->right = cmd_tree->right;
+                tree->type = cmd_tree->type;
+                tree->command = cmd_tree->command;
+                free(old_command);
+                free(cmd_tree);
+            }
+            else
+            {
+                if (cmd_tree->command) {
+                    char *old_command = tree->command;
+                    tree->command = ft_strdup((char *)cmd_tree->command);
+                    free(old_command);
+                    free(cmd_tree->command);
+                }
+                
+                free(cmd_tree);
+            }
+        }
+        // free(command_str_copy);
+    }
+    if (tree->left)
+        process_pipe_trees(tree->left);
+    if (tree->right)
+        process_pipe_trees(tree->right);
+}
+
+void free_tree(t_tree *tree)
+{
+    if (!tree)
+        return;
+    
+    if (tree->left)
+        free_tree(tree->left);
+    if (tree->right)
+        free_tree(tree->right);
+    
+    if (tree->command)
+        free(tree->command);
+    
+    free(tree);
+}
+//sjsjsskskskskskssisosiosissisi
 int main(void)
 {
 	char *str;
@@ -923,14 +1092,15 @@ int main(void)
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
-		while (tmp)
-		{
-			printf("%s\n", tmp->data);
-			printf("%s\n", tmp->token);
-			printf("\n\n");
-			tmp = tmp->next;
-		}
+		// while (tmp)
+		// {
+		// 	printf("%s\n", tmp->data);
+		// 	printf("%s\n", tmp->token);
+		// 	printf("\n\n");
+		// 	tmp = tmp->next;
+		// }
 		tree_maker(&head, &tree);
+		process_pipe_trees(tree);
 		traverse_tree(tree, 1);
 	}
 }
