@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/23 16:31:01 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/23 16:47:35 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -639,7 +639,7 @@ void tree_maker(t_list **head, t_tree **tree)
             command = malloc(sizeof(t_tree));
             if (!command)
                 return;
-            command->command = side_maker(head, i - 1, 0);
+            command->command = ft_split(side_maker(head, i - 1, 0), ' ');
             command->left = NULL;
             command->right = NULL;
             command->type = "COMMAND";
@@ -689,7 +689,7 @@ void tree_maker(t_list **head, t_tree **tree)
         if (!command)
             return;
             
-        command->command = side_maker(head, i, 0);
+        command->command = ft_split(side_maker(head, i, 0), ' ');
         command->left = NULL;
         command->right = NULL;
         command->type = "COMMAND";
@@ -714,30 +714,43 @@ void tree_maker(t_list **head, t_tree **tree)
 
 void traverse_tree(t_tree *tree, int level)
 {
+    int i;
+    int j;
+
     if (!tree)
         return;
-        for (int i = 0; i < level; i++)
+    for (i = 0; i < level; i++)
         printf("  ");
     printf("Node Type: %s\n", tree->type);
+    
     if (tree->command)
     {
-        for (int i = 0; i < level; i++)
+        for (i = 0; i < level; i++)
             printf("  ");
-        printf("Command: \"%s\"\n", (char *)tree->command);
+        printf("Command: ");
+        
+        j = 0;
+        while (tree->command[j])
+        {
+            printf("\"%s\" ", tree->command[j]);
+            j++;
+        }
+        printf("\n");
     }
     else
     {
-        for (int i = 0; i < level; i++)
+        for (i = 0; i < level; i++)
             printf("  ");
         printf("Command: NULL\n");
     }
-    for (int i = 0; i < level; i++)
+    
+    for (i = 0; i < level; i++)
         printf("  ");
     printf("Left: %p, Right: %p\n", tree->left, tree->right);
     
     if (tree->left)
     {
-        for (int i = 0; i < level; i++)
+        for (i = 0; i < level; i++)
             printf("  ");
         printf("--- Left Child ---\n");
         traverse_tree(tree->left, level + 1);
@@ -745,7 +758,7 @@ void traverse_tree(t_tree *tree, int level)
     
     if (tree->right)
     {
-        for (int i = 0; i < level; i++)
+        for (i = 0; i < level; i++)
             printf("  ");
         printf("--- Right Child ---\n");
         traverse_tree(tree->right, level + 1);
@@ -759,6 +772,7 @@ int main(void)
 	char **arr;
 	t_list *head;
 	t_tree *tree;
+	t_list *tmp;
 	int i;
 
 	while (1)
@@ -771,6 +785,14 @@ int main(void)
 		str = replace_whites_spaces(str);
 		head = list_init(str);
 		lexer(&head);
+		tmp = head;
+		// while (tmp)
+		// {
+		// 	printf("%s\n", tmp->data);
+		// 	printf("%s\n", tmp->token);
+		// 	printf("\n\n");
+		// 	tmp = tmp->next;
+		// }
 		tree_maker(&head, &tree);
 		traverse_tree(tree, 1);
 		arr = converter(&head);
