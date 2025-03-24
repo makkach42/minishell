@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/23 21:48:06 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/24 14:04:36 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ char	**ft_split(char *s, char c);
 size_t	ft_strlen(char *str);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 int		ft_strcmp(char *s1, char *s2);
+char	*ft_strchr(const char *str, int c);
 
 #endif

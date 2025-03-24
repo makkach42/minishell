@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/23 22:29:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/24 14:45:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -613,109 +613,6 @@ char	*side_maker(t_list **head, int number, int j)
 	return (tmp2);
 }
 
-// void tree_maker(t_list **head, t_tree **tree)
-// {
-//     t_list *tmp;
-//     t_list *tmp2;
-//     t_list *current;
-//     t_list *next_part;
-//     t_list *to_free;
-//     t_tree *command;
-//     int i;
-
-//     tmp = *head;
-//     i = 0;
-//     *tree = malloc(sizeof(t_tree));
-//     if (!(*tree))
-//         return;
-//     (*tree)->left = NULL;
-//     (*tree)->right = NULL;
-//     (*tree)->command = NULL;
-//     (*tree)->type = "COMMAND";
-//     if (!tmp)
-//         return;
-//     while (tmp)
-//     {
-//         i++;
-//         tmp2 = tmp;
-//         if (ft_strcmp(tmp->token, "OPERATION") == 0)
-//         {
-//             command = malloc(sizeof(t_tree));
-//             if (!command)
-//                 return;
-//             command->command = side_maker(head, i - 1, 0);
-//             command->left = NULL;
-//             command->right = NULL;
-//             command->type = "COMMAND";
-//             (*tree)->left = command;
-//             (*tree)->right = NULL;
-//             (*tree)->command = NULL;
-//             (*tree)->type = "OPERATION";
-//             if (tmp->next)
-// 			{
-//                 next_part = tmp->next;
-//                 tmp->next = NULL;
-                
-//                 current = *head;
-//                 while (current && current != next_part)
-//                 {
-//                     to_free = current;
-//                     current = current->next;
-//                     if (to_free->data)
-//                         free(to_free->data);
-//                     free(to_free);
-//                 }
-//                 *head = next_part;
-//                 if (*head)
-//                     tree_maker(head, &(*tree)->right);
-//             }
-// 			else
-// 			{
-//                 current = *head;
-//                 while (current)
-//                 {
-//                     to_free = current;
-//                     current = current->next;
-//                     if (to_free->data)
-//                         free(to_free->data);
-//                     free(to_free);
-//                 }
-//                 *head = NULL;
-//             }
-//             return;
-//         }
-//         tmp = tmp->next;
-//     }
-//     if (*head)
-//     {
-//         i = lst_size(head);
-//         command = malloc(sizeof(t_tree));
-//         if (!command)
-//             return;
-            
-//         command->command = side_maker(head, i, 0);
-//         command->left = NULL;
-//         command->right = NULL;
-//         command->type = "COMMAND";
-        
-//         (*tree)->left = command;
-//         (*tree)->right = NULL;
-//         (*tree)->command = NULL;
-//         (*tree)->type = "COMMAND";
-        
-//         current = *head;
-//         while (current)
-//         {
-//             to_free = current;
-//             current = current->next;
-//             if (to_free->data)
-//                 free(to_free->data);
-//             free(to_free);
-//         }
-//         *head = NULL;
-//     }
-// }
-
 void tree_maker(t_list **head, t_tree **tree)
 {
     t_list *tmp;
@@ -815,95 +712,6 @@ void tree_maker(t_list **head, t_tree **tree)
     }
 }
 
-// void traverse_tree(t_tree *tree, int level)
-// {
-//     int i;
-//     int j;
-
-//     if (!tree)
-//         return;
-//     for (i = 0; i < level; i++)
-//         printf("  ");
-//     printf("Node Type: %s\n", tree->type);
-    
-//     if (tree->command)
-//     {
-//         for (i = 0; i < level; i++)
-//             printf("  ");
-//         printf("Command: ");
-        
-//         j = 0;
-//         while (tree->command[j])
-//         {
-//             printf("\"%s\" ", tree->command[j]);
-//             j++;
-//         }
-//         printf("\n");
-//     }
-//     else
-//     {
-//         for (i = 0; i < level; i++)
-//             printf("  ");
-//         printf("Command: NULL\n");
-//     }
-    
-//     for (i = 0; i < level; i++)
-//         printf("  ");
-//     printf("Left: %p, Right: %p\n", tree->left, tree->right);
-//     if (tree->left)
-//     {
-//         for (i = 0; i < level; i++)
-//             printf("  ");
-//         printf("--- Left Child ---\n");
-//         traverse_tree(tree->left, level + 1);
-//     }
-//     if (tree->right)
-//     {
-//         for (i = 0; i < level; i++)
-//             printf("  ");
-//         printf("--- Right Child ---\n");
-//         traverse_tree(tree->right, level + 1);
-//     }
-// }
-void traverse_tree(t_tree *tree, int level)
-{
-    if (!tree)
-        return;
-        for (int i = 0; i < level; i++)
-        printf("  ");
-    printf("Node Type: %s\n", tree->type);
-    if (tree->command)
-    {
-        for (int i = 0; i < level; i++)
-            printf("  ");
-        printf("Command: \"%s\"\n", (char *)tree->command);
-    }
-    else
-    {
-        for (int i = 0; i < level; i++)
-            printf("  ");
-        printf("Command: NULL\n");
-    }
-    for (int i = 0; i < level; i++)
-        printf("  ");
-    printf("Left: %p, Right: %p\n", tree->left, tree->right);
-    
-    if (tree->left)
-    {
-        for (int i = 0; i < level; i++)
-            printf("  ");
-        printf("--- Left Child ---\n");
-        traverse_tree(tree->left, level + 1);
-    }
-    if (tree->right)
-    {
-        for (int i = 0; i < level; i++)
-            printf("  ");
-        printf("--- Right Child ---\n");
-        traverse_tree(tree->right, level + 1);
-    }
-}
-//sjsjsskskskskskssisosiosissisi
 t_tree *create_tree_node(void *command, char *type)
 {
     t_tree *node = malloc(sizeof(t_tree));
@@ -995,20 +803,38 @@ t_tree *build_pipe_tree(t_list **head)
 void process_command_with_pipes(char *command_str, t_tree **command_tree)
 {
     t_list *cmd_list;
+    char *cmd_copy;
     
     if (!command_str || !(*command_str))
     {
         *command_tree = NULL;
         return;
     }
-    
-    cmd_list = list_init(command_str);
-    
+    cmd_copy = ft_strdup(command_str);
+    if (!cmd_copy)
+    {
+        *command_tree = NULL;
+        return;
+    }
+    cmd_list = list_init(cmd_copy);
     if (cmd_list)
         lexer(&cmd_list);
     
     *command_tree = build_pipe_tree(&cmd_list);
+}
 
+void free_tree(t_tree *tree)
+{
+    if (!tree)
+        return;
+    if (tree->left)
+        free_tree(tree->left);
+    if (tree->right)
+        free_tree(tree->right);
+    
+    if (tree->command)
+        free(tree->command);
+    free(tree);
 }
 
 void process_pipe_trees(t_tree *tree)
@@ -1017,39 +843,53 @@ void process_pipe_trees(t_tree *tree)
     
     if (!tree)
         return;
-    
     if (tree->command && tree->type && ft_strcmp(tree->type, "COMMAND") == 0)
     {
         char *command_str = (char *)tree->command;
-        char *command_str_copy = ft_strdup(command_str);
-        if (!command_str_copy)
-            return;
-        process_command_with_pipes(command_str_copy, &cmd_tree);
-        if (cmd_tree)
+        
+        if (ft_strchr(command_str, '|'))
         {
-            if (cmd_tree->left || cmd_tree->right)
+            process_command_with_pipes(command_str, &cmd_tree);
+            if (cmd_tree)
             {
-                char *old_command = tree->command;
-                tree->left = cmd_tree->left;
-                tree->right = cmd_tree->right;
-                tree->type = cmd_tree->type;
-                tree->command = cmd_tree->command;
-                free(old_command);
-                free(cmd_tree);
-            }
-            else
-            {
-                if (cmd_tree->command) {
-                    char *old_command = tree->command;
-                    tree->command = ft_strdup((char *)cmd_tree->command);
-                    free(old_command);
-                    free(cmd_tree->command);
+                if (cmd_tree->type && ft_strcmp(cmd_tree->type, "PIPE") == 0)
+                {
+                    free(tree->command);
+                    tree->command = NULL;
+                    tree->type = cmd_tree->type;
+                    if (tree->left)
+                        free_tree(tree->left);
+                    tree->left = cmd_tree->left;
+                    tree->right = cmd_tree->right;
+                    cmd_tree->left = NULL;
+                    cmd_tree->right = NULL;
+                    free(cmd_tree);
                 }
-                
-                free(cmd_tree);
+                else
+                {
+                    free_tree(cmd_tree);
+                }
             }
         }
-        // free(command_str_copy);
+    }
+    else if (tree->left && tree->left->command && ft_strchr(tree->left->command, '|'))
+    {
+        process_pipe_trees(tree->left);
+        if (tree->left && ft_strcmp(tree->left->type, "PIPE") == 0 && 
+            ft_strcmp(tree->type, "COMMAND") == 0)
+        {
+            t_tree *pipe_node = tree->left;
+            t_tree *right_child = pipe_node->right;
+            tree->type = pipe_node->type;
+            t_tree *left_child = pipe_node->left;
+            tree->left = left_child;
+            if (tree->right)
+                free_tree(tree->right);
+            tree->right = right_child;
+            pipe_node->left = NULL;
+            pipe_node->right = NULL;
+            free(pipe_node);
+        }
     }
     if (tree->left)
         process_pipe_trees(tree->left);
@@ -1057,22 +897,47 @@ void process_pipe_trees(t_tree *tree)
         process_pipe_trees(tree->right);
 }
 
-void free_tree(t_tree *tree)
+void print_tree_visual(t_tree *tree, int level, int is_left)
 {
     if (!tree)
         return;
-    
-    if (tree->left)
-        free_tree(tree->left);
-    if (tree->right)
-        free_tree(tree->right);
-    
+    for (int i = 0; i < level; i++)
+    {
+        if (i == level - 1)
+            printf("%s", is_left ? "----" : "    ");
+        else
+            printf("    ");
+    }
+    printf("%s", tree->type);
     if (tree->command)
-        free(tree->command);
-    
-    free(tree);
+    {
+        printf(" (Command: %s)\n", tree->command);
+    }
+    else
+    {
+        printf(" (Command: NULL)\n");
+    }
+    if (tree->left || tree->right)
+    {
+        for (int i = 0; i < level; i++)
+            printf("    ");
+        printf("---left;\n");
+    }
+    if (tree->left)
+    {
+        print_tree_visual(tree->left, level + 1, 1);
+    }
+    if (tree->right)
+    {
+        for (int i = 0; i < level; i++)
+            printf("    ");
+        printf("---right;\n");
+    }
+    if (tree->right)
+    {
+        print_tree_visual(tree->right, level + 1, 0);
+    }
 }
-//sjsjsskskskskskssisosiosissisi
 int main(void)
 {
 	char *str;
@@ -1092,15 +957,9 @@ int main(void)
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
-		// while (tmp)
-		// {
-		// 	printf("%s\n", tmp->data);
-		// 	printf("%s\n", tmp->token);
-		// 	printf("\n\n");
-		// 	tmp = tmp->next;
-		// }
 		tree_maker(&head, &tree);
 		process_pipe_trees(tree);
-		traverse_tree(tree, 1);
+		
+		print_tree_visual(tree, 1, 1);
 	}
 }
