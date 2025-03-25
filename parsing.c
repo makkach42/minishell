@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/24 16:27:47 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:39:39 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,37 @@ int variable_recognizer(char *str)
 		return (1);
 	return (0);
 }
+int parenthasis_recognizer(char *str)
+{
+	int i;
+	int j;
+	int flag;
+	int	open_par;
+	int	closed_par;
+
+	i = 0;
+	j = 0;
+	flag = 0;
+	open_par = 0;
+	closed_par = 0;
+	while (str[i])
+	{
+		if (str[i] == '(')
+			open_par++;
+		if (str[i] == ')')
+			closed_par++;
+		if (open_par != 0 && closed_par != 0 && open_par == closed_par)
+		{
+			flag = 1;
+			j = i;
+			break ;
+		}
+		i++;
+	}
+	if (flag == 1 && (str[i + 1] == 32 || str[i + 1] == '\0'))
+		return (1);
+	return (0);
+}
 
 void	tokenizer(t_list *tmp)
 {
@@ -146,6 +177,8 @@ void	tokenizer(t_list *tmp)
 		tmp->token = "COMMAND";
 	else if (variable_recognizer(tmp->data) == 1)
 		tmp->token = "VARIABLE";
+	else if (parenthasis_recognizer(tmp->data) == 1)
+		tmp->token = "PARENTHASIS";
 	else if (word_recognizer(tmp->data) == 1)
 		tmp->token = "WORD";
 	else if (number_recognizer(tmp->data) == 1)
@@ -215,11 +248,39 @@ int	string_in_word_recognizer(char *str)
 	return (0);
 }
 
+int parenthesis_in_word_recogniser(char *str)
+{
+	int i;
+	int flag;
+	int	open_par;
+	int	closed_par;
+
+	i = 0;
+	flag = 0;
+	open_par = 0;
+	closed_par = 0;
+	while ((open_par == closed_par && open_par != 0 && closed_par) || flag == 0)
+	{
+		if (str[i] == '(')
+			open_par++;
+		if (str[i] == ')')
+			closed_par++;
+		if (!str[i] || (str[i] == 32 && open_par == 0 && closed_par == 0) || (str[i] == 32 && open_par == closed_par))
+			flag = 1;
+		i++;
+	}
+	if (open_par  == closed_par && (open_par != 0 && closed_par != 0))
+		return (1);
+	return (0);
+}
+
 char *word_extractor(char *str)
 {
 	int i;
 	int flag;
 	int count_quotes;
+	int open_par;
+	int closed_par;
 	char *word;
 
 	i = -1;
@@ -240,6 +301,43 @@ char *word_extractor(char *str)
 			{
 				i++;
 				while (str[i] != '\"' && str[i] != '\0')
+					i++;
+				if (str[i] == '\0')
+					break ;
+				i++;
+				if (str[i] == '\0')
+					break ;
+				if (str[i] == 32)
+					break ;
+				else
+				{
+					while (str[i] != 32 && str[i] != '\0')
+						i++;
+				}
+			}
+			if (!str[i])
+				i--;
+			i++;
+			if (!str[i])
+				break ;
+		}
+		return (ft_substr(str, 0, i));
+	}
+	else if (parenthesis_in_word_recogniser(str) == 1)
+	{
+		i = 0;
+		open_par = 0;
+		closed_par = 0;
+		while (((open_par == 0 && closed_par == 0) || (open_par != closed_par)))
+		{
+			while (str[i] && str[i] != '(' && str[i] != 32 && str[i] != '\0')
+				i++;
+			if (str[i] == 32)
+				break ;
+			else if (str[i] == '(')
+			{
+				i++;
+				while (str[i] != ')' && str[i] != '\0')
 					i++;
 				if (str[i] == '\0')
 					break ;
@@ -354,7 +452,19 @@ char *str_remover(char *str, char *word)
 	new_str = ft_substr(str, word_len, strlenth - word_len);
 	return (new_str);
 }
+char *parenthesis_remover(char *str, char *word)
+{
+	int strlenth;
+	char *new_str;
+	int word_len;
 
+	if (!str | !*str)
+		return (NULL);
+	strlenth = ft_strlen(str);
+	word_len = ft_strlen(word);
+	new_str = ft_substr(str, word_len, strlenth - word_len);
+	return (new_str);
+}
 char	*extract_operator(char *str)
 {
 	int	i;
@@ -407,6 +517,50 @@ char *extract_variable(char *str)
 	return (ft_substr(str, 0, i + 1));
 }
 
+char *extract_parenthesis(char *str)
+{
+	int i;
+	int flag;
+	int open_par;
+	int closed_par;
+	char *word;
+	i = 0;
+	flag = 0;
+	open_par = 0;
+	closed_par = 0;
+	if (!str || !*str)
+		return (NULL);
+	while (str[i] != ')' && str[i] != '\0')
+	{
+		if (str[i] == '(')
+			open_par++;
+		i++;
+	}
+	if (str[i] == ')')
+		closed_par++;
+	if (str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0') && open_par == closed_par)
+	{
+		return (ft_substr(str, 0, i + 1));
+	}
+	else
+	{
+		open_par = 1;
+		closed_par = 1;
+		while (str[i] != '\0' && flag == 0)
+		{
+			if (str[i] == '(')
+				open_par++;
+			if (str[i] == ')')
+				closed_par++;
+			i++;
+			if (str[i] == 32 && open_par == closed_par)
+				flag = 1;
+		}
+		word = ft_substr(str, 0, i + 1);
+	}
+	return (word);
+}
+
 t_list *list_init(char *str)
 {
 	char *word;
@@ -449,6 +603,19 @@ t_list *list_init(char *str)
 		free(tmp_char);
 		tmp_char = str;
 		str = first_word_remover(str, word);
+		free(tmp_char);
+		tmp_char = str;
+		str= ft_strtrim(str, " ");
+		free(tmp_char);
+	}
+	else if (*str == '(')
+	{
+		word = extract_parenthesis(str);
+		tmp_char = word;
+		word = ft_strtrim(word, " ");
+		free(tmp_char);
+		tmp_char = str;
+		str = parenthesis_remover(str, word);
 		free(tmp_char);
 		tmp_char = str;
 		str= ft_strtrim(str, " ");
@@ -505,6 +672,19 @@ t_list *list_init(char *str)
 			free(tmp_char);
 			tmp_char = str;
 			str = first_word_remover(str, word);
+			free(tmp_char);
+			tmp_char = str;
+			str= ft_strtrim(str, " ");
+			free(tmp_char);
+		}
+		else if (*str == '(')
+		{
+			word = extract_parenthesis(str);
+			tmp_char = word;
+			word = ft_strtrim(word, " ");
+			free(tmp_char);
+			tmp_char = str;
+			str = parenthesis_remover(str, word);
 			free(tmp_char);
 			tmp_char = str;
 			str= ft_strtrim(str, " ");
@@ -942,7 +1122,7 @@ int main(void)
 {
 	char *str;
 	t_list *head;
-	t_tree *tree;
+	// t_tree *tree;
 	t_list *tmp;
 	int i;
 
@@ -957,8 +1137,15 @@ int main(void)
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
-		tree_maker(&head, &tree);
-		process_pipe_trees(tree);
-		print_tree_visual(tree, 1, 1);
+		while (tmp)
+		{
+			printf("%s\n", tmp->data);
+			printf("%s\n", tmp->token);
+			printf("\n");
+			tmp = tmp->next;
+		}
+		// tree_maker(&head, &tree);
+		// process_pipe_trees(tree);
+		// print_tree_visual(tree, 1, 1);
 	}
 }
