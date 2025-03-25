@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/25 15:39:39 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:06:57 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -538,8 +538,14 @@ char *extract_parenthesis(char *str)
 	}
 	if (str[i] == ')')
 		closed_par++;
-	if (str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0') && open_par == closed_par)
+	if (str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0' || str[i + 1] == ')') && (open_par == closed_par || (open_par > closed_par && str[i + 1] == ')')))
 	{
+		while (open_par > closed_par)
+		{
+			if (str[i] == ')')
+				closed_par++;
+			i++;
+		}
 		return (ft_substr(str, 0, i + 1));
 	}
 	else
@@ -1122,7 +1128,7 @@ int main(void)
 {
 	char *str;
 	t_list *head;
-	// t_tree *tree;
+	t_tree *tree;
 	t_list *tmp;
 	int i;
 
@@ -1144,8 +1150,8 @@ int main(void)
 			printf("\n");
 			tmp = tmp->next;
 		}
-		// tree_maker(&head, &tree);
-		// process_pipe_trees(tree);
-		// print_tree_visual(tree, 1, 1);
+		tree_maker(&head, &tree);
+		process_pipe_trees(tree);
+		print_tree_visual(tree, 1, 1);
 	}
 }
