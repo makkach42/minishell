@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/25 21:34:09 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/25 22:14:37 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int pipe_recognizer(char *str)
 		return (0);
 	while (str[i])
 	{
+		if (str[i] != '|')
+			return (0);
 		if (str[i] == '|')
 			break ;
 		i++;
@@ -104,6 +106,8 @@ int operation_recognizer(char *str)
 		return (0);
 	while (str[i])
 	{
+		if (str[i] != '&')
+			return (0);
 		if (str[i] == '&')
 			break ;
 		i++;
@@ -516,6 +520,10 @@ char *extract_variable(char *str)
 		i++;
 	return (ft_substr(str, 0, i + 1));
 }
+// int	check_if_still()
+// {
+
+// }
 
 char *extract_parenthesis(char *str)
 {
@@ -538,16 +546,31 @@ char *extract_parenthesis(char *str)
 	}
 	if (str[i] == ')')
 		closed_par++;
-	if (str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0' || str[i + 1] == ')') && (open_par == closed_par || (open_par > closed_par && str[i + 1] == ')')))
+		// printf("%s\n", str);
+		// printf("%d\n", open_par);
+		// printf("%d\n", closed_par);
+	// if (open_par == closed_par && (str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0' || str[i + 1] == ')')) && (open_par == closed_par || (open_par > closed_par && str[i + 1] == ')')))
+	// {
+	// 	printf("AAA\n");
+	// 	while (open_par > closed_par)
+	// 	{
+	// 		if (str[i] == ')')
+	// 			closed_par++;
+	// 		i++;
+	// 	}
+	// 	return (ft_substr(str, 0, i + 1));
+	// }
+	i++;
+	while (open_par > closed_par && str[i] != '\0')
 	{
-		while (open_par > closed_par)
-		{
-			if (str[i] == ')')
-				closed_par++;
-			i++;
-		}
-		return (ft_substr(str, 0, i + 1));
+		if (str[i] == '(')
+			open_par++;			
+		if (str[i] == ')')
+			closed_par++;
+		i++;
 	}
+	if ((str[i] == '\0' || str[i] == 32))
+		return (ft_substr(str, 0, i));
 	else
 	{
 		open_par = 1;
@@ -1335,17 +1358,17 @@ int main(void)
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
-		// while (tmp)
-		// {
-		// 	printf("%s\n", tmp->data);
-		// 	printf("%s\n", tmp->token);
-		// 	printf("\n");
-		// 	tmp = tmp->next;
-		// }
+		while (tmp)
+		{
+			printf("%s\n", tmp->data);
+			printf("%s\n", tmp->token);
+			printf("\n");
+			tmp = tmp->next;
+		}
 		tree_maker(&head, &tree);
-		process_pipe_trees(tree);
-		process_nested_parentheses(&tree);
-		print_tree_visual(tree, 1, 1);
+		// process_pipe_trees(tree);
+		// process_nested_parentheses(&tree);
+		// print_tree_visual(tree, 1, 1);
 	}
 }
 //(((ls -la && echo shshs))) | echo not
