@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/25 21:06:57 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:34:09 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1124,6 +1124,198 @@ void print_tree_visual(t_tree *tree, int level, int is_left)
         print_tree_visual(tree->right, level + 1, 0);
     }
 }
+char	*extract_content_from_parentheses(char *command)
+{
+	int		i;
+	int		j;
+	int		start;
+	int		end;
+	char	*content;
+
+	if (!command)
+		return (NULL);
+	i = 0;
+	while (command[i] && command[i] != '(')
+		i++;
+	if (!command[i])
+		return (NULL);
+	start = i + 1;
+	i++;
+	j = 1;
+	while (command[i] && j > 0)
+	{
+		if (command[i] == '(')
+			j++;
+		else if (command[i] == ')')
+			j--;
+		i++;
+	}
+	if (j != 0)
+		return (NULL);
+	end = i - 1;
+	content = ft_substr(command, start, end - start);
+	return (content);
+}
+
+int	has_outer_parentheses(char *command)
+{
+	int	i;
+	int	len;
+
+	if (!command)
+		return (0);
+	len = ft_strlen(command);
+	i = 0;
+	while (command[i] == ' ')
+		i++;
+	if (command[i] != '(')
+		return (0);
+	i = len - 1;
+	while (i >= 0 && command[i] == ' ')
+		i--;
+	if (i < 0 || command[i] != ')')
+		return (0);
+	return (1);
+}
+
+void process_parentheses_in_tree(t_tree *tree)
+{
+    t_tree   *subtree = NULL;
+    t_list   *cmd_list = NULL;
+    char     *inner_cmd = NULL;
+
+    if (!tree)
+        return;
+    if (tree->command && tree->type && ft_strcmp(tree->type, "COMMAND") == 0)
+    {
+        if (has_outer_parentheses(tree->command))
+        {
+            inner_cmd = extract_content_from_parentheses(tree->command);
+            if (inner_cmd)
+            {
+                char *inner_cmd_copy = ft_strdup(inner_cmd);
+                if (inner_cmd_copy)
+                {
+                    cmd_list = list_init(inner_cmd_copy);
+                    if (cmd_list)
+                    {
+                        lexer(&cmd_list);
+                        tree_maker(&cmd_list, &subtree);
+                        if (subtree)
+                        {
+                            process_pipe_trees(subtree);
+                            free(tree->command);
+                            tree->command = NULL;
+                            if (subtree->left)
+                            {
+                                tree->type = subtree->type;
+                                if (tree->left)
+                                    free_tree(tree->left);
+                                if (tree->right)
+                                    free_tree(tree->right);
+                                tree->left = subtree->left;
+                                tree->right = subtree->right;
+                                subtree->left = NULL;
+                                subtree->right = NULL;
+                            }
+                            else if (subtree->command)
+                            {
+                                tree->command = subtree->command;
+                                subtree->command = NULL;
+                            }
+                            free(subtree);
+                        }
+                    }
+                }
+                free(inner_cmd);
+            }
+        }
+    }
+    if (tree->left)
+        process_parentheses_in_tree(tree->left);
+    if (tree->right)
+        process_parentheses_in_tree(tree->right);
+}
+
+void fix_operation_tree_structure(t_tree *tree) 
+{
+    if (!tree)
+        return;
+    if (ft_strcmp(tree->type, "OPERATION") == 0) 
+    {
+        if (tree->left && ft_strcmp(tree->left->type, "COMMAND") == 0) 
+        {
+            if (tree->left->left)
+            {
+                t_tree *left_cmd_node = tree->left;
+                t_tree *nested_node = left_cmd_node->left;
+                tree->left = nested_node;
+                left_cmd_node->left = NULL;
+                free_tree(left_cmd_node);
+            }
+        }
+        fix_operation_tree_structure(tree->left);
+        fix_operation_tree_structure(tree->right);
+    }
+    else {
+        if (tree->left) 
+            fix_operation_tree_structure(tree->left);
+        if (tree->right) 
+            fix_operation_tree_structure(tree->right);
+    }
+}
+void process_all_parentheses(t_tree *tree)
+{
+    if (!tree)
+        return;
+    if (tree->command && tree->type && ft_strcmp(tree->type, "COMMAND") == 0) {
+        if (has_outer_parentheses(tree->command)) {
+            t_tree *subtree = NULL;
+            char *inner_cmd = extract_content_from_parentheses(tree->command);
+            if (inner_cmd) {
+                t_list *cmd_list = list_init(ft_strdup(inner_cmd));
+                if (cmd_list) {
+                    lexer(&cmd_list);
+                    tree_maker(&cmd_list, &subtree);
+                    if (subtree) {
+                        process_pipe_trees(subtree);
+                        free(tree->command);
+                        tree->command = NULL;
+                        tree->type = subtree->type;
+                        if (tree->left)
+                            free_tree(tree->left);
+                        if (tree->right)
+                            free_tree(tree->right);
+                        tree->left = subtree->left;
+                        tree->right = subtree->right;
+                        subtree->left = NULL;
+                        subtree->right = NULL;
+                        free(subtree);
+                    }
+                }
+                free(inner_cmd);
+            }
+        }
+    }
+    if (tree->left)
+        process_all_parentheses(tree->left);
+    if (tree->right)
+        process_all_parentheses(tree->right);
+}
+
+void process_nested_parentheses(t_tree **tree)
+{
+    if (!tree || !(*tree))
+        return;
+    int passes = 0;
+    int max_passes = 5;
+    while (passes < max_passes)
+    {
+        process_all_parentheses(*tree);
+        fix_operation_tree_structure(*tree);
+        passes++;
+    }
+}
 int main(void)
 {
 	char *str;
@@ -1143,15 +1335,17 @@ int main(void)
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
-		while (tmp)
-		{
-			printf("%s\n", tmp->data);
-			printf("%s\n", tmp->token);
-			printf("\n");
-			tmp = tmp->next;
-		}
+		// while (tmp)
+		// {
+		// 	printf("%s\n", tmp->data);
+		// 	printf("%s\n", tmp->token);
+		// 	printf("\n");
+		// 	tmp = tmp->next;
+		// }
 		tree_maker(&head, &tree);
 		process_pipe_trees(tree);
+		process_nested_parentheses(&tree);
 		print_tree_visual(tree, 1, 1);
 	}
 }
+//(((ls -la && echo shshs))) | echo not
