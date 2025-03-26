@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/25 22:14:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:12:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -839,6 +839,7 @@ void tree_maker(t_list **head, t_tree **tree)
     (*tree)->left = NULL;
     (*tree)->right = NULL;
     (*tree)->command = NULL;
+    (*tree)->redirections = NULL;
     (*tree)->type = "COMMAND";
     if (!(*head))
         return;
@@ -866,10 +867,12 @@ void tree_maker(t_list **head, t_tree **tree)
                 
             command->left = NULL;
             command->right = NULL;
+            command->redirections = NULL;
             command->type = "COMMAND";
             (*tree)->right = command;
             (*tree)->left = NULL;
             (*tree)->command = NULL;
+            (*tree)->redirections = NULL;
             (*tree)->type = "OPERATION";
             if (tmp->prev)
             {
@@ -901,12 +904,13 @@ void tree_maker(t_list **head, t_tree **tree)
         
         command->command = side_maker(head, total_nodes, 0);
         command->left = NULL;
+        command->redirections = NULL;
         command->right = NULL;
         command->type = "COMMAND";
-        
         (*tree)->left = command;
         (*tree)->right = NULL;
         (*tree)->command = NULL;
+        (*tree)->redirections= NULL;
         (*tree)->type = "COMMAND";
         current = *head;
         while (current)
@@ -931,6 +935,7 @@ t_tree *create_tree_node(void *command, char *type)
     node->type = type;
     node->left = NULL;
     node->right = NULL;
+    node->redirections = NULL;
     
     return node;
 }
@@ -1106,10 +1111,54 @@ void process_pipe_trees(t_tree *tree)
         process_pipe_trees(tree->right);
 }
 
+// void print_tree_visual(t_tree *tree, int level, int is_left)
+// {
+//     if (!tree)
+//         return;
+//     for (int i = 0; i < level; i++)
+//     {
+//         if (i == level - 1)
+//             printf("%s", is_left ? "----" : "    ");
+//         else
+//             printf("    ");
+//     }
+//     printf("%s", tree->type);
+//     if (tree->command)
+//     {
+//         printf(" (Command: %s)\n", tree->command);
+//     }
+//     else
+//     {
+//         printf(" (Command: NULL)\n");
+//     }
+//     if (tree->left || tree->right)
+//     {
+//         for (int i = 0; i < level; i++)
+//             printf("    ");
+//         printf("---left;\n");
+//     }
+//     if (tree->left)
+//     {
+//         print_tree_visual(tree->left, level + 1, 1);
+//     }
+//     if (tree->right)
+//     {
+//         for (int i = 0; i < level; i++)
+//             printf("    ");
+//         printf("---right;\n");
+//     }
+//     if (tree->right)
+//     {
+//         print_tree_visual(tree->right, level + 1, 0);
+//     }
+// }
+
 void print_tree_visual(t_tree *tree, int level, int is_left)
 {
     if (!tree)
         return;
+    
+    // Print indentation and node type
     for (int i = 0; i < level; i++)
     {
         if (i == level - 1)
@@ -1117,31 +1166,52 @@ void print_tree_visual(t_tree *tree, int level, int is_left)
         else
             printf("    ");
     }
-    printf("%s", tree->type);
+    
+    // Print node type safely
+    printf("%s", tree->type ? tree->type : "NULL");
+    
+    // Print command if it exists (safely)
     if (tree->command)
     {
-        printf(" (Command: %s)\n", tree->command);
+        printf(" (Command: %s)", tree->command);
     }
     else
     {
-        printf(" (Command: NULL)\n");
+        printf(" (Command: NULL)");
     }
+    
+    // Print redirections if they exist (safely)
+    if (tree->redirections)
+    {
+        printf(" [Redirections: %s]", tree->redirections);
+    }
+    
+    // End the line
+    printf("\n");
+    
+    // Print left child indication
     if (tree->left || tree->right)
     {
         for (int i = 0; i < level; i++)
             printf("    ");
         printf("---left;\n");
     }
+    
+    // Print left child recursively
     if (tree->left)
     {
         print_tree_visual(tree->left, level + 1, 1);
     }
+    
+    // Print right child indication
     if (tree->right)
     {
         for (int i = 0; i < level; i++)
             printf("    ");
         printf("---right;\n");
     }
+    
+    // Print right child recursively
     if (tree->right)
     {
         print_tree_visual(tree->right, level + 1, 0);
@@ -1339,6 +1409,131 @@ void process_nested_parentheses(t_tree **tree)
         passes++;
     }
 }
+
+char *new_command_maker(char *str, int wordlen)
+{
+	int i;
+	int j;
+	int strlenth;
+	char *new_str;
+	if (!str)
+		return (NULL);
+	i = 0;
+	j = 0;
+	strlenth = ft_strlen(str);
+	new_str = malloc(sizeof(char) * (strlenth - wordlen + 1));
+	while (str[j] != '>')
+	{
+		new_str[i] = str[j];
+		i++;
+		j++;
+	}
+	j += wordlen;
+	while (str[j])
+	{
+		new_str[i] = str[j];
+		i++;
+		j++;
+	}
+	new_str[i] = '\0';
+	return (new_str);
+}
+int remove_reds(char *str, char c)
+{
+	int i;
+
+	if (!str || !c)
+		return (0);
+	i = 0;
+	while (str[i] != '>')
+		i++;
+	while (str[i] == '>')
+		i++;
+	while (str[i] == 32 && str[i] != '\0')
+		i++;
+	while (str[i] != 32 && str[i] != '\0')
+		i++;
+	return (i);
+}
+void process_redirections(t_tree *tree)
+{
+    if (!tree)
+        return;
+    if (tree->left)
+        process_redirections(tree->left);
+    if (tree->right)
+        process_redirections(tree->right);
+    if (tree && tree->command)
+    {
+        char *redir_pos = ft_strchr(tree->command, '>');
+        if (redir_pos)
+        {
+            int cmd_length = redir_pos - tree->command;
+            char *cmd_prefix = malloc(sizeof(char) * (cmd_length + 1));
+            if (cmd_prefix)
+            {
+                ft_strncpy(cmd_prefix, tree->command, cmd_length);
+                cmd_prefix[cmd_length] = '\0';
+                char *params_start = NULL;
+                char *current_pos = redir_pos;
+                while (*current_pos)
+                {
+                    if (*current_pos == '>')
+                    {
+                        while (*current_pos == '>')
+                            current_pos++;
+                        while (*current_pos == ' ')
+                            current_pos++;
+                        while (*current_pos && *current_pos != ' ' && *current_pos != '>')
+                            current_pos++;
+                        while (*current_pos == ' ')
+                            current_pos++;
+                        if (*current_pos == '>')
+                            continue;
+                        if (*current_pos && *current_pos != '>')
+                        {
+                            params_start = current_pos;
+                            break;
+                        }
+                    }
+                    else
+                        current_pos++;
+                }
+                int redir_length;
+                if (params_start)
+                    redir_length = params_start - redir_pos;
+                else
+                    redir_length = ft_strlen(redir_pos);
+                tree->redirections = malloc(sizeof(char) * (redir_length + 1));
+                if (tree->redirections)
+                {
+                    ft_strncpy(tree->redirections, redir_pos, redir_length);
+                    tree->redirections[redir_length] = '\0';
+                }
+                char *new_command = NULL;
+                if (params_start)
+                {
+                    new_command = malloc(sizeof(char) * (cmd_length + ft_strlen(params_start) + 2));
+                    if (new_command)
+                    {
+                        ft_strcpy(new_command, cmd_prefix);
+                        ft_strcat(new_command, " ");
+                        ft_strcat(new_command, params_start);
+                    }
+                }
+                else
+                {
+                    new_command = ft_strdup(cmd_prefix);
+                }
+                
+                free(tree->command);
+                tree->command = new_command;
+                
+                free(cmd_prefix);
+            }
+        }
+    }
+}
 int main(void)
 {
 	char *str;
@@ -1358,17 +1553,18 @@ int main(void)
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
-		while (tmp)
-		{
-			printf("%s\n", tmp->data);
-			printf("%s\n", tmp->token);
-			printf("\n");
-			tmp = tmp->next;
-		}
+		// while (tmp)
+		// {
+		// 	printf("%s\n", tmp->data);
+		// 	printf("%s\n", tmp->token);
+		// 	printf("\n");
+		// 	tmp = tmp->next;
+		// }
 		tree_maker(&head, &tree);
-		// process_pipe_trees(tree);
-		// process_nested_parentheses(&tree);
-		// print_tree_visual(tree, 1, 1);
+		process_pipe_trees(tree);
+		process_nested_parentheses(&tree);
+		process_redirections(tree);
+		print_tree_visual(tree, 1, 1);
 	}
 }
 //(((ls -la && echo shshs))) | echo not

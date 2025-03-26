@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/21 16:48:13 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/26 13:57:10 by makkach          ###   ########.fr       */
+/*   Created: 2025/03/26 16:07:17 by makkach           #+#    #+#             */
+/*   Updated: 2025/03/26 16:11:54 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strchr(char *str, int c)
+char	*ft_strcpy(char *dest, char *src)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0')
+	if (!dest || !src)
+		return (NULL);
+	
+	while (src[i])
 	{
-		if (str[i] == (char)c)
-			return ((char *)&str[i]);
+		dest[i] = src[i];
 		i++;
 	}
-	if ((char)c == '\0')
-		return ((char *)&str[i]);
-	return (0);
+	dest[i] = '\0';
+	
+	return (dest);
 }
