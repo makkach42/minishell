@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/26 16:12:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/26 21:51:10 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1567,4 +1567,3 @@ int main(void)
 		print_tree_visual(tree, 1, 1);
 	}
 }
-//(((ls -la && echo shshs))) | echo not
