@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/30 13:38:47 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/30 13:52:26 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1824,9 +1824,9 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 		if (flag == 2)
 			(*head)->fd = open((*head)->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (flag == 3)
-			(*head)->fd = open((*head)->name, O_CREAT | O_RDONLY | O_TRUNC, 0644);
+			(*head)->fd = open((*head)->name, O_RDONLY, 0644);
 		if (flag == 4)
-			(*head)->fd = open((*head)->name, O_CREAT | O_RDONLY | O_APPEND, 0644);
+			(*head)->fd = open((*head)->name, O_RDONLY, 0644);
 		(*head)->next = NULL;
 		tmp = *head;
 		while ((*tree)->redirections)
@@ -1863,9 +1863,9 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 			if (flag == 2)
 				new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			if (flag == 3)
-				new_node->fd = open(new_node->name, O_CREAT | O_RDONLY | O_TRUNC, 0644);
+				new_node->fd = open(new_node->name, O_RDONLY,  0644);
 			if (flag == 4)
-				new_node->fd = open(new_node->name, O_CREAT | O_RDONLY | O_APPEND, 0644);
+				new_node->fd = open(new_node->name, O_RDONLY, 0644);
 			new_node->next = NULL;
 			tmp->next = new_node;
 			tmp = new_node;
