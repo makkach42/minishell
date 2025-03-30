@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/27 15:54:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/30 12:10:24 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,8 @@ int parenthasis_recognizer(char *str)
 	flag = 0;
 	open_par = 0;
 	closed_par = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == '(')
@@ -423,7 +425,7 @@ char *str_extractor(char *str)
 		return (NULL);
 	while (str[i] != '\"' && str[i] != '\0')
 		i++;
-	if (str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0'))
+	if (str[i] != '\0' && str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0'))
 	{
 		return (ft_substr(str, 0, i + 1));
 	}
@@ -1613,6 +1615,162 @@ void process_redirections_two(t_tree **tree)
         }
     }
 }
+
+int	check_quotes(char *str)
+{
+	int i;
+	int in_quotes;
+	char quote_type;
+
+	i = 0;
+	in_quotes = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			in_quotes = 1;
+			quote_type = str[i];
+		}
+		else if (in_quotes && str[i] == quote_type)
+			in_quotes = 0;
+		i++;
+	}
+	if (in_quotes)
+		return (write(2, "Syntax error: open quotes.\n", 28), 1);
+	return (0);
+}
+
+int	skip_quotes(char *str, int i)
+{
+	char quote_type;
+
+	quote_type = str[i];
+	i++;
+	while (str[i] && str[i] != quote_type)
+		i++;
+	if (str[i])
+		i++;
+	return (i);
+}
+void	print_syntax_error(char *str2)
+{
+	write(2, "syntax error near unexpected token `", 37);
+	write(2, str2, ft_strlen(str2));
+	write(2, "\'\n", 2);
+}
+
+// int check_redirs(char *str)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		printf("-------%c\n", str[i]);
+// 		printf("-------%d\n", i);
+// 		if (str[i] == '\'' || str[i] == '\"')
+// 			i = skip_quotes(str, i);
+// 		else if (str[i] == '>' || str[i] == '<')
+// 		{
+// 			if (str[i + 1] == str[i])
+// 				i++;
+// 			i++;
+// 			printf("-------%d\n", str[i]);
+// 			while (str[i] == 32)
+// 				i++;
+// 			if (!str[i] || str[i] == '>' || str[i] == '<' || str[i] == '&' || str[i] == '|')
+// 			{
+// 				if (!str[i])
+// 					return (write(2, "syntax error near unexpected token `newline'\n", 46), 1);
+// 				else
+// 					return (print_syntax_error(&str[i]), 1);
+// 			}
+// 		}
+// 		else
+// 			i++;
+// 	}
+// 	return (0);
+// }
+
+void	syntax_error(t_list **head)
+{
+	t_list	*tmp;
+	char	*prev_token;
+	char	*prev_data;
+
+	if (!head || !*head)
+		return ;
+	tmp = *head;
+	while (tmp)
+	{
+		prev_token = tmp->token;
+		prev_data = tmp->data;
+		tmp = tmp->next;
+		if (ft_strcmp("PIPE", prev_token) == 0 && ft_strcmp(prev_token, tmp->token) == 0)
+		{
+			write(2, "syntax error near unexpected token `|'\n", 40);
+			exit(1);
+		}
+		if (ft_strcmp("OPERATION", prev_token) == 0 && ft_strcmp(prev_token, tmp->token) == 0)
+		{
+			print_syntax_error((tmp)->data);
+			exit(1);
+		}
+		if (ft_strcmp("OPERATION", prev_token) == 0 && ft_strcmp(tmp->token, "PIPE") == 0)
+		{
+			print_syntax_error((tmp)->data);
+			exit(1);
+		}
+		if (ft_strcmp("PIPE", prev_token) == 0 && ft_strcmp(tmp->token, "OPERATION") == 0)
+		{
+			write(2, "syntax error near unexpected token `|'\n", 40);
+			exit(1);
+		}
+		if (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(tmp->token, "PIPE") == 0)
+		{
+			print_syntax_error(prev_data);
+			exit(1);
+		}
+		if (ft_strcmp("PIPE", prev_token) == 0 && ft_strcmp(tmp->token, "REDIRECTION") == 0)
+		{
+			print_syntax_error(prev_data);
+			exit(1);
+		}
+		if (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(tmp->token, "OPERATION") == 0)
+		{
+			print_syntax_error(prev_data);
+			exit(1);
+		}
+		if (ft_strcmp("OPERATION", prev_token) == 0 && ft_strcmp(tmp->token, "REDIRECTION") == 0)
+		{
+			print_syntax_error(prev_data);
+			exit(1);
+		}
+		if (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(tmp->token, prev_token) == 0)
+		{
+			print_syntax_error(prev_data);
+			exit(1);
+		}
+	}	
+}
+
+void	syntax_error_two(t_tree **tree)
+{
+	if (!tree || !*tree)
+		return ;
+	if ((*tree)->left)
+		syntax_error_two(&(*tree)->left);
+	if ((*tree)->right)
+		syntax_error_two(&(*tree)->right);
+	if ((*tree)->command)
+	{
+		if (check_quotes((*tree)->command) == 1)
+			exit (1);
+		// if (check_redirs((*tree)->redirections) == 1)
+		// 	exit (1);
+	}
+}
+
 int main(void)
 {
 	char *str;
@@ -1639,11 +1797,13 @@ int main(void)
 		// 	printf("\n");
 		// 	tmp = tmp->next;
 		// }
+		syntax_error(&head);
 		tree_maker(&head, &tree);
 		process_pipe_trees(tree);
 		process_nested_parentheses(&tree);
 		process_redirections(&tree);
 		process_redirections_two(&tree);
 		print_tree_visual(tree, 1, 1);
+		syntax_error_two(&tree);
 	}
 }
