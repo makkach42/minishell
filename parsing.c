@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/30 13:52:26 by makkach          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:59:23 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1787,61 +1787,27 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 	int i;
 	int j;
 	t_list_fd *tmp;
+	t_list_fd *tmp2;
 	t_list_fd *new_node;
 	int flag;
 
 	i = 0;
 	flag = 0;
-	if ((*tree)->right)
-		redirections_opener(&(*tree)->right, head);
 	if ((*tree)->left)
 		redirections_opener(&(*tree)->left, head);
+	if ((*tree)->right)
+		redirections_opener(&(*tree)->right, head);
 	if ((*tree)->redirections)
 	{
-		while (((*tree)->redirections[i] != '>' && (*tree)->redirections[i] != '<') && (*tree)->redirections[i] != '\0') 
-			i++;
-		if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] != '>')
-			flag = 1;
-		if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] == '>')
-			flag = 2;
-		if ((*tree)->redirections[i] == '<' && (*tree)->redirections[i + 1] != '<')
-			flag = 3;
-		if ((*tree)->redirections[i] == '<' && (*tree)->redirections[i + 1] == '<')
-			flag = 4;
-		while (((*tree)->redirections[i] == '>' || (*tree)->redirections[i] == '<') && (*tree)->redirections[i] != '\0')
-			i++;
-		while ((*tree)->redirections[i] == 32 && (*tree)->redirections[i] != '\0')
-			i++;
-		j = i;
-		while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
-			i++;
-		*head = malloc(sizeof(t_list_fd));
-		(*head)->name = ft_substr((*tree)->redirections, j, i - j);
-		(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
-		(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
-		if (flag == 1)
-			(*head)->fd = open((*head)->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (flag == 2)
-			(*head)->fd = open((*head)->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		if (flag == 3)
-			(*head)->fd = open((*head)->name, O_RDONLY, 0644);
-		if (flag == 4)
-			(*head)->fd = open((*head)->name, O_RDONLY, 0644);
-		(*head)->next = NULL;
-		tmp = *head;
-		while ((*tree)->redirections)
+		if (!*head)
 		{
-			i = 0;
-			// printf("%s\n", (*tree)->redirections);
-			// printf("*********%c\n", (*tree)->redirections[0]);
-			// printf("%d\n", i);
-			while ((*tree)->redirections != NULL && (*tree)->redirections[i] && ((*tree)->redirections[i] != '>' && (*tree)->redirections[i] != '<'))
+			while (((*tree)->redirections[i] != '>' && (*tree)->redirections[i] != '<') && (*tree)->redirections[i] != '\0') 
 				i++;
-			if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] != '>')
+			if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] == 32)
 				flag = 1;
 			if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] == '>')
 				flag = 2;
-			if ((*tree)->redirections[i] == '<' && (*tree)->redirections[i + 1] != '<')
+			if ((*tree)->redirections[i] == '<' && (*tree)->redirections[i + 1] == 32)
 				flag = 3;
 			if ((*tree)->redirections[i] == '<' && (*tree)->redirections[i + 1] == '<')
 				flag = 4;
@@ -1852,28 +1818,141 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 			j = i;
 			while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
 				i++;
-			new_node = malloc(sizeof(t_list_fd));
-			new_node->name = ft_substr((*tree)->redirections, j, i - j);
-			// printf("+++++++++%s\n", (*tree)->redirections);
+			*head = malloc(sizeof(t_list_fd));
+			(*head)->name = ft_substr((*tree)->redirections, j, i - j);
+			(*head)->command = ft_strdup((*tree)->command);
 			(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
 			(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
-			// printf("---------%s\n", (*tree)->redirections);
 			if (flag == 1)
-				new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-			if (flag == 2)
-				new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
-			if (flag == 3)
-				new_node->fd = open(new_node->name, O_RDONLY,  0644);
-			if (flag == 4)
-				new_node->fd = open(new_node->name, O_RDONLY, 0644);
-			new_node->next = NULL;
-			tmp->next = new_node;
-			tmp = new_node;
-			if (check_empty((*tree)->redirections) == 1)
 			{
-				free((*tree)->redirections);
-				(*tree)->redirections = NULL;
-				break ;
+				(*head)->fd = open((*head)->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+				(*head)->redir = ft_strdup(">");
+			}
+			if (flag == 2)
+			{
+				(*head)->fd = open((*head)->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+				(*head)->redir = ft_strdup(">>");
+			}
+			if (flag == 3)
+			{
+				(*head)->fd = open((*head)->name, O_RDONLY, 0644);
+				(*head)->redir = ft_strdup("<");
+			}
+			if (flag == 4)
+			{
+				(*head)->fd = open((*head)->name, O_RDONLY, 0644);
+				ft_strdup("<<");
+			}
+			(*head)->next = NULL;
+			tmp = *head;
+			while ((*tree)->redirections)
+			{
+				i = 0;
+				while ((*tree)->redirections != NULL && (*tree)->redirections[i] && ((*tree)->redirections[i] != '>' && (*tree)->redirections[i] != '<'))
+					i++;
+				if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] == 32)
+					flag = 1;
+				if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] == '>')
+					flag = 2;
+				if ((*tree)->redirections[i] == '<' && (*tree)->redirections[i + 1] == 32)
+					flag = 3;
+				if ((*tree)->redirections[i] == '<' && (*tree)->redirections[i + 1] == '<')
+					flag = 4;
+				while (((*tree)->redirections[i] == '>' || (*tree)->redirections[i] == '<') && (*tree)->redirections[i] != '\0')
+					i++;
+				while ((*tree)->redirections[i] == 32 && (*tree)->redirections[i] != '\0')
+					i++;
+				j = i;
+				while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
+					i++;
+				new_node = malloc(sizeof(t_list_fd));
+				new_node->name = ft_substr((*tree)->redirections, j, i - j);
+				new_node->command = ft_strdup((*tree)->command);
+				(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
+				(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
+				if (flag == 1)
+				{
+					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+					new_node->redir = ft_strdup(">");
+				}
+				if (flag == 2)
+				{
+					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+					new_node->redir = ft_strdup(">>");
+				}
+				if (flag == 3)
+				{
+					new_node->fd = open(new_node->name, O_RDONLY,  0644);
+					new_node->redir = ft_strdup("<");
+				}
+				if (flag == 4)
+				{
+					new_node->fd = open(new_node->name, O_RDONLY, 0644);
+					new_node->redir = ft_strdup("<<");
+				}
+				new_node->next = NULL;
+				tmp->next = new_node;
+				tmp = new_node;
+				if (check_empty((*tree)->redirections) == 1)
+					break ;
+			}
+		}
+		else if (head && *head)
+		{
+			tmp2 = *head;
+			while (tmp2->next)
+				tmp2 = tmp2->next;
+			tmp = tmp2;
+			while ((*tree)->redirections)
+			{
+				i = 0;
+				while ((*tree)->redirections != NULL && (*tree)->redirections[i] && ((*tree)->redirections[i] != '>' && (*tree)->redirections[i] != '<'))
+					i++;
+				if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] == 32)
+					flag = 1;
+				if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] == '>')
+					flag = 2;
+				if ((*tree)->redirections[i] == '<' && (*tree)->redirections[i + 1] == 32)
+					flag = 3;
+				if ((*tree)->redirections[i] == '<' && (*tree)->redirections[i + 1] == '<')
+					flag = 4;
+				while (((*tree)->redirections[i] == '>' || (*tree)->redirections[i] == '<') && (*tree)->redirections[i] != '\0')
+					i++;
+				while ((*tree)->redirections[i] == 32 && (*tree)->redirections[i] != '\0')
+					i++;
+				j = i;
+				while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
+					i++;
+				new_node = malloc(sizeof(t_list_fd));
+				new_node->name = ft_substr((*tree)->redirections, j, i - j);
+				new_node->command = ft_strdup((*tree)->command);
+				(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
+				(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
+				if (flag == 1)
+				{
+					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+					new_node->redir = ft_strdup(">");
+				}
+				if (flag == 2)
+				{
+					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+					new_node->redir = ft_strdup(">>");
+				}
+				if (flag == 3)
+				{
+					new_node->fd = open(new_node->name, O_RDONLY,  0644);
+					new_node->redir = ft_strdup("<");
+				}
+				if (flag == 4)
+				{
+					new_node->fd = open(new_node->name, O_RDONLY, 0644);
+					new_node->redir = ft_strdup("<<");
+				}
+				new_node->next = NULL;
+				tmp->next = new_node;
+				tmp = new_node;
+				if (check_empty((*tree)->redirections) == 1)
+					break ;
 			}
 		}
 	}
@@ -1917,12 +1996,14 @@ int main(void)
 		syntax_error_two(&tree);
 		redirections_opener(&tree, &head_fd);
 		tmp_fd = head_fd;
-		// while (tmp_fd)
-		// {
-		// 	printf("%s\n", tmp_fd->name);
-		// 	printf("%d\n", tmp_fd->fd);
-		// 	printf("\n");
-		// 	tmp_fd = tmp_fd->next;
-		// }
+		while (tmp_fd)
+		{
+			printf("filename == %s\n", tmp_fd->name);
+			printf("filedescriptor == %d\n", tmp_fd->fd);
+			printf("command == %s\n", tmp_fd->command);
+			printf("redir == %s\n", tmp_fd->redir);
+			printf("\n");
+			tmp_fd = tmp_fd->next;
+		}
 	}
 }
