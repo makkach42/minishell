@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/04 14:46:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/04 15:04:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1974,6 +1974,8 @@ void	free_list_fd(t_list_fd **head)
 			free(tmp2->name);
 		if (tmp2 && tmp2->redir)
 			free(tmp2->redir);
+		if (tmp2 && tmp2->fd)
+			close(tmp2->fd);
 		tmp2 = tmp;
 	}
 	*head = NULL;
