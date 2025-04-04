@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/03 17:15:30 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/04 13:11:12 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -486,9 +486,9 @@ char	*extract_operator(char *str)
 		operator = ft_substr(str, 0, 1);
 	else if (str[i] == '|' && str[i + 1] && str[i + 1] != '|')
 		operator = ft_substr(str, 0, 1);
-	else if (str[i] == '>' && str[i + 1] && str[i + 1] != '>')
+	else if (str[i] == '>' && ((str[i + 1] && str[i + 1] != '>') || !str[i + 1]))
 		operator = ft_substr(str, 0, 1);
-	else if (str[i] == '<' && str[i + 1] && str[i + 1] != '<')
+	else if (str[i] == '<' && ((str[i + 1] && str[i + 1] != '<') || !str[i + 1]))
 		operator = ft_substr(str, 0, 1);
 	else if (str[i] == '&' && str[i + 1] && str[i + 1] == '&')
 		operator = ft_substr(str, 0, 2);
