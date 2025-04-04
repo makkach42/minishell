@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/04 13:11:12 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/04 14:46:17 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1841,7 +1841,7 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 			if (flag == 4)
 			{
 				(*head)->fd = open((*head)->name, O_RDONLY, 0644);
-				ft_strdup("<<");
+				(*head)->redir = ft_strdup("<<");
 			}
 			(*head)->next = NULL;
 			tmp = *head;
@@ -1958,6 +1958,27 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 	}
 }
 
+void	free_list_fd(t_list_fd **head)
+{
+	t_list_fd *tmp;
+	t_list_fd *tmp2;
+
+	tmp = *head;
+	tmp2 = tmp;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		if (tmp2 && tmp2->command)
+			free(tmp2->command);
+		if (tmp2 && tmp2->name)
+			free(tmp2->name);
+		if (tmp2 && tmp2->redir)
+			free(tmp2->redir);
+		tmp2 = tmp;
+	}
+	*head = NULL;
+}
+
 int main(void)
 {
 	char *str;
@@ -2005,5 +2026,6 @@ int main(void)
 			printf("\n");
 			tmp_fd = tmp_fd->next;
 		}
+		free_list_fd(&head_fd);
 	}
 }
