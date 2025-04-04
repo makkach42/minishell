@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/31 13:59:23 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/03 17:15:30 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1845,7 +1845,7 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 			}
 			(*head)->next = NULL;
 			tmp = *head;
-			while ((*tree)->redirections)
+			while ((*tree)->redirections && !check_empty((*tree)->redirections))
 			{
 				i = 0;
 				while ((*tree)->redirections != NULL && (*tree)->redirections[i] && ((*tree)->redirections[i] != '>' && (*tree)->redirections[i] != '<'))
@@ -1903,7 +1903,7 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 			while (tmp2->next)
 				tmp2 = tmp2->next;
 			tmp = tmp2;
-			while ((*tree)->redirections)
+			while ((*tree)->redirections && !check_empty((*tree)->redirections))
 			{
 				i = 0;
 				while ((*tree)->redirections != NULL && (*tree)->redirections[i] && ((*tree)->redirections[i] != '>' && (*tree)->redirections[i] != '<'))
