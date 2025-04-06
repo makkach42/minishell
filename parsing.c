@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/04 15:04:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/06 14:20:34 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1980,8 +1980,44 @@ void	free_list_fd(t_list_fd **head)
 	}
 	*head = NULL;
 }
+int variable_search(t_list **head)
+{
+    t_list *tmp;
 
-int main(void)
+    tmp = *head;
+    while (tmp)
+    {
+        if (ft_strcmp(tmp->token, "VARIABLE"))
+            break ;
+        tmp = tmp->next;
+    }
+    if (tmp)
+        return (1);
+    return (0);
+}
+void    variable_expantion(t_list **head, char **ev)
+{
+    t_list *tmp;
+    int i;
+    char *variable_name;
+
+    tmp = *head;
+    i = 0;
+    while (ft_strcmp(tmp->token, "VARIABLE"))
+        tmp = tmp->next;
+    variable_name = ft_substr(tmp->data, 1, ft_strlen(tmp->data) - 1);
+    while (ev[i])
+    {
+        if (!ft_strncmp(ev[i], variable_name, ft_strlen(variable_name)) && ev[i][ft_strlen(variable_name)] == '=')
+        {
+            tmp->data = ft_substr(ev[i], ft_strlen(variable_name), ft_strlen(ev[i]) - ft_strlen(variable_name));
+            tmp->data = ft_strtrim(tmp->data, "=");
+        }
+        i++;
+    }
+
+}
+int main(int argc, char **argv, char **argev)
 {
 	char *str;
 	t_list *head;
@@ -1991,6 +2027,9 @@ int main(void)
 	t_list_fd *head_fd;
 	int i;
 
+	(void)argc;
+	(void)argv;
+	head_fd = NULL;
 	while (1)
 	{
 		str = readline("minishell$> ");
@@ -2002,13 +2041,23 @@ int main(void)
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
-		// while (tmp)
-		// {
-		// 	printf("%s\n", tmp->data);
-		// 	printf("%s\n", tmp->token);
-		// 	printf("\n");
-		// 	tmp = tmp->next;
-		// }
+		while (tmp)
+		{
+			printf("%s\n", tmp->data);
+			printf("%s\n", tmp->token);
+			printf("\n");
+			tmp = tmp->next;
+		}
+		if (variable_search(&head))
+            variable_expantion(&head, argev);
+		tmp = head;
+		while (tmp)
+		{
+			printf("%s\n", tmp->data);
+			printf("%s\n", tmp->token);
+			printf("\n");
+			tmp = tmp->next;
+		}
 		syntax_error(&head);
 		tree_maker(&head, &tree);
 		process_pipe_trees(tree);

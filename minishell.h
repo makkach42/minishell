@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/31 13:53:04 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/06 14:05:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ char	*ft_strchr(char *str, int c);
 char	*ft_strncpy(char *dest, char *src, int n);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat(char *dest, const char *src);
+int		ft_strncmp(char *str1, char *str2, size_t n);
 
 #endif
