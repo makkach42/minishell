@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/06 14:20:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/07 17:18:05 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1626,7 +1626,7 @@ int	check_quotes(char *str)
 	in_quotes = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
+		if ((str[i] == '\'' || str[i] == '\"') && !in_quotes)
 		{
 			in_quotes = 1;
 			quote_type = str[i];
@@ -1987,7 +1987,7 @@ int variable_search(t_list **head)
     tmp = *head;
     while (tmp)
     {
-        if (ft_strcmp(tmp->token, "VARIABLE"))
+        if (!ft_strcmp(tmp->token, "VARIABLE"))
             break ;
         tmp = tmp->next;
     }
@@ -2003,12 +2003,13 @@ void    variable_expantion(t_list **head, char **ev)
 
     tmp = *head;
     i = 0;
-    while (ft_strcmp(tmp->token, "VARIABLE"))
+    while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
         tmp = tmp->next;
-    variable_name = ft_substr(tmp->data, 1, ft_strlen(tmp->data) - 1);
+	if (tmp)
+    	variable_name = ft_substr(tmp->data, 1, ft_strlen(tmp->data) - 1);
     while (ev[i])
     {
-        if (!ft_strncmp(ev[i], variable_name, ft_strlen(variable_name)) && ev[i][ft_strlen(variable_name)] == '=')
+        if (tmp && !ft_strncmp(ev[i], variable_name, ft_strlen(variable_name)) && ev[i][ft_strlen(variable_name)] == '=')
         {
             tmp->data = ft_substr(ev[i], ft_strlen(variable_name), ft_strlen(ev[i]) - ft_strlen(variable_name));
             tmp->data = ft_strtrim(tmp->data, "=");
@@ -2017,7 +2018,286 @@ void    variable_expantion(t_list **head, char **ev)
     }
 
 }
-int main(int argc, char **argv, char **argev)
+
+int	check_for_variable(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			break ;
+		i++;
+	}
+	if (!str[i])
+		return (0);
+	return (1);
+}
+
+int	variable_in_word(t_list **head, char **argev)
+{
+    t_list *tmp;
+	int i;
+	int j;
+	int k;
+	int l;
+	char *new_str;
+	char *tmp_word;
+	char *first_part;
+	char *second_part;
+	char quote_type;
+	int in_quote;
+
+    tmp = *head;
+	in_quote = 0;
+    while (tmp)
+    {
+        if (!ft_strcmp(tmp->token, "WORD"))
+        {
+			if (check_for_variable(tmp->data))
+			{
+				i = 0;
+				while (tmp->data[i])
+				{
+					if (in_quote == 0 && (tmp->data[i] == '"' || tmp->data[i] == '\''))
+					{
+						quote_type = tmp->data[i];
+						in_quote = 1;
+					}
+					else if (in_quote && tmp->data[i] == quote_type)
+					{
+						in_quote = 0;
+						quote_type = '\0';
+					}
+					if ((tmp->data[i] == '$' && in_quote && quote_type == '"') || (tmp->data[i] == '$' && !in_quote))
+					{
+						j = i;
+						l = i;
+						j++;
+						if ((tmp->data[j] >= '0' && tmp->data[j] <= '9') || !tmp->data[j])
+							return (-1);
+						while ((tmp->data[j] >= 'a' && tmp->data[j] <= 'z') || (tmp->data[j] >= 'A' && tmp->data[j] <= 'Z') || (tmp->data[j] >= '0' && tmp->data[j] <= '9'))
+							j++;
+						l++;
+						tmp_word = ft_substr(tmp->data, l, j - l);
+						k = 0;
+						while (argev[k] && ft_strncmp(argev[k], tmp_word, ft_strlen(tmp_word)))
+							k++;
+						if (!argev[k])
+						{
+							new_str = ft_strjoin(ft_substr(tmp->data, 0, i), ft_substr(tmp->data, j, ft_strlen(tmp->data) - j));
+							free(tmp->data);
+							tmp->data = new_str;
+						}
+						else
+						{
+							free(tmp_word);
+							l = 0;
+							while (argev[k][l] && argev[k][l] != '=')
+								l++;
+							tmp_word = ft_substr(argev[k], l, ft_strlen(argev[k]) - l);
+							tmp_word = ft_strtrim(tmp_word, "=");
+							first_part = ft_substr(tmp->data, 0, i);
+							second_part = ft_substr(tmp->data, j, ft_strlen(tmp->data) - j);
+							new_str = ft_strjoin(first_part, tmp_word);
+							new_str = ft_strjoin(new_str, second_part);
+							free(tmp->data);
+							tmp->data = new_str;
+						}
+					}
+					i++;
+				}
+			}
+		}
+        tmp = tmp->next;
+    }
+	return (0);
+}
+
+void	quote_remove(t_list **head)
+{
+	t_list	*tmp;
+	int i;
+	int j;
+	int k;
+	int flag;
+	int flag2;
+	int flag3;
+	int	in_quote;
+	char quote_type;
+	char *new_str;
+	char *first_part;
+	char *second_part;
+	// char *tmp_word;
+
+	tmp = *head;
+	i = 0;
+	j = 0;
+	k = 0;
+	flag = 0;
+	flag2 = 0;
+	flag3 = 0;
+	in_quote = 0;
+	quote_type = '\0';
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->token, "WORD"))
+		{
+			while (tmp->data[i])
+			{
+				if (flag3)
+				{
+					j = 0;
+					k = 0;
+					flag3 = 0;
+				}
+				if (!in_quote && (tmp->data[i] == '"' || tmp->data[i] == '\''))
+				{
+					in_quote = 1;
+					j = i;
+					quote_type = tmp->data[i];
+				}
+				else if (in_quote && tmp->data[i] == quote_type)
+				{
+					in_quote = 0;
+					k = i;
+					quote_type = '\0';
+					flag = 1;
+				}
+				if (j == k - 1 && flag == 1)
+				{
+					first_part = ft_substr(tmp->data, 0, j);
+					second_part = ft_substr(tmp->data, k + 1, ft_strlen(tmp->data) - (k + 1));
+					new_str = ft_strjoin(first_part, second_part);
+					free(tmp->data);
+					tmp->data = new_str;
+					flag2 = 1;
+					free(first_part);
+					free(second_part);
+				}
+				// else if (k > j && j != k - 1 && flag == 1)
+				// {
+				// 	first_part = ft_substr(tmp->data, 0, j);
+				// 	second_part = ft_substr(tmp->data, k + 1, ft_strlen(tmp->data) - (k + 1));
+				// 	printf("%p\n", tmp->data);
+				// 	printf("%d\n", j);
+				// 	printf("%d\n", k);
+				// 	printf("%s\n", tmp->data);
+				// 	printf("+++++++%c\n", tmp->data[j]);
+				// 	printf("-------%c\n", tmp->data[k]);
+				// 	tmp_word = ft_substr(tmp->data, (j + 1), k - (j + 1));
+				// 	new_str = ft_strjoin(first_part, tmp_word);
+				// 	new_str = ft_strjoin(new_str, second_part);
+				// 	free(tmp->data);
+				// 	tmp->data = new_str;
+				// 	flag4 = 1;
+				// 	free(first_part);
+				// 	free(second_part);
+				// 	free(tmp_word);
+				// }
+				i++;
+				if (flag2 == 1)
+				{
+					i = 0;
+					flag2 = 0;
+					flag3 = 1;
+				}
+			}
+
+		}
+		tmp = tmp->next;
+	}
+}
+
+int	variable_search_two(char *str, int j, int k)
+{
+	int i;
+
+	i = j;
+	while (i < k)
+	{
+		if (str[i] == '$')
+			break ;
+		i++;
+	}
+	if (str[i] == '$')
+		return (1);
+	return (0);
+}
+void quote_remove_two(t_list **head)
+{
+    t_list *tmp;
+    char *old_str;
+    char *new_str;
+    int in_single_quotes;
+	int	in_double_quotes;
+    int i;
+	int	j;
+	int	len;
+	int	final_len;
+    
+    tmp = *head;
+    while (tmp)
+    {
+        if (tmp->data && ft_strcmp(tmp->token, "WORD") == 0)
+        {
+            old_str = tmp->data;
+            len = ft_strlen(old_str);
+            final_len = 0;
+            in_single_quotes = 0;
+            in_double_quotes = 0;
+            i = 0;
+            while (i < len)
+            {
+                if (old_str[i] == '\'' && !in_double_quotes)
+                {
+                    in_single_quotes = !in_single_quotes;
+                }
+                else if (old_str[i] == '\"' && !in_single_quotes)
+                {
+                    in_double_quotes = !in_double_quotes;
+                }
+                else
+                {
+                    final_len++;
+                }
+                i++;
+            }
+            new_str = (char *)malloc(sizeof(char) * (final_len + 1));
+            if (!new_str)
+                continue;
+            j = 0;
+            in_single_quotes = 0;
+            in_double_quotes = 0;
+            i = 0;
+            
+            while (i < len)
+            {
+                if (old_str[i] == '\'' && !in_double_quotes)
+                {
+                    in_single_quotes = !in_single_quotes;
+                }
+                else if (old_str[i] == '\"' && !in_single_quotes)
+                {
+                    in_double_quotes = !in_double_quotes;
+                }
+                else
+                {
+                    new_str[j] = old_str[i];
+                    j++;
+                }
+                i++;
+            }
+            new_str[j] = '\0';
+            free(tmp->data);
+            tmp->data = new_str;
+        }
+        tmp = tmp->next;
+    }
+}
+
+int main(int argc, char **argv, char **argev)//wildcards
 {
 	char *str;
 	t_list *head;
@@ -2038,6 +2318,7 @@ int main(int argc, char **argv, char **argev)
 			break;
 		add_history(str);
 		str = replace_whites_spaces(str);
+		str = ft_strtrim(str, " ");
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
@@ -2050,14 +2331,17 @@ int main(int argc, char **argv, char **argev)
 		}
 		if (variable_search(&head))
             variable_expantion(&head, argev);
+		variable_in_word(&head, argev);
 		tmp = head;
-		while (tmp)
-		{
-			printf("%s\n", tmp->data);
-			printf("%s\n", tmp->token);
-			printf("\n");
-			tmp = tmp->next;
-		}
+		// while (tmp)
+		// {
+		// 	printf("%s\n", tmp->data);
+		// 	printf("%s\n", tmp->token);
+		// 	printf("\n");
+		// 	tmp = tmp->next;
+		// }
+		quote_remove(&head);
+		quote_remove_two(&head);
 		syntax_error(&head);
 		tree_maker(&head, &tree);
 		process_pipe_trees(tree);
