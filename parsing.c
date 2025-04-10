@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/10 14:24:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/10 20:25:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -865,6 +865,7 @@ void tree_maker(t_list **head, t_tree **tree)
     (*tree)->left = NULL;
     (*tree)->right = NULL;
     (*tree)->command = NULL;
+    (*tree)->command_arr = NULL;
     (*tree)->redirections = NULL;
     (*tree)->type = "COMMAND";
     if (!(*head))
@@ -892,12 +893,14 @@ void tree_maker(t_list **head, t_tree **tree)
                 command->command = NULL;
                 
             command->left = NULL;
+            command->command_arr = NULL;
             command->right = NULL;
             command->redirections = NULL;
             command->type = "COMMAND";
             (*tree)->right = command;
             (*tree)->left = NULL;
             (*tree)->command = NULL;
+            (*tree)->command_arr = NULL;
             (*tree)->redirections = NULL;
             (*tree)->type = "OPERATION";
             if (tmp->prev)
@@ -930,11 +933,13 @@ void tree_maker(t_list **head, t_tree **tree)
         
         command->command = side_maker(head, total_nodes, 0);
         command->left = NULL;
+        command->command_arr = NULL;
         command->redirections = NULL;
         command->right = NULL;
         command->type = "COMMAND";
         (*tree)->left = command;
         (*tree)->right = NULL;
+        (*tree)->command_arr = NULL;
         (*tree)->command = NULL;
         (*tree)->redirections= NULL;
         (*tree)->type = "COMMAND";
@@ -956,14 +961,13 @@ t_tree *create_tree_node(void *command, char *type)
     t_tree *node = malloc(sizeof(t_tree));
     if (!node)
         return NULL;
-    
     node->command = command;
     node->type = type;
     node->left = NULL;
     node->right = NULL;
     node->redirections = NULL;
-    
-    return node;
+    node->command_arr = NULL;
+    return (node);
 }
 
 char *extract_command_until_pipe(t_list **head, t_list **pipe_pos)
@@ -1207,6 +1211,17 @@ void print_tree_visual(t_tree *tree, int level, int is_left)
     else
     {
         printf(" (Command: NULL)");
+    }
+    if (tree->command_arr)
+    {
+		for (int i = 0; tree->command_arr[i]; i++)
+		{
+        	printf(" (Command_arr: %s)", tree->command_arr[i]);
+		}
+    }
+    else
+    {
+        printf(" (Command_arr: NULL)");
     }
     
     // Print redirections if they exist (safely)
@@ -2516,6 +2531,37 @@ void quote_remove(t_list **head)
     }
 }
 
+void	command_arr_fill(t_tree **tree)
+{
+	t_list	*head;
+	char	*str;
+	char	**arr;
+	int		i;
+	int	list_size;
+	t_list	*tmp;
+	if ((*tree)->left)
+		command_arr_fill(&(*tree)->left);
+	if ((*tree)->right)
+		command_arr_fill(&(*tree)->right);
+	if ((tree) && (*tree) && (*tree)->command && !(*tree)->command_arr)
+	{
+		i = 0;
+		str = ft_strdup((*tree)->command);
+		head = list_init(str);
+		list_size = lst_size(&head);
+		arr = malloc(sizeof(char *) * (list_size + 1));
+		tmp = head;
+		while (tmp)
+		{
+			arr[i] = ft_strdup(tmp->data);
+			i++;
+			tmp = tmp->next;
+		}
+		arr[i] = NULL;
+		(*tree)->command_arr = arr;
+	}
+}
+
 int main(int argc, char **argv, char **argev)//wildcards
 {
 	char *str;
@@ -2561,13 +2607,14 @@ int main(int argc, char **argv, char **argev)//wildcards
 		// 	tmp = tmp->next;
 		// }
 		// quote_remove(&head);
-		quote_remove(&head);
 		syntax_error(&head);
 		tree_maker(&head, &tree);
 		process_pipe_trees(tree);
 		process_nested_parentheses(&tree);
 		process_all_redirections(&tree);
+		command_arr_fill(&tree);
 		print_tree_visual(tree, 1, 1);
+		quote_remove(&head);
 		syntax_error_two(&tree);
 		redirections_opener(&tree, &head_fd);
 		tmp_fd = head_fd;
