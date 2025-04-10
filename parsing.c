@@ -6,11 +6,35 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/07 17:18:05 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/10 14:24:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void free_list_fd(t_list_fd **head)
+{
+    if (!head || !*head)
+        return;
+    
+    t_list_fd *current = *head;
+    t_list_fd *next = NULL;
+    while (current)
+    {
+        next = current->next;
+        if (current->command)
+            (free(current->command), current->command = NULL);
+        if (current->name)
+            (free(current->name), current->name = NULL);
+        if (current->redir)
+            (free(current->redir), current->redir = NULL);
+        if (current->fd > 0)
+            (close(current->fd), current->fd = -1);
+        free(current);
+        current = next;
+    }
+    *head = NULL;
+}
 
 int command_recognizer(char *str)
 {
@@ -480,11 +504,11 @@ char	*extract_operator(char *str)
 		return (NULL);
 	i = 0;
 	operator = NULL;
-	if (str[i] == '&' && str[i + 1] && str[i + 1] != '&')
+	if (str[i] == '&' && ((str[i + 1] && str[i + 1] != '&') || !str[i + 1]))
 		operator = ft_substr(str, 0, 1);
-	else if (str[i] == '*' && str[i + 1] && str[i + 1] != '*')
+	else if (str[i] == '*' && ((str[i + 1] && str[i + 1] != '*') || !str[i + 1]))
 		operator = ft_substr(str, 0, 1);
-	else if (str[i] == '|' && str[i + 1] && str[i + 1] != '|')
+	else if (str[i] == '|' && ((str[i + 1] && str[i + 1] != '|') || !str[i + 1]))
 		operator = ft_substr(str, 0, 1);
 	else if (str[i] == '>' && ((str[i + 1] && str[i + 1] != '>') || !str[i + 1]))
 		operator = ft_substr(str, 0, 1);
@@ -1056,12 +1080,15 @@ void free_tree(t_tree *tree)
 void process_pipe_trees(t_tree *tree)
 {
     t_tree *cmd_tree = NULL;
-    
+	t_tree *pipe_node;
+	t_tree *right_child;
+	t_tree *left_child;
+	char *command_str;
     if (!tree)
         return;
     if (tree->command && tree->type && ft_strcmp(tree->type, "COMMAND") == 0)
     {
-        char *command_str = (char *)tree->command;
+        command_str = (char *)tree->command;
         
         if (ft_strchr(command_str, '|'))
         {
@@ -1094,10 +1121,10 @@ void process_pipe_trees(t_tree *tree)
         if (tree->left && ft_strcmp(tree->left->type, "PIPE") == 0 && 
             ft_strcmp(tree->type, "COMMAND") == 0)
         {
-            t_tree *pipe_node = tree->left;
-            t_tree *right_child = pipe_node->right;
+            pipe_node = tree->left;
+            right_child = pipe_node->right;
             tree->type = pipe_node->type;
-            t_tree *left_child = pipe_node->left;
+            left_child = pipe_node->left;
             tree->left = left_child;
             if (tree->right)
                 free_tree(tree->right);
@@ -1457,164 +1484,215 @@ int remove_reds(char *str, char c)
 		i++;
 	return (i);
 }
-void process_redirections(t_tree **tree)
+
+void process_all_redirections(t_tree **tree)
 {
+	char	*cmd;
+	char	*redir_out;
+	char	*redir_in;
+	char	*first_redir;
+	char	*cmd_prefix;
+	int		cmd_length;
+
     if (!tree || !*tree)
         return;
     if ((*tree)->left)
-        process_redirections(&(*tree)->left);
+        process_all_redirections(&(*tree)->left);
     if ((*tree)->right)
-        process_redirections(&(*tree)->right);
-    if (tree && *tree && (*tree)->command)
-    {
-        char *redir_pos = ft_strchr((*tree)->command, '>');
-        if (redir_pos)
-        {
-            int cmd_length = redir_pos - (*tree)->command;
-            char *cmd_prefix = malloc(sizeof(char) * (cmd_length + 1));
-            if (cmd_prefix)
-            {
-                ft_strncpy(cmd_prefix, (*tree)->command, cmd_length);
-                cmd_prefix[cmd_length] = '\0';
-                char *params_start = NULL;
-                char *current_pos = redir_pos;
-                while (*current_pos)
-                {
-                    if (*current_pos == '>')
-                    {
-                        while (*current_pos == '>')
-                            current_pos++;
-                        while (*current_pos == ' ')
-                            current_pos++;
-                        while (*current_pos && *current_pos != ' ' && *current_pos != '>')
-                            current_pos++;
-                        while (*current_pos == ' ')
-                            current_pos++;
-                        if (*current_pos == '>')
-                            continue;
-                        if (*current_pos && *current_pos != '>')
-                        {
-                            params_start = current_pos;
-                            break;
-                        }
-                    }
-                    else
-                        current_pos++;
-                }
-                int redir_length;
-                if (params_start)
-                    redir_length = params_start - redir_pos;
-                else
-                    redir_length = ft_strlen(redir_pos);
-                (*tree)->redirections = malloc(sizeof(char) * (redir_length + 1));
-                if ((*tree)->redirections)
-                {
-                    ft_strncpy((*tree)->redirections, redir_pos, redir_length);
-                    (*tree)->redirections[redir_length] = '\0';
-                }
-                char *new_command = NULL;
-                if (params_start)
-                {
-                    new_command = malloc(sizeof(char) * (cmd_length + ft_strlen(params_start) + 2));
-                    if (new_command)
-                    {
-                        ft_strcpy(new_command, cmd_prefix);
-                        ft_strcat(new_command, " ");
-                        ft_strcat(new_command, params_start);
-                    }
-                }
-                else
-                {
-                    new_command = ft_strdup(cmd_prefix);
-                }
-                
-                free((*tree)->command);
-                (*tree)->command = new_command;
-                
-                free(cmd_prefix);
-            }
-        }
-    }
-}
-void process_redirections_two(t_tree **tree)
-{
-    if (!tree || !*tree)
-        return;
-    if ((*tree)->left)
-        process_redirections_two(&(*tree)->left);
-    if ((*tree)->right)
-        process_redirections_two(&(*tree)->right);
+        process_all_redirections(&(*tree)->right);
     if (*tree && (*tree)->command)
     {
-        char *redir_pos = ft_strchr((*tree)->command, '<');
-        if (redir_pos)
+        cmd = (*tree)->command;
+        redir_out = ft_strchr(cmd, '>');
+        redir_in = ft_strchr(cmd, '<');
+        if (redir_out || redir_in)
         {
-            int cmd_length = redir_pos - (*tree)->command;
-            char *cmd_prefix = malloc(sizeof(char) * (cmd_length + 1));
+            if (!redir_out)
+                first_redir = redir_in;
+            else if (!redir_in)
+                first_redir = redir_out;
+            else
+            {
+                if (redir_out < redir_in)
+                    first_redir = redir_out;
+                else
+                    first_redir = redir_in;
+            }
+            cmd_length = first_redir - cmd;
+            cmd_prefix = malloc(sizeof(char) * (cmd_length + 1));
             if (cmd_prefix)
             {
-                ft_strncpy(cmd_prefix, (*tree)->command, cmd_length);
+                ft_strncpy(cmd_prefix, cmd, cmd_length);
                 cmd_prefix[cmd_length] = '\0';
-                char *params_start = NULL;
-                char *current_pos = redir_pos;
-                while (*current_pos)
-                {
-                    if (*current_pos == '<')
-                    {
-                        while (*current_pos == '<')
-                            current_pos++;
-                        while (*current_pos == ' ')
-                            current_pos++;
-                        while (*current_pos && *current_pos != ' ' && *current_pos != '<')
-                            current_pos++;
-                        while (*current_pos == ' ')
-                            current_pos++;
-                        if (*current_pos == '<')
-                            continue;
-                        if (*current_pos && *current_pos != '<')
-                        {
-                            params_start = current_pos;
-                            break;
-                        }
-                    }
-                    else
-                        current_pos++;
-                }
-                int redir_length;
-                if (params_start)
-                    redir_length = params_start - redir_pos;
-                else
-                    redir_length = ft_strlen(redir_pos);
-                (*tree)->redirections = malloc(sizeof(char) * (redir_length + 1));
-                if ((*tree)->redirections)
-                {
-                    ft_strncpy((*tree)->redirections, redir_pos, redir_length);
-                    (*tree)->redirections[redir_length] = '\0';
-                }
-                char *new_command = NULL;
-                if (params_start)
-                {
-                    new_command = malloc(sizeof(char) * (cmd_length + ft_strlen(params_start) + 2));
-                    if (new_command)
-                    {
-                        ft_strcpy(new_command, cmd_prefix);
-                        ft_strcat(new_command, " ");
-                        ft_strcat(new_command, params_start);
-                    }
-                }
-                else
-                {
-                    new_command = ft_strdup(cmd_prefix);
-                }
-                
+                (*tree)->redirections = ft_strdup(first_redir);
                 free((*tree)->command);
-                (*tree)->command = new_command;
-                
-                free(cmd_prefix);
+                (*tree)->command = cmd_prefix;
             }
         }
     }
 }
+// void process_redirections(t_tree **tree)
+// {
+// 	char *redir_pos;
+// 	int cmd_length;
+// 	char *cmd_prefix;
+// 	char *params_start;
+// 	char *current_pos;
+// 	char *new_command;
+//     if (!tree || !*tree)
+//         return;
+//     if ((*tree)->left)
+//         process_redirections(&(*tree)->left);
+//     if ((*tree)->right)
+//         process_redirections(&(*tree)->right);
+//     if (tree && *tree && (*tree)->command)
+//     {
+//         redir_pos = ft_strchr((*tree)->command, '>');
+//         if (redir_pos)
+//         {
+//             cmd_length = redir_pos - (*tree)->command;
+//             cmd_prefix = malloc(sizeof(char) * (cmd_length + 1));
+//             if (cmd_prefix)
+//             {
+//                 ft_strncpy(cmd_prefix, (*tree)->command, cmd_length);
+//                 cmd_prefix[cmd_length] = '\0';
+//                 params_start = NULL;
+//                 current_pos = redir_pos;
+//                 while (*current_pos)
+//                 {
+//                     if (*current_pos == '>')
+//                     {
+//                         while (*current_pos == '>')
+//                             current_pos++;
+//                         while (*current_pos == ' ')
+//                             current_pos++;
+//                         while (*current_pos && *current_pos != ' ' && *current_pos != '>')
+//                             current_pos++;
+//                         while (*current_pos == ' ')
+//                             current_pos++;
+//                         if (*current_pos == '>')
+//                             continue;
+//                         if (*current_pos && *current_pos != '>')
+//                         {
+//                             params_start = current_pos;
+//                             break;
+//                         }
+//                     }
+//                     else
+//                         current_pos++;
+//                 }
+//                 int redir_length;
+//                 if (params_start)
+//                     redir_length = params_start - redir_pos;
+//                 else
+//                     redir_length = ft_strlen(redir_pos);
+//                 (*tree)->redirections = malloc(sizeof(char) * (redir_length + 1));
+//                 if ((*tree)->redirections)
+//                 {
+//                     ft_strncpy((*tree)->redirections, redir_pos, redir_length);
+//                     (*tree)->redirections[redir_length] = '\0';
+//                 }
+//                 new_command = NULL;
+//                 if (params_start)
+//                 {
+//                     new_command = malloc(sizeof(char) * (cmd_length + ft_strlen(params_start) + 2));
+//                     if (new_command)
+//                     {
+//                         ft_strcpy(new_command, cmd_prefix);
+//                         ft_strcat(new_command, " ");
+//                         ft_strcat(new_command, params_start);
+//                     }
+//                 }
+//                 else
+//                 {
+//                     new_command = ft_strdup(cmd_prefix);
+//                 }
+                
+//                 free((*tree)->command);
+//                 (*tree)->command = new_command;
+                
+//                 free(cmd_prefix);
+//             }
+//         }
+//     }
+// }
+// void process_redirections_two(t_tree **tree)
+// {
+//     if (!tree || !*tree)
+//         return;
+//     if ((*tree)->left)
+//         process_redirections_two(&(*tree)->left);
+//     if ((*tree)->right)
+//         process_redirections_two(&(*tree)->right);
+//     if (*tree && (*tree)->command)
+//     {
+//         char *redir_pos = ft_strchr((*tree)->command, '<');
+//         if (redir_pos)
+//         {
+//             int cmd_length = redir_pos - (*tree)->command;
+//             char *cmd_prefix = malloc(sizeof(char) * (cmd_length + 1));
+//             if (cmd_prefix)
+//             {
+//                 ft_strncpy(cmd_prefix, (*tree)->command, cmd_length);
+//                 cmd_prefix[cmd_length] = '\0';
+//                 char *params_start = NULL;
+//                 char *current_pos = redir_pos;
+//                 while (*current_pos)
+//                 {
+//                     if (*current_pos == '<')
+//                     {
+//                         while (*current_pos == '<')
+//                             current_pos++;
+//                         while (*current_pos == ' ')
+//                             current_pos++;
+//                         while (*current_pos && *current_pos != ' ' && *current_pos != '<')
+//                             current_pos++;
+//                         while (*current_pos == ' ')
+//                             current_pos++;
+//                         if (*current_pos == '<')
+//                             continue;
+//                         if (*current_pos && *current_pos != '<')
+//                         {
+//                             params_start = current_pos;
+//                             break;
+//                         }
+//                     }
+//                     else
+//                         current_pos++;
+//                 }
+//                 int redir_length;
+//                 if (params_start)
+//                     redir_length = params_start - redir_pos;
+//                 else
+//                     redir_length = ft_strlen(redir_pos);
+//                 (*tree)->redirections = malloc(sizeof(char) * (redir_length + 1));
+//                 if ((*tree)->redirections)
+//                 {
+//                     ft_strncpy((*tree)->redirections, redir_pos, redir_length);
+//                     (*tree)->redirections[redir_length] = '\0';
+//                 }
+//                 char *new_command = NULL;
+//                 if (params_start)
+//                 {
+//                     new_command = malloc(sizeof(char) * (cmd_length + ft_strlen(params_start) + 2));
+//                     if (new_command)
+//                     {
+//                         ft_strcpy(new_command, cmd_prefix);
+//                         ft_strcat(new_command, " ");
+//                         ft_strcat(new_command, params_start);
+//                     }
+//                 }
+//                 else
+//                 {
+//                     new_command = ft_strdup(cmd_prefix);
+//                 }
+//                 free((*tree)->command);
+//                 (*tree)->command = new_command;
+//                 free(cmd_prefix);
+//             }
+//         }
+//     }
+// }
 
 int	check_quotes(char *str)
 {
@@ -1701,11 +1779,41 @@ void	syntax_error(t_list **head)
 	if (!head || !*head)
 		return ;
 	tmp = *head;
+	if (ft_strcmp((*head)->token, "PIPE") == 0)
+	{
+		print_syntax_error("|");
+		exit (1);
+	}
+	if (ft_strcmp((*head)->token, "OPERATION") == 0)
+	{
+		print_syntax_error((*head)->data);
+		exit (1);
+	}
 	while (tmp)
 	{
 		prev_token = tmp->token;
 		prev_data = tmp->data;
 		tmp = tmp->next;
+		if (ft_strcmp("REDIRECTION", prev_token) == 0 && tmp == NULL)
+		{
+			if (ft_strcmp(prev_data, ">") == 0 && ft_strlen(prev_data) == 1)
+				write(2, "syntax error near unexpected token `newline'\n", 45);
+			else if (ft_strcmp(prev_data, "<") == 0 && ft_strlen(prev_data) == 1)
+				write(2, "syntax error near unexpected token `newline'\n", 45);
+			else
+				print_syntax_error(prev_data);
+			exit(1);
+		}
+		if (ft_strcmp("OPERATION", prev_token) == 0 && tmp == NULL)
+		{
+			print_syntax_error(prev_data);
+			exit(1);
+		}
+		if (ft_strcmp("PIPE", prev_token) == 0 && tmp == NULL)
+		{
+			print_syntax_error(prev_data);
+			exit(1);
+		}
 		if (ft_strcmp("PIPE", prev_token) == 0 && ft_strcmp(prev_token, tmp->token) == 0)
 		{
 			write(2, "syntax error near unexpected token `|'\n", 40);
@@ -1726,7 +1834,7 @@ void	syntax_error(t_list **head)
 			write(2, "syntax error near unexpected token `|'\n", 40);
 			exit(1);
 		}
-		if (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(tmp->token, "PIPE") == 0)
+		if (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(tmp->token, "PIPE") == 0 && ft_strlen(prev_token) == 1)
 		{
 			print_syntax_error(prev_data);
 			exit(1);
@@ -1820,27 +1928,66 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				i++;
 			*head = malloc(sizeof(t_list_fd));
 			(*head)->name = ft_substr((*tree)->redirections, j, i - j);
+			(*head)->redir = NULL;
+			(*head)->next = NULL;
+			(*head)->fd = -1;
 			(*head)->command = ft_strdup((*tree)->command);
 			(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
 			(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
 			if (flag == 1)
 			{
 				(*head)->fd = open((*head)->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+				if ((*head)->fd == -1)
+				{
+					write(2, "invalid file\n", 13);
+					new_node = NULL;
+					if (!*head)
+						*head = new_node;
+					free_list_fd(head);
+					exit (1);
+				}
 				(*head)->redir = ft_strdup(">");
 			}
 			if (flag == 2)
 			{
 				(*head)->fd = open((*head)->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+				if ((*head)->fd == -1)
+				{
+					write(2, "invalid file\n", 13);
+					new_node = NULL;
+					if (!*head)
+						*head = new_node;
+					free_list_fd(head);
+					exit (1);
+				}
 				(*head)->redir = ft_strdup(">>");
 			}
 			if (flag == 3)
 			{
 				(*head)->fd = open((*head)->name, O_RDONLY, 0644);
+				if ((*head)->fd == -1)
+				{
+					write(2, "invalid file\n", 13);
+					new_node = NULL;
+					if (!*head)
+						*head = new_node;
+					free_list_fd(head);
+					exit (1);
+				}
 				(*head)->redir = ft_strdup("<");
 			}
 			if (flag == 4)
 			{
 				(*head)->fd = open((*head)->name, O_RDONLY, 0644);
+				if ((*head)->fd == -1)
+				{
+					write(2, "invalid file\n", 13);
+					new_node = NULL;
+					if (!*head)
+						*head = new_node;
+					free_list_fd(head);
+					exit (1);
+				}
 				(*head)->redir = ft_strdup("<<");
 			}
 			(*head)->next = NULL;
@@ -1867,27 +2014,82 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					i++;
 				new_node = malloc(sizeof(t_list_fd));
 				new_node->name = ft_substr((*tree)->redirections, j, i - j);
+				new_node->fd = -1;
+				new_node->redir = NULL;
+				new_node->next = NULL;
 				new_node->command = ft_strdup((*tree)->command);
 				(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
 				(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
 				if (flag == 1)
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+					if (new_node->fd == -1)
+					{
+						write(2, "invalid file\n", 13);
+						if (new_node->name)
+							free(new_node->name);
+						if (new_node->command)
+							free(new_node->command);
+						if (new_node->redir)
+							free(new_node->redir);
+						free(new_node);
+						free_list_fd(head);
+						exit (1);
+					}
 					new_node->redir = ft_strdup(">");
 				}
 				if (flag == 2)
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+					if (new_node->fd == -1)
+					{
+						write(2, "invalid file\n", 13);
+						if (new_node->name)
+							free(new_node->name);
+						if (new_node->command)
+							free(new_node->command);
+						if (new_node->redir)
+							free(new_node->redir);
+						free(new_node);
+						free_list_fd(head);
+						exit (1);
+					}
 					new_node->redir = ft_strdup(">>");
 				}
 				if (flag == 3)
 				{
 					new_node->fd = open(new_node->name, O_RDONLY,  0644);
+					if (new_node->fd == -1)
+					{
+						write(2, "invalid file\n", 13);
+						if (new_node->name)
+							free(new_node->name);
+						if (new_node->command)
+							free(new_node->command);
+						if (new_node->redir)
+							free(new_node->redir);
+						free(new_node);
+						free_list_fd(head);
+						exit (1);
+					}
 					new_node->redir = ft_strdup("<");
 				}
 				if (flag == 4)
 				{
 					new_node->fd = open(new_node->name, O_RDONLY, 0644);
+					if (new_node->fd == -1)
+					{
+						write(2, "invalid file\n", 13);
+						if (new_node->name)
+							free(new_node->name);
+						if (new_node->command)
+							free(new_node->command);
+						if (new_node->redir)
+							free(new_node->redir);
+						free(new_node);
+						free_list_fd(head);
+						exit (1);
+					}
 					new_node->redir = ft_strdup("<<");
 				}
 				new_node->next = NULL;
@@ -1925,27 +2127,82 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					i++;
 				new_node = malloc(sizeof(t_list_fd));
 				new_node->name = ft_substr((*tree)->redirections, j, i - j);
+				new_node->fd = -1;
+				new_node->redir = NULL;
+				new_node->next = NULL;
 				new_node->command = ft_strdup((*tree)->command);
 				(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
 				(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
 				if (flag == 1)
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+					if (new_node->fd == -1)
+					{
+						write(2, "invalid file\n", 13);
+						if (new_node->name)
+							free(new_node->name);
+						if (new_node->command)
+							free(new_node->command);
+						if (new_node->redir)
+							free(new_node->redir);
+						free(new_node);
+						free_list_fd(head);
+						exit (1);
+					}
 					new_node->redir = ft_strdup(">");
 				}
 				if (flag == 2)
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+					if (new_node->fd == -1)
+					{
+						write(2, "invalid file\n", 13);
+						if (new_node->name)
+							free(new_node->name);
+						if (new_node->command)
+							free(new_node->command);
+						if (new_node->redir)
+							free(new_node->redir);
+						free(new_node);
+						free_list_fd(head);
+						exit (1);
+					}
 					new_node->redir = ft_strdup(">>");
 				}
 				if (flag == 3)
 				{
 					new_node->fd = open(new_node->name, O_RDONLY,  0644);
+					if (new_node->fd == -1)
+					{
+						write(2, "invalid file\n", 13);
+						if (new_node->name)
+							free(new_node->name);
+						if (new_node->command)
+							free(new_node->command);
+						if (new_node->redir)
+							free(new_node->redir);
+						free(new_node);
+						free_list_fd(head);
+						exit (1);
+					}
 					new_node->redir = ft_strdup("<");
 				}
 				if (flag == 4)
 				{
 					new_node->fd = open(new_node->name, O_RDONLY, 0644);
+					if (new_node->fd == -1)
+					{
+						write(2, "invalid file\n", 13);
+						if (new_node->name)
+							free(new_node->name);
+						if (new_node->command)
+							free(new_node->command);
+						if (new_node->redir)
+							free(new_node->redir);
+						free(new_node);
+						free_list_fd(head);
+						exit (1);
+					}
 					new_node->redir = ft_strdup("<<");
 				}
 				new_node->next = NULL;
@@ -1958,28 +2215,6 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 	}
 }
 
-void	free_list_fd(t_list_fd **head)
-{
-	t_list_fd *tmp;
-	t_list_fd *tmp2;
-
-	tmp = *head;
-	tmp2 = tmp;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		if (tmp2 && tmp2->command)
-			free(tmp2->command);
-		if (tmp2 && tmp2->name)
-			free(tmp2->name);
-		if (tmp2 && tmp2->redir)
-			free(tmp2->redir);
-		if (tmp2 && tmp2->fd)
-			close(tmp2->fd);
-		tmp2 = tmp;
-	}
-	*head = NULL;
-}
 int variable_search(t_list **head)
 {
     t_list *tmp;
@@ -2024,6 +2259,8 @@ int	check_for_variable(char *str)
 	int i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == '$')
@@ -2115,100 +2352,82 @@ int	variable_in_word(t_list **head, char **argev)
 	return (0);
 }
 
-void	quote_remove(t_list **head)
-{
-	t_list	*tmp;
-	int i;
-	int j;
-	int k;
-	int flag;
-	int flag2;
-	int flag3;
-	int	in_quote;
-	char quote_type;
-	char *new_str;
-	char *first_part;
-	char *second_part;
-	// char *tmp_word;
+// void	quote_remove(t_list **head)
+// {
+// 	t_list	*tmp;
+// 	int i;
+// 	int j;
+// 	int k;
+// 	int flag;
+// 	int flag2;
+// 	int flag3;
+// 	int	in_quote;
+// 	char quote_type;
+// 	char *new_str;
+// 	char *first_part;
+// 	char *second_part;
 
-	tmp = *head;
-	i = 0;
-	j = 0;
-	k = 0;
-	flag = 0;
-	flag2 = 0;
-	flag3 = 0;
-	in_quote = 0;
-	quote_type = '\0';
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->token, "WORD"))
-		{
-			while (tmp->data[i])
-			{
-				if (flag3)
-				{
-					j = 0;
-					k = 0;
-					flag3 = 0;
-				}
-				if (!in_quote && (tmp->data[i] == '"' || tmp->data[i] == '\''))
-				{
-					in_quote = 1;
-					j = i;
-					quote_type = tmp->data[i];
-				}
-				else if (in_quote && tmp->data[i] == quote_type)
-				{
-					in_quote = 0;
-					k = i;
-					quote_type = '\0';
-					flag = 1;
-				}
-				if (j == k - 1 && flag == 1)
-				{
-					first_part = ft_substr(tmp->data, 0, j);
-					second_part = ft_substr(tmp->data, k + 1, ft_strlen(tmp->data) - (k + 1));
-					new_str = ft_strjoin(first_part, second_part);
-					free(tmp->data);
-					tmp->data = new_str;
-					flag2 = 1;
-					free(first_part);
-					free(second_part);
-				}
-				// else if (k > j && j != k - 1 && flag == 1)
-				// {
-				// 	first_part = ft_substr(tmp->data, 0, j);
-				// 	second_part = ft_substr(tmp->data, k + 1, ft_strlen(tmp->data) - (k + 1));
-				// 	printf("%p\n", tmp->data);
-				// 	printf("%d\n", j);
-				// 	printf("%d\n", k);
-				// 	printf("%s\n", tmp->data);
-				// 	printf("+++++++%c\n", tmp->data[j]);
-				// 	printf("-------%c\n", tmp->data[k]);
-				// 	tmp_word = ft_substr(tmp->data, (j + 1), k - (j + 1));
-				// 	new_str = ft_strjoin(first_part, tmp_word);
-				// 	new_str = ft_strjoin(new_str, second_part);
-				// 	free(tmp->data);
-				// 	tmp->data = new_str;
-				// 	flag4 = 1;
-				// 	free(first_part);
-				// 	free(second_part);
-				// 	free(tmp_word);
-				// }
-				i++;
-				if (flag2 == 1)
-				{
-					i = 0;
-					flag2 = 0;
-					flag3 = 1;
-				}
-			}
+// 	tmp = *head;
+// 	i = 0;
+// 	j = 0;
+// 	k = 0;
+// 	flag = 0;
+// 	flag2 = 0;
+// 	flag3 = 0;
+// 	in_quote = 0;
+// 	quote_type = '\0';
+// 	while (tmp)
+// 	{
+// 		if (!ft_strcmp(tmp->token, "WORD"))
+// 		{
+// 			if (!tmp->data)
+// 				return ;
+// 			i = 0;
+// 			while (tmp->data[i])
+// 			{
+// 				if (flag3)
+// 				{
+// 					j = 0;
+// 					k = 0;
+// 					flag3 = 0;
+// 				}
+// 				if (!in_quote && (tmp->data[i] == '"' || tmp->data[i] == '\''))
+// 				{
+// 					in_quote = 1;
+// 					j = i;
+// 					quote_type = tmp->data[i];
+// 				}
+// 				else if (in_quote && tmp->data[i] == quote_type)
+// 				{
+// 					in_quote = 0;
+// 					k = i;
+// 					quote_type = '\0';
+// 					flag = 1;
+// 				}
+// 				if (j == k - 1 && flag == 1)
+// 				{
+// 					first_part = ft_substr(tmp->data, 0, j);
+// 					second_part = ft_substr(tmp->data, k + 1, ft_strlen(tmp->data) - (k + 1));
+// 					new_str = ft_strjoin(first_part, second_part);
+// 					free(tmp->data);
+// 					tmp->data = new_str;
+// 					flag2 = 1;
+// 					free(first_part);
+// 					free(second_part);
+// 				}
+// 				i++;
+// 				if (flag2 == 1)
+// 				{
+// 					i = 0;
+// 					flag2 = 0;
+// 					flag3 = 1;
+// 				}
+// 			}
 
-		}
-		tmp = tmp->next;
-	}
-}
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
 
 int	variable_search_two(char *str, int j, int k)
 {
@@ -2225,7 +2444,7 @@ int	variable_search_two(char *str, int j, int k)
 		return (1);
 	return (0);
 }
-void quote_remove_two(t_list **head)
+void quote_remove(t_list **head)
 {
     t_list *tmp;
     char *old_str;
@@ -2310,6 +2529,7 @@ int main(int argc, char **argv, char **argev)//wildcards
 	(void)argc;
 	(void)argv;
 	head_fd = NULL;
+	head = NULL;
 	while (1)
 	{
 		str = readline("minishell$> ");
@@ -2340,14 +2560,13 @@ int main(int argc, char **argv, char **argev)//wildcards
 		// 	printf("\n");
 		// 	tmp = tmp->next;
 		// }
+		// quote_remove(&head);
 		quote_remove(&head);
-		quote_remove_two(&head);
 		syntax_error(&head);
 		tree_maker(&head, &tree);
 		process_pipe_trees(tree);
 		process_nested_parentheses(&tree);
-		process_redirections(&tree);
-		process_redirections_two(&tree);
+		process_all_redirections(&tree);
 		print_tree_visual(tree, 1, 1);
 		syntax_error_two(&tree);
 		redirections_opener(&tree, &head_fd);
