@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/10 20:22:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/11 10:56:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ typedef struct s_list_fd
 	char				*redir;
 	struct s_list_fd	*next;
 }	t_list_fd;
+
+typedef	struct s_env
+{
+	char *key;
+	char *value;
+	struct s_env *next;
+}	t_env;
 
 typedef struct s_tree
 {

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/11 10:05:48 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/11 11:27:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2641,10 +2641,47 @@ void	command_arr_fill(t_tree **tree)
 	}
 }
 
+t_env	*env_fill(char **argev)
+{
+	int i;
+	int j;
+	t_env	*head;
+	t_env	*new_node;
+	t_env	*tmp;
+
+	i = 0;
+	j = 0;
+	head = malloc(sizeof(t_env));
+	while (argev[i] && argev[i][j] != '=')
+		j++;
+	head->key = ft_substr(argev[i],0, j);
+	head->value = ft_substr(argev[i], (j + 1), ft_strlen(argev[i]) - (j + 1));
+	j = 0;
+	head->next = NULL;
+	tmp = head;
+	i++;
+	while (argev[i])
+	{
+		new_node = malloc(sizeof(t_env));
+		while (argev[i] && argev[i][j] != '=')
+			j++;
+		new_node->key = ft_substr(argev[i],0, j);
+		new_node->value = ft_substr(argev[i], (j + 1), ft_strlen(argev[i]) - (j + 1));
+		j = 0;
+		new_node->next = NULL;
+		tmp->next = new_node;
+		tmp = new_node;
+		i++;
+	}
+	return (head);
+}
+
 int main(int argc, char **argv, char **argev)//wildcards //remove quotes from command_arr
 {
 	char *str;
 	t_list *head;
+	t_env *env;
+	t_env *tmp_env;
 	t_tree *tree;
 	t_list *tmp;
 	t_list_fd *tmp_fd;
@@ -2655,12 +2692,22 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 	(void)argv;
 	head_fd = NULL;
 	head = NULL;
+	env = NULL;
 	while (1)
 	{
 		str = readline("minishell$> ");
 		i = 0;
 		if (!str)
 			break;
+		env = env_fill(argev);
+		tmp_env = env;
+		// while (tmp_env)
+		// {
+		// 	printf("key   = %s\n", tmp_env->key);
+		// 	printf("value = %s\n", tmp_env->value);
+		// 	printf("\n");
+		// 	tmp_env = tmp_env->next;
+		// }
 		add_history(str);
 		str = replace_whites_spaces(str);
 		str = ft_strtrim(str, " ");
@@ -2669,13 +2716,13 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
-		while (tmp)
-		{
-			printf("%s\n", tmp->data);
-			printf("%s\n", tmp->token);
-			printf("\n");
-			tmp = tmp->next;
-		}
+		// while (tmp)
+		// {
+		// 	printf("%s\n", tmp->data);
+		// 	printf("%s\n", tmp->token);
+		// 	printf("\n");
+		// 	tmp = tmp->next;
+		// }
 		if (variable_search(&head))
             variable_expantion(&head, argev);
 		variable_in_word(&head, argev);
@@ -2694,10 +2741,10 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 		process_nested_parentheses(&tree);
 		process_all_redirections(&tree);
 		command_arr_fill(&tree);
-		print_tree_visual(tree, 1, 1);
+		// print_tree_visual(tree, 1, 1);
 		quote_remove_two(&tree);
 		printf("\n");
-		print_tree_visual(tree, 1, 1);
+		// print_tree_visual(tree, 1, 1);
 		syntax_error_two(&tree);
 		redirections_opener(&tree, &head_fd);
 		tmp_fd = head_fd;
