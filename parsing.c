@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/11 11:27:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/11 14:13:24 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -546,11 +546,6 @@ char *extract_variable(char *str)
 		i++;
 	return (ft_substr(str, 0, i + 1));
 }
-// int	check_if_still()
-// {
-
-// }
-
 char *extract_parenthesis(char *str)
 {
 	int i;
@@ -572,20 +567,6 @@ char *extract_parenthesis(char *str)
 	}
 	if (str[i] == ')')
 		closed_par++;
-		// printf("%s\n", str);
-		// printf("%d\n", open_par);
-		// printf("%d\n", closed_par);
-	// if (open_par == closed_par && (str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0' || str[i + 1] == ')')) && (open_par == closed_par || (open_par > closed_par && str[i + 1] == ')')))
-	// {
-	// 	printf("AAA\n");
-	// 	while (open_par > closed_par)
-	// 	{
-	// 		if (str[i] == ')')
-	// 			closed_par++;
-	// 		i++;
-	// 	}
-	// 	return (ft_substr(str, 0, i + 1));
-	// }
 	i++;
 	while (open_par > closed_par && str[i] != '\0')
 	{
@@ -1144,54 +1125,11 @@ void process_pipe_trees(t_tree *tree)
         process_pipe_trees(tree->right);
 }
 
-// void print_tree_visual(t_tree *tree, int level, int is_left)
-// {
-//     if (!tree)
-//         return;
-//     for (int i = 0; i < level; i++)
-//     {
-//         if (i == level - 1)
-//             printf("%s", is_left ? "----" : "    ");
-//         else
-//             printf("    ");
-//     }
-//     printf("%s", tree->type);
-//     if (tree->command)
-//     {
-//         printf(" (Command: %s)\n", tree->command);
-//     }
-//     else
-//     {
-//         printf(" (Command: NULL)\n");
-//     }
-//     if (tree->left || tree->right)
-//     {
-//         for (int i = 0; i < level; i++)
-//             printf("    ");
-//         printf("---left;\n");
-//     }
-//     if (tree->left)
-//     {
-//         print_tree_visual(tree->left, level + 1, 1);
-//     }
-//     if (tree->right)
-//     {
-//         for (int i = 0; i < level; i++)
-//             printf("    ");
-//         printf("---right;\n");
-//     }
-//     if (tree->right)
-//     {
-//         print_tree_visual(tree->right, level + 1, 0);
-//     }
-// }
 
 void print_tree_visual(t_tree *tree, int level, int is_left)
 {
     if (!tree)
         return;
-    
-    // Print indentation and node type
     for (int i = 0; i < level; i++)
     {
         if (i == level - 1)
@@ -1199,11 +1137,7 @@ void print_tree_visual(t_tree *tree, int level, int is_left)
         else
             printf("    ");
     }
-    
-    // Print node type safely
     printf("%s", tree->type ? tree->type : "NULL");
-    
-    // Print command if it exists (safely)
     if (tree->command)
     {
         printf(" (Command: %s)", tree->command);
@@ -1223,39 +1157,27 @@ void print_tree_visual(t_tree *tree, int level, int is_left)
     {
         printf(" (Command_arr: NULL)");
     }
-    
-    // Print redirections if they exist (safely)
     if (tree->redirections)
     {
         printf(" [Redirections: %s]", tree->redirections);
     }
-    
-    // End the line
     printf("\n");
-    
-    // Print left child indication
     if (tree->left || tree->right)
     {
         for (int i = 0; i < level; i++)
             printf("    ");
         printf("---left;\n");
     }
-    
-    // Print left child recursively
     if (tree->left)
     {
         print_tree_visual(tree->left, level + 1, 1);
     }
-    
-    // Print right child indication
     if (tree->right)
     {
         for (int i = 0; i < level; i++)
             printf("    ");
         printf("---right;\n");
     }
-    
-    // Print right child recursively
     if (tree->right)
     {
         print_tree_visual(tree->right, level + 1, 0);
@@ -1502,12 +1424,13 @@ int remove_reds(char *str, char c)
 
 void process_all_redirections(t_tree **tree)
 {
-	char	*cmd;
-	char	*redir_out;
-	char	*redir_in;
-	char	*first_redir;
-	char	*cmd_prefix;
-	int		cmd_length;
+    char *cmd;
+    char *redir_out;
+    char *redir_in;
+    char *first_redir;
+    char *cmd_prefix;
+    char *command_part;
+    int cmd_length;
 
     if (!tree || !*tree)
         return;
@@ -1534,180 +1457,40 @@ void process_all_redirections(t_tree **tree)
                     first_redir = redir_in;
             }
             cmd_length = first_redir - cmd;
-            cmd_prefix = malloc(sizeof(char) * (cmd_length + 1));
-            if (cmd_prefix)
+            if (cmd_length == 0)
             {
-                ft_strncpy(cmd_prefix, cmd, cmd_length);
-                cmd_prefix[cmd_length] = '\0';
                 (*tree)->redirections = ft_strdup(first_redir);
+                char *after_redir = first_redir;
+                while (*after_redir && (*after_redir == '>' || *after_redir == '<'))
+                    after_redir++;
+                while (*after_redir && *after_redir == ' ')
+                    after_redir++;
+                while (*after_redir && *after_redir != ' ')
+                    after_redir++;
+                while (*after_redir && *after_redir == ' ')
+                    after_redir++;
+                if (*after_redir)
+                    command_part = ft_strdup(after_redir);
+                else
+                    command_part = ft_strdup("");
                 free((*tree)->command);
-                (*tree)->command = cmd_prefix;
+                (*tree)->command = command_part;
+            }
+            else
+            {
+                cmd_prefix = malloc(sizeof(char) * (cmd_length + 1));
+                if (cmd_prefix)
+                {
+                    ft_strncpy(cmd_prefix, cmd, cmd_length);
+                    cmd_prefix[cmd_length] = '\0';
+                    (*tree)->redirections = ft_strdup(first_redir);
+                    free((*tree)->command);
+                    (*tree)->command = cmd_prefix;
+                }
             }
         }
     }
 }
-// void process_redirections(t_tree **tree)
-// {
-// 	char *redir_pos;
-// 	int cmd_length;
-// 	char *cmd_prefix;
-// 	char *params_start;
-// 	char *current_pos;
-// 	char *new_command;
-//     if (!tree || !*tree)
-//         return;
-//     if ((*tree)->left)
-//         process_redirections(&(*tree)->left);
-//     if ((*tree)->right)
-//         process_redirections(&(*tree)->right);
-//     if (tree && *tree && (*tree)->command)
-//     {
-//         redir_pos = ft_strchr((*tree)->command, '>');
-//         if (redir_pos)
-//         {
-//             cmd_length = redir_pos - (*tree)->command;
-//             cmd_prefix = malloc(sizeof(char) * (cmd_length + 1));
-//             if (cmd_prefix)
-//             {
-//                 ft_strncpy(cmd_prefix, (*tree)->command, cmd_length);
-//                 cmd_prefix[cmd_length] = '\0';
-//                 params_start = NULL;
-//                 current_pos = redir_pos;
-//                 while (*current_pos)
-//                 {
-//                     if (*current_pos == '>')
-//                     {
-//                         while (*current_pos == '>')
-//                             current_pos++;
-//                         while (*current_pos == ' ')
-//                             current_pos++;
-//                         while (*current_pos && *current_pos != ' ' && *current_pos != '>')
-//                             current_pos++;
-//                         while (*current_pos == ' ')
-//                             current_pos++;
-//                         if (*current_pos == '>')
-//                             continue;
-//                         if (*current_pos && *current_pos != '>')
-//                         {
-//                             params_start = current_pos;
-//                             break;
-//                         }
-//                     }
-//                     else
-//                         current_pos++;
-//                 }
-//                 int redir_length;
-//                 if (params_start)
-//                     redir_length = params_start - redir_pos;
-//                 else
-//                     redir_length = ft_strlen(redir_pos);
-//                 (*tree)->redirections = malloc(sizeof(char) * (redir_length + 1));
-//                 if ((*tree)->redirections)
-//                 {
-//                     ft_strncpy((*tree)->redirections, redir_pos, redir_length);
-//                     (*tree)->redirections[redir_length] = '\0';
-//                 }
-//                 new_command = NULL;
-//                 if (params_start)
-//                 {
-//                     new_command = malloc(sizeof(char) * (cmd_length + ft_strlen(params_start) + 2));
-//                     if (new_command)
-//                     {
-//                         ft_strcpy(new_command, cmd_prefix);
-//                         ft_strcat(new_command, " ");
-//                         ft_strcat(new_command, params_start);
-//                     }
-//                 }
-//                 else
-//                 {
-//                     new_command = ft_strdup(cmd_prefix);
-//                 }
-                
-//                 free((*tree)->command);
-//                 (*tree)->command = new_command;
-                
-//                 free(cmd_prefix);
-//             }
-//         }
-//     }
-// }
-// void process_redirections_two(t_tree **tree)
-// {
-//     if (!tree || !*tree)
-//         return;
-//     if ((*tree)->left)
-//         process_redirections_two(&(*tree)->left);
-//     if ((*tree)->right)
-//         process_redirections_two(&(*tree)->right);
-//     if (*tree && (*tree)->command)
-//     {
-//         char *redir_pos = ft_strchr((*tree)->command, '<');
-//         if (redir_pos)
-//         {
-//             int cmd_length = redir_pos - (*tree)->command;
-//             char *cmd_prefix = malloc(sizeof(char) * (cmd_length + 1));
-//             if (cmd_prefix)
-//             {
-//                 ft_strncpy(cmd_prefix, (*tree)->command, cmd_length);
-//                 cmd_prefix[cmd_length] = '\0';
-//                 char *params_start = NULL;
-//                 char *current_pos = redir_pos;
-//                 while (*current_pos)
-//                 {
-//                     if (*current_pos == '<')
-//                     {
-//                         while (*current_pos == '<')
-//                             current_pos++;
-//                         while (*current_pos == ' ')
-//                             current_pos++;
-//                         while (*current_pos && *current_pos != ' ' && *current_pos != '<')
-//                             current_pos++;
-//                         while (*current_pos == ' ')
-//                             current_pos++;
-//                         if (*current_pos == '<')
-//                             continue;
-//                         if (*current_pos && *current_pos != '<')
-//                         {
-//                             params_start = current_pos;
-//                             break;
-//                         }
-//                     }
-//                     else
-//                         current_pos++;
-//                 }
-//                 int redir_length;
-//                 if (params_start)
-//                     redir_length = params_start - redir_pos;
-//                 else
-//                     redir_length = ft_strlen(redir_pos);
-//                 (*tree)->redirections = malloc(sizeof(char) * (redir_length + 1));
-//                 if ((*tree)->redirections)
-//                 {
-//                     ft_strncpy((*tree)->redirections, redir_pos, redir_length);
-//                     (*tree)->redirections[redir_length] = '\0';
-//                 }
-//                 char *new_command = NULL;
-//                 if (params_start)
-//                 {
-//                     new_command = malloc(sizeof(char) * (cmd_length + ft_strlen(params_start) + 2));
-//                     if (new_command)
-//                     {
-//                         ft_strcpy(new_command, cmd_prefix);
-//                         ft_strcat(new_command, " ");
-//                         ft_strcat(new_command, params_start);
-//                     }
-//                 }
-//                 else
-//                 {
-//                     new_command = ft_strdup(cmd_prefix);
-//                 }
-//                 free((*tree)->command);
-//                 (*tree)->command = new_command;
-//                 free(cmd_prefix);
-//             }
-//         }
-//     }
-// }
 
 int	check_quotes(char *str)
 {
@@ -1751,40 +1534,6 @@ void	print_syntax_error(char *str2)
 	write(2, str2, ft_strlen(str2));
 	write(2, "\'\n", 2);
 }
-
-// int check_redirs(char *str)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		printf("-------%c\n", str[i]);
-// 		printf("-------%d\n", i);
-// 		if (str[i] == '\'' || str[i] == '\"')
-// 			i = skip_quotes(str, i);
-// 		else if (str[i] == '>' || str[i] == '<')
-// 		{
-// 			if (str[i + 1] == str[i])
-// 				i++;
-// 			i++;
-// 			printf("-------%d\n", str[i]);
-// 			while (str[i] == 32)
-// 				i++;
-// 			if (!str[i] || str[i] == '>' || str[i] == '<' || str[i] == '&' || str[i] == '|')
-// 			{
-// 				if (!str[i])
-// 					return (write(2, "syntax error near unexpected token `newline'\n", 46), 1);
-// 				else
-// 					return (print_syntax_error(&str[i]), 1);
-// 			}
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	return (0);
-// }
-
 void	syntax_error(t_list **head)
 {
 	t_list	*tmp;
@@ -1889,8 +1638,6 @@ void	syntax_error_two(t_tree **tree)
 	{
 		if (check_quotes((*tree)->command) == 1)
 			exit (1);
-		// if (check_redirs((*tree)->redirections) == 1)
-		// 	exit (1);
 	}
 }
 int check_empty(char *str)
@@ -1949,7 +1696,7 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 			(*head)->command = ft_strdup((*tree)->command);
 			(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
 			(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
-			if (flag == 1)
+			if (flag == 1 && !check_empty((*head)->name))
 			{
 				(*head)->fd = open((*head)->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 				if ((*head)->fd == -1)
@@ -1963,7 +1710,7 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				}
 				(*head)->redir = ft_strdup(">");
 			}
-			if (flag == 2)
+			if (flag == 2 && !check_empty((*head)->name))
 			{
 				(*head)->fd = open((*head)->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 				if ((*head)->fd == -1)
@@ -2012,6 +1759,8 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				i = 0;
 				while ((*tree)->redirections != NULL && (*tree)->redirections[i] && ((*tree)->redirections[i] != '>' && (*tree)->redirections[i] != '<'))
 					i++;
+				if (!(*tree)->redirections[i])
+					break;
 				if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] == 32)
 					flag = 1;
 				if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] == '>')
@@ -2035,11 +1784,14 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				new_node->command = ft_strdup((*tree)->command);
 				(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
 				(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
-				if (flag == 1)
+				if (flag == 1 && !check_empty(new_node->name))
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 					if (new_node->fd == -1)
 					{
+						printf("AAAAA\n");
+						printf("%s\n", new_node->name);
+						printf("%d\n", flag);
 						write(2, "invalid file\n", 13);
 						if (new_node->name)
 							free(new_node->name);
@@ -2053,7 +1805,7 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					}
 					new_node->redir = ft_strdup(">");
 				}
-				if (flag == 2)
+				if (flag == 2 && !check_empty(new_node->name))
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 					if (new_node->fd == -1)
@@ -2125,6 +1877,8 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				i = 0;
 				while ((*tree)->redirections != NULL && (*tree)->redirections[i] && ((*tree)->redirections[i] != '>' && (*tree)->redirections[i] != '<'))
 					i++;
+				if (!(*tree)->redirections[i])
+					break;
 				if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] == 32)
 					flag = 1;
 				if ((*tree)->redirections[i] == '>' && (*tree)->redirections[i + 1] == '>')
@@ -2148,7 +1902,7 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				new_node->command = ft_strdup((*tree)->command);
 				(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
 				(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
-				if (flag == 1)
+				if (flag == 1 && !check_empty(new_node->name))
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 					if (new_node->fd == -1)
@@ -2166,7 +1920,7 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					}
 					new_node->redir = ft_strdup(">");
 				}
-				if (flag == 2)
+				if (flag == 2 && !check_empty(new_node->name))
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 					if (new_node->fd == -1)
@@ -2367,83 +2121,6 @@ int	variable_in_word(t_list **head, char **argev)
 	return (0);
 }
 
-// void	quote_remove(t_list **head)
-// {
-// 	t_list	*tmp;
-// 	int i;
-// 	int j;
-// 	int k;
-// 	int flag;
-// 	int flag2;
-// 	int flag3;
-// 	int	in_quote;
-// 	char quote_type;
-// 	char *new_str;
-// 	char *first_part;
-// 	char *second_part;
-
-// 	tmp = *head;
-// 	i = 0;
-// 	j = 0;
-// 	k = 0;
-// 	flag = 0;
-// 	flag2 = 0;
-// 	flag3 = 0;
-// 	in_quote = 0;
-// 	quote_type = '\0';
-// 	while (tmp)
-// 	{
-// 		if (!ft_strcmp(tmp->token, "WORD"))
-// 		{
-// 			if (!tmp->data)
-// 				return ;
-// 			i = 0;
-// 			while (tmp->data[i])
-// 			{
-// 				if (flag3)
-// 				{
-// 					j = 0;
-// 					k = 0;
-// 					flag3 = 0;
-// 				}
-// 				if (!in_quote && (tmp->data[i] == '"' || tmp->data[i] == '\''))
-// 				{
-// 					in_quote = 1;
-// 					j = i;
-// 					quote_type = tmp->data[i];
-// 				}
-// 				else if (in_quote && tmp->data[i] == quote_type)
-// 				{
-// 					in_quote = 0;
-// 					k = i;
-// 					quote_type = '\0';
-// 					flag = 1;
-// 				}
-// 				if (j == k - 1 && flag == 1)
-// 				{
-// 					first_part = ft_substr(tmp->data, 0, j);
-// 					second_part = ft_substr(tmp->data, k + 1, ft_strlen(tmp->data) - (k + 1));
-// 					new_str = ft_strjoin(first_part, second_part);
-// 					free(tmp->data);
-// 					tmp->data = new_str;
-// 					flag2 = 1;
-// 					free(first_part);
-// 					free(second_part);
-// 				}
-// 				i++;
-// 				if (flag2 == 1)
-// 				{
-// 					i = 0;
-// 					flag2 = 0;
-// 					flag3 = 1;
-// 				}
-// 			}
-
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
-
 int	variable_search_two(char *str, int j, int k)
 {
 	int i;
@@ -2459,77 +2136,6 @@ int	variable_search_two(char *str, int j, int k)
 		return (1);
 	return (0);
 }
-// void quote_remove(t_list **head)
-// {
-//     t_list *tmp;
-//     char *old_str;
-//     char *new_str;
-//     int in_single_quotes;
-// 	int	in_double_quotes;
-//     int i;
-// 	int	j;
-// 	int	len;
-// 	int	final_len;
-    
-//     tmp = *head;
-//     while (tmp)
-//     {
-//         if (tmp->data && ft_strcmp(tmp->token, "WORD") == 0)
-//         {
-//             old_str = tmp->data;
-//             len = ft_strlen(old_str);
-//             final_len = 0;
-//             in_single_quotes = 0;
-//             in_double_quotes = 0;
-//             i = 0;
-//             while (i < len)
-//             {
-//                 if (old_str[i] == '\'' && !in_double_quotes)
-//                 {
-//                     in_single_quotes = !in_single_quotes;
-//                 }
-//                 else if (old_str[i] == '\"' && !in_single_quotes)
-//                 {
-//                     in_double_quotes = !in_double_quotes;
-//                 }
-//                 else
-//                 {
-//                     final_len++;
-//                 }
-//                 i++;
-//             }
-//             new_str = (char *)malloc(sizeof(char) * (final_len + 1));
-//             if (!new_str)
-//                 continue;
-//             j = 0;
-//             in_single_quotes = 0;
-//             in_double_quotes = 0;
-//             i = 0;
-            
-//             while (i < len)
-//             {
-//                 if (old_str[i] == '\'' && !in_double_quotes)
-//                 {
-//                     in_single_quotes = !in_single_quotes;
-//                 }
-//                 else if (old_str[i] == '\"' && !in_single_quotes)
-//                 {
-//                     in_double_quotes = !in_double_quotes;
-//                 }
-//                 else
-//                 {
-//                     new_str[j] = old_str[i];
-//                     j++;
-//                 }
-//                 i++;
-//             }
-//             new_str[j] = '\0';
-//             free(tmp->data);
-//             tmp->data = new_str;
-//         }
-//         tmp = tmp->next;
-//     }
-// }
 
 void	quote_remove_two(t_tree **tree)
 {
@@ -2625,6 +2231,15 @@ void	command_arr_fill(t_tree **tree)
 	{
 		i = 0;
 		str = ft_strdup((*tree)->command);
+		if (!str || !*str)
+        {
+            arr = malloc(sizeof(char *));
+            if (arr)
+                arr[0] = NULL;
+            (*tree)->command_arr = arr;
+            free(str);
+            return;
+        }
 		head = list_init(str);
 		list_size = lst_size(&head);
 		arr = malloc(sizeof(char *) * (list_size + 1));
@@ -2716,13 +2331,13 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
-		// while (tmp)
-		// {
-		// 	printf("%s\n", tmp->data);
-		// 	printf("%s\n", tmp->token);
-		// 	printf("\n");
-		// 	tmp = tmp->next;
-		// }
+		while (tmp)
+		{
+			printf("%s\n", tmp->data);
+			printf("%s\n", tmp->token);
+			printf("\n");
+			tmp = tmp->next;
+		}
 		if (variable_search(&head))
             variable_expantion(&head, argev);
 		variable_in_word(&head, argev);
