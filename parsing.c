@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/10 20:25:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/11 10:05:48 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2459,76 +2459,154 @@ int	variable_search_two(char *str, int j, int k)
 		return (1);
 	return (0);
 }
-void quote_remove(t_list **head)
-{
-    t_list *tmp;
-    char *old_str;
-    char *new_str;
-    int in_single_quotes;
-	int	in_double_quotes;
-    int i;
-	int	j;
-	int	len;
-	int	final_len;
+// void quote_remove(t_list **head)
+// {
+//     t_list *tmp;
+//     char *old_str;
+//     char *new_str;
+//     int in_single_quotes;
+// 	int	in_double_quotes;
+//     int i;
+// 	int	j;
+// 	int	len;
+// 	int	final_len;
     
-    tmp = *head;
-    while (tmp)
-    {
-        if (tmp->data && ft_strcmp(tmp->token, "WORD") == 0)
-        {
-            old_str = tmp->data;
-            len = ft_strlen(old_str);
-            final_len = 0;
-            in_single_quotes = 0;
-            in_double_quotes = 0;
-            i = 0;
-            while (i < len)
-            {
-                if (old_str[i] == '\'' && !in_double_quotes)
-                {
-                    in_single_quotes = !in_single_quotes;
-                }
-                else if (old_str[i] == '\"' && !in_single_quotes)
-                {
-                    in_double_quotes = !in_double_quotes;
-                }
-                else
-                {
-                    final_len++;
-                }
-                i++;
-            }
-            new_str = (char *)malloc(sizeof(char) * (final_len + 1));
-            if (!new_str)
-                continue;
-            j = 0;
-            in_single_quotes = 0;
-            in_double_quotes = 0;
-            i = 0;
+//     tmp = *head;
+//     while (tmp)
+//     {
+//         if (tmp->data && ft_strcmp(tmp->token, "WORD") == 0)
+//         {
+//             old_str = tmp->data;
+//             len = ft_strlen(old_str);
+//             final_len = 0;
+//             in_single_quotes = 0;
+//             in_double_quotes = 0;
+//             i = 0;
+//             while (i < len)
+//             {
+//                 if (old_str[i] == '\'' && !in_double_quotes)
+//                 {
+//                     in_single_quotes = !in_single_quotes;
+//                 }
+//                 else if (old_str[i] == '\"' && !in_single_quotes)
+//                 {
+//                     in_double_quotes = !in_double_quotes;
+//                 }
+//                 else
+//                 {
+//                     final_len++;
+//                 }
+//                 i++;
+//             }
+//             new_str = (char *)malloc(sizeof(char) * (final_len + 1));
+//             if (!new_str)
+//                 continue;
+//             j = 0;
+//             in_single_quotes = 0;
+//             in_double_quotes = 0;
+//             i = 0;
             
-            while (i < len)
-            {
-                if (old_str[i] == '\'' && !in_double_quotes)
-                {
-                    in_single_quotes = !in_single_quotes;
-                }
-                else if (old_str[i] == '\"' && !in_single_quotes)
-                {
-                    in_double_quotes = !in_double_quotes;
-                }
-                else
-                {
-                    new_str[j] = old_str[i];
-                    j++;
-                }
-                i++;
-            }
-            new_str[j] = '\0';
-            free(tmp->data);
-            tmp->data = new_str;
-        }
-        tmp = tmp->next;
-    }
+//             while (i < len)
+//             {
+//                 if (old_str[i] == '\'' && !in_double_quotes)
+//                 {
+//                     in_single_quotes = !in_single_quotes;
+//                 }
+//                 else if (old_str[i] == '\"' && !in_single_quotes)
+//                 {
+//                     in_double_quotes = !in_double_quotes;
+//                 }
+//                 else
+//                 {
+//                     new_str[j] = old_str[i];
+//                     j++;
+//                 }
+//                 i++;
+//             }
+//             new_str[j] = '\0';
+//             free(tmp->data);
+//             tmp->data = new_str;
+//         }
+//         tmp = tmp->next;
+//     }
+// }
+
+void	quote_remove_two(t_tree **tree)
+{
+	int i;
+	int j;
+	int k;
+	char *old_str;
+	char *new_str;
+	int len;
+	int final_len;
+	int in_single_quotes;
+	int in_double_quotes;
+	if ((*tree)->left)
+		quote_remove_two(&(*tree)->left);
+	if ((*tree)->right)
+		quote_remove_two(&(*tree)->right);
+	if ((*tree)->command_arr)
+	{
+		k = 0;
+		while ((*tree)->command_arr[k])
+		{
+			old_str = (*tree)->command_arr[k];
+			len = ft_strlen(old_str);
+			final_len = 0;
+			in_single_quotes = 0;
+			in_double_quotes = 0;
+			i = 0;
+			while (i < len)
+			{
+				if (old_str[i] == '\'' && !in_double_quotes)
+				{
+					in_single_quotes = !in_single_quotes;
+				}
+				else if (old_str[i] == '\"' && !in_single_quotes)
+				{
+					in_double_quotes = !in_double_quotes;
+				}
+				else
+				{
+					final_len++;
+				}
+				i++;
+			}
+			new_str = (char *)malloc(sizeof(char) * (final_len + 1));
+			if (!new_str)
+			{
+				k++;
+				continue;
+			}
+			j = 0;
+			in_single_quotes = 0;
+			in_double_quotes = 0;
+			i = 0;
+			
+			while (i < len)
+			{
+				if (old_str[i] == '\'' && !in_double_quotes)
+				{
+					in_single_quotes = !in_single_quotes;
+				}
+				else if (old_str[i] == '\"' && !in_single_quotes)
+				{
+					in_double_quotes = !in_double_quotes;
+				}
+				else
+				{
+					new_str[j] = old_str[i];
+					j++;
+				}
+				i++;
+			}
+			new_str[j] = '\0';
+			free((*tree)->command_arr[k]);
+			(*tree)->command_arr[k] = new_str;
+			k++;
+		}
+	}
 }
 
 void	command_arr_fill(t_tree **tree)
@@ -2558,11 +2636,12 @@ void	command_arr_fill(t_tree **tree)
 			tmp = tmp->next;
 		}
 		arr[i] = NULL;
+		free_list(&head);
 		(*tree)->command_arr = arr;
 	}
 }
 
-int main(int argc, char **argv, char **argev)//wildcards
+int main(int argc, char **argv, char **argev)//wildcards //remove quotes from command_arr
 {
 	char *str;
 	t_list *head;
@@ -2585,6 +2664,8 @@ int main(int argc, char **argv, char **argev)//wildcards
 		add_history(str);
 		str = replace_whites_spaces(str);
 		str = ft_strtrim(str, " ");
+		if (check_quotes(str) == 1)
+			return (1);
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
@@ -2614,7 +2695,9 @@ int main(int argc, char **argv, char **argev)//wildcards
 		process_all_redirections(&tree);
 		command_arr_fill(&tree);
 		print_tree_visual(tree, 1, 1);
-		quote_remove(&head);
+		quote_remove_two(&tree);
+		printf("\n");
+		print_tree_visual(tree, 1, 1);
 		syntax_error_two(&tree);
 		redirections_opener(&tree, &head_fd);
 		tmp_fd = head_fd;
