@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/11 14:13:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/14 18:35:53 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,7 +351,8 @@ char *word_extractor(char *str)
 			if (!str[i])
 				break ;
 		}
-		return (ft_substr(str, 0, i));
+		word = ft_substr(str, 0, i);
+		return (word);
 	}
 	else if (parenthesis_in_word_recogniser(str) == 1)
 	{
@@ -388,7 +389,8 @@ char *word_extractor(char *str)
 			if (!str[i])
 				break ;
 		}
-		return (ft_substr(str, 0, i));
+		word = ft_substr(str, 0, i);
+		return (word);
 	}
 	else
 	{
@@ -451,7 +453,8 @@ char *str_extractor(char *str)
 		i++;
 	if (str[i] != '\0' && str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0'))
 	{
-		return (ft_substr(str, 0, i + 1));
+		word = ft_substr(str, 0, i + 1);
+		return (word);
 	}
 	else
 	{
@@ -529,22 +532,25 @@ char *remove_operator(char *str, char *word)
 {
 	int wordlen;
 	int str_len;
+	char *str_word;
 
 	if (!str || !word)
 		return (NULL);
 	wordlen = ft_strlen(word);
 	str_len = ft_strlen(str);
-	str = ft_substr(str, wordlen, str_len - wordlen + 1);
-	return (str);
+	str_word = ft_substr(str, wordlen, str_len - wordlen + 1);
+	return (str_word);
 }
 char *extract_variable(char *str)
 {
 	int i;
+	char *word;
 
 	i = 0;
 	while (str[i] != 32 && str[i] != '\0')
 		i++;
-	return (ft_substr(str, 0, i + 1));
+	word = ft_substr(str, 0, i + 1);
+	return (word);
 }
 char *extract_parenthesis(char *str)
 {
@@ -557,6 +563,7 @@ char *extract_parenthesis(char *str)
 	flag = 0;
 	open_par = 0;
 	closed_par = 0;
+	word = NULL;
 	if (!str || !*str)
 		return (NULL);
 	while (str[i] != ')' && str[i] != '\0')
@@ -577,7 +584,10 @@ char *extract_parenthesis(char *str)
 		i++;
 	}
 	if ((str[i] == '\0' || str[i] == 32))
-		return (ft_substr(str, 0, i));
+	{
+		word = ft_substr(str, 0, i);
+		return (word);
+	}
 	else
 	{
 		open_par = 1;
@@ -772,32 +782,35 @@ void	free_list(t_list **head)
 	while (tmp)
 	{
 		tmp = tmp->next;
+		if (tmp2->data)
+			free(tmp2->data);
 		free(tmp2);
 		tmp2 = tmp;
 	}
+	*head = NULL;
 }
 
-char **converter(t_list **head)
-{
-	char **arr;
-	int size_list;
-	int i;
-	t_list *tmp;
+// char **converter(t_list **head)
+// {
+// 	char **arr;
+// 	int size_list;
+// 	int i;
+// 	t_list *tmp;
 
-	i = 0;
-	tmp = *head;
-	size_list = lst_size(head);
-	arr = malloc(sizeof(char *) * (size_list + 1));
-	while (tmp)
-	{
-		arr[i] = tmp->data;
-		i++;
-		tmp = tmp->next;
-	}
-	arr[i] = NULL;
-	free_list(head);
-	return (arr);
-}
+// 	i = 0;
+// 	tmp = *head;
+// 	size_list = lst_size(head);
+// 	arr = malloc(sizeof(char *) * (size_list + 1));
+// 	while (tmp)
+// 	{
+// 		arr[i] = tmp->data;
+// 		i++;
+// 		tmp = tmp->next;
+// 	}
+// 	arr[i] = NULL;
+// 	free_list(head);
+// 	return (arr);
+// }
 
 void	free_arr(char **arr)
 {
@@ -814,6 +827,7 @@ char	*side_maker(t_list **head, int number, int j)
 {
 	t_list *tmp;
 	char *tmp2;
+	char *tmp_char;
 	int i;
 
 	tmp = *head;
@@ -821,8 +835,12 @@ char	*side_maker(t_list **head, int number, int j)
 	tmp2 = NULL;
 	while (i < number - j)
 	{
+		tmp_char = tmp2;
 		tmp2 = ft_strjoin(tmp2, tmp->data);
+		free(tmp_char);
+		tmp_char = tmp2;
 		tmp2 = ft_strjoin(tmp2, " ");
+		free(tmp_char);
 		i++;
 		tmp = tmp->next;
 	}
@@ -872,7 +890,6 @@ void tree_maker(t_list **head, t_tree **tree)
                 command->command = side_maker(&(tmp->next), total_nodes - i, 0);
             else
                 command->command = NULL;
-                
             command->left = NULL;
             command->command_arr = NULL;
             command->right = NULL;
@@ -911,7 +928,6 @@ void tree_maker(t_list **head, t_tree **tree)
         command = malloc(sizeof(t_tree));
         if (!command)
             return;
-        
         command->command = side_maker(head, total_nodes, 0);
         command->left = NULL;
         command->command_arr = NULL;
@@ -956,9 +972,8 @@ char *extract_command_until_pipe(t_list **head, t_list **pipe_pos)
     t_list *current = *head;
     char *command_str = NULL;
     char *temp;
-    
+
     *pipe_pos = NULL;
-    
     while (current)
     {
         if (current->token && ft_strcmp(current->token, "PIPE") == 0)
@@ -966,7 +981,6 @@ char *extract_command_until_pipe(t_list **head, t_list **pipe_pos)
             *pipe_pos = current;
             break;
         }
-        
         if (command_str)
         {
             temp = command_str;
@@ -1021,8 +1035,7 @@ t_tree *build_pipe_tree(t_list **head)
         
         root->right = build_pipe_tree(&next_part);
     }
-    
-    return root;
+    return (root);
 }
 
 void process_command_with_pipes(char *command_str, t_tree **command_tree)
@@ -1050,15 +1063,28 @@ void process_command_with_pipes(char *command_str, t_tree **command_tree)
 
 void free_tree(t_tree *tree)
 {
+	int i;
+
     if (!tree)
         return;
     if (tree->left)
         free_tree(tree->left);
     if (tree->right)
         free_tree(tree->right);
-    
     if (tree->command)
         free(tree->command);
+    if (tree->redirections)
+        free(tree->redirections);
+    if (tree->command_arr)
+	{
+		i = 0;
+		while (tree->command_arr[i])
+		{
+			free(tree->command_arr[i]);
+			i++;
+		}
+		free(tree->command_arr);
+	}
     free(tree);
 }
 
@@ -1325,18 +1351,26 @@ void fix_operation_tree_structure(t_tree *tree)
 }
 void process_all_parentheses(t_tree *tree)
 {
+	t_tree *subtree;
+	char *inner_cmd;
+	t_list *cmd_list;
     if (!tree)
         return;
-    if (tree->command && tree->type && ft_strcmp(tree->type, "COMMAND") == 0) {
-        if (has_outer_parentheses(tree->command)) {
-            t_tree *subtree = NULL;
-            char *inner_cmd = extract_content_from_parentheses(tree->command);
-            if (inner_cmd) {
-                t_list *cmd_list = list_init(ft_strdup(inner_cmd));
-                if (cmd_list) {
+    if (tree->command && tree->type && ft_strcmp(tree->type, "COMMAND") == 0)
+	{
+        if (has_outer_parentheses(tree->command))
+		{
+            subtree = NULL;
+            inner_cmd = extract_content_from_parentheses(tree->command);
+            if (inner_cmd)
+			{
+                cmd_list = list_init(ft_strdup(inner_cmd));
+                if (cmd_list)
+				{
                     lexer(&cmd_list);
                     tree_maker(&cmd_list, &subtree);
-                    if (subtree) {
+                    if (subtree)
+					{
                         process_pipe_trees(subtree);
                         free(tree->command);
                         tree->command = NULL;
@@ -1603,11 +1637,6 @@ void	syntax_error(t_list **head)
 			print_syntax_error(prev_data);
 			exit(1);
 		}
-		if (ft_strcmp("PIPE", prev_token) == 0 && ft_strcmp(tmp->token, "REDIRECTION") == 0)
-		{
-			print_syntax_error(prev_data);
-			exit(1);
-		}
 		if (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(tmp->token, "OPERATION") == 0)
 		{
 			print_syntax_error(prev_data);
@@ -1659,6 +1688,7 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 	t_list_fd *tmp;
 	t_list_fd *tmp2;
 	t_list_fd *new_node;
+	char *tmp_char;
 	int flag;
 
 	i = 0;
@@ -1689,13 +1719,19 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 			while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
 				i++;
 			*head = malloc(sizeof(t_list_fd));
+			tmp_char = (*head)->name;
 			(*head)->name = ft_substr((*tree)->redirections, j, i - j);
+			free(tmp_char);
 			(*head)->redir = NULL;
 			(*head)->next = NULL;
 			(*head)->fd = -1;
 			(*head)->command = ft_strdup((*tree)->command);
+			tmp_char = (*tree)->redirections;
 			(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
+			free(tmp_char);
+			tmp_char = (*tree)->redirections;
 			(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
+			free(tmp_char);
 			if (flag == 1 && !check_empty((*head)->name))
 			{
 				(*head)->fd = open((*head)->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -1777,13 +1813,19 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
 					i++;
 				new_node = malloc(sizeof(t_list_fd));
+				tmp_char = new_node->name;
 				new_node->name = ft_substr((*tree)->redirections, j, i - j);
+				free(tmp_char);
 				new_node->fd = -1;
 				new_node->redir = NULL;
 				new_node->next = NULL;
 				new_node->command = ft_strdup((*tree)->command);
+				tmp_char = (*tree)->redirections;
 				(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
+				free(tmp_char);
+				tmp_char = (*tree)->redirections;
 				(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
+				free(tmp_char);
 				if (flag == 1 && !check_empty(new_node->name))
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -1895,13 +1937,19 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
 					i++;
 				new_node = malloc(sizeof(t_list_fd));
+				tmp_char = new_node->name;
 				new_node->name = ft_substr((*tree)->redirections, j, i - j);
+				free(tmp_char);
 				new_node->fd = -1;
 				new_node->redir = NULL;
 				new_node->next = NULL;
 				new_node->command = ft_strdup((*tree)->command);
+				tmp_char = (*tree)->redirections;
 				(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
+				free(tmp_char);
+				tmp_char = (*tree)->redirections;
 				(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
+				free(tmp_char);
 				if (flag == 1 && !check_empty(new_node->name))
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -2004,6 +2052,7 @@ void    variable_expantion(t_list **head, char **ev)
     t_list *tmp;
     int i;
     char *variable_name;
+	char *tmp_char;
 
     tmp = *head;
     i = 0;
@@ -2015,8 +2064,12 @@ void    variable_expantion(t_list **head, char **ev)
     {
         if (tmp && !ft_strncmp(ev[i], variable_name, ft_strlen(variable_name)) && ev[i][ft_strlen(variable_name)] == '=')
         {
+			tmp_char = tmp->data;
             tmp->data = ft_substr(ev[i], ft_strlen(variable_name), ft_strlen(ev[i]) - ft_strlen(variable_name));
+			free(tmp_char);
+			tmp_char = tmp->data;
             tmp->data = ft_strtrim(tmp->data, "=");
+			free(tmp_char);
         }
         i++;
     }
@@ -2051,6 +2104,7 @@ int	variable_in_word(t_list **head, char **argev)
 	char *new_str;
 	char *tmp_word;
 	char *first_part;
+	char *tmp_char;
 	char *second_part;
 	char quote_type;
 	int in_quote;
@@ -2086,13 +2140,24 @@ int	variable_in_word(t_list **head, char **argev)
 						while ((tmp->data[j] >= 'a' && tmp->data[j] <= 'z') || (tmp->data[j] >= 'A' && tmp->data[j] <= 'Z') || (tmp->data[j] >= '0' && tmp->data[j] <= '9'))
 							j++;
 						l++;
+						tmp_char = tmp_word;
 						tmp_word = ft_substr(tmp->data, l, j - l);
+						free(tmp_char);
 						k = 0;
 						while (argev[k] && ft_strncmp(argev[k], tmp_word, ft_strlen(tmp_word)))
 							k++;
 						if (!argev[k])
 						{
-							new_str = ft_strjoin(ft_substr(tmp->data, 0, i), ft_substr(tmp->data, j, ft_strlen(tmp->data) - j));
+							free(tmp_word);
+							tmp_char = first_part;
+							first_part = ft_substr(tmp->data, 0, i);/////////////////////////////
+							free(tmp_char);
+							tmp_char = second_part;
+							second_part = ft_substr(tmp->data, j, ft_strlen(tmp->data) - j);
+							free(tmp_char);
+							tmp_char = new_str;
+							new_str = ft_strjoin(first_part, second_part);
+							free(tmp_char);
 							free(tmp->data);
 							tmp->data = new_str;
 						}
@@ -2102,12 +2167,24 @@ int	variable_in_word(t_list **head, char **argev)
 							l = 0;
 							while (argev[k][l] && argev[k][l] != '=')
 								l++;
+							tmp_char = tmp_word;
 							tmp_word = ft_substr(argev[k], l, ft_strlen(argev[k]) - l);
+							free(tmp_char);
+							tmp_char = tmp_word;
 							tmp_word = ft_strtrim(tmp_word, "=");
+							free(tmp_char);
+							tmp_char = first_part;
 							first_part = ft_substr(tmp->data, 0, i);
+							free(tmp_char);
+							tmp_char = second_part;
 							second_part = ft_substr(tmp->data, j, ft_strlen(tmp->data) - j);
+							free(tmp_char);
+							tmp_char = new_str;
 							new_str = ft_strjoin(first_part, tmp_word);
+							free(tmp_char);
+							tmp_char = new_str;
 							new_str = ft_strjoin(new_str, second_part);
+							free(tmp_char);
 							free(tmp->data);
 							tmp->data = new_str;
 						}
@@ -2291,9 +2368,33 @@ t_env	*env_fill(char **argev)
 	return (head);
 }
 
+void	free_env(t_env **env)
+{
+	t_env *tmp;
+	t_env *tmp2;
+
+	tmp = *env;
+	while (tmp)
+	{
+		tmp2 = tmp->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+		tmp = tmp2;
+	}
+	*env = NULL;
+}
+
+void	f(void)
+{
+	system("leaks -q minishell");
+}
+
 int main(int argc, char **argv, char **argev)//wildcards //remove quotes from command_arr
 {
+	atexit(f);
 	char *str;
+	char *tmp_str;
 	t_list *head;
 	t_env *env;
 	t_env *tmp_env;
@@ -2311,6 +2412,7 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 	while (1)
 	{
 		str = readline("minishell$> ");
+		// str = argv[1];
 		i = 0;
 		if (!str)
 			break;
@@ -2325,19 +2427,21 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 		// }
 		add_history(str);
 		str = replace_whites_spaces(str);
+		tmp_str = str;
 		str = ft_strtrim(str, " ");
+		free(tmp_str);
 		if (check_quotes(str) == 1)
 			return (1);
 		head = list_init(str);
 		lexer(&head);
 		tmp = head;
-		while (tmp)
-		{
-			printf("%s\n", tmp->data);
-			printf("%s\n", tmp->token);
-			printf("\n");
-			tmp = tmp->next;
-		}
+		// while (tmp)
+		// {
+		// 	printf("%s\n", tmp->data);
+		// 	printf("%s\n", tmp->token);
+		// 	printf("\n");
+		// 	tmp = tmp->next;
+		// }
 		if (variable_search(&head))
             variable_expantion(&head, argev);
 		variable_in_word(&head, argev);
@@ -2356,9 +2460,8 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 		process_nested_parentheses(&tree);
 		process_all_redirections(&tree);
 		command_arr_fill(&tree);
-		// print_tree_visual(tree, 1, 1);
 		quote_remove_two(&tree);
-		printf("\n");
+		// printf("\n");
 		// print_tree_visual(tree, 1, 1);
 		syntax_error_two(&tree);
 		redirections_opener(&tree, &head_fd);
@@ -2372,6 +2475,10 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 			printf("\n");
 			tmp_fd = tmp_fd->next;
 		}
+		free_env(&env);
+		free_tree(tree);
 		free_list_fd(&head_fd);
+		free(str);
 	}
 }
+
