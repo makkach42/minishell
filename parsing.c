@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/16 17:19:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/16 20:06:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1571,124 +1571,645 @@ t_tree *create_tree_node(void *command, char *type)
     return (node);
 }
 
-char *extract_command_until_pipe(t_list **head, t_list **pipe_pos)
-{
+// char *extract_command_until_pipe(t_list **head, t_list **pipe_pos)
+// {
+//     t_list *current = *head;
+//     char *command_str = NULL;
+//     char *temp;
+
+//     *pipe_pos = NULL;
+//     while (current)
+//     {
+//         if (current->token && ft_strcmp(current->token, "PIPE") == 0)
+//         {
+//             *pipe_pos = current;
+//             break;
+//         }
+//         if (command_str)
+//         {
+//             temp = command_str;
+//             command_str = ft_strjoin_leak(command_str, " ", 1305);
+//             t_free(temp, 1040, "parsing.c");
+//             if (command_str)
+// 			{
+//                 temp = command_str;
+//                 command_str = ft_strjoin_leak(command_str, current->data, 1310);
+//                 t_free(temp, 1046, "parsing.c");
+//             }
+//         }
+//         else
+//         {
+//             command_str = ft_strdup(current->data);
+//         }
+//         current = current->next;
+//     }
+//     // printf("DEBUG: extract_command_until_pipe returning '%s'\n", command_str ? command_str : "NULL");
+//     return (command_str);
+// }
+
+// char *extract_command_until_pipe(t_list **head, t_list **pipe_pos) {
+//     t_list *current = *head;
+//     char *command_str = NULL;
+    
+//     *pipe_pos = NULL;
+    
+//     // Find the pipe position without creating any new strings
+//     while (current) {
+//         if (current->token && ft_strcmp(current->token, "PIPE") == 0) {
+//             *pipe_pos = current;
+//             break;
+//         }
+//         current = current->next;
+//     }
+    
+//     // Now just duplicate the first command string
+//     if (*head && (*head)->data) {
+//         command_str = ft_strdup((*head)->data);
+//     } else {
+//         command_str = ft_strdup("");
+//     }
+    
+//     return command_str;
+// }
+
+// char *extract_command_until_pipe(t_list **head, t_list **pipe_pos) {
+//     t_list *current = *head;
+//     char *command_str = NULL;
+    
+//     *pipe_pos = NULL;
+    
+//     // Find pipe position
+//     while (current) {
+//         if (current->token && ft_strcmp(current->token, "PIPE") == 0) {
+//             *pipe_pos = current;
+//             break;
+//         }
+//         current = current->next;
+//     }
+    
+//     // Just return a duplicate of the first command
+//     if (*head && (*head)->data) {
+//         command_str = ft_strdup((*head)->data);
+//     } else {
+//         command_str = ft_strdup("");
+//     }
+    
+//     return command_str;
+// }
+
+char *extract_command_with_redirects(t_list **head, t_list **pipe_pos) {
     t_list *current = *head;
     char *command_str = NULL;
-    char *temp;
-
+    char *temp_str = NULL;
+    
     *pipe_pos = NULL;
-    while (current)
-    {
-        if (current->token && ft_strcmp(current->token, "PIPE") == 0)
-        {
+    
+    // Find the pipe position while building the complete command string
+    while (current) {
+        if (current->token && ft_strcmp(current->token, "PIPE") == 0) {
             *pipe_pos = current;
             break;
         }
-        if (command_str)
-        {
-            temp = command_str;
-            command_str = ft_strjoin_leak(command_str, " ", 1305);
-            t_free(temp, 1040, "parsing.c");
-            if (command_str)
-			{
-                temp = command_str;
-                command_str = ft_strjoin_leak(command_str, current->data, 1310);
-                t_free(temp, 1046, "parsing.c");
-            }
-        }
-        else
-        {
+        
+        // Build the full command string with redirections
+        if (command_str) {
+            temp_str = command_str;
+            command_str = ft_strjoin_leak(command_str, " ", __LINE__);
+            t_free(temp_str, __LINE__, "parsing.c");
+            
+            temp_str = command_str;
+            command_str = ft_strjoin_leak(command_str, current->data, __LINE__);
+            t_free(temp_str, __LINE__, "parsing.c");
+        } else if (current->data) {
             command_str = ft_strdup(current->data);
         }
+        
         current = current->next;
     }
-    // printf("DEBUG: extract_command_until_pipe returning '%s'\n", command_str ? command_str : "NULL");
-    return (command_str);
+    
+    // If no command found, return empty string
+    if (!command_str) {
+        command_str = ft_strdup("");
+    }
+    
+    return command_str;
 }
 
 
-t_tree *build_pipe_tree(t_list **head)
-{
-    t_list *pipe_pos;
+// t_tree *build_pipe_tree(t_list **head)
+// {
+//     t_list *pipe_pos;
+//     t_tree *root = NULL;
+//     t_tree *command_node;
+//     char *command_str;
+//     t_list *next_part;
+    
+//     if (!head || !(*head))
+//         return NULL;
+//     command_str = extract_command_until_pipe(head, &pipe_pos);
+// 	// printf("DEBUG: build_pipe_tree got command_str '%s'\n", command_str ? command_str : "NULL");
+//     if (!pipe_pos)
+//     {
+//         root = create_tree_node(command_str, "COMMAND");
+//         return root;
+//     }
+//     root = create_tree_node(NULL, "PIPE");
+//     command_node = create_tree_node(command_str, "COMMAND");
+//     root->left = command_node;
+//     if (pipe_pos->next)
+//     {
+//         next_part = pipe_pos->next;
+//         pipe_pos->next = NULL;
+//         root->right = build_pipe_tree(&next_part);
+//     }
+//     return (root);
+// }
+// t_tree *build_pipe_tree(t_list **head) {
+//     t_list *pipe_pos;
+//     t_tree *root = NULL;
+//     t_tree *command_node;
+//     char *command_str;
+//     t_list *next_part;
+//     t_list *current;
+    
+//     if (!head || !(*head))
+//         return NULL;
+        
+//     // Extract command string up to the pipe
+//     command_str = extract_command_until_pipe(head, &pipe_pos);
+    
+//     if (!pipe_pos) {
+//         // No pipe found, create a simple command node
+//         root = create_tree_node(command_str, "COMMAND");
+        
+//         // Free original list nodes but not their data (already used in the tree)
+//         current = *head;
+//         while (current) {
+//             t_list *temp = current;
+//             current = current->next;
+//             temp->data = NULL; // Set to NULL so free_list won't free the data
+//             t_free(temp, __LINE__, "parsing.c");
+//         }
+//         *head = NULL;
+//         return root;
+//     }
+    
+//     // Create pipe node
+//     root = create_tree_node(NULL, "PIPE");
+//     command_node = create_tree_node(command_str, "COMMAND");
+//     root->left = command_node;
+    
+//     // Process right side of pipe
+//     if (pipe_pos->next) {
+//         next_part = pipe_pos->next;
+        
+//         // Free nodes on the left side of the pipe (but not their data)
+//         current = *head;
+//         while (current && current != pipe_pos) {
+//             t_list *temp = current;
+//             current = current->next;
+//             temp->data = NULL; // Set to NULL so we don't free data already in the tree
+//             t_free(temp, __LINE__, "parsing.c");
+//         }
+        
+//         // Free pipe node
+//         if (pipe_pos->data)
+//             t_free(pipe_pos->data, __LINE__, "parsing.c");
+//         t_free(pipe_pos, __LINE__, "parsing.c");
+        
+//         // Process right side
+//         root->right = build_pipe_tree(&next_part);
+//     } else {
+//         // Free all nodes in the list (but not their data)
+//         current = *head;
+//         while (current) {
+//             t_list *temp = current;
+//             current = current->next;
+//             if (temp != pipe_pos) {
+//                 temp->data = NULL; // Don't free data already in the tree
+//             }
+//             t_free(temp, __LINE__, "parsing.c");
+//         }
+        
+//         // No need to free pipe_pos->data as it's already handled in the loop
+//     }
+    
+//     *head = NULL;
+//     return root;
+// }
+// t_tree *build_pipe_tree(t_list **head) {
+//     t_list *pipe_pos;
+//     t_tree *root = NULL;
+//     t_tree *command_node;
+//     char *left_cmd_str = NULL;
+//     char *right_cmd_str = NULL;
+    
+//     if (!head || !(*head))
+//         return NULL;
+    
+//     // Find pipe position but don't create any strings yet
+//     pipe_pos = NULL;
+//     t_list *current = *head;
+//     while (current) {
+//         if (current->token && ft_strcmp(current->token, "PIPE") == 0) {
+//             pipe_pos = current;
+//             break;
+//         }
+//         current = current->next;
+//     }
+    
+//     if (!pipe_pos) {
+//         // No pipe found, create a simple command node
+//         left_cmd_str = ft_strdup((*head)->data);
+//         root = create_tree_node(left_cmd_str, "COMMAND");
+//         return root;
+//     }
+    
+//     // Create pipe node
+//     root = create_tree_node(NULL, "PIPE");
+    
+//     // Create left command node with just the first command
+//     if (*head && (*head)->data) {
+//         left_cmd_str = ft_strdup((*head)->data);
+//     } else {
+//         left_cmd_str = ft_strdup("");
+//     }
+//     command_node = create_tree_node(left_cmd_str, "COMMAND");
+//     root->left = command_node;
+    
+//     // Create right command node with just the command after the pipe
+//     if (pipe_pos->next && pipe_pos->next->data) {
+//         right_cmd_str = ft_strdup(pipe_pos->next->data);
+//         root->right = create_tree_node(right_cmd_str, "COMMAND");
+//     }
+    
+//     return root;
+// }
+
+
+// t_tree *build_pipe_tree(t_list **head) {
+//     t_list *pipe_pos = NULL;
+//     t_tree *root = NULL;
+//     t_tree *command_node = NULL;
+//     char *left_cmd = NULL;
+//     char *right_cmd = NULL;
+    
+//     if (!head || !(*head))
+//         return NULL;
+    
+//     // Find the pipe position
+//     t_list *current = *head;
+//     while (current) {
+//         if (current->token && ft_strcmp(current->token, "PIPE") == 0) {
+//             pipe_pos = current;
+//             break;
+//         }
+//         current = current->next;
+//     }
+    
+//     // Duplicate the left command (before pipe)
+//     if (*head && (*head)->data) {
+//         left_cmd = ft_strdup((*head)->data);
+//     } else {
+//         left_cmd = ft_strdup("");
+//     }
+    
+//     // No pipe found, create simple command node
+//     if (!pipe_pos) {
+//         root = create_tree_node(left_cmd, "COMMAND");
+//         return root;
+//     }
+    
+//     // Create pipe node
+//     root = create_tree_node(NULL, "PIPE");
+    
+//     // Create left command node
+//     command_node = create_tree_node(left_cmd, "COMMAND");
+//     root->left = command_node;
+    
+//     // Create right command node if pipe has a next part
+//     if (pipe_pos->next && pipe_pos->next->data) {
+//         right_cmd = ft_strdup(pipe_pos->next->data);
+//         root->right = create_tree_node(right_cmd, "COMMAND");
+//     }
+    
+//     return root;
+// }
+
+t_tree *build_pipe_tree(t_list **head) {
+    t_list *pipe_pos = NULL;
     t_tree *root = NULL;
-    t_tree *command_node;
-    char *command_str;
-    t_list *next_part;
+    t_tree *command_node = NULL;
+    char *left_cmd = NULL;
+    char *right_cmd = NULL;
     
     if (!head || !(*head))
         return NULL;
-    command_str = extract_command_until_pipe(head, &pipe_pos);
-	// printf("DEBUG: build_pipe_tree got command_str '%s'\n", command_str ? command_str : "NULL");
-    if (!pipe_pos)
-    {
-        root = create_tree_node(command_str, "COMMAND");
+    
+    // Extract the complete command string (including redirections)
+    left_cmd = extract_command_with_redirects(head, &pipe_pos);
+    
+    if (!pipe_pos) {
+        // No pipe found, create a simple command node
+        root = create_tree_node(left_cmd, "COMMAND");
         return root;
     }
-    root = create_tree_node(NULL, "PIPE");
-    command_node = create_tree_node(command_str, "COMMAND");
-    root->left = command_node;
-    if (pipe_pos->next)
-    {
-        next_part = pipe_pos->next;
-        pipe_pos->next = NULL;
-        root->right = build_pipe_tree(&next_part);
-    }
-    return (root);
-}
-
-void process_command_with_pipes(char *command_str, t_tree **command_tree)
-{
-    t_list *cmd_list;
-    char *cmd_copy;
     
-    if (!command_str || !(*command_str))
-    {
-        *command_tree = NULL;
-        return;
+    // Create pipe node
+    root = create_tree_node(NULL, "PIPE");
+    
+    // Create left command node with the full command string
+    command_node = create_tree_node(left_cmd, "COMMAND");
+    root->left = command_node;
+    
+    // Process the right part of the pipe
+    if (pipe_pos->next) {
+        // Extract the right command string by treating pipe_pos->next as head
+        t_list *right_part = pipe_pos->next;
+        t_list *dummy = NULL;
+        
+        right_cmd = extract_command_with_redirects(&right_part, &dummy);
+        root->right = create_tree_node(right_cmd, "COMMAND");
     }
-    cmd_copy = ft_strdup(command_str);
-    if (!cmd_copy)
-    {
-        *command_tree = NULL;
-        return;
-    }
-    cmd_list = list_init_leak(cmd_copy, 1656);
-    if (cmd_list)
-	{
-        lexer(&cmd_list);
-    	*command_tree = build_pipe_tree(&cmd_list);
-		free_list(&cmd_list);///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	}
+    
+    return root;
 }
+// void process_command_with_pipes(char *command_str, t_tree **command_tree)
+// {
+//     t_list *cmd_list;
+//     char *cmd_copy;
+    
+//     if (!command_str || !(*command_str))
+//     {
+//         *command_tree = NULL;
+//         return;
+//     }
+//     cmd_copy = ft_strdup(command_str);
+//     if (!cmd_copy)
+//     {
+//         *command_tree = NULL;
+//         return;
+//     }
+//     cmd_list = list_init_leak(cmd_copy, 1656);
+//     if (cmd_list)
+// 	{
+//         lexer(&cmd_list);
+//     	*command_tree = build_pipe_tree(&cmd_list);
+// 		free_list(&cmd_list);///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 	}
+// }
+// void process_command_with_pipes(char *command_str, t_tree **command_tree) {
+//     t_list *cmd_list;
+//     char *cmd_copy;
+    
+//     if (!command_str || !(*command_str)) {
+//         *command_tree = NULL;
+//         return;
+//     }
+    
+//     cmd_copy = ft_strdup(command_str);
+//     if (!cmd_copy) {
+//         *command_tree = NULL;
+//         return;
+//     }
+    
+//     cmd_list = list_init_leak(cmd_copy, __LINE__);
+//     if (!cmd_list) {
+//         t_free(cmd_copy, __LINE__, "parsing.c");
+//         *command_tree = NULL;
+//         return;
+//     }
+    
+//     // Apply lexical analysis
+//     lexer(&cmd_list);
+    
+//     // Build the pipe tree
+//     *command_tree = build_pipe_tree(&cmd_list);
+    
+//     // The cmd_list should be NULL at this point
+//     // If not, we need to clean up any remaining nodes
+//     if (cmd_list) {
+//         free_list(&cmd_list);
+//     }
+    
+//     // We don't need to free cmd_copy because it's either:
+//     // 1. Used in the tree structure
+//     // 2. Already freed by list_init_leak if it failed
+// }
+// Keep build_pipe_tree the same as it was originally, but don't modify cmd_list in it
 
-void free_tree(t_tree *tree)
-{
-	int i;
+// void process_command_with_pipes(char *command_str, t_tree **command_tree) {
+//     t_list *cmd_list = NULL;
+//     char *cmd_copy = NULL;
+    
+//     if (!command_str || !(*command_str)) {
+//         *command_tree = NULL;
+//         return;
+//     }
+    
+//     // Make a copy of the original command string
+//     cmd_copy = ft_strdup(command_str);
+//     if (!cmd_copy) {
+//         *command_tree = NULL;
+//         return;
+//     }
+    
+//     // Initialize the list using our copy
+//     cmd_list = list_init_leak(cmd_copy, __LINE__);
+//     if (!cmd_list) {
+//         t_free(cmd_copy, __LINE__, "parsing.c");
+//         *command_tree = NULL;
+//         return;
+//     }
+    
+//     // Apply lexical analysis
+//     lexer(&cmd_list);
+    
+//     // Build the pipe tree but don't modify the list
+//     *command_tree = build_pipe_tree(&cmd_list);
+    
+//     // Now properly free the entire list
+//     if (cmd_list) {
+//         t_list *temp;
+//         while (cmd_list) {
+//             temp = cmd_list;
+//             cmd_list = cmd_list->next;
+            
+//             if (temp->data) {
+//                 t_free(temp->data, __LINE__, "parsing.c");
+//             }
+//             t_free(temp, __LINE__, "parsing.c");
+//         }
+//     }
+// }
 
+// void process_command_with_pipes(char *command_str, t_tree **command_tree) {
+//     t_list *cmd_list = NULL;
+//     t_list *original_head = NULL;
+//     char *cmd_copy = NULL;
+    
+//     if (!command_str || !(*command_str)) {
+//         *command_tree = NULL;
+//         return;
+//     }
+    
+//     cmd_copy = ft_strdup(command_str);
+//     if (!cmd_copy) {
+//         *command_tree = NULL;
+//         return;
+//     }
+    
+//     cmd_list = list_init_leak(cmd_copy, __LINE__);
+//     if (!cmd_list) {
+//         t_free(cmd_copy, __LINE__, "parsing.c");
+//         *command_tree = NULL;
+//         return;
+//     }
+    
+//     // Store the original head for cleanup later
+//     original_head = cmd_list;
+    
+//     // Apply lexical analysis
+//     lexer(&cmd_list);
+    
+//     // Build the pipe tree
+//     *command_tree = build_pipe_tree(&cmd_list);
+    
+//     // Manually clean up all list nodes to prevent memory leaks
+//     t_list *current = original_head;
+//     t_list *next;
+    
+//     while (current) {
+//         next = current->next;
+        
+//         // Free the data if it exists
+//         if (current->data) {
+//             t_free(current->data, __LINE__, "parsing.c");
+//             current->data = NULL;
+//         }
+        
+//         // Free the node itself
+//         t_free(current, __LINE__, "parsing.c");
+//         current = next;
+//     }
+// }
+
+void process_command_with_pipes(char *command_str, t_tree **command_tree) {
+    t_list *cmd_list = NULL;
+    t_list *original_head = NULL;
+    char *cmd_copy = NULL;
+    
+    if (!command_str || !(*command_str)) {
+        *command_tree = NULL;
+        return;
+    }
+    
+    // Make a copy of the command string
+    cmd_copy = ft_strdup(command_str);
+    if (!cmd_copy) {
+        *command_tree = NULL;
+        return;
+    }
+    
+    // Initialize the list
+    cmd_list = list_init_leak(cmd_copy, __LINE__);
+    if (!cmd_list) {
+        t_free(cmd_copy, __LINE__, "parsing.c");
+        *command_tree = NULL;
+        return;
+    }
+    
+    // Store the original head for cleanup
+    original_head = cmd_list;
+    
+    // Apply lexical analysis
+    lexer(&cmd_list);
+    
+    // Build the pipe tree with our improved functions
+    *command_tree = build_pipe_tree(&cmd_list);
+    
+    // Clean up all list nodes
+    t_list *current = original_head;
+    t_list *next;
+    
+    while (current) {
+        next = current->next;
+        
+        if (current->data) {
+            t_free(current->data, __LINE__, "parsing.c");
+            current->data = NULL;
+        }
+        
+        t_free(current, __LINE__, "parsing.c");
+        current = next;
+    }
+}
+// void free_tree(t_tree *tree)
+// {
+// 	int i;
+
+//     if (!tree)
+//         return;
+//     if (tree->left)
+//         free_tree(tree->left);
+//     if (tree->right)
+//         free_tree(tree->right);
+//     // printf("DEBUG: free_tree freeing command: %p ('%s')\n", 
+//         //    (void*)tree->command, tree->command ? tree->command : "NULL");
+//     if (tree->command)
+//         t_free(tree->command, 1122, "parsing.c");
+//     if (tree->redirections)
+//         t_free(tree->redirections, 1124, "parsing.c");
+//     if (tree->command_arr)
+// 	{
+// 		i = 0;
+// 		while (tree->command_arr[i])
+// 		{
+// 			t_free(tree->command_arr[i], 1130, "parsing.c");
+// 			i++;
+// 		}
+// 		t_free(tree->command_arr, 1133, "parsing.c");
+// 	}
+//     t_free(tree, 1135, "parsing.c");
+// }
+
+void free_tree(t_tree *tree) {
+    int i;
     if (!tree)
         return;
+        
     if (tree->left)
         free_tree(tree->left);
+        
     if (tree->right)
         free_tree(tree->right);
-    // printf("DEBUG: free_tree freeing command: %p ('%s')\n", 
-        //    (void*)tree->command, tree->command ? tree->command : "NULL");
-    if (tree->command)
-        t_free(tree->command, 1122, "parsing.c");
-    if (tree->redirections)
-        t_free(tree->redirections, 1124, "parsing.c");
-    if (tree->command_arr)
-	{
-		i = 0;
-		while (tree->command_arr[i])
-		{
-			t_free(tree->command_arr[i], 1130, "parsing.c");
-			i++;
-		}
-		t_free(tree->command_arr, 1133, "parsing.c");
-	}
-    t_free(tree, 1135, "parsing.c");
+        
+    // Free command string if it exists
+    if (tree->command) {
+        t_free(tree->command, __LINE__, "parsing.c");
+        tree->command = NULL;  // Good practice to set to NULL after freeing
+    }
+    
+    // Free redirections if they exist
+    if (tree->redirections) {
+        t_free(tree->redirections, __LINE__, "parsing.c");
+        tree->redirections = NULL;
+    }
+    
+    // Free command array if it exists
+    if (tree->command_arr) {
+        i = 0;
+        while (tree->command_arr[i]) {
+            t_free(tree->command_arr[i], __LINE__, "parsing.c");
+            tree->command_arr[i] = NULL;
+            i++;
+        }
+        t_free(tree->command_arr, __LINE__, "parsing.c");
+        tree->command_arr = NULL;
+    }
+    
+    // Finally free the tree node itself
+    t_free(tree, __LINE__, "parsing.c");
 }
 
 void process_pipe_trees(t_tree *tree)
@@ -2321,9 +2842,9 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 			while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
 				i++;
 			*head = t_malloc(sizeof(t_list_fd), 1768, "parsing.c");
-			tmp_char = (*head)->name;
+			// tmp_char = (*head)->name;
 			(*head)->name = ft_substr_leak((*tree)->redirections, j, i - j, 2055);
-			t_free(tmp_char, 1771, "parsing.c");
+			// t_free(tmp_char, 1771, "parsing.c");
 			(*head)->redir = NULL;
 			(*head)->next = NULL;
 			(*head)->fd = -1;
@@ -2536,9 +3057,9 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
 					i++;
 				new_node = t_malloc(sizeof(t_list_fd), 1956, "parsing.c");
-				tmp_char = new_node->name;
+				// tmp_char = new_node->name;
 				new_node->name = ft_substr_leak((*tree)->redirections, j, i - j, 2270);
-				t_free(tmp_char, 1989, "parsing.c");
+				// t_free(tmp_char, 1989, "parsing.c");
 				new_node->fd = -1;
 				new_node->redir = NULL;
 				new_node->next = NULL;
@@ -3093,15 +3614,15 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 		// quote_remove(&head);
 		syntax_error(&head);
 		tree_maker(&head, &tree);
-		print_tree_visual(tree, 1, 1);
+		// print_tree_visual(tree, 1, 1);
 		process_pipe_trees(tree);
-		print_tree_visual(tree, 1, 1);
+		// print_tree_visual(tree, 1, 1);
 		process_nested_parentheses(&tree);
 		process_all_redirections(&tree);
 		command_arr_fill(&tree);
 		quote_remove_two(&tree);
 		// printf("\n");
-		// print_tree_visual(tree, 1, 1);
+		print_tree_visual(tree, 1, 1);
 		syntax_error_two(&tree);
 		redirections_opener(&tree, &head_fd);
 		tmp_fd = head_fd;
