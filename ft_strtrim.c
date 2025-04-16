@@ -70,7 +70,7 @@ char	*ft_strtrim(char *s1, char *set)
 	end = start;
 	end = getend(s1, start, end, set);
 	nlen = end - start + 1;
-	new = malloc((nlen + 1) * sizeof(char));
+	new = t_malloc((nlen + 1) * sizeof(char), 73, "ft_strtrim.c");
 	if (!new)
 		return (0);
 	while (j < nlen)
@@ -79,5 +79,6 @@ char	*ft_strtrim(char *s1, char *set)
 		j++;
 	}
 	new[j] = '\0';
+	// printf("DEBUG: ft_strtrim at line %d allocating %p for '%s'\n", __LINE__, (void*)new, s1);
 	return (new);
 }

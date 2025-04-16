@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:20:07 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/16 12:48:59 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/15 16:05:04 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*cases(char *s1, char *s2)
 	if (!s2)
 		return (ft_strdup(s1));
 	len3 = ft_strlen(s1) + ft_strlen(s2);
-	return (malloc((len3 + 1) * sizeof(char)));
+	return (t_malloc((len3 + 1) * sizeof(char), 26, "ft_strjoin.c"));
 }
 
 char	*ft_strjoin(char *s1, char *s2)

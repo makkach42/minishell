@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/14 18:40:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/16 17:14:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_tree
 	char			*redirections;
 }	t_tree;
 
+t_list	*list_init(char *str);
 char	*ft_strdup(char *s1);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strtrim(char *s1, char *set);
@@ -67,5 +68,12 @@ char	*ft_strncpy(char *dest, char *src, int n);
 char	*ft_strcpy(char *dest, char *src);
 char	*ft_strcat(char *dest, const char *src);
 int		ft_strncmp(char *str1, char *str2, size_t n);
+void	t_free(void *ptr, int line, char *file);
+void	*t_malloc(size_t i, int line, char *file);
+char	*ft_strdup_leak(char *s1, int line);
+char	*ft_strjoin_leak(char *s1, char *s2, int line);
+char	*ft_substr_leak(char *s, unsigned int start, size_t len, int line);
+char	*ft_strtrim_leak(char *s1, char *set, int line);
+t_list	*list_init_leak(char *str, int line);
 
 #endif

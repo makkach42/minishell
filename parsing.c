@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/14 18:35:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/16 17:19:02 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void free_list_fd(t_list_fd **head)
     {
         next = current->next;
         if (current->command)
-            (free(current->command), current->command = NULL);
+            (t_free(current->command, 26, "parsing.c"), current->command = NULL);
         if (current->name)
-            (free(current->name), current->name = NULL);
+            (t_free(current->name, 28, "parsing.c"), current->name = NULL);
         if (current->redir)
-            (free(current->redir), current->redir = NULL);
+            (t_free(current->redir, 30, "parsing.c"), current->redir = NULL);
         if (current->fd > 0)
             (close(current->fd), current->fd = -1);
-        free(current);
+        t_free(current, 33, "parsing.c");
         current = next;
     }
     *head = NULL;
@@ -351,7 +351,7 @@ char *word_extractor(char *str)
 			if (!str[i])
 				break ;
 		}
-		word = ft_substr(str, 0, i);
+		word = ft_substr_leak(str, 0, i, 354);
 		return (word);
 	}
 	else if (parenthesis_in_word_recogniser(str) == 1)
@@ -389,7 +389,7 @@ char *word_extractor(char *str)
 			if (!str[i])
 				break ;
 		}
-		word = ft_substr(str, 0, i);
+		word = ft_substr_leak(str, 0, i, 392);
 		return (word);
 	}
 	else
@@ -397,7 +397,7 @@ char *word_extractor(char *str)
 		while (str[++i] == 32){}
 		while (str[i] != 32 && !is_operator(str[i]) && str[i] != '\0')
 			i++;
-		word = ft_substr(str, 0, i);
+		word = ft_substr_leak(str, 0, i, 400);
 	}
 	return (word);
 }
@@ -412,7 +412,7 @@ char *first_word_remover(char *str, char *word)
 		return (NULL);
 	strlenth = ft_strlen(str);
 	wordlenth = ft_strlen(word);
-	new_str = ft_substr(str, wordlenth, strlenth - wordlenth + 1);
+	new_str = ft_substr_leak(str, wordlenth, strlenth - wordlenth + 1, 415);
 	return (new_str);
 }
 
@@ -420,7 +420,7 @@ t_list *node_maker(char *word)
 {
 	t_list *node;
 
-	node = malloc(sizeof(t_list));
+	node = t_malloc(sizeof(t_list), 423, "parsing.c");
 	node->data = word;
 	node->next = NULL;
 	node->prev = NULL;
@@ -453,7 +453,7 @@ char *str_extractor(char *str)
 		i++;
 	if (str[i] != '\0' && str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0'))
 	{
-		word = ft_substr(str, 0, i + 1);
+		word = ft_substr_leak(str, 0, i + 1, 456);
 		return (word);
 	}
 	else
@@ -467,7 +467,7 @@ char *str_extractor(char *str)
 			if (str[i] == 32 && quote_counter % 2 != 0)
 				flag = 1;
 		}
-		word = ft_substr(str, 0, i + 1);
+		word = ft_substr_leak(str, 0, i + 1, 470);
 	}
 	return (word);
 }
@@ -482,7 +482,7 @@ char *str_remover(char *str, char *word)
 		return (NULL);
 	strlenth = ft_strlen(str);
 	word_len = ft_strlen(word);
-	new_str = ft_substr(str, word_len, strlenth - word_len);
+	new_str = ft_substr_leak(str, word_len, strlenth - word_len, 485);
 	return (new_str);
 }
 char *parenthesis_remover(char *str, char *word)
@@ -495,7 +495,7 @@ char *parenthesis_remover(char *str, char *word)
 		return (NULL);
 	strlenth = ft_strlen(str);
 	word_len = ft_strlen(word);
-	new_str = ft_substr(str, word_len, strlenth - word_len);
+	new_str = ft_substr_leak(str, word_len, strlenth - word_len, 498);
 	return (new_str);
 }
 char	*extract_operator(char *str)
@@ -508,23 +508,23 @@ char	*extract_operator(char *str)
 	i = 0;
 	operator = NULL;
 	if (str[i] == '&' && ((str[i + 1] && str[i + 1] != '&') || !str[i + 1]))
-		operator = ft_substr(str, 0, 1);
+		operator = ft_substr_leak(str, 0, 1, 511);
 	else if (str[i] == '*' && ((str[i + 1] && str[i + 1] != '*') || !str[i + 1]))
-		operator = ft_substr(str, 0, 1);
+		operator = ft_substr_leak(str, 0, 1, 513);
 	else if (str[i] == '|' && ((str[i + 1] && str[i + 1] != '|') || !str[i + 1]))
-		operator = ft_substr(str, 0, 1);
+		operator = ft_substr_leak(str, 0, 1, 515);
 	else if (str[i] == '>' && ((str[i + 1] && str[i + 1] != '>') || !str[i + 1]))
-		operator = ft_substr(str, 0, 1);
+		operator = ft_substr_leak(str, 0, 1, 517);
 	else if (str[i] == '<' && ((str[i + 1] && str[i + 1] != '<') || !str[i + 1]))
-		operator = ft_substr(str, 0, 1);
+		operator = ft_substr_leak(str, 0, 1,519);
 	else if (str[i] == '&' && str[i + 1] && str[i + 1] == '&')
-		operator = ft_substr(str, 0, 2);
+		operator = ft_substr_leak(str, 0, 2, 521);
 	else if (str[i] == '|' && str[i + 1] && str[i + 1] == '|')
-		operator = ft_substr(str, 0, 2);
+		operator = ft_substr_leak(str, 0, 2, 523);
 	else if (str[i] == '>' && str[i + 1] && str[i + 1] == '>')
-		operator = ft_substr(str, 0, 2);
+		operator = ft_substr_leak(str, 0, 2, 525);
 	else if (str[i] == '<' && str[i + 1] && str[i + 1] == '<')
-		operator = ft_substr(str, 0, 2);
+		operator = ft_substr_leak(str, 0, 2, 527);
 	return (operator);
 }
 
@@ -538,7 +538,7 @@ char *remove_operator(char *str, char *word)
 		return (NULL);
 	wordlen = ft_strlen(word);
 	str_len = ft_strlen(str);
-	str_word = ft_substr(str, wordlen, str_len - wordlen + 1);
+	str_word = ft_substr_leak(str, wordlen, str_len - wordlen + 1, 541);
 	return (str_word);
 }
 char *extract_variable(char *str)
@@ -549,7 +549,7 @@ char *extract_variable(char *str)
 	i = 0;
 	while (str[i] != 32 && str[i] != '\0')
 		i++;
-	word = ft_substr(str, 0, i + 1);
+	word = ft_substr_leak(str, 0, i + 1, 552);
 	return (word);
 }
 char *extract_parenthesis(char *str)
@@ -585,7 +585,7 @@ char *extract_parenthesis(char *str)
 	}
 	if ((str[i] == '\0' || str[i] == 32))
 	{
-		word = ft_substr(str, 0, i);
+		word = ft_substr_leak(str, 0, i, 588);
 		return (word);
 	}
 	else
@@ -602,162 +602,742 @@ char *extract_parenthesis(char *str)
 			if (str[i] == 32 && open_par == closed_par)
 				flag = 1;
 		}
-		word = ft_substr(str, 0, i + 1);
+		word = ft_substr_leak(str, 0, i + 1, 605);
 	}
 	return (word);
 }
 
+// t_list *list_init(char *str)
+// {
+// 	char *word;
+// 	char *tmp_char;
+// 	t_list	*head;
+// 	t_list	*new_node;
+// 	t_list	*tmp;
+
+// 	if (*str == '\"')
+// 	{
+// 		word = str_extractor(str);
+// 		tmp_char = word;
+// 		word = ft_strtrim_leak(word, " ", 622);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 623, "parsing.c");
+// 		tmp_char = str;
+// 		str = str_remover(str, word);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 627, "parsing.c");
+// 		tmp_char = str;
+// 		str = ft_strtrim_leak(str, " ", 630);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 631, "parsing.c");
+// 	}
+// 	else if (is_operator(*str))
+// 	{
+// 		word = extract_operator(str);
+// 		tmp_char = word;
+// 		word = ft_strtrim_leak(word, " ", 638);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 639, "parsing.c");
+// 		tmp_char = str;
+// 		str = remove_operator(str, word);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 643, "parsing.c");
+// 		tmp_char = str;
+// 		str = ft_strtrim_leak(str, " ", 646);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 647, "parsing.c");
+// 	}
+// 	else if (*str == '$')
+// 	{
+// 		word = extract_variable(str);
+// 		tmp_char = word;
+// 		word = ft_strtrim_leak(word, " ", 654);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 655, "parsing.c");
+// 		tmp_char = str;
+// 		str = first_word_remover(str, word);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 659, "parsing.c");
+// 		tmp_char = str;
+// 		str= ft_strtrim_leak(str, " ", 662);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 663, "parsing.c");
+// 	}
+// 	else if (*str == '(')
+// 	{
+// 		word = extract_parenthesis(str);
+// 		tmp_char = word;
+// 		word = ft_strtrim_leak(word, " ", 670);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 671, "parsing.c");
+// 		tmp_char = str;
+// 		str = parenthesis_remover(str, word);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 675, "parsing.c");
+// 		tmp_char = str;
+// 		str= ft_strtrim_leak(str, " ", 678);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 679, "parsing.c");
+// 	}
+// 	else
+// 	{
+// 		word = word_extractor(str);
+// 		tmp_char = word;
+// 		word = ft_strtrim_leak(word, " ", 686);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 687, "parsing.c");
+// 		tmp_char = str;
+// 		str = first_word_remover(str, word);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 691, "parsing.c");
+// 		tmp_char = str;
+// 		str = ft_strtrim_leak(str, " ", 694);
+// 		if (tmp_char)
+// 			t_free(tmp_char, 695, "parsing.c");
+// 	}
+// 	head = node_maker(word);
+// 	tmp = head;
+// 	while (str && *str)
+// 	{
+// 		if (*str == '\"')
+// 		{
+// 			word = str_extractor(str);
+// 			tmp_char = word;
+// 			word = ft_strtrim_leak(word, " ", 706);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 707, "parsing.c");
+// 			tmp_char = str;
+// 			str = str_remover(str, word);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 711, "parsing.c");
+// 			tmp_char = str;
+// 			str = ft_strtrim_leak(str, " ", 714);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 715, "parsing.c");
+// 		}
+// 		else if (is_operator(*str))
+// 		{
+// 			word = extract_operator(str);
+// 			tmp_char = word;
+// 			word = ft_strtrim_leak(word, " ", 722);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 723, "parsing.c");
+// 			tmp_char = str;
+// 			str = remove_operator(str, word);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 727, "parsing.c");
+// 			tmp_char = str;
+// 			str = ft_strtrim_leak(str, " ", 730);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 731, "parsing.c");
+// 		}
+// 		else if (*str == '$')
+// 		{
+// 			word = extract_variable(str);
+// 			tmp_char = word;
+// 			word = ft_strtrim_leak(word, " ", 738);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 739, "parsing.c");
+// 			tmp_char = str;
+// 			str = first_word_remover(str, word);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 743, "parsing.c");
+// 			tmp_char = str;
+// 			str= ft_strtrim_leak(str, " ", 746);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 747, "parsing.c");
+// 		}
+// 		else if (*str == '(')
+// 		{
+// 			word = extract_parenthesis(str);
+// 			tmp_char = word;
+// 			word = ft_strtrim_leak(word, " ", 754);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 755, "parsing.c");
+// 			tmp_char = str;
+// 			str = parenthesis_remover(str, word);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 759, "parsing.c");
+// 			tmp_char = str;
+// 			str= ft_strtrim_leak(str, " ", 762);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 763, "parsing.c");
+// 		}
+// 		else
+// 		{
+// 			word = word_extractor(str);
+// 			tmp_char = word;
+// 			word = ft_strtrim_leak(word, " ", 770);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 771, "parsing.c");
+// 			tmp_char = str;
+// 			str = first_word_remover(str, word);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 775, "parsing.c");
+// 			tmp_char = str;
+// 			str = ft_strtrim_leak(str, " ", 778);
+// 			if (tmp_char)
+// 				t_free(tmp_char, 779, "parsing.c");
+// 		}
+// 		new_node = t_malloc(sizeof(t_list), 782, "parsing.c");
+// 		new_node->data = word;
+// 		new_node->next = NULL;
+// 		new_node->prev = tmp;
+// 		tmp->next = new_node;
+// 		tmp = new_node;
+// 	}
+// 	return (head);
+// }
+
+// t_list *list_init(char *str)
+// {
+//     char *word = NULL;
+//     char *tmp_char = NULL;
+//     t_list *head = NULL;
+//     t_list *new_node = NULL;
+//     t_list *tmp = NULL;
+    
+//     if (!str || !*str)
+//         return NULL;
+    
+//     if (*str == '\"')
+//     {
+//         word = str_extractor(str);
+//         if (!word)
+//             return NULL;
+            
+//         tmp_char = word;
+//         word = ft_strtrim_leak(word, "", 808);
+//         free(tmp_char);
+        
+//         if (!word)
+//             return NULL;
+            
+//         tmp_char = str;
+//         str = str_remover(str, word);
+//         free(tmp_char);
+        
+//         if (str)
+//         {
+//             tmp_char = str;
+//             str = ft_strtrim_leak(str, "", 818);
+//             free(tmp_char);
+//         }
+//     }
+//     else if (is_operator(*str))
+//     {
+//         word = extract_operator(str);
+//         if (!word)
+//             return NULL;
+            
+//         tmp_char = word;
+//         word = ft_strtrim_leak(word, "", 829);
+//         free(tmp_char);
+        
+//         if (!word)
+//             return NULL;
+            
+//         tmp_char = str;
+//         str = remove_operator(str, word);
+//         free(tmp_char);
+        
+//         if (str)
+//         {
+//             tmp_char = str;
+//             str = ft_strtrim_leak(str, "", 842);
+//             free(tmp_char);
+//         }
+//     }
+//     else if (*str == '$')
+//     {
+//         word = extract_variable(str);
+//         if (!word)
+//             return NULL;
+            
+//         tmp_char = word;
+//         word = ft_strtrim_leak(word, "", 853);
+//         free(tmp_char);
+        
+//         if (!word)
+//             return NULL;
+            
+//         tmp_char = str;
+//         str = first_word_remover(str, word);
+//         free(tmp_char);
+        
+//         if (str)
+//         {
+//             tmp_char = str;
+//             str = ft_strtrim_leak(str, "", 866);
+//             free(tmp_char);
+//         }
+//     }
+//     else if (*str == '(')
+//     {
+//         word = extract_parenthesis(str);
+//         if (!word)
+//             return NULL;
+            
+//         tmp_char = word;
+//         word = ft_strtrim_leak(word, "", 877);
+//         free(tmp_char);
+        
+//         if (!word)
+//             return NULL;
+            
+//         tmp_char = str;
+//         str = parenthesis_remover(str, word);
+//         free(tmp_char);
+        
+//         if (str)
+//         {
+//             tmp_char = str;
+//             str = ft_strtrim_leak(str, "", 890);
+//             free(tmp_char);
+//         }
+//     }
+//     else
+//     {
+//         word = word_extractor(str);
+//         if (!word)
+//             return NULL;
+            
+//         tmp_char = word;
+//         word = ft_strtrim_leak(word, "", 901);
+//         free(tmp_char);
+        
+//         if (!word)
+//             return NULL;
+            
+//         tmp_char = str;
+//         str = first_word_remover(str, word);
+//         free(tmp_char);
+        
+//         if (str)
+//         {
+//             tmp_char = str;
+//             str = ft_strtrim_leak(str, "", 914);
+//             free(tmp_char);
+//         }
+//     }
+    
+//     head = node_maker(word);
+//     if (!head)
+//         return NULL;
+        
+//     tmp = head;
+    
+//     while (str && *str)
+//     {
+//         char *trim_result = NULL;
+        
+//         if (*str == '\"')
+//         {
+//             word = str_extractor(str);
+//             if (!word)
+//                 break;
+                
+//             tmp_char = word;
+//             word = ft_strtrim_leak(word, "", 930);
+//             free(tmp_char);
+            
+//             if (!word)
+//                 break;
+                
+//             tmp_char = str;
+//             str = str_remover(str, word);
+//             free(tmp_char);
+            
+//             if (str)
+//             {
+//                 tmp_char = str;
+//                 str = ft_strtrim_leak(str, "", 940);
+//                 free(tmp_char);
+//             }
+//         }
+//         else if (is_operator(*str))
+//         {
+//             word = extract_operator(str);
+//             if (!word)
+//                 break;
+                
+//             tmp_char = word;
+//             word = ft_strtrim_leak(word, "", 951);
+//             free(tmp_char);
+            
+//             if (!word)
+//                 break;
+                
+//             tmp_char = str;
+//             str = remove_operator(str, word);
+//             free(tmp_char);
+            
+//             if (str)
+//             {
+//                 tmp_char = str;
+//                 str = ft_strtrim_leak(str, "", 964);
+//                 free(tmp_char);
+//             }
+//         }
+//         else if (*str == '$')
+//         {
+//             word = extract_variable(str);
+//             if (!word)
+//                 break;
+                
+//             tmp_char = word;
+//             word = ft_strtrim_leak(word, "", 975);
+//             free(tmp_char);
+            
+//             if (!word)
+//                 break;
+                
+//             tmp_char = str;
+//             str = first_word_remover(str, word);
+//             free(tmp_char);
+            
+//             if (str)
+//             {
+//                 tmp_char = str;
+//                 str = ft_strtrim_leak(str, "", 988);
+//                 free(tmp_char);
+//             }
+//         }
+//         else if (*str == '(')
+//         {
+//             word = extract_parenthesis(str);
+//             if (!word)
+//                 break;
+                
+//             tmp_char = word;
+//             word = ft_strtrim_leak(word, "", 999);
+//             free(tmp_char);
+            
+//             if (!word)
+//                 break;
+                
+//             tmp_char = str;
+//             str = parenthesis_remover(str, word);
+//             free(tmp_char);
+            
+//             if (str)
+//             {
+//                 tmp_char = str;
+//                 str = ft_strtrim_leak(str, "", 1012);
+//                 free(tmp_char);
+//             }
+//         }
+//         else
+//         {
+//             word = word_extractor(str);
+//             if (!word)
+//                 break;
+                
+//             tmp_char = word;
+//             trim_result = ft_strtrim_leak(word, "", 1023);
+//             free(tmp_char);
+//             word = trim_result;
+            
+//             if (!word)
+//                 break;
+                
+//             tmp_char = str;
+//             str = first_word_remover(str, word);
+//             free(tmp_char);
+            
+//             if (str)
+//             {
+//                 tmp_char = str;
+//                 str = ft_strtrim_leak(str, "", 1036);
+//                 free(tmp_char);
+//             }
+//         }
+        
+//         new_node = malloc(sizeof(t_list));
+//         if (!new_node)
+//         {
+//             free(word);
+//             break;
+//         }
+        
+//         new_node->data = word;
+//         new_node->next = NULL;
+//         new_node->prev = tmp;
+//         tmp->next = new_node;
+//         tmp = new_node;
+//     }
+    
+//     if (str)
+//         free(str);
+        
+//     return (head);
+// }
+
 t_list *list_init(char *str)
 {
-	char *word;
-	char *tmp_char;
-	t_list	*head;
-	t_list	*new_node;
-	t_list	*tmp;
+    char *word = NULL;
+    char *tmp_char = NULL;
+    t_list *head = NULL;
+    t_list *new_node = NULL;
+    t_list *tmp = NULL;
 
-	if (*str == '\"')
-	{
-		word = str_extractor(str);
-		tmp_char = word;
-		word = ft_strtrim(word, " ");
-		free(tmp_char);
-		tmp_char = str;
-		str = str_remover(str, word);
-		free(tmp_char);
-		tmp_char = str;
-		str = ft_strtrim(str, " ");
-		free(tmp_char);
-	}
-	else if (is_operator(*str))
-	{
-		word = extract_operator(str);
-		tmp_char = word;
-		word = ft_strtrim(word, " ");
-		free(tmp_char);
-		tmp_char = str;
-		str = remove_operator(str, word);
-		free(tmp_char);
-		tmp_char = str;
-		str = ft_strtrim(str, " ");
-		free(tmp_char);
-	}
-	else if (*str == '$')
-	{
-		word = extract_variable(str);
-		tmp_char = word;
-		word = ft_strtrim(word, " ");
-		free(tmp_char);
-		tmp_char = str;
-		str = first_word_remover(str, word);
-		free(tmp_char);
-		tmp_char = str;
-		str= ft_strtrim(str, " ");
-		free(tmp_char);
-	}
-	else if (*str == '(')
-	{
-		word = extract_parenthesis(str);
-		tmp_char = word;
-		word = ft_strtrim(word, " ");
-		free(tmp_char);
-		tmp_char = str;
-		str = parenthesis_remover(str, word);
-		free(tmp_char);
-		tmp_char = str;
-		str= ft_strtrim(str, " ");
-		free(tmp_char);
-	}
-	else
-	{
-		word = word_extractor(str);
-		tmp_char = word;
-		word = ft_strtrim(word, " ");
-		free(tmp_char);
-		tmp_char = str;
-		str = first_word_remover(str, word);
-		free(tmp_char);
-		tmp_char = str;
-		str = ft_strtrim(str, " ");
-		free(tmp_char);
-	}
-	head = node_maker(word);
-	tmp = head;
-	while (str && *str)
-	{
-		if (*str == '\"')
-		{
-			word = str_extractor(str);
-			tmp_char = word;
-			word = ft_strtrim(word, " ");
-			free(tmp_char);
-			tmp_char = str;
-			str = str_remover(str, word);
-			free(tmp_char);
-			tmp_char = str;
-			str = ft_strtrim(str, " ");
-			free(tmp_char);
-		}
-		else if (is_operator(*str))
-		{
-			word = extract_operator(str);
-			tmp_char = word;
-			word = ft_strtrim(word, " ");
-			free(tmp_char);
-			tmp_char = str;
-			str = remove_operator(str, word);
-			free(tmp_char);
-			tmp_char = str;
-			str = ft_strtrim(str, " ");
-			free(tmp_char);
-		}
-		else if (*str == '$')
-		{
-			word = extract_variable(str);
-			tmp_char = word;
-			word = ft_strtrim(word, " ");
-			free(tmp_char);
-			tmp_char = str;
-			str = first_word_remover(str, word);
-			free(tmp_char);
-			tmp_char = str;
-			str= ft_strtrim(str, " ");
-			free(tmp_char);
-		}
-		else if (*str == '(')
-		{
-			word = extract_parenthesis(str);
-			tmp_char = word;
-			word = ft_strtrim(word, " ");
-			free(tmp_char);
-			tmp_char = str;
-			str = parenthesis_remover(str, word);
-			free(tmp_char);
-			tmp_char = str;
-			str= ft_strtrim(str, " ");
-			free(tmp_char);
-		}
-		else
-		{
-			word = word_extractor(str);
-			tmp_char = word;
-			word = ft_strtrim(word, " ");
-			free(tmp_char);
-			tmp_char = str;
-			str = first_word_remover(str, word);
-			free(tmp_char);
-			tmp_char = str;
-			str = ft_strtrim(str, " ");
-			free(tmp_char);
-		}
-		new_node = malloc(sizeof(t_list));
-		new_node->data = word;
-		new_node->next = NULL;
-		new_node->prev = tmp;
-		tmp->next = new_node;
-		tmp = new_node;
-	}
-	return (head);
+    if (!str || !*str)
+        return NULL;
+    if (*str == '\"')
+    {
+        word = str_extractor(str);
+        if (!word)
+            return NULL;
+        tmp_char = word;
+        word = ft_strtrim_leak(word, " ", 1092);
+        free(tmp_char);
+        if (!word)
+            return NULL;
+        tmp_char = str;
+        str = str_remover(str, word);
+        free(tmp_char);
+        if (str)
+        {
+            tmp_char = str;
+            str = ft_strtrim_leak(str, " ", 1102);
+            free(tmp_char);
+        }
+    }
+    else if (is_operator(*str))
+    {
+        word = extract_operator(str);
+        if (!word)
+            return NULL;
+            
+        tmp_char = word;
+        word = ft_strtrim_leak(word, " ", 1113);
+        free(tmp_char);
+        
+        if (!word)
+            return NULL;
+            
+        tmp_char = str;
+        str = remove_operator(str, word);
+        free(tmp_char);
+        
+        if (str)
+        {
+            tmp_char = str;
+            str = ft_strtrim_leak(str, " ", 1126);
+            free(tmp_char);
+        }
+    }
+    else if (*str == '$')
+    {
+        word = extract_variable(str);
+        if (!word)
+            return NULL;
+            
+        tmp_char = word;
+        word = ft_strtrim_leak(word, " ", 1137);
+        free(tmp_char);
+        
+        if (!word)
+            return NULL;
+            
+        tmp_char = str;
+        str = first_word_remover(str, word);
+        free(tmp_char);
+        
+        if (str)
+        {
+            tmp_char = str;
+            str = ft_strtrim_leak(str, " ", 1150);
+            free(tmp_char);
+        }
+    }
+    else if (*str == '(')
+    {
+        word = extract_parenthesis(str);
+        if (!word)
+            return NULL;
+            
+        tmp_char = word;
+        word = ft_strtrim_leak(word, " ", 1161);
+        free(tmp_char);
+        
+        if (!word)
+            return NULL;
+            
+        tmp_char = str;
+        str = parenthesis_remover(str, word);
+        free(tmp_char);
+        
+        if (str)
+        {
+            tmp_char = str;
+            str = ft_strtrim_leak(str, " ", 1174);
+            free(tmp_char);
+        }
+    }
+    else
+    {
+        word = word_extractor(str);
+        if (!word)
+            return NULL;
+            
+        tmp_char = word;
+        word = ft_strtrim_leak(word, " ", 1185);
+        free(tmp_char);
+        
+        if (!word)
+            return NULL;
+            
+        tmp_char = str;
+        str = first_word_remover(str, word);
+        free(tmp_char);
+        
+        if (str)
+        {
+            tmp_char = str;
+            str = ft_strtrim_leak(str, " ", 1197);
+            free(tmp_char);
+        }
+    }
+    head = node_maker(word);
+    if (!head)
+        return NULL;
+    tmp = head;
+    while (str && *str)
+    {
+        if (*str == '\"')
+        {
+            word = str_extractor(str);
+            if (!word)
+                break;
+            tmp_char = word;
+            word = ft_strtrim_leak(word, " ", 1214);
+            free(tmp_char);
+            if (!word)
+                break;
+            tmp_char = str;
+            str = str_remover(str, word);
+            free(tmp_char);
+            if (str)
+            {
+                tmp_char = str;
+                str = ft_strtrim_leak(str, " ", 1224);
+                free(tmp_char);
+            }
+        }
+        else if (is_operator(*str))
+        {
+            word = extract_operator(str);
+            if (!word)
+                break;
+                
+            tmp_char = word;
+            word = ft_strtrim_leak(word, " ", 1235);
+            free(tmp_char);
+            
+            if (!word)
+                break;
+                
+            tmp_char = str;
+            str = remove_operator(str, word);
+            free(tmp_char);
+            
+            if (str)
+            {
+                tmp_char = str;
+                str = ft_strtrim_leak(str, " ", 1248);
+                free(tmp_char);
+            }
+        }
+        else if (*str == '$')
+        {
+            word = extract_variable(str);
+            if (!word)
+                break;
+                
+            tmp_char = word;
+            word = ft_strtrim_leak(word, " ", 1259);
+            free(tmp_char);
+            
+            if (!word)
+                break;
+                
+            tmp_char = str;
+            str = first_word_remover(str, word);
+            free(tmp_char);
+            
+            if (str)
+            {
+                tmp_char = str;
+                str = ft_strtrim_leak(str, " ", 1272);
+                free(tmp_char);
+            }
+        }
+        else if (*str == '(')
+        {
+            word = extract_parenthesis(str);
+            if (!word)
+                break;
+                
+            tmp_char = word;
+            word = ft_strtrim_leak(word, " ", 1283);
+            free(tmp_char);
+            
+            if (!word)
+                break;
+                
+            tmp_char = str;
+            str = parenthesis_remover(str, word);
+            free(tmp_char);
+            
+            if (str)
+            {
+                tmp_char = str;
+                str = ft_strtrim_leak(str, " ", 1296);
+                free(tmp_char);
+            }
+        }
+        else
+        {
+            word = word_extractor(str);
+            if (!word)
+                break;
+                
+            tmp_char = word;
+            word = ft_strtrim_leak(word, " ", 1307);
+            free(tmp_char);
+            
+            if (!word)
+                break;
+                
+            tmp_char = str;
+            str = first_word_remover(str, word);
+            free(tmp_char);
+            
+            if (str)
+            {
+                tmp_char = str;
+                str = ft_strtrim_leak(str, " ", 1320);
+                free(tmp_char);
+            }
+        }
+        new_node = malloc(sizeof(t_list));
+        if (!new_node)
+        {
+            free(word);
+            break;
+        }
+        new_node->data = word;
+        new_node->next = NULL;
+        new_node->prev = tmp;
+        tmp->next = new_node;
+        tmp = new_node;
+    }
+    if (str)
+        free(str);
+    return (head);
 }
+
 int	lst_size(t_list **head)
 {
 	t_list *tmp;
@@ -772,22 +1352,44 @@ int	lst_size(t_list **head)
 	}
 	return (i);
 }
-void	free_list(t_list **head)
-{
-	t_list *tmp;
-	t_list *tmp2;
+// void free_list(t_list **head)
+// {
+//     if (!head || !*head)
+//         return;
+//     t_list *tmp;
+//     t_list *tmp2;
 
-	tmp = *head;
-	tmp2 = tmp;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		if (tmp2->data)
-			free(tmp2->data);
-		free(tmp2);
-		tmp2 = tmp;
-	}
-	*head = NULL;
+//     tmp = *head;
+//     tmp2 = tmp;
+//     while (tmp)
+//     {
+//         tmp = tmp->next;
+//         if (tmp2->data)
+//             t_free(tmp2->data);
+//         t_free(tmp2);
+//         tmp2 = tmp;
+//     }
+//     *head = NULL;
+// }
+
+void free_list(t_list **head)
+{
+    if (!head || !*head)
+        return;
+    
+    t_list *tmp;
+    t_list *tmp2;
+
+    tmp = *head;
+    while (tmp)
+    {
+        tmp2 = tmp->next;
+        if (tmp->data)
+            t_free(tmp->data, 838, "parsing.c");
+        t_free(tmp, 839, "parsing.c");
+        tmp = tmp2;
+    }
+    *head = NULL;
 }
 
 // char **converter(t_list **head)
@@ -800,7 +1402,7 @@ void	free_list(t_list **head)
 // 	i = 0;
 // 	tmp = *head;
 // 	size_list = lst_size(head);
-// 	arr = malloc(sizeof(char *) * (size_list + 1));
+// 	arr = t_malloc(sizeof(char *) * (size_list + 1));
 // 	while (tmp)
 // 	{
 // 		arr[i] = tmp->data;
@@ -817,10 +1419,10 @@ void	free_arr(char **arr)
 	int i = 0;
 	while (arr[i])
 	{
-		free(arr[i]);
+		t_free(arr[i], 872, "parsing.c");
 		i++;
 	}
-	free(arr);
+	t_free(arr, 875, "parsing.c");
 }
 
 char	*side_maker(t_list **head, int number, int j)
@@ -836,11 +1438,11 @@ char	*side_maker(t_list **head, int number, int j)
 	while (i < number - j)
 	{
 		tmp_char = tmp2;
-		tmp2 = ft_strjoin(tmp2, tmp->data);
-		free(tmp_char);
+		tmp2 = ft_strjoin_leak(tmp2, tmp->data, 1157);
+		t_free(tmp_char, 892, "parsing.c");
 		tmp_char = tmp2;
-		tmp2 = ft_strjoin(tmp2, " ");
-		free(tmp_char);
+		tmp2 = ft_strjoin_leak(tmp2, " ", 1160);
+		t_free(tmp_char, 895, "parsing.c");
 		i++;
 		tmp = tmp->next;
 	}
@@ -857,7 +1459,7 @@ void tree_maker(t_list **head, t_tree **tree)
     t_tree *command;
     int i;
     int total_nodes;
-    *tree = malloc(sizeof(t_tree));
+    *tree = t_malloc(sizeof(t_tree), 912, "parsing.c");
     if (!(*tree))
         return;
 	last = NULL;
@@ -883,7 +1485,7 @@ void tree_maker(t_list **head, t_tree **tree)
     {
         if (ft_strcmp(tmp->token, "OPERATION") == 0)
         {
-            command = malloc(sizeof(t_tree));
+            command = t_malloc(sizeof(t_tree), 908, "parsing.c");
             if (!command)
                 return;
             if (tmp->next)
@@ -906,16 +1508,16 @@ void tree_maker(t_list **head, t_tree **tree)
                 prev_part = *head;
                 tmp->prev->next = NULL;
                 if (tmp->data)
-                    free(tmp->data);
-                free(tmp);
+                    t_free(tmp->data, 961, "parsing.c");
+                t_free(tmp, 962, "parsing.c");
                 if (prev_part)
                     tree_maker(&prev_part, &(*tree)->left);
             }
             else
             {
                 if (tmp->data)
-                    free(tmp->data);
-                free(tmp);
+                    t_free(tmp->data, 969, "parsing.c");
+                t_free(tmp, 970, "parsing.c");
                 *head = NULL;
             }
             return;
@@ -925,7 +1527,7 @@ void tree_maker(t_list **head, t_tree **tree)
     }
     if (*head)
     {
-        command = malloc(sizeof(t_tree));
+        command = t_malloc(sizeof(t_tree), 950, "parsing.c");
         if (!command)
             return;
         command->command = side_maker(head, total_nodes, 0);
@@ -946,8 +1548,8 @@ void tree_maker(t_list **head, t_tree **tree)
             to_free = current;
             current = current->next;
             if (to_free->data)
-                free(to_free->data);
-            free(to_free);
+                t_free(to_free->data, 1001, "parsing.c");
+            t_free(to_free, 1002, "parsing.c");
         }
         *head = NULL;
     }
@@ -955,9 +1557,11 @@ void tree_maker(t_list **head, t_tree **tree)
 
 t_tree *create_tree_node(void *command, char *type)
 {
-    t_tree *node = malloc(sizeof(t_tree));
+    t_tree *node = t_malloc(sizeof(t_tree), 1010, "parsing.c");
     if (!node)
         return NULL;
+	// printf("DEBUG: create_tree_node with command %p ('%s')\n", 
+		// command, command ? (char*)command : "NULL");
     node->command = command;
     node->type = type;
     node->left = NULL;
@@ -984,25 +1588,25 @@ char *extract_command_until_pipe(t_list **head, t_list **pipe_pos)
         if (command_str)
         {
             temp = command_str;
-            command_str = ft_strjoin(command_str, " ");
-            free(temp);
-            
-            if (command_str) {
+            command_str = ft_strjoin_leak(command_str, " ", 1305);
+            t_free(temp, 1040, "parsing.c");
+            if (command_str)
+			{
                 temp = command_str;
-                command_str = ft_strjoin(command_str, current->data);
-                free(temp);
+                command_str = ft_strjoin_leak(command_str, current->data, 1310);
+                t_free(temp, 1046, "parsing.c");
             }
         }
         else
         {
             command_str = ft_strdup(current->data);
         }
-        
         current = current->next;
     }
-    
-    return command_str;
+    // printf("DEBUG: extract_command_until_pipe returning '%s'\n", command_str ? command_str : "NULL");
+    return (command_str);
 }
+
 
 t_tree *build_pipe_tree(t_list **head)
 {
@@ -1014,25 +1618,20 @@ t_tree *build_pipe_tree(t_list **head)
     
     if (!head || !(*head))
         return NULL;
-    
     command_str = extract_command_until_pipe(head, &pipe_pos);
-    
+	// printf("DEBUG: build_pipe_tree got command_str '%s'\n", command_str ? command_str : "NULL");
     if (!pipe_pos)
     {
         root = create_tree_node(command_str, "COMMAND");
         return root;
     }
-    
     root = create_tree_node(NULL, "PIPE");
-    
     command_node = create_tree_node(command_str, "COMMAND");
     root->left = command_node;
-    
     if (pipe_pos->next)
     {
         next_part = pipe_pos->next;
         pipe_pos->next = NULL;
-        
         root->right = build_pipe_tree(&next_part);
     }
     return (root);
@@ -1054,11 +1653,13 @@ void process_command_with_pipes(char *command_str, t_tree **command_tree)
         *command_tree = NULL;
         return;
     }
-    cmd_list = list_init(cmd_copy);
+    cmd_list = list_init_leak(cmd_copy, 1656);
     if (cmd_list)
+	{
         lexer(&cmd_list);
-    
-    *command_tree = build_pipe_tree(&cmd_list);
+    	*command_tree = build_pipe_tree(&cmd_list);
+		free_list(&cmd_list);///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	}
 }
 
 void free_tree(t_tree *tree)
@@ -1071,21 +1672,23 @@ void free_tree(t_tree *tree)
         free_tree(tree->left);
     if (tree->right)
         free_tree(tree->right);
+    // printf("DEBUG: free_tree freeing command: %p ('%s')\n", 
+        //    (void*)tree->command, tree->command ? tree->command : "NULL");
     if (tree->command)
-        free(tree->command);
+        t_free(tree->command, 1122, "parsing.c");
     if (tree->redirections)
-        free(tree->redirections);
+        t_free(tree->redirections, 1124, "parsing.c");
     if (tree->command_arr)
 	{
 		i = 0;
 		while (tree->command_arr[i])
 		{
-			free(tree->command_arr[i]);
+			t_free(tree->command_arr[i], 1130, "parsing.c");
 			i++;
 		}
-		free(tree->command_arr);
+		t_free(tree->command_arr, 1133, "parsing.c");
 	}
-    free(tree);
+    t_free(tree, 1135, "parsing.c");
 }
 
 void process_pipe_trees(t_tree *tree)
@@ -1100,7 +1703,6 @@ void process_pipe_trees(t_tree *tree)
     if (tree->command && tree->type && ft_strcmp(tree->type, "COMMAND") == 0)
     {
         command_str = (char *)tree->command;
-        
         if (ft_strchr(command_str, '|'))
         {
             process_command_with_pipes(command_str, &cmd_tree);
@@ -1108,7 +1710,7 @@ void process_pipe_trees(t_tree *tree)
             {
                 if (cmd_tree->type && ft_strcmp(cmd_tree->type, "PIPE") == 0)
                 {
-                    free(tree->command);
+                    t_free(tree->command, 1158, "parsing.c");
                     tree->command = NULL;
                     tree->type = cmd_tree->type;
                     if (tree->left)
@@ -1117,7 +1719,7 @@ void process_pipe_trees(t_tree *tree)
                     tree->right = cmd_tree->right;
                     cmd_tree->left = NULL;
                     cmd_tree->right = NULL;
-                    free(cmd_tree);
+                    t_free(cmd_tree, 1167, "parsing.c");
                 }
                 else
                 {
@@ -1142,7 +1744,7 @@ void process_pipe_trees(t_tree *tree)
             tree->right = right_child;
             pipe_node->left = NULL;
             pipe_node->right = NULL;
-            free(pipe_node);
+            t_free(pipe_node, 1192, "parsing.c");
         }
     }
     if (tree->left)
@@ -1238,7 +1840,7 @@ char	*extract_content_from_parentheses(char *command)
 	if (j != 0)
 		return (NULL);
 	end = i - 1;
-	content = ft_substr(command, start, end - start);
+	content = ft_substr_leak(command, start, end - start, 1573);
 	return (content);
 }
 
@@ -1281,7 +1883,7 @@ void process_parentheses_in_tree(t_tree *tree)
                 char *inner_cmd_copy = ft_strdup(inner_cmd);
                 if (inner_cmd_copy)
                 {
-                    cmd_list = list_init(inner_cmd_copy);
+                    cmd_list = list_init_leak(inner_cmd_copy, 1886);
                     if (cmd_list)
                     {
                         lexer(&cmd_list);
@@ -1289,7 +1891,7 @@ void process_parentheses_in_tree(t_tree *tree)
                         if (subtree)
                         {
                             process_pipe_trees(subtree);
-                            free(tree->command);
+                            t_free(tree->command, 1339, "parsing.c");
                             tree->command = NULL;
                             if (subtree->left)
                             {
@@ -1308,11 +1910,11 @@ void process_parentheses_in_tree(t_tree *tree)
                                 tree->command = subtree->command;
                                 subtree->command = NULL;
                             }
-                            free(subtree);
+                            t_free(subtree, 1358, "parsing.c");
                         }
                     }
                 }
-                free(inner_cmd);
+                t_free(inner_cmd, 1362, "parsing.c");
             }
         }
     }
@@ -1364,7 +1966,7 @@ void process_all_parentheses(t_tree *tree)
             inner_cmd = extract_content_from_parentheses(tree->command);
             if (inner_cmd)
 			{
-                cmd_list = list_init(ft_strdup(inner_cmd));
+                cmd_list = list_init_leak(ft_strdup(inner_cmd), 1969);
                 if (cmd_list)
 				{
                     lexer(&cmd_list);
@@ -1372,7 +1974,7 @@ void process_all_parentheses(t_tree *tree)
                     if (subtree)
 					{
                         process_pipe_trees(subtree);
-                        free(tree->command);
+                        t_free(tree->command, 1422, "parsing.c");
                         tree->command = NULL;
                         tree->type = subtree->type;
                         if (tree->left)
@@ -1383,10 +1985,10 @@ void process_all_parentheses(t_tree *tree)
                         tree->right = subtree->right;
                         subtree->left = NULL;
                         subtree->right = NULL;
-                        free(subtree);
+                        t_free(subtree, 1433, "parsing.c");
                     }
                 }
-                free(inner_cmd);
+                t_free(inner_cmd, 1436, "parsing.c");
             }
         }
     }
@@ -1421,7 +2023,7 @@ char *new_command_maker(char *str, int wordlen)
 	i = 0;
 	j = 0;
 	strlenth = ft_strlen(str);
-	new_str = malloc(sizeof(char) * (strlenth - wordlen + 1));
+	new_str = t_malloc(sizeof(char) * (strlenth - wordlen + 1), 1471, "parsing.c");
 	while (str[j] != '>')
 	{
 		new_str[i] = str[j];
@@ -1507,18 +2109,18 @@ void process_all_redirections(t_tree **tree)
                     command_part = ft_strdup(after_redir);
                 else
                     command_part = ft_strdup("");
-                free((*tree)->command);
+                t_free((*tree)->command, 1527, "parsing.c");
                 (*tree)->command = command_part;
             }
             else
             {
-                cmd_prefix = malloc(sizeof(char) * (cmd_length + 1));
+                cmd_prefix = t_malloc(sizeof(char) * (cmd_length + 1), 1562, "parsing.c");
                 if (cmd_prefix)
                 {
                     ft_strncpy(cmd_prefix, cmd, cmd_length);
                     cmd_prefix[cmd_length] = '\0';
                     (*tree)->redirections = ft_strdup(first_redir);
-                    free((*tree)->command);
+                    t_free((*tree)->command, 1568, "parsing.c");
                     (*tree)->command = cmd_prefix;
                 }
             }
@@ -1718,20 +2320,20 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 			j = i;
 			while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
 				i++;
-			*head = malloc(sizeof(t_list_fd));
+			*head = t_malloc(sizeof(t_list_fd), 1768, "parsing.c");
 			tmp_char = (*head)->name;
-			(*head)->name = ft_substr((*tree)->redirections, j, i - j);
-			free(tmp_char);
+			(*head)->name = ft_substr_leak((*tree)->redirections, j, i - j, 2055);
+			t_free(tmp_char, 1771, "parsing.c");
 			(*head)->redir = NULL;
 			(*head)->next = NULL;
 			(*head)->fd = -1;
 			(*head)->command = ft_strdup((*tree)->command);
 			tmp_char = (*tree)->redirections;
-			(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
-			free(tmp_char);
+			(*tree)->redirections = ft_substr_leak((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i, 2062);
+			t_free(tmp_char, 1778, "parsing.c");
 			tmp_char = (*tree)->redirections;
-			(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
-			free(tmp_char);
+			(*tree)->redirections = ft_strtrim_leak((*tree)->redirections, " ", 1779);
+			t_free(tmp_char, 1781, "parsing.c");
 			if (flag == 1 && !check_empty((*head)->name))
 			{
 				(*head)->fd = open((*head)->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -1812,36 +2414,33 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				j = i;
 				while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
 					i++;
-				new_node = malloc(sizeof(t_list_fd));
+				new_node = t_malloc(sizeof(t_list_fd), 1832, "parsing.c");
 				tmp_char = new_node->name;
-				new_node->name = ft_substr((*tree)->redirections, j, i - j);
-				free(tmp_char);
+				new_node->name = ft_substr_leak((*tree)->redirections, j, i - j, 2149);
+				t_free(tmp_char, 1865, "parsing.c");
 				new_node->fd = -1;
 				new_node->redir = NULL;
 				new_node->next = NULL;
 				new_node->command = ft_strdup((*tree)->command);
 				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
-				free(tmp_char);
+				(*tree)->redirections = ft_substr_leak((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i, 2156);
+				t_free(tmp_char, 1872, "parsing.c");
 				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
-				free(tmp_char);
+				(*tree)->redirections = ft_strtrim_leak((*tree)->redirections, " ", 1873);
+				t_free(tmp_char, 1875, "parsing.c");
 				if (flag == 1 && !check_empty(new_node->name))
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 					if (new_node->fd == -1)
 					{
-						printf("AAAAA\n");
-						printf("%s\n", new_node->name);
-						printf("%d\n", flag);
 						write(2, "invalid file\n", 13);
 						if (new_node->name)
-							free(new_node->name);
+							t_free(new_node->name, 1886, "parsing.c");
 						if (new_node->command)
-							free(new_node->command);
+							t_free(new_node->command, 1888, "parsing.c");
 						if (new_node->redir)
-							free(new_node->redir);
-						free(new_node);
+							t_free(new_node->redir, 1890, "parsing.c");
+						t_free(new_node, 1891, "parsing.c");
 						free_list_fd(head);
 						exit (1);
 					}
@@ -1854,12 +2453,12 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					{
 						write(2, "invalid file\n", 13);
 						if (new_node->name)
-							free(new_node->name);
+							t_free(new_node->name, 1904, "parsing.c");
 						if (new_node->command)
-							free(new_node->command);
+							t_free(new_node->command, 1906, "parsing.c");
 						if (new_node->redir)
-							free(new_node->redir);
-						free(new_node);
+							t_free(new_node->redir, 1908, "parsing.c");
+						t_free(new_node, 1909, "parsing.c");
 						free_list_fd(head);
 						exit (1);
 					}
@@ -1872,12 +2471,12 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					{
 						write(2, "invalid file\n", 13);
 						if (new_node->name)
-							free(new_node->name);
+							t_free(new_node->name, 1922, "parsing.c");
 						if (new_node->command)
-							free(new_node->command);
+							t_free(new_node->command, 1924, "parsing.c");
 						if (new_node->redir)
-							free(new_node->redir);
-						free(new_node);
+							t_free(new_node->redir, 1926, "parsing.c");
+						t_free(new_node, 1927, "parsing.c");
 						free_list_fd(head);
 						exit (1);
 					}
@@ -1890,12 +2489,12 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					{
 						write(2, "invalid file\n", 13);
 						if (new_node->name)
-							free(new_node->name);
+							t_free(new_node->name, 1940, "parsing.c");
 						if (new_node->command)
-							free(new_node->command);
+							t_free(new_node->command, 1942, "parsing.c");
 						if (new_node->redir)
-							free(new_node->redir);
-						free(new_node);
+							t_free(new_node->redir, 1944, "parsing.c");
+						t_free(new_node, 1945, "parsing.c");
 						free_list_fd(head);
 						exit (1);
 					}
@@ -1936,20 +2535,20 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				j = i;
 				while ((*tree)->redirections[i] != 32 && (*tree)->redirections[i] != '\0')
 					i++;
-				new_node = malloc(sizeof(t_list_fd));
+				new_node = t_malloc(sizeof(t_list_fd), 1956, "parsing.c");
 				tmp_char = new_node->name;
-				new_node->name = ft_substr((*tree)->redirections, j, i - j);
-				free(tmp_char);
+				new_node->name = ft_substr_leak((*tree)->redirections, j, i - j, 2270);
+				t_free(tmp_char, 1989, "parsing.c");
 				new_node->fd = -1;
 				new_node->redir = NULL;
 				new_node->next = NULL;
 				new_node->command = ft_strdup((*tree)->command);
 				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_substr((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i);
-				free(tmp_char);
+				(*tree)->redirections = ft_substr_leak((*tree)->redirections, i, ft_strlen((*tree)->redirections) - i, 2277);
+				t_free(tmp_char, 1996, "parsing.c");
 				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_strtrim((*tree)->redirections, " ");
-				free(tmp_char);
+				(*tree)->redirections = ft_strtrim_leak((*tree)->redirections, " ", 1994);
+				t_free(tmp_char, 1999, "parsing.c");
 				if (flag == 1 && !check_empty(new_node->name))
 				{
 					new_node->fd = open(new_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -1957,12 +2556,12 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					{
 						write(2, "invalid file\n", 13);
 						if (new_node->name)
-							free(new_node->name);
+							t_free(new_node->name, 2007, "parsing.c");
 						if (new_node->command)
-							free(new_node->command);
+							t_free(new_node->command, 2009, "parsing.c");
 						if (new_node->redir)
-							free(new_node->redir);
-						free(new_node);
+							t_free(new_node->redir, 2011, "parsing.c");
+						t_free(new_node, 2012, "parsing.c");
 						free_list_fd(head);
 						exit (1);
 					}
@@ -1975,12 +2574,12 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					{
 						write(2, "invalid file\n", 13);
 						if (new_node->name)
-							free(new_node->name);
+							t_free(new_node->name, 2025, "parsing.c");
 						if (new_node->command)
-							free(new_node->command);
+							t_free(new_node->command, 2027, "parsing.c");
 						if (new_node->redir)
-							free(new_node->redir);
-						free(new_node);
+							t_free(new_node->redir, 2029, "parsing.c");
+						t_free(new_node, 2030, "parsing.c");
 						free_list_fd(head);
 						exit (1);
 					}
@@ -1993,12 +2592,12 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					{
 						write(2, "invalid file\n", 13);
 						if (new_node->name)
-							free(new_node->name);
+							t_free(new_node->name, 2043, "parsing.c");
 						if (new_node->command)
-							free(new_node->command);
+							t_free(new_node->command, 2045, "parsing.c");
 						if (new_node->redir)
-							free(new_node->redir);
-						free(new_node);
+							t_free(new_node->redir, 2047, "parsing.c");
+						t_free(new_node, 2048, "parsing.c");
 						free_list_fd(head);
 						exit (1);
 					}
@@ -2011,12 +2610,12 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					{
 						write(2, "invalid file\n", 13);
 						if (new_node->name)
-							free(new_node->name);
+							t_free(new_node->name, 2061, "parsing.c");
 						if (new_node->command)
-							free(new_node->command);
+							t_free(new_node->command, 2063, "parsing.c");
 						if (new_node->redir)
-							free(new_node->redir);
-						free(new_node);
+							t_free(new_node->redir, 2065, "parsing.c");
+						t_free(new_node, 2066, "parsing.c");
 						free_list_fd(head);
 						exit (1);
 					}
@@ -2047,33 +2646,66 @@ int variable_search(t_list **head)
         return (1);
     return (0);
 }
-void    variable_expantion(t_list **head, char **ev)
+// void    variable_expantion(t_list **head, char **ev)
+// {
+//     t_list *tmp;
+//     int i;
+//     char *variable_name;
+// 	char *tmp_char;
+
+//     tmp = *head;
+//     i = 0;
+//     while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
+//         tmp = tmp->next;
+// 	if (tmp)
+//     	variable_name = ft_substr_leak(tmp->data, 1, ft_strlen(tmp->data) - 1);
+//     while (ev[i])
+//     {
+//         if (tmp && !ft_strncmp(ev[i], variable_name, ft_strlen(variable_name)) && ev[i][ft_strlen(variable_name)] == '=')
+//         {
+// 			tmp_char = tmp->data;
+//             tmp->data = ft_substr_leak(ev[i], ft_strlen(variable_name), ft_strlen(ev[i]) - ft_strlen(variable_name));
+// 			t_free(tmp_char);
+// 			tmp_char = tmp->data;
+//             tmp->data = ft_strtrim(tmp->data, "=");
+// 			t_free(tmp_char);
+//         }
+//         i++;
+//     }
+// }
+
+void variable_expantion(t_list **head, char **ev)
 {
     t_list *tmp;
     int i;
-    char *variable_name;
-	char *tmp_char;
+    char *variable_name = NULL;
+    char *tmp_char;
 
     tmp = *head;
     i = 0;
     while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
         tmp = tmp->next;
-	if (tmp)
-    	variable_name = ft_substr(tmp->data, 1, ft_strlen(tmp->data) - 1);
-    while (ev[i])
+    
+    if (tmp)
     {
-        if (tmp && !ft_strncmp(ev[i], variable_name, ft_strlen(variable_name)) && ev[i][ft_strlen(variable_name)] == '=')
+        variable_name = ft_substr_leak(tmp->data, 1, ft_strlen(tmp->data) - 1, 2421);
+        
+        while (ev[i])
         {
-			tmp_char = tmp->data;
-            tmp->data = ft_substr(ev[i], ft_strlen(variable_name), ft_strlen(ev[i]) - ft_strlen(variable_name));
-			free(tmp_char);
-			tmp_char = tmp->data;
-            tmp->data = ft_strtrim(tmp->data, "=");
-			free(tmp_char);
+            if (!ft_strncmp(ev[i], variable_name, ft_strlen(variable_name)) && ev[i][ft_strlen(variable_name)] == '=')
+            {
+                tmp_char = tmp->data;
+                tmp->data = ft_substr_leak(ev[i], ft_strlen(variable_name), ft_strlen(ev[i]) - ft_strlen(variable_name), 2428);
+                t_free(tmp_char, 2147, "parsing.c");
+                
+                tmp_char = tmp->data;
+                tmp->data = ft_strtrim_leak(tmp->data, "=", 2146);
+                t_free(tmp_char, 2151, "parsing.c");
+            }
+            i++;
         }
-        i++;
+        t_free(variable_name, 2157, "parsing.c");
     }
-
 }
 
 int	check_for_variable(char *str)
@@ -2141,51 +2773,51 @@ int	variable_in_word(t_list **head, char **argev)
 							j++;
 						l++;
 						tmp_char = tmp_word;
-						tmp_word = ft_substr(tmp->data, l, j - l);
-						free(tmp_char);
+						tmp_word = ft_substr_leak(tmp->data, l, j - l, 2506);
+						t_free(tmp_char, 2227, "parsing.c");
 						k = 0;
 						while (argev[k] && ft_strncmp(argev[k], tmp_word, ft_strlen(tmp_word)))
 							k++;
 						if (!argev[k])
 						{
-							free(tmp_word);
+							t_free(tmp_word, 2233, "parsing.c");
 							tmp_char = first_part;
-							first_part = ft_substr(tmp->data, 0, i);/////////////////////////////
-							free(tmp_char);
+							first_part = ft_substr_leak(tmp->data, 0, i, 2515);
+							t_free(tmp_char, 2236, "parsing.c");
 							tmp_char = second_part;
-							second_part = ft_substr(tmp->data, j, ft_strlen(tmp->data) - j);
-							free(tmp_char);
+							second_part = ft_substr_leak(tmp->data, j, ft_strlen(tmp->data) - j, 2518);
+							t_free(tmp_char, 2239, "parsing.c");
 							tmp_char = new_str;
-							new_str = ft_strjoin(first_part, second_part);
-							free(tmp_char);
-							free(tmp->data);
+							new_str = ft_strjoin_leak(first_part, second_part, 2501);
+							t_free(tmp_char, 2242, "parsing.c");
+							t_free(tmp->data, 2243, "parsing.c");
 							tmp->data = new_str;
 						}
 						else
 						{
-							free(tmp_word);
+							t_free(tmp_word, 2248, "parsing.c");
 							l = 0;
 							while (argev[k][l] && argev[k][l] != '=')
 								l++;
 							tmp_char = tmp_word;
-							tmp_word = ft_substr(argev[k], l, ft_strlen(argev[k]) - l);
-							free(tmp_char);
+							tmp_word = ft_substr_leak(argev[k], l, ft_strlen(argev[k]) - l, 2533);
+							t_free(tmp_char, 2254, "parsing.c");
 							tmp_char = tmp_word;
-							tmp_word = ft_strtrim(tmp_word, "=");
-							free(tmp_char);
+							tmp_word = ft_strtrim_leak(tmp_word, "=", 2252);
+							t_free(tmp_char, 2257, "parsing.c");
 							tmp_char = first_part;
-							first_part = ft_substr(tmp->data, 0, i);
-							free(tmp_char);
+							first_part = ft_substr_leak(tmp->data, 0, i, 2539);
+							t_free(tmp_char, 2260, "parsing.c");
 							tmp_char = second_part;
-							second_part = ft_substr(tmp->data, j, ft_strlen(tmp->data) - j);
-							free(tmp_char);
+							second_part = ft_substr_leak(tmp->data, j, ft_strlen(tmp->data) - j, 2542);
+							t_free(tmp_char, 2263, "parsing.c");
+							tmp_char = new_str; 
+							new_str = ft_strjoin_leak(first_part, tmp_word, 2525);
+							t_free(tmp_char, 2266, "parsing.c");
 							tmp_char = new_str;
-							new_str = ft_strjoin(first_part, tmp_word);
-							free(tmp_char);
-							tmp_char = new_str;
-							new_str = ft_strjoin(new_str, second_part);
-							free(tmp_char);
-							free(tmp->data);
+							new_str = ft_strjoin_leak(new_str, second_part, 2528);
+							t_free(tmp_char, 2269, "parsing.c");
+							t_free(tmp->data, 2270, "parsing.c");
 							tmp->data = new_str;
 						}
 					}
@@ -2256,7 +2888,7 @@ void	quote_remove_two(t_tree **tree)
 				}
 				i++;
 			}
-			new_str = (char *)malloc(sizeof(char) * (final_len + 1));
+			new_str = (char *)t_malloc(sizeof(char) * (final_len + 1), 2341, "parsing.c");
 			if (!new_str)
 			{
 				k++;
@@ -2285,7 +2917,7 @@ void	quote_remove_two(t_tree **tree)
 				i++;
 			}
 			new_str[j] = '\0';
-			free((*tree)->command_arr[k]);
+			t_free((*tree)->command_arr[k], 2370, "parsing.c");
 			(*tree)->command_arr[k] = new_str;
 			k++;
 		}
@@ -2310,16 +2942,16 @@ void	command_arr_fill(t_tree **tree)
 		str = ft_strdup((*tree)->command);
 		if (!str || !*str)
         {
-            arr = malloc(sizeof(char *));
+            arr = t_malloc(sizeof(char *), 2395, "parsing.c");
             if (arr)
                 arr[0] = NULL;
             (*tree)->command_arr = arr;
-            free(str);
+            t_free(str, 2399, "parsing.c");
             return;
         }
-		head = list_init(str);
+		head = list_init_leak(str, 2952);
 		list_size = lst_size(&head);
-		arr = malloc(sizeof(char *) * (list_size + 1));
+		arr = t_malloc(sizeof(char *) * (list_size + 1), 2404, "parsing.c");
 		tmp = head;
 		while (tmp)
 		{
@@ -2343,22 +2975,22 @@ t_env	*env_fill(char **argev)
 
 	i = 0;
 	j = 0;
-	head = malloc(sizeof(t_env));
+	head = t_malloc(sizeof(t_env), 2428, "parsing.c");
 	while (argev[i] && argev[i][j] != '=')
 		j++;
-	head->key = ft_substr(argev[i],0, j);
-	head->value = ft_substr(argev[i], (j + 1), ft_strlen(argev[i]) - (j + 1));
+	head->key = ft_substr_leak(argev[i],0, j, 2711);
+	head->value = ft_substr_leak(argev[i], (j + 1), ft_strlen(argev[i]) - (j + 1), 2712);
 	j = 0;
 	head->next = NULL;
 	tmp = head;
 	i++;
 	while (argev[i])
 	{
-		new_node = malloc(sizeof(t_env));
+		new_node = t_malloc(sizeof(t_env), 2439, "parsing.c");
 		while (argev[i] && argev[i][j] != '=')
 			j++;
-		new_node->key = ft_substr(argev[i],0, j);
-		new_node->value = ft_substr(argev[i], (j + 1), ft_strlen(argev[i]) - (j + 1));
+		new_node->key = ft_substr_leak(argev[i],0, j, 2722);
+		new_node->value = ft_substr_leak(argev[i], (j + 1), ft_strlen(argev[i]) - (j + 1), 2723);
 		j = 0;
 		new_node->next = NULL;
 		tmp->next = new_node;
@@ -2377,9 +3009,9 @@ void	free_env(t_env **env)
 	while (tmp)
 	{
 		tmp2 = tmp->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
+		t_free(tmp->key, 2462, "parsing.c");
+		t_free(tmp->value, 2463, "parsing.c");
+		t_free(tmp, 2464, "parsing.c");
 		tmp = tmp2;
 	}
 	*env = NULL;
@@ -2416,6 +3048,11 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 		i = 0;
 		if (!str)
 			break;
+		else if (!*str)
+		{
+			free(str);
+			continue ;
+		}
 		env = env_fill(argev);
 		tmp_env = env;
 		// while (tmp_env)
@@ -2428,11 +3065,11 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 		add_history(str);
 		str = replace_whites_spaces(str);
 		tmp_str = str;
-		str = ft_strtrim(str, " ");
-		free(tmp_str);
+		str = ft_strtrim_leak(str, " ", 2509);
+		t_free(tmp_str, 2514, "parsing.c");
 		if (check_quotes(str) == 1)
 			return (1);
-		head = list_init(str);
+		head = list_init_leak(str, 3072);
 		lexer(&head);
 		tmp = head;
 		// while (tmp)
@@ -2456,7 +3093,9 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 		// quote_remove(&head);
 		syntax_error(&head);
 		tree_maker(&head, &tree);
+		print_tree_visual(tree, 1, 1);
 		process_pipe_trees(tree);
+		print_tree_visual(tree, 1, 1);
 		process_nested_parentheses(&tree);
 		process_all_redirections(&tree);
 		command_arr_fill(&tree);
@@ -2466,19 +3105,22 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 		syntax_error_two(&tree);
 		redirections_opener(&tree, &head_fd);
 		tmp_fd = head_fd;
-		while (tmp_fd)
-		{
-			printf("filename == %s\n", tmp_fd->name);
-			printf("filedescriptor == %d\n", tmp_fd->fd);
-			printf("command == %s\n", tmp_fd->command);
-			printf("redir == %s\n", tmp_fd->redir);
-			printf("\n");
-			tmp_fd = tmp_fd->next;
-		}
+		// while (tmp_fd)
+		// {
+		// 	printf("filename == %s\n", tmp_fd->name);
+		// 	printf("filedescriptor == %d\n", tmp_fd->fd);
+		// 	printf("command == %s\n", tmp_fd->command);
+		// 	printf("redir == %s\n", tmp_fd->redir);
+		// 	printf("\n");
+		// 	tmp_fd = tmp_fd->next;
+		// }
 		free_env(&env);
-		free_tree(tree);
-		free_list_fd(&head_fd);
-		free(str);
+		if (tree)
+			free_tree(tree);
+		if (head_fd)
+			free_list_fd(&head_fd);
+		if (head)
+			free_list(&head);
+		// t_free(str, 2567, "parsing.c");
 	}
 }
-

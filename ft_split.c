@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:07:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/03/17 13:51:10 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/15 16:03:30 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*makestrs(char *s, int start, int end)
 	int		i;
 
 	i = 0;
-	word = malloc((end - start + 1) * sizeof(char));
+	word = t_malloc((end - start + 1) * sizeof(char), 42, "ft_split.c");
 	if (!word)
 		return (NULL);
 	while (start < end)
@@ -84,10 +84,10 @@ static void	ft_free(char **split, int count)
 	i = 0;
 	while (i < count)
 	{
-		free(split[i]);
+		t_free(split[i], 87, "ft_split.c");
 		i++;
 	}
-	free(split);
+	t_free(split, 90, "ft_split.c");
 }
 
 char	**ft_split(char *s, char c)
@@ -98,7 +98,7 @@ char	**ft_split(char *s, char c)
 	if (!s)
 		return (NULL);
 	count = countwords(s, c);
-	split = malloc((count + 1) * sizeof(char *));
+	split = t_malloc((count + 1) * sizeof(char *), 101, "ft_split.c");
 	if (!split)
 		return (NULL);
 	if (!mktwod(split, s, c, count))
