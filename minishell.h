@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/16 17:14:14 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/17 19:03:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	*t_malloc(size_t i, int line, char *file);
 char	*ft_strdup_leak(char *s1, int line);
 char	*ft_strjoin_leak(char *s1, char *s2, int line);
 char	*ft_substr_leak(char *s, unsigned int start, size_t len, int line);
-char	*ft_strtrim_leak(char *s1, char *set, int line);
-t_list	*list_init_leak(char *str, int line);
+char	*ft_strtrim_leak(char *s1, char *set, int line, char *str);
+t_list	*list_init_leak(char *str, int line, char *str2);
+char	*ft_strstr(const char *haystack, const char *needle);
 
 #endif

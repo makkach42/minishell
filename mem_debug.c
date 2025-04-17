@@ -43,21 +43,23 @@ char	*ft_substr_leak(char *s, unsigned int start, size_t len, int line)
 	return (ptr);
 
 }
-char	*ft_strtrim_leak(char *s1, char *set, int line)
+char	*ft_strtrim_leak(char *s1, char *set, int line, char *str)
 {
 	char *ptr;
 	(void)line;
+	(void)str;
 	ptr = ft_strtrim(s1, set);
-	// printf("Use of ft_strtrim on line %d returning this address %p\n", line, ptr);
+	// printf("Use of ft_strtrim on line %d returning this address %p used in function %s\n", line, ptr, str);
 	return (ptr);
 }
 
-t_list *list_init_leak(char *str, int line)
+t_list *list_init_leak(char *str, int line, char *str2)
 {
 	t_list *ptr;
 
 	(void)line;
+	(void)str2;
 	ptr = list_init(str);
-	// printf("Use of list_init on line %d returning this address %p\n", line, ptr);
+	// printf("Use of list_init on line %d returning this address %p nested in function %s\n", line, ptr, str2);
 	return (ptr);
 }
