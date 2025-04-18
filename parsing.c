@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/17 21:18:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/18 11:57:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -3114,7 +3114,8 @@ void tree_maker(t_list **head, t_tree **tree)
         }
         
         // For the command, use the original data
-        (*tree)->command = ft_strdup((*head)->data);
+        // (*tree)->command = ft_strdup((*head)->data);
+		(*tree)->command = side_maker(head, total_nodes - i, 0);
         (*tree)->left = NULL;
         (*tree)->right = NULL;
         (*tree)->command_arr = NULL;
@@ -4667,8 +4668,133 @@ void fix_operation_tree_structure(t_tree *tree)
 //     *cmd_part = ft_substr_leak(cmd_str, 0, cmd_len, __LINE__);
 //     *redir_part = ft_strdup(redir_start);
 // }
-void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
-{
+// void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
+// {
+//     char *redir_start = NULL;
+//     char *redir_out = ft_strchr(cmd_str, '>');
+//     char *redir_in = ft_strchr(cmd_str, '<');
+//     int cmd_len = 0;
+    
+//     *cmd_part = NULL;
+//     *redir_part = NULL;
+    
+//     if (!cmd_str)
+//         return;
+    
+//     // First check for heredoc specifically as it needs special handling
+//     char *heredoc = ft_strstr(cmd_str, "<<");
+//     if (heredoc) {
+//         // For heredoc, prioritize it to ensure it stays with the command
+//         redir_start = heredoc;
+//     }
+//     else if (redir_out && redir_in) {
+//         // If both types of redirection exist, take the first one
+//         redir_start = (redir_out < redir_in) ? redir_out : redir_in;
+//     } else if (redir_out) {
+//         redir_start = redir_out;
+//     } else if (redir_in) {
+//         redir_start = redir_in;
+//     } else {
+//         // No redirection found
+//         *cmd_part = ft_strdup(cmd_str);
+//         return;
+//     }
+    
+//     // Check if the redirection is inside balanced parentheses
+//     int paren_count = 0;
+//     int in_quotes = 0;
+//     char quote_type = 0;
+//     char *p = cmd_str;
+    
+//     // Process text before redirection to check for balanced structures
+//     while (p < redir_start) {
+//         // Handle quotes
+//         if ((*p == '\'' || *p == '\"') && !in_quotes) {
+//             in_quotes = 1;
+//             quote_type = *p;
+//         } else if (in_quotes && *p == quote_type) {
+//             in_quotes = 0;
+//         }
+        
+//         // Count parentheses only when not in quotes
+//         if (!in_quotes) {
+//             if (*p == '(') paren_count++;
+//             if (*p == ')') paren_count--;
+//         }
+//         p++;
+//     }
+    
+//     // Handle pipe character specially with heredocs
+//     char *pipe_char = ft_strchr(cmd_str, '|');
+    
+//     // If inside parentheses, look for redirection outside or after parentheses
+//     if (paren_count > 0) {
+//         // Find the matching closing parenthesis
+//         in_quotes = 0;
+//         while (*p) {
+//             if ((*p == '\'' || *p == '\"') && !in_quotes) {
+//                 in_quotes = 1;
+//                 quote_type = *p;
+//             } else if (in_quotes && *p == quote_type) {
+//                 in_quotes = 0;
+//             }
+            
+//             if (!in_quotes) {
+//                 if (*p == '(') paren_count++;
+//                 if (*p == ')') paren_count--;
+//                 if (paren_count == 0) break;
+//             }
+//             p++;
+//         }
+        
+//         // Skip past closing parenthesis
+//         if (*p) p++;
+        
+//         // Look for redirection after balanced parentheses
+//         redir_out = ft_strchr(p, '>');
+//         redir_in = ft_strchr(p, '<');
+        
+//         if (redir_out && redir_in) {
+//             redir_start = (redir_out < redir_in) ? redir_out : redir_in;
+//         } else if (redir_out) {
+//             redir_start = redir_out;
+//         } else if (redir_in) {
+//             redir_start = redir_in;
+//         } else {
+//             // No redirection after parentheses
+//             *cmd_part = ft_strdup(cmd_str);
+//             return;
+//         }
+//     }
+//     // Special case for heredoc with a pipe
+//     else if (heredoc && pipe_char && pipe_char > heredoc) {
+//         // Extract the heredoc delimiter
+//         p = heredoc + 2; // Skip past "<<"
+        
+//         // Skip spaces
+//         while (*p && (*p == ' ' || *p == '\t')) p++;
+        
+//         // Find the end of the heredoc delimiter
+//         // char *delim_start = p;
+//         while (*p && *p != ' ' && *p != '\t' && *p != '|') p++;
+        
+//         // If there's a pipe after the heredoc, handle specially to keep heredoc with command
+//         if (pipe_char > p) {
+//             // For commands like "cat << EOF | grep", we want the heredoc to stay with "cat"
+//             // So split at the pipe, not the heredoc
+//             cmd_len = pipe_char - cmd_str;
+//             *cmd_part = ft_substr_leak(cmd_str, 0, cmd_len, __LINE__);
+//             *redir_part = heredoc;
+//             return;
+//         }
+//     }
+    
+//     // Standard case - split at the redirection
+//     cmd_len = redir_start - cmd_str;
+//     *cmd_part = ft_substr_leak(cmd_str, 0, cmd_len, __LINE__);
+//     *redir_part = ft_strdup(redir_start);
+// }
+void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part) {
     char *redir_start = NULL;
     char *redir_out = ft_strchr(cmd_str, '>');
     char *redir_in = ft_strchr(cmd_str, '<');
@@ -4679,43 +4805,29 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
     
     if (!cmd_str)
         return;
-    
-    // First check for heredoc specifically as it needs special handling
-    char *heredoc = ft_strstr(cmd_str, "<<");
-    if (heredoc) {
-        // For heredoc, prioritize it to ensure it stays with the command
-        redir_start = heredoc;
-    }
-    else if (redir_out && redir_in) {
-        // If both types of redirection exist, take the first one
+    if (redir_out && redir_in) {
         redir_start = (redir_out < redir_in) ? redir_out : redir_in;
     } else if (redir_out) {
         redir_start = redir_out;
     } else if (redir_in) {
         redir_start = redir_in;
     } else {
-        // No redirection found
         *cmd_part = ft_strdup(cmd_str);
         return;
     }
     
-    // Check if the redirection is inside balanced parentheses
     int paren_count = 0;
     int in_quotes = 0;
     char quote_type = 0;
     char *p = cmd_str;
     
-    // Process text before redirection to check for balanced structures
     while (p < redir_start) {
-        // Handle quotes
         if ((*p == '\'' || *p == '\"') && !in_quotes) {
             in_quotes = 1;
             quote_type = *p;
         } else if (in_quotes && *p == quote_type) {
             in_quotes = 0;
         }
-        
-        // Count parentheses only when not in quotes
         if (!in_quotes) {
             if (*p == '(') paren_count++;
             if (*p == ')') paren_count--;
@@ -4723,12 +4835,8 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
         p++;
     }
     
-    // Handle pipe character specially with heredocs
-    char *pipe_char = ft_strchr(cmd_str, '|');
-    
-    // If inside parentheses, look for redirection outside or after parentheses
+    // char *pipe_char = ft_strchr(cmd_str, '|');
     if (paren_count > 0) {
-        // Find the matching closing parenthesis
         in_quotes = 0;
         while (*p) {
             if ((*p == '\'' || *p == '\"') && !in_quotes) {
@@ -4737,7 +4845,6 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
             } else if (in_quotes && *p == quote_type) {
                 in_quotes = 0;
             }
-            
             if (!in_quotes) {
                 if (*p == '(') paren_count++;
                 if (*p == ')') paren_count--;
@@ -4745,14 +4852,9 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
             }
             p++;
         }
-        
-        // Skip past closing parenthesis
         if (*p) p++;
-        
-        // Look for redirection after balanced parentheses
         redir_out = ft_strchr(p, '>');
         redir_in = ft_strchr(p, '<');
-        
         if (redir_out && redir_in) {
             redir_start = (redir_out < redir_in) ? redir_out : redir_in;
         } else if (redir_out) {
@@ -4760,35 +4862,11 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
         } else if (redir_in) {
             redir_start = redir_in;
         } else {
-            // No redirection after parentheses
             *cmd_part = ft_strdup(cmd_str);
             return;
         }
     }
-    // Special case for heredoc with a pipe
-    else if (heredoc && pipe_char && pipe_char > heredoc) {
-        // Extract the heredoc delimiter
-        p = heredoc + 2; // Skip past "<<"
-        
-        // Skip spaces
-        while (*p && (*p == ' ' || *p == '\t')) p++;
-        
-        // Find the end of the heredoc delimiter
-        // char *delim_start = p;
-        while (*p && *p != ' ' && *p != '\t' && *p != '|') p++;
-        
-        // If there's a pipe after the heredoc, handle specially to keep heredoc with command
-        if (pipe_char > p) {
-            // For commands like "cat << EOF | grep", we want the heredoc to stay with "cat"
-            // So split at the pipe, not the heredoc
-            cmd_len = pipe_char - cmd_str;
-            *cmd_part = ft_substr_leak(cmd_str, 0, cmd_len, __LINE__);
-            *redir_part = heredoc;
-            return;
-        }
-    }
     
-    // Standard case - split at the redirection
     cmd_len = redir_start - cmd_str;
     *cmd_part = ft_substr_leak(cmd_str, 0, cmd_len, __LINE__);
     *redir_part = ft_strdup(redir_start);
@@ -5399,91 +5477,173 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
 //     if (tree->right)
 //         process_all_parentheses(tree->right);
 // }
-void process_all_parentheses(t_tree *tree)
-{
+// void process_all_parentheses(t_tree *tree)
+// {
+//     if (!tree)
+//         return;
+    
+//     if (tree->type && tree->command && ft_strcmp(tree->type, "PARENTHASIS") == 0) {
+//         // Extract any redirections from the command
+//         char *cmd_part = NULL;
+//         char *redir_part = NULL;
+//         extract_redirections(tree->command, &cmd_part, &redir_part);
+        
+//         // Get the content inside parentheses
+//         char *inner_cmd = NULL;
+//         if (cmd_part && cmd_part[0] == '(') {
+//             inner_cmd = extract_content_from_parentheses(cmd_part);
+//             t_free(cmd_part, __LINE__, "process_all_parentheses");
+//         } else if (cmd_part) {
+//             inner_cmd = cmd_part;  // Use cmd_part if no parentheses
+//         } else {
+//             inner_cmd = extract_content_from_parentheses(tree->command);
+//         }
+        
+//         if (inner_cmd) {
+//             // Parse the inner command into tokens
+//             t_list *cmd_list = list_init_leak(inner_cmd, __LINE__, "process_all_parentheses");
+//             if (cmd_list) {
+//                 lexer(&cmd_list);
+                
+//                 // Check if we have a heredoc redirection in this parenthesized content
+//                 int has_heredoc = 0;
+//                 t_list *tmp = cmd_list;
+//                 while (tmp) {
+//                     if (tmp->data && ft_strstr(tmp->data, "<<")) {
+//                         has_heredoc = 1;
+//                         break;
+//                     }
+//                     tmp = tmp->next;
+//                 }
+                
+//                 // Build a syntax tree from the tokens
+//                 t_tree *subtree = NULL;
+//                 tree_maker(&cmd_list, &subtree);
+                
+//                 if (subtree) {
+//                     // Process pipe operations in the subtree
+//                     process_pipe_trees(subtree);
+                    
+//                     // Free the original command
+//                     t_free(tree->command, __LINE__, "parsing.c");
+//                     tree->command = NULL;
+                    
+//                     // Save the redirection info if found
+//                     if (redir_part) {
+//                         tree->redirections = redir_part;
+//                     }
+                    
+//                     // Handle heredoc inside pipe specially
+//                     if (has_heredoc && subtree->type && ft_strcmp(subtree->type, "PIPE") == 0) {
+//                         // For commands with pipes like "cat << EOF | grep", the heredoc should
+//                         // be associated with the left-side command ("cat")
+//                         if (subtree->left && !subtree->left->redirections) {
+//                             // Look for heredoc in remaining command text
+//                             if (subtree->command) {
+//                                 char *cmd_part_sub = NULL;
+//                                 char *redir_part_sub = NULL;
+//                                 extract_redirections(subtree->command, &cmd_part_sub, &redir_part_sub);
+                                
+//                                 if (redir_part_sub && ft_strstr(redir_part_sub, "<<")) {
+//                                     // Associate the heredoc with the left side of the pipe
+//                                     subtree->left->redirections = redir_part_sub;
+                                    
+//                                     // Update the remaining command
+//                                     if (cmd_part_sub) {
+//                                         t_free(subtree->command, __LINE__, "parsing.c");
+//                                         subtree->command = cmd_part_sub;
+//                                     }
+//                                 } else {
+//                                     if (cmd_part_sub) t_free(cmd_part_sub, __LINE__, "parsing.c");
+//                                     if (redir_part_sub) t_free(redir_part_sub, __LINE__, "parsing.c");
+//                                 }
+//                             }
+//                         }
+//                     }
+                    
+//                     // Transfer command and properties from subtree to this node
+//                     if (subtree->command) {
+//                         tree->command = subtree->command;
+//                         subtree->command = NULL;
+//                     }
+                    
+//                     if (subtree->type)
+//                         tree->type = subtree->type;
+//                     else
+//                         tree->type = "COMMAND";
+                    
+//                     // Replace children
+//                     if (tree->left)
+//                         free_tree(tree->left);
+//                     if (tree->right)
+//                         free_tree(tree->right);
+                    
+//                     tree->left = subtree->left;
+//                     tree->right = subtree->right;
+//                     subtree->left = NULL;
+//                     subtree->right = NULL;
+                    
+//                     t_free(subtree, __LINE__, "parsing.c");
+//                 } else {
+//                     // Clean up if subtree creation failed
+//                     if (inner_cmd != cmd_part)
+//                         t_free(inner_cmd, __LINE__, "parsing.c");
+//                     if (redir_part)
+//                         t_free(redir_part, __LINE__, "parsing.c");
+//                 }
+//             } else {
+//                 // Clean up if list creation failed
+//                 if (inner_cmd != cmd_part)
+//                     t_free(inner_cmd, __LINE__, "parsing.c");
+//                 if (redir_part)
+//                     t_free(redir_part, __LINE__, "parsing.c");
+//             }
+//         } else if (redir_part) {
+//             t_free(redir_part, __LINE__, "parsing.c");
+//         }
+//     }
+    
+//     // Process children recursively
+//     if (tree->left)
+//         process_all_parentheses(tree->left);
+//     if (tree->right)
+//         process_all_parentheses(tree->right);
+// }
+void process_all_parentheses(t_tree *tree) {
     if (!tree)
         return;
-    
+        
     if (tree->type && tree->command && ft_strcmp(tree->type, "PARENTHASIS") == 0) {
-        // Extract any redirections from the command
         char *cmd_part = NULL;
         char *redir_part = NULL;
         extract_redirections(tree->command, &cmd_part, &redir_part);
         
-        // Get the content inside parentheses
         char *inner_cmd = NULL;
         if (cmd_part && cmd_part[0] == '(') {
             inner_cmd = extract_content_from_parentheses(cmd_part);
             t_free(cmd_part, __LINE__, "process_all_parentheses");
         } else if (cmd_part) {
-            inner_cmd = cmd_part;  // Use cmd_part if no parentheses
+            inner_cmd = cmd_part;
         } else {
             inner_cmd = extract_content_from_parentheses(tree->command);
         }
         
         if (inner_cmd) {
-            // Parse the inner command into tokens
             t_list *cmd_list = list_init_leak(inner_cmd, __LINE__, "process_all_parentheses");
+            
             if (cmd_list) {
                 lexer(&cmd_list);
-                
-                // Check if we have a heredoc redirection in this parenthesized content
-                int has_heredoc = 0;
-                t_list *tmp = cmd_list;
-                while (tmp) {
-                    if (tmp->data && ft_strstr(tmp->data, "<<")) {
-                        has_heredoc = 1;
-                        break;
-                    }
-                    tmp = tmp->next;
-                }
-                
-                // Build a syntax tree from the tokens
                 t_tree *subtree = NULL;
                 tree_maker(&cmd_list, &subtree);
                 
                 if (subtree) {
-                    // Process pipe operations in the subtree
                     process_pipe_trees(subtree);
-                    
-                    // Free the original command
                     t_free(tree->command, __LINE__, "parsing.c");
                     tree->command = NULL;
                     
-                    // Save the redirection info if found
                     if (redir_part) {
                         tree->redirections = redir_part;
                     }
-                    
-                    // Handle heredoc inside pipe specially
-                    if (has_heredoc && subtree->type && ft_strcmp(subtree->type, "PIPE") == 0) {
-                        // For commands with pipes like "cat << EOF | grep", the heredoc should
-                        // be associated with the left-side command ("cat")
-                        if (subtree->left && !subtree->left->redirections) {
-                            // Look for heredoc in remaining command text
-                            if (subtree->command) {
-                                char *cmd_part_sub = NULL;
-                                char *redir_part_sub = NULL;
-                                extract_redirections(subtree->command, &cmd_part_sub, &redir_part_sub);
-                                
-                                if (redir_part_sub && ft_strstr(redir_part_sub, "<<")) {
-                                    // Associate the heredoc with the left side of the pipe
-                                    subtree->left->redirections = redir_part_sub;
-                                    
-                                    // Update the remaining command
-                                    if (cmd_part_sub) {
-                                        t_free(subtree->command, __LINE__, "parsing.c");
-                                        subtree->command = cmd_part_sub;
-                                    }
-                                } else {
-                                    if (cmd_part_sub) t_free(cmd_part_sub, __LINE__, "parsing.c");
-                                    if (redir_part_sub) t_free(redir_part_sub, __LINE__, "parsing.c");
-                                }
-                            }
-                        }
-                    }
-                    
-                    // Transfer command and properties from subtree to this node
                     if (subtree->command) {
                         tree->command = subtree->command;
                         subtree->command = NULL;
@@ -5493,13 +5653,12 @@ void process_all_parentheses(t_tree *tree)
                         tree->type = subtree->type;
                     else
                         tree->type = "COMMAND";
-                    
-                    // Replace children
+                        
                     if (tree->left)
                         free_tree(tree->left);
                     if (tree->right)
                         free_tree(tree->right);
-                    
+                        
                     tree->left = subtree->left;
                     tree->right = subtree->right;
                     subtree->left = NULL;
@@ -5507,14 +5666,12 @@ void process_all_parentheses(t_tree *tree)
                     
                     t_free(subtree, __LINE__, "parsing.c");
                 } else {
-                    // Clean up if subtree creation failed
                     if (inner_cmd != cmd_part)
                         t_free(inner_cmd, __LINE__, "parsing.c");
                     if (redir_part)
                         t_free(redir_part, __LINE__, "parsing.c");
                 }
             } else {
-                // Clean up if list creation failed
                 if (inner_cmd != cmd_part)
                     t_free(inner_cmd, __LINE__, "parsing.c");
                 if (redir_part)
@@ -5525,7 +5682,6 @@ void process_all_parentheses(t_tree *tree)
         }
     }
     
-    // Process children recursively
     if (tree->left)
         process_all_parentheses(tree->left);
     if (tree->right)
@@ -5609,20 +5765,77 @@ void process_all_parentheses(t_tree *tree)
 //     // For top-level operations, don't automatically pull up redirections
 //     // Let them stay with their respective commands
 // }
-void process_nested_parentheses(t_tree **tree)
-{
+// void process_nested_parentheses(t_tree **tree)
+// {
+//     if (!tree || !(*tree))
+//         return;
+    
+//     // Process children recursively first
+//     if ((*tree)->left)
+//         process_nested_parentheses(&((*tree)->left));
+//     if ((*tree)->right)
+//         process_nested_parentheses(&((*tree)->right));
+    
+//     // Process this node
+//     int passes = 0;
+//     int max_passes = 5;  // Limit recursion to prevent infinite loops
+    
+//     while (passes < max_passes) {
+//         process_all_parentheses(*tree);
+//         fix_operation_tree_structure(*tree);
+//         passes++;
+//     }
+    
+//     // Special handling for pipe nodes - move heredoc to left child if needed
+//     if ((*tree)->type && ft_strcmp((*tree)->type, "PIPE") == 0) {
+//         if ((*tree)->command) {
+//             // Check if the pipe command has a heredoc that should be moved to left child
+//             char *heredoc = ft_strstr((*tree)->command, "<<");
+//             if (heredoc && (*tree)->left && !(*tree)->left->redirections) {
+//                 char *cmd_part = NULL;
+//                 char *redir_part = NULL;
+//                 extract_redirections((*tree)->command, &cmd_part, &redir_part);
+                
+//                 if (redir_part && ft_strstr(redir_part, "<<")) {
+//                     // Move heredoc to left child
+//                     (*tree)->left->redirections = redir_part;
+                    
+//                     // Update pipe node's command
+//                     if (cmd_part) {
+//                         t_free((*tree)->command, __LINE__, "process_nested_parentheses");
+//                         (*tree)->command = cmd_part;
+//                     }
+//                 } else {
+//                     if (cmd_part) t_free(cmd_part, __LINE__, "process_nested_parentheses");
+//                     if (redir_part) t_free(redir_part, __LINE__, "process_nested_parentheses");
+//                 }
+//             }
+//         }
+//     }
+    
+//     // For operations, don't automatically move redirections from right child
+//     // Only do this for specific cases like pipes where it makes sense
+//     if ((*tree)->type && ft_strcmp((*tree)->type, "PIPE") == 0) {
+//         // For pipes, move right child's redirections to parent if parent has none
+//         if ((*tree)->right && (*tree)->right->redirections && !(*tree)->redirections) {
+//             (*tree)->redirections = ft_strdup((*tree)->right->redirections);
+//             t_free((*tree)->right->redirections, __LINE__, "process_nested_parentheses");
+//             (*tree)->right->redirections = NULL;
+//         }
+//     }
+// }
+
+void process_nested_parentheses(t_tree **tree) {
     if (!tree || !(*tree))
         return;
-    
-    // Process children recursively first
+        
     if ((*tree)->left)
         process_nested_parentheses(&((*tree)->left));
     if ((*tree)->right)
         process_nested_parentheses(&((*tree)->right));
-    
-    // Process this node
+        
     int passes = 0;
-    int max_passes = 5;  // Limit recursion to prevent infinite loops
+    int max_passes = 5;
     
     while (passes < max_passes) {
         process_all_parentheses(*tree);
@@ -5630,37 +5843,7 @@ void process_nested_parentheses(t_tree **tree)
         passes++;
     }
     
-    // Special handling for pipe nodes - move heredoc to left child if needed
     if ((*tree)->type && ft_strcmp((*tree)->type, "PIPE") == 0) {
-        if ((*tree)->command) {
-            // Check if the pipe command has a heredoc that should be moved to left child
-            char *heredoc = ft_strstr((*tree)->command, "<<");
-            if (heredoc && (*tree)->left && !(*tree)->left->redirections) {
-                char *cmd_part = NULL;
-                char *redir_part = NULL;
-                extract_redirections((*tree)->command, &cmd_part, &redir_part);
-                
-                if (redir_part && ft_strstr(redir_part, "<<")) {
-                    // Move heredoc to left child
-                    (*tree)->left->redirections = redir_part;
-                    
-                    // Update pipe node's command
-                    if (cmd_part) {
-                        t_free((*tree)->command, __LINE__, "process_nested_parentheses");
-                        (*tree)->command = cmd_part;
-                    }
-                } else {
-                    if (cmd_part) t_free(cmd_part, __LINE__, "process_nested_parentheses");
-                    if (redir_part) t_free(redir_part, __LINE__, "process_nested_parentheses");
-                }
-            }
-        }
-    }
-    
-    // For operations, don't automatically move redirections from right child
-    // Only do this for specific cases like pipes where it makes sense
-    if ((*tree)->type && ft_strcmp((*tree)->type, "PIPE") == 0) {
-        // For pipes, move right child's redirections to parent if parent has none
         if ((*tree)->right && (*tree)->right->redirections && !(*tree)->redirections) {
             (*tree)->redirections = ft_strdup((*tree)->right->redirections);
             t_free((*tree)->right->redirections, __LINE__, "process_nested_parentheses");
@@ -6130,29 +6313,77 @@ int remove_reds(char *str, char c)
 //         }
 //     }
 // }
-void process_all_redirections(t_tree **tree)
-{
+// void process_all_redirections(t_tree **tree)
+// {
+//     if (!tree || !*tree)
+//         return;
+    
+//     // Process children first
+//     if ((*tree)->left)
+//         process_all_redirections(&(*tree)->left);
+//     if ((*tree)->right)
+//         process_all_redirections(&(*tree)->right);
+    
+//     // Process this node's command for redirections
+//     if (*tree && (*tree)->command) {
+//         char *cmd = (*tree)->command;
+//         char *redir_out = ft_strchr(cmd, '>');
+//         char *redir_in = ft_strchr(cmd, '<');
+        
+//         if (redir_out || redir_in) {
+//             // Special check for heredoc
+//             // int has_heredoc = (ft_strstr(cmd, "<<") != NULL);
+            
+//             char *cmd_part = NULL;
+//             char *redir_part = NULL;
+//             extract_redirections(cmd, &cmd_part, &redir_part);
+            
+//             if (cmd_part && redir_part) {
+//                 t_free((*tree)->command, __LINE__, "parsing.c");
+//                 (*tree)->command = cmd_part;
+//                 (*tree)->redirections = redir_part;
+//             } else {
+//                 if (cmd_part)
+//                     t_free(cmd_part, __LINE__, "parsing.c");
+//                 if (redir_part)
+//                     t_free(redir_part, __LINE__, "parsing.c");
+//             }
+//         }
+//     }
+    
+//     // Special handling for PIPE nodes - check for heredoc that should be on left child
+//     if (*tree && (*tree)->type && ft_strcmp((*tree)->type, "PIPE") == 0) {
+//         if ((*tree)->redirections && ft_strstr((*tree)->redirections, "<<")) {
+//             // If pipe has a heredoc redirection, move it to the left child
+//             if ((*tree)->left && !(*tree)->left->redirections) {
+//                 (*tree)->left->redirections = ft_strdup((*tree)->redirections);
+//                 t_free((*tree)->redirections, __LINE__, "parsing.c");
+//                 (*tree)->redirections = NULL;
+//             }
+//         }
+//     }
+    
+//     // Don't automatically propagate redirections from children to operation parents
+//     // This helps ensure heredocs remain with their specific commands
+// }
+void process_all_redirections(t_tree **tree) {
     if (!tree || !*tree)
         return;
-    
-    // Process children first
+        
     if ((*tree)->left)
         process_all_redirections(&(*tree)->left);
     if ((*tree)->right)
         process_all_redirections(&(*tree)->right);
-    
-    // Process this node's command for redirections
+        
     if (*tree && (*tree)->command) {
         char *cmd = (*tree)->command;
         char *redir_out = ft_strchr(cmd, '>');
         char *redir_in = ft_strchr(cmd, '<');
         
         if (redir_out || redir_in) {
-            // Special check for heredoc
-            // int has_heredoc = (ft_strstr(cmd, "<<") != NULL);
-            
             char *cmd_part = NULL;
             char *redir_part = NULL;
+            
             extract_redirections(cmd, &cmd_part, &redir_part);
             
             if (cmd_part && redir_part) {
@@ -6167,21 +6398,6 @@ void process_all_redirections(t_tree **tree)
             }
         }
     }
-    
-    // Special handling for PIPE nodes - check for heredoc that should be on left child
-    if (*tree && (*tree)->type && ft_strcmp((*tree)->type, "PIPE") == 0) {
-        if ((*tree)->redirections && ft_strstr((*tree)->redirections, "<<")) {
-            // If pipe has a heredoc redirection, move it to the left child
-            if ((*tree)->left && !(*tree)->left->redirections) {
-                (*tree)->left->redirections = ft_strdup((*tree)->redirections);
-                t_free((*tree)->redirections, __LINE__, "parsing.c");
-                (*tree)->redirections = NULL;
-            }
-        }
-    }
-    
-    // Don't automatically propagate redirections from children to operation parents
-    // This helps ensure heredocs remain with their specific commands
 }
 
 
@@ -7440,6 +7656,9 @@ void	quote_remove_two(t_tree **tree)
 	}
 }
 
+
+
+
 void	command_arr_fill(t_tree **tree)
 {
 	t_list	*head;
@@ -7598,13 +7817,13 @@ int main(int argc, char **argv, char **argev)//wildcards //remove quotes from co
 		lexer(&head);
 		join_redirections_with_commands(&head);
 		tmp = head;
-		while (tmp)
-		{
-			printf("%s\n", tmp->data);
-			printf("%s\n", tmp->token);
-			printf("\n");
-			tmp = tmp->next;
-		}
+		// while (tmp)
+		// {
+		// 	printf("%s\n", tmp->data);
+		// 	printf("%s\n", tmp->token);
+		// 	printf("\n");
+		// 	tmp = tmp->next;
+		// }
 		if (variable_search(&head))
             variable_expantion(&head, argev);
 		variable_in_word(&head, argev);
