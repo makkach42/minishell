@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 14:01:04 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 14:47:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ void redirections_opener(t_tree **tree, t_list_fd **head);
 void	syntax_error_two(t_tree **tree);
 void	syntax_error(t_list **head);
 int	check_quotes(char *str);
+void	lexer_to_tree(char *str, t_tree **tree, char **argev);
+void	tree_to_rediropen(t_tree *tree);
+void	inits_main(t_list_fd **head_fd, t_env **env, t_tree **tree);
+void	command_arr_fill(t_tree **tree);
 void	quote_remove_two(t_tree **tree);
 void free_tree(t_tree *tree);
 void free_list_fd(t_list_fd **head);
@@ -106,5 +110,7 @@ char	*ft_substr_leak(char *s, unsigned int start, size_t len, int line);
 char	*ft_strtrim_leak(char *s1, char *set, int line, char *str);
 t_list	*list_init_leak(char *str, int line, char *str2);
 char	*ft_strstr(const char *haystack, const char *needle);
+
+void print_tree_visual(t_tree *tree, int level, int is_left);
 
 #endif
