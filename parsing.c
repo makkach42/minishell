@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 17:15:41 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 20:02:09 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,14 @@ t_env	*env_fill(char **argev)
 	return (head);
 }
 
+void	f()
+{
+	system("leaks -q minishell");
+}
+
 int	main(int argc, char **argv, char **argev)
 {
+	atexit(f);
 	char		*str;
 	t_env		*env;
 	t_tree		*tree;
@@ -125,7 +131,7 @@ int	main(int argc, char **argv, char **argev)
 		env_fill_quote_parse(&env, &str, argev);
 		lexer_to_tree(str, &tree, argev);
 		tree_to_rediropen(tree);
-		redirections_opener(&tree, &head_fd);
+		// redirections_opener(&tree, &head_fd);
 		last_free(&env, &tree, &head_fd);
 	}
 }
