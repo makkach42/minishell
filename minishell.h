@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/18 14:08:10 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 11:03:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,17 @@ typedef struct s_tree
 }	t_tree;
 
 t_list	*list_init(char *str);
+void	lexer(t_list **head);
+char	*word_extractor(char *str);
+char	*first_word_remover(char *str, char *word);
+int		is_operator(char c);
+char *str_extractor(char *str);
+char *str_remover(char *str, char *word);
+char *extract_parenthesis(char *str);
+char *parenthesis_remover(char *str, char *word);
+char *extract_variable(char *str);
+char *remove_operator(char *str, char *word);
+char *extract_operator(char *str);
 char	*ft_strdup(char *s1);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strtrim(char *s1, char *set);
