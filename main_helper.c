@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 14:45:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 17:16:53 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	tree_to_rediropen(t_tree *tree)
 	process_nested_parentheses(&tree);
 	process_all_redirections(&tree);
 	command_arr_fill(&tree);
-	quote_remove_two(&tree);
 	print_tree_visual(tree, 1, 1);
+	quote_remove_two(&tree);
 	syntax_error_two(&tree);
 }
 
@@ -41,4 +41,16 @@ void	inits_main(t_list_fd **head_fd, t_env **env, t_tree **tree)
 	*head_fd = NULL;
 	*env = NULL;
 	*tree = NULL;
+}
+void	env_fill_quote_parse(t_env **env, char **str, char **argev)
+{
+	char *tmp_str;
+
+	*env = env_fill(argev);
+	*str = replace_whites_spaces(*str);
+	tmp_str = *str;
+	*str = ft_strtrim_leak(*str, " ", 2509, "main");
+	t_free(tmp_str, 2514, "parsing.c");
+	if (check_quotes(*str) == 1)
+		exit(1);
 }

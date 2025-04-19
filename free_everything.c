@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 13:33:48 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 14:57:48 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,13 @@ void	free_env(t_env **env)
 		tmp = tmp2;
 	}
 	*env = NULL;
+}
+
+void	last_free(t_env **env, t_tree **tree, t_list_fd **head_fd)
+{
+	free_env(env);
+	if (tree)
+		free_tree(*tree);
+	if (head_fd)
+		free_list_fd(head_fd);
 }

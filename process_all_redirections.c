@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 13:46:20 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 17:16:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ int	check_if_in_string(char *cmd)
 
 void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part) {
     int i;
-    int cmd_len;
+    int j;
     int in_quotes;
     int paren_count;
     char quote_type;
     char *redir_start;
+    char *cmd_part_one;
+    char *cmd_part_two;
     
     *cmd_part = NULL;
     *redir_part = NULL;
@@ -56,6 +58,7 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part) {
         return;
     
     i = 0;
+    j = 0;
     in_quotes = 0;
     paren_count = 0;
     quote_type = 0;
@@ -78,16 +81,29 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part) {
                 break;
             }
         }
-        
         i++;
     }
     if (!redir_start) {
         *cmd_part = ft_strdup(cmd_str);
         return;
     }
-    cmd_len = redir_start - cmd_str;
-    *cmd_part = ft_substr_leak(cmd_str, 0, cmd_len, __LINE__);
-    *redir_part = ft_strdup(redir_start);
+	printf("*********%s\n", cmd_str);
+	i = -1;
+	while (cmd_str && cmd_str[++i] != redir_start[0]){}
+	j = i;
+	while (cmd_str[i] == '>' || cmd_str[i] == '<')
+		i++;
+	while (cmd_str[i] == 32)
+		i++;
+	while (cmd_str[i] != 32)
+		i++;
+	*redir_part = ft_substr(cmd_str, j, i - j);
+	cmd_part_one = ft_substr(cmd_str, 0, j);
+	cmd_part_two = ft_substr(cmd_str, i, ft_strlen(cmd_str) - i);
+	*cmd_part = ft_strjoin(cmd_part_one, cmd_part_two);
+    // redir_offset = redir_start - cmd_str;///////////////////////////////////    syntax error 'cat'
+    // *cmd_part = ft_substr_leak(cmd_str, 0, cmd_len, __LINE__);/////////
+    // *redir_part = ft_strdup(redir_start);//////////////////////////////
 }
 
 void process_all_redirections(t_tree **tree) {

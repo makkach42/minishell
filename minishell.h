@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 14:47:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 14:58:29 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_tree
 	char			*redirections;
 }	t_tree;
 
+t_env	*env_fill(char **argev);
 t_list	*list_init(char *str);
 int	lst_size(t_list **head);
 char *replace_whites_spaces(char *str);
@@ -81,11 +82,13 @@ int	check_quotes(char *str);
 void	lexer_to_tree(char *str, t_tree **tree, char **argev);
 void	tree_to_rediropen(t_tree *tree);
 void	inits_main(t_list_fd **head_fd, t_env **env, t_tree **tree);
+void	env_fill_quote_parse(t_env **env, char **str, char **argev);
 void	command_arr_fill(t_tree **tree);
 void	quote_remove_two(t_tree **tree);
 void free_tree(t_tree *tree);
 void free_list_fd(t_list_fd **head);
 void free_list(t_list **head);
+void	last_free(t_env **env, t_tree **tree, t_list_fd **head_fd);
 void	free_env(t_env **env);
 int variable_search(t_list **head);
 void variable_expantion(t_list **head, char **ev);
