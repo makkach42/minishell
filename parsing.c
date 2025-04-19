@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/18 13:47:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 10:14:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,12 +133,25 @@ int operation_recognizer(char *str)
 int redirection_recognizer(char *str)
 {
 	int i;
+	int in_quotes;
+	char quote_type;
 	i = 0;
+	in_quotes = 0;
 	if (!str)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] == '>' || str[i] == '<')
+		if ((str[i] == '"' || str[i] == '\'') && !in_quotes)
+		{
+			in_quotes = 1;
+			quote_type = str[i];
+		}
+		else if (in_quotes && str[i] == quote_type)
+		{
+			in_quotes = 0;
+			quote_type = '\0';
+		}
+		if ((str[i] == '>' || str[i] == '<') && !in_quotes)
 			break ;
 		i++;
 	}
@@ -865,13 +878,16 @@ char *side_maker(t_list **head, int number, int j) {
         tmp_char = tmp2;
         tmp2 = ft_strjoin_leak(tmp2, tmp->data, 1441);
         t_free(tmp_char, 1442, "parsing.c");
-        if (tmp->next && 
-            !(ft_strcmp(tmp->token, "REDIRECTION") == 0 && 
-              ft_strcmp(tmp->next->token, "WORD") == 0)) {
-            tmp_char = tmp2;
-            tmp2 = ft_strjoin_leak(tmp2, " ", 1444);
-            t_free(tmp_char, 1445, "parsing.c");
-        }
+		tmp_char = tmp2;
+		tmp2 = ft_strjoin_leak(tmp2, " ", __LINE__);
+		t_free(tmp_char, __LINE__, "parsing.c");
+        // if (tmp->next && 
+        //     !(ft_strcmp(tmp->token, "REDIRECTION") != 0 && 
+        //       ft_strcmp(tmp->next->token, "WORD") == 0)) {
+        //     tmp_char = tmp2;
+        //     tmp2 = ft_strjoin_leak(tmp2, " ", 1444);
+        //     t_free(tmp_char, 1445, "parsing.c");
+        // }
         i++;
         tmp = tmp->next;
     }
@@ -1635,70 +1651,48 @@ void fix_operation_tree_structure(t_tree *tree)
     }
 }
 void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part) {
-    char *redir_start = NULL;
-    char *redir_out = ft_strchr(cmd_str, '>');
-    char *redir_in = ft_strchr(cmd_str, '<');
-    int cmd_len = 0;
+    int i;
+    int cmd_len;
+    int in_quotes;
+    int paren_count;
+    char quote_type;
+    char *redir_start;
+    
     *cmd_part = NULL;
     *redir_part = NULL;
+    
     if (!cmd_str)
         return;
-    if (redir_out && redir_in) {
-        redir_start = (redir_out < redir_in) ? redir_out : redir_in;
-    } else if (redir_out) {
-        redir_start = redir_out;
-    } else if (redir_in) {
-        redir_start = redir_in;
-    } else {
-        *cmd_part = ft_strdup(cmd_str);
-        return;
-    }
-    int paren_count = 0;
-    int in_quotes = 0;
-    char quote_type = 0;
-    char *p = cmd_str;
-    while (p < redir_start) {
-        if ((*p == '\'' || *p == '\"') && !in_quotes) {
+    
+    i = 0;
+    in_quotes = 0;
+    paren_count = 0;
+    quote_type = 0;
+    redir_start = NULL;
+    while (cmd_str[i]) {
+        if ((cmd_str[i] == '\'' || cmd_str[i] == '\"') && !in_quotes) {
             in_quotes = 1;
-            quote_type = *p;
-        } else if (in_quotes && *p == quote_type) {
+            quote_type = cmd_str[i];
+        } else if (in_quotes && cmd_str[i] == quote_type) {
             in_quotes = 0;
         }
         if (!in_quotes) {
-            if (*p == '(') paren_count++;
-            if (*p == ')') paren_count--;
+            if (cmd_str[i] == '(') {
+                paren_count++;
+            } else if (cmd_str[i] == ')') {
+                paren_count--;
+            }
+            if ((cmd_str[i] == '>' || cmd_str[i] == '<') && paren_count == 0 && !redir_start) {
+                redir_start = &cmd_str[i];
+                break;
+            }
         }
-        p++;
+        
+        i++;
     }
-    if (paren_count > 0) {
-        in_quotes = 0;
-        while (*p) {
-            if ((*p == '\'' || *p == '\"') && !in_quotes) {
-                in_quotes = 1;
-                quote_type = *p;
-            } else if (in_quotes && *p == quote_type) {
-                in_quotes = 0;
-            }
-            if (!in_quotes) {
-                if (*p == '(') paren_count++;
-                if (*p == ')') paren_count--;
-                if (paren_count == 0) break;
-            }
-            p++;
-        }
-        if (*p) p++;
-        redir_out = ft_strchr(p, '>');
-        redir_in = ft_strchr(p, '<');
-        if (redir_out && redir_in) {
-            redir_start = (redir_out < redir_in) ? redir_out : redir_in;
-        } else if (redir_out) {
-            redir_start = redir_out;
-        } else if (redir_in) {
-            redir_start = redir_in;
-        } else {
-            *cmd_part = ft_strdup(cmd_str);
-            return;
-        }
+    if (!redir_start) {
+        *cmd_part = ft_strdup(cmd_str);
+        return;
     }
     cmd_len = redir_start - cmd_str;
     *cmd_part = ft_substr_leak(cmd_str, 0, cmd_len, __LINE__);
@@ -1837,6 +1831,34 @@ int remove_reds(char *str, char c)
 		i++;
 	return (i);
 }
+int	check_if_in_string(char *cmd)
+{
+	int i;
+	int	in_quotes;
+	char quote_type;
+
+	i = 0;
+	in_quotes = 0;
+	while (cmd[i])
+	{
+		if (!in_quotes && (cmd[i] == '\'' || cmd[i] == '"'))
+		{
+			in_quotes = 1;
+			quote_type = cmd[i];
+		}
+		else if (in_quotes && cmd[i] == quote_type)
+		{
+			in_quotes = 0;
+			quote_type = '\0';
+		}
+		if ((cmd[i] == '>' || cmd[i] == '<') && !in_quotes)
+			break;
+		i++;
+	}
+	if (cmd[i] == '\0')
+		return (0);
+	return (1);
+}
 void process_all_redirections(t_tree **tree) {
     if (!tree || !*tree)
         return;
@@ -1848,7 +1870,7 @@ void process_all_redirections(t_tree **tree) {
         char *cmd = (*tree)->command;
         char *redir_out = ft_strchr(cmd, '>');
         char *redir_in = ft_strchr(cmd, '<');
-        if (redir_out || redir_in) {
+        if ((redir_out || redir_in) && check_if_in_string(cmd)) {
             char *cmd_part = NULL;
             char *redir_part = NULL;
             extract_redirections(cmd, &cmd_part, &redir_part);
@@ -2388,7 +2410,7 @@ void variable_expantion(t_list **head, char **ev)
     i = 0;
     while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
         tmp = tmp->next;
-    if (tmp)
+    if (tmp && (ft_strcmp(tmp->prev->data, "<<")))
     {
         variable_name = ft_substr_leak(tmp->data, 1, ft_strlen(tmp->data) - 1, 2421);
         while (ev[i])
@@ -2748,7 +2770,14 @@ int main(int argc, char **argv, char **argev)
 			return (1);
 		head = list_init_leak(str, 3072, "main");
 		lexer(&head);
-		join_redirections_with_commands(&head);
+		tmp = head;
+		while (tmp)
+		{
+			printf("%s\n", tmp->data);
+			printf("%s\n", tmp->token);
+			tmp = tmp->next;
+		}
+		// join_redirections_with_commands(&head);
 		tmp = head;
 		if (variable_search(&head))
             variable_expantion(&head, argev);
@@ -2756,6 +2785,8 @@ int main(int argc, char **argv, char **argev)
 		tmp = head;
 		syntax_error(&head);
 		tree_maker(&head, &tree);
+		print_tree_visual(tree, 1, 1);
+		printf("\n");
 		process_pipe_trees(tree);
 		process_nested_parentheses(&tree);
 		process_all_redirections(&tree);
