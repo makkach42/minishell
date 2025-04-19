@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 11:18:39 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 13:33:48 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,43 @@ void free_list(t_list **head)
         tmp = tmp2;
     }
     *head = NULL;
+}
+
+void free_list_fd(t_list_fd **head)
+{
+    if (!head || !*head)
+        return;
+    t_list_fd *current = *head;
+    t_list_fd *next = NULL;
+    while (current)
+    {
+        next = current->next;
+        if (current->command)
+            (t_free(current->command, 26, "parsing.c"), current->command = NULL);
+        if (current->name)
+            (t_free(current->name, 28, "parsing.c"), current->name = NULL);
+        if (current->redir)
+            (t_free(current->redir, 30, "parsing.c"), current->redir = NULL);
+        if (current->fd > 0)
+            (close(current->fd), current->fd = -1);
+        t_free(current, 33, "parsing.c");
+        current = next;
+    }
+    *head = NULL;
+}
+
+void	free_env(t_env **env)
+{
+	t_env *tmp;
+	t_env *tmp2;
+	tmp = *env;
+	while (tmp)
+	{
+		tmp2 = tmp->next;
+		t_free(tmp->key, 2462, "parsing.c");
+		t_free(tmp->value, 2463, "parsing.c");
+		t_free(tmp, 2464, "parsing.c");
+		tmp = tmp2;
+	}
+	*env = NULL;
 }

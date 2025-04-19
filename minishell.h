@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 11:18:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 14:01:04 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_tree
 }	t_tree;
 
 t_list	*list_init(char *str);
+int	lst_size(t_list **head);
+char *replace_whites_spaces(char *str);
 void tree_maker(t_list **head, t_tree **tree);
 void	lexer(t_list **head);
 char	*word_extractor(char *str);
@@ -68,8 +70,22 @@ char *extract_variable(char *str);
 char *remove_operator(char *str, char *word);
 char *extract_operator(char *str);
 void process_pipe_trees(t_tree *tree);
+void process_nested_parentheses(t_tree **tree);
+void process_all_redirections(t_tree **tree);
+void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part);
+char	*extract_content_from_parentheses(char *command);
+void redirections_opener(t_tree **tree, t_list_fd **head);
+void	syntax_error_two(t_tree **tree);
+void	syntax_error(t_list **head);
+int	check_quotes(char *str);
+void	quote_remove_two(t_tree **tree);
 void free_tree(t_tree *tree);
+void free_list_fd(t_list_fd **head);
 void free_list(t_list **head);
+void	free_env(t_env **env);
+int variable_search(t_list **head);
+void variable_expantion(t_list **head, char **ev);
+int	variable_in_word(t_list **head, char **argev);
 char	*ft_strdup(char *s1);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strtrim(char *s1, char *set);
