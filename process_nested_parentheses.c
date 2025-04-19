@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:35:48 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 22:11:47 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 23:12:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,8 +355,11 @@ void process_nested_parentheses(t_tree **tree)
         tree_maker(&sub_list, &sub_tree);
         if (sub_tree)
 		{
-            process_all_redirections(&sub_tree);
-            process_pipe_trees(sub_tree);
+            // process_all_redirections(&sub_tree);
+            // process_pipe_trees(sub_tree);
+		printf("**************************\n");
+		print_tree_visual(sub_tree, 1, 1);
+		printf("**************************\n");
             if (still_has_parentheses(&sub_tree))
                 process_nested_parentheses(&sub_tree);
             if ((*tree)->command)
