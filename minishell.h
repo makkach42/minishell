@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 11:10:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/19 11:18:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ char *parenthesis_remover(char *str, char *word);
 char *extract_variable(char *str);
 char *remove_operator(char *str, char *word);
 char *extract_operator(char *str);
+void process_pipe_trees(t_tree *tree);
+void free_tree(t_tree *tree);
+void free_list(t_list **head);
 char	*ft_strdup(char *s1);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strtrim(char *s1, char *set);
