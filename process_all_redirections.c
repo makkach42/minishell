@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 10:54:49 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 11:35:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
 	*cmd_part = NULL;
 	*redir_part = NULL;
 	if (!cmd_str)
-		return;
+		return ;
 	i = 0;
 	in_quotes = 0;
 	paren_count = 0;
@@ -123,7 +123,7 @@ void	process_all_redirections(t_tree **tree)
 	char	*redir_in;
 
 	if (!tree || !*tree)
-		return;
+		return ;
 	if ((*tree)->left)
 		process_all_redirections(&(*tree)->left);
 	if ((*tree)->right)
@@ -139,4 +139,3 @@ void	process_all_redirections(t_tree **tree)
 		}
 	}
 }
-//ls > file > file2 > file3 -la
