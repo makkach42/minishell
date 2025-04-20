@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 15:22:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 15:55:06 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int	parenthesis_in_word_recogniser(char *str)
 		if (str[i] == ')')
 			closed_par++;
 		if (!str[i] || (
-				str[i] == 32 && open_par == 0 && closed_par == 0
-			) || (str[i] == 32 && open_par == closed_par))
+				str[i] == 32 && open_par == 0 && closed_par == 0) || (
+				str[i] == 32 && open_par == closed_par))
 			flag = 1;
 		i++;
 	}
@@ -161,8 +161,9 @@ char	*word_extractor(char *str)
 	}
 	else
 	{
-		while (str[i] == 32)
-			i++;
+		while (str[++i] == 32)
+		{
+		}
 		while (str[i] != 32 && !is_operator(str[i]) && str[i] != '\0')
 			i++;
 		word = ft_substr_leak(str, 0, i, 400);
