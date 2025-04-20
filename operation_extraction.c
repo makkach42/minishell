@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 09:12:31 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 10:17:26 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,38 @@
 
 char	*extract_operator(char *str)
 {
-	int	i;
-	char *operator;
+	char	*operator;
+
 	if (!str | !*str)
 		return (NULL);
-	i = 0;
 	operator = NULL;
-	if (str[i] == '&' && ((str[i + 1] && str[i + 1] != '&') || !str[i + 1]))
+	if (str[0] == '&' && ((str[1] && str[1] != '&') || !str[1]))
 		operator = ft_substr_leak(str, 0, 1, 511);
-	else if (str[i] == '*' && ((str[i + 1] && str[i + 1] != '*') || !str[i + 1]))
+	else if (str[0] == '*' && ((str[1] && str[1] != '*') || !str[1]))
 		operator = ft_substr_leak(str, 0, 1, 513);
-	else if (str[i] == '|' && ((str[i + 1] && str[i + 1] != '|') || !str[i + 1]))
+	else if (str[0] == '|' && ((str[1] && str[1] != '|') || !str[1]))
 		operator = ft_substr_leak(str, 0, 1, 515);
-	else if (str[i] == '>' && ((str[i + 1] && str[i + 1] != '>') || !str[i + 1]))
+	else if (str[0] == '>' && ((str[1] && str[1] != '>') || !str[1]))
 		operator = ft_substr_leak(str, 0, 1, 517);
-	else if (str[i] == '<' && ((str[i + 1] && str[i + 1] != '<') || !str[i + 1]))
-		operator = ft_substr_leak(str, 0, 1,519);
-	else if (str[i] == '&' && str[i + 1] && str[i + 1] == '&')
+	else if (str[0] == '<' && ((str[1] && str[1] != '<') || !str[1]))
+		operator = ft_substr_leak(str, 0, 1, 519);
+	else if (str[0] == '&' && str[1] && str[1] == '&')
 		operator = ft_substr_leak(str, 0, 2, 521);
-	else if (str[i] == '|' && str[i + 1] && str[i + 1] == '|')
+	else if (str[0] == '|' && str[1] && str[1] == '|')
 		operator = ft_substr_leak(str, 0, 2, 523);
-	else if (str[i] == '>' && str[i + 1] && str[i + 1] == '>')
+	else if (str[0] == '>' && str[1] && str[1] == '>')
 		operator = ft_substr_leak(str, 0, 2, 525);
-	else if (str[i] == '<' && str[i + 1] && str[i + 1] == '<')
+	else if (str[0] == '<' && str[1] && str[1] == '<')
 		operator = ft_substr_leak(str, 0, 2, 527);
 	return (operator);
 }
-char *remove_operator(char *str, char *word)
+
+char	*remove_operator(char *str, char *word)
 {
-	int wordlen;
-	int str_len;
-	char *str_word;
+	int		wordlen;
+	int		str_len;
+	char	*str_word;
+
 	if (!str || !word)
 		return (NULL);
 	wordlen = ft_strlen(word);
@@ -52,10 +53,12 @@ char *remove_operator(char *str, char *word)
 	str_word = ft_substr_leak(str, wordlen, str_len - wordlen + 1, 541);
 	return (str_word);
 }
-char *extract_variable(char *str)
+
+char	*extract_variable(char *str)
 {
-	int i;
-	char *word;
+	int		i;
+	char	*word;
+
 	i = 0;
 	while (str[i] != 32 && str[i] != '\0')
 		i++;

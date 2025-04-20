@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:21:55 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 09:12:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 10:11:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ char	*ft_strncpy(char *dest, char *src, int n)
 	return (dest);
 }
 
-char *ft_strstr(const char *haystack, const char *needle)
+char	*ft_strstr(const char *haystack, const char *needle)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	if (!haystack || !needle)
 		return (NULL);

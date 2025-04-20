@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:16:32 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 09:11:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 10:05:24 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strcat(char *dest, const char *src)
 	if (!dest || !src)
 		return (NULL);
 	while (dest[dest_len])
-		dest_len++;    
+		dest_len++;
 	while (src[i])
 	{
 		dest[dest_len + i] = src[i];
@@ -76,14 +76,12 @@ char	*ft_strcpy(char *dest, char *src)
 	i = 0;
 	if (!dest || !src)
 		return (NULL);
-	
 	while (src[i])
 	{
 		dest[i] = src[i];
 		i++;
 	}
 	dest[i] = '\0';
-	
 	return (dest);
 }
 

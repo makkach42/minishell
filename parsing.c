@@ -6,19 +6,19 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 09:25:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 10:41:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void command_arr_fill_helper(t_tree **tree, char **str)
+void	command_arr_fill_helper(t_tree **tree, char **str)
 {
-	t_list *head;
-	char **arr;
-	t_list *tmp;
-	int i;
-	int list_size;
+	t_list	*head;
+	char	**arr;
+	t_list	*tmp;
+	int		i;
+	int		list_size;
 
 	i = 0;
 	head = list_init_leak(*str, 2952, "command_arr_fill");
@@ -36,11 +36,11 @@ void command_arr_fill_helper(t_tree **tree, char **str)
 	(*tree)->command_arr = arr;
 }
 
-void command_arr_fill(t_tree **tree)
+void	command_arr_fill(t_tree **tree)
 {
-	char *str;
-	char *tmp;
-	char **arr;
+	char	*str;
+	char	*tmp;
+	char	**arr;
 
 	if ((*tree)->left)
 		command_arr_fill(&(*tree)->left);
@@ -56,7 +56,7 @@ void command_arr_fill(t_tree **tree)
 				arr[0] = NULL;
 			(*tree)->command_arr = arr;
 			t_free(str, 2399, "parsing.c");
-			return;
+			return ;
 		}
 		tmp = str;
 		str = ft_strtrim(str, " ");
@@ -65,24 +65,24 @@ void command_arr_fill(t_tree **tree)
 	}
 }
 
-void env_fill_helper(t_env **node, int *i, int *j, char **argev)
+void	env_fill_helper(t_env **node, int *i, int *j, char **argev)
 {
 	*node = t_malloc(sizeof(t_env), 2428, "parsing.c");
 	while (argev[*i] && argev[*i][*j] != '=')
 		(*j)++;
 	(*node)->key = ft_substr_leak(argev[*i], 0, *j, 2711);
 	(*node)->value = ft_substr_leak(argev[*i],
-									(*j + 1), ft_strlen(argev[*i]) - (*j + 1), 2712);
+			(*j + 1), ft_strlen(argev[*i]) - (*j + 1), 2712);
 	*j = 0;
 }
 
-t_env *env_fill(char **argev)
+t_env	*env_fill(char **argev)
 {
-	int i;
-	int j;
-	t_env *head;
-	t_env *new_node;
-	t_env *tmp;
+	int		i;
+	int		j;
+	t_env	*head;
+	t_env	*new_node;
+	t_env	*tmp;
 
 	i = 0;
 	j = 0;
@@ -101,18 +101,18 @@ t_env *env_fill(char **argev)
 	return (head);
 }
 
-void f()
+void	f(void)
 {
 	system("leaks -q minishell");
 }
 
-int main(int argc, char **argv, char **argev)
+int	main(int argc, char **argv, char **argev)
 {
+	char		*str;
+	t_env		*env;
+	t_tree		*tree;
+	t_list_fd	*head_fd;
 	atexit(f);
-	char *str;
-	t_env *env;
-	t_tree *tree;
-	t_list_fd *head_fd;
 
 	(void)argc;
 	(void)argv;
@@ -121,11 +121,11 @@ int main(int argc, char **argv, char **argev)
 	{
 		str = readline("minishell$> ");
 		if (!str)
-			break;
+			break ;
 		else if (!*str)
 		{
 			free(str);
-			continue;
+			continue ;
 		}
 		add_history(str);
 		env_fill_quote_parse(&env, &str, argev);

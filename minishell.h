@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 10:01:55 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 10:10:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ typedef struct s_list_fd
 	struct s_list_fd	*next;
 }	t_list_fd;
 
-typedef	struct s_env
+typedef struct s_env
 {
-	char *key;
-	char *value;
-	struct s_env *next;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
 }	t_env;
 
 typedef struct s_tree
@@ -56,50 +56,50 @@ typedef struct s_tree
 
 t_env	*env_fill(char **argev);
 t_list	*list_init(char *str);
-int	lst_size(t_list **head);
-char *replace_whites_spaces(char *str);
-void tree_maker(t_list **head, t_tree **tree);
+int		lst_size(t_list **head);
+char	*replace_whites_spaces(char *str);
+void	tree_maker(t_list **head, t_tree **tree);
 void	lexer(t_list **head);
 char	*word_extractor(char *str);
 char	*first_word_remover(char *str, char *word);
 int		is_operator(char c);
-char *str_extractor(char *str);
-char *str_remover(char *str, char *word);
-char *extract_parenthesis(char *str);
-char *parenthesis_remover(char *str, char *word);
-char *extract_variable(char *str);
-char *remove_operator(char *str, char *word);
-char *extract_operator(char *str);
-void process_pipe_trees(t_tree *tree);
-void process_nested_parentheses(t_tree **tree);
-void process_all_redirections(t_tree **tree);
-void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part);
+char	*str_extractor(char *str);
+char	*str_remover(char *str, char *word);
+char	*extract_parenthesis(char *str);
+char	*parenthesis_remover(char *str, char *word);
+char	*extract_variable(char *str);
+char	*remove_operator(char *str, char *word);
+char	*extract_operator(char *str);
+void	process_pipe_trees(t_tree *tree);
+void	process_nested_parentheses(t_tree **tree);
+void	process_all_redirections(t_tree **tree);
+void	extract_redirections(char *cmd_str, char **cmd_part, char **redir_part);
 char	*extract_content_from_parentheses(char *command);
-void redirections_opener(t_tree **tree, t_list_fd **head);
+void	redirections_opener(t_tree **tree, t_list_fd **head);
 void	syntax_error_two(t_tree **tree);
 void	syntax_error(t_list **head);
-int	check_quotes(char *str);
+int		check_quotes(char *str);
 void	lexer_to_tree(char *str, t_tree **tree, char **argev);
 void	tree_to_rediropen(t_tree *tree);
 void	inits_main(t_list_fd **head_fd, t_env **env, t_tree **tree);
 void	env_fill_quote_parse(t_env **env, char **str, char **argev);
 void	command_arr_fill(t_tree **tree);
 void	quote_remove_two(t_tree **tree);
-void free_tree(t_tree *tree);
-void free_list_fd(t_list_fd **head);
-int	redirection_recognizer(char *str);
-int	parenthasis_recognizer(char *str);
-void free_list(t_list **head);
+void	free_tree(t_tree *tree);
+void	free_list_fd(t_list_fd **head);
+int		redirection_recognizer(char *str);
+int		parenthasis_recognizer(char *str);
+void	free_list(t_list **head);
 void	last_free(t_env **env, t_tree **tree, t_list_fd **head_fd);
 void	free_env(t_env **env);
-int variable_search(t_list **head);
-void variable_expantion(t_list **head, char **ev);
-int	variable_recognizer(char *str);
-int	operation_recognizer(char *str);
-int	pipe_recognizer(char *str);
-int	word_recognizer(char *str);
-int	command_recognizer(char *str);
-int	variable_in_word(t_list **head, char **argev);
+int		variable_search(t_list **head);
+void	variable_expantion(t_list **head, char **ev);
+int		variable_recognizer(char *str);
+int		operation_recognizer(char *str);
+int		pipe_recognizer(char *str);
+int		word_recognizer(char *str);
+int		command_recognizer(char *str);
+int		variable_in_word(t_list **head, char **argev);
 char	*ft_strdup(char *s1);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strtrim(char *s1, char *set);
@@ -119,7 +119,6 @@ char	*ft_substr_leak(char *s, unsigned int start, size_t len, int line);
 char	*ft_strtrim_leak(char *s1, char *set, int line, char *str);
 t_list	*list_init_leak(char *str, int line, char *str2);
 char	*ft_strstr(const char *haystack, const char *needle);
-
-void print_tree_visual(t_tree *tree, int level, int is_left);
+void	print_tree_visual(t_tree *tree, int level, int is_left);
 
 #endif
