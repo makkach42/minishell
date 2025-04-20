@@ -1,0 +1,7 @@
+// printf("Memory allocation of address %p on line %d in file %s\n", ptr, line, file);
+// printf("Memory freeing of address %p on line %d in file %s\n", ptr, line, file);
+// printf("Use of ft_strdup on line %d\n", line);
+// printf("Use of ft_strjoin on line %d\n", line);
+// printf("Use of ft_substr on line %d\n", line);
+// printf("Use of ft_strtrim on line %d returning this address %p used in function %s\n", line, ptr, str);
+// printf("Use of list_init on line %d returning this address %p nested in function %s\n", line, ptr, str2);

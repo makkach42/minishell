@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 10:41:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 15:33:37 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ int	main(int argc, char **argv, char **argev)
 	t_env		*env;
 	t_tree		*tree;
 	t_list_fd	*head_fd;
-	atexit(f);
 
+	atexit(f);
 	(void)argc;
 	(void)argv;
 	inits_main(&head_fd, &env, &tree);

@@ -6,16 +6,16 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:28:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 09:11:07 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 15:24:04 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void print_tree_visual(t_tree *tree, int level, int is_left)
+void	print_tree_visual(t_tree *tree, int level, int is_left)
 {
 	if (!tree)
-		return;
+		return ;
 	for (int i = 0; i < level; i++)
 	{
 		if (i == level - 1)

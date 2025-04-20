@@ -6,15 +6,16 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:06:02 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 13:42:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 15:28:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list *node_maker(char *word)
+t_list	*node_maker(char *word)
 {
-	t_list *node;
+	t_list	*node;
+
 	node = t_malloc(sizeof(t_list), 423, "parsing.c");
 	node->data = word;
 	node->next = NULL;
@@ -22,25 +23,31 @@ t_list *node_maker(char *word)
 	return (node);
 }
 
-t_list *list_init(char *str)
+t_list	*list_init(char *str)
 {
-	char *word = NULL;
-	char *tmp_char = NULL;
-	t_list *head = NULL;
-	t_list *new_node = NULL;
-	t_list *tmp = NULL;
+	char	*word;
+	char	*tmp_char;
+	t_list	*head;
+	t_list	*new_node;
+	t_list	*tmp;
+
+	word = NULL;
+	tmp_char = NULL;
+	head = NULL;
+	new_node = NULL;
+	tmp = NULL;
 	if (!str || !*str)
-		return NULL;
+		return (NULL);
 	if (*str == '\"')
 	{
 		word = str_extractor(str);
 		if (!word)
-			return NULL;
+			return (NULL);
 		tmp_char = word;
 		word = ft_strtrim_leak(word, " ", 1092, "list_init");
 		free(tmp_char);
 		if (!word)
-			return NULL;
+			return (NULL);
 		tmp_char = str;
 		str = str_remover(str, word);
 		free(tmp_char);
@@ -55,12 +62,12 @@ t_list *list_init(char *str)
 	{
 		word = extract_operator(str);
 		if (!word)
-			return NULL;
+			return (NULL);
 		tmp_char = word;
 		word = ft_strtrim_leak(word, " ", 1113, "list_init");
 		free(tmp_char);
 		if (!word)
-			return NULL;
+			return (NULL);
 		tmp_char = str;
 		str = remove_operator(str, word);
 		free(tmp_char);
@@ -75,12 +82,12 @@ t_list *list_init(char *str)
 	{
 		word = extract_variable(str);
 		if (!word)
-			return NULL;
+			return (NULL);
 		tmp_char = word;
 		word = ft_strtrim_leak(word, " ", 1137, "list_init");
 		free(tmp_char);
 		if (!word)
-			return NULL;
+			return (NULL);
 		tmp_char = str;
 		str = first_word_remover(str, word);
 		free(tmp_char);
@@ -95,12 +102,12 @@ t_list *list_init(char *str)
 	{
 		word = extract_parenthesis(str);
 		if (!word)
-			return NULL;
+			return (NULL);
 		tmp_char = word;
 		word = ft_strtrim_leak(word, " ", 1161, "list_init");
 		free(tmp_char);
 		if (!word)
-			return NULL;
+			return (NULL);
 		tmp_char = str;
 		str = parenthesis_remover(str, word);
 		free(tmp_char);
@@ -115,12 +122,12 @@ t_list *list_init(char *str)
 	{
 		word = word_extractor(str);
 		if (!word)
-			return NULL;
+			return (NULL);
 		tmp_char = word;
 		word = ft_strtrim_leak(word, " ", 1185, "list_init");
 		free(tmp_char);
 		if (!word)
-			return NULL;
+			return (NULL);
 		tmp_char = str;
 		str = first_word_remover(str, word);
 		free(tmp_char);
@@ -133,7 +140,7 @@ t_list *list_init(char *str)
 	}
 	head = node_maker(word);
 	if (!head)
-		return NULL;
+		return (NULL);
 	tmp = head;
 	while (str && *str)
 	{
@@ -141,12 +148,12 @@ t_list *list_init(char *str)
 		{
 			word = str_extractor(str);
 			if (!word)
-				break;
+				break ;
 			tmp_char = word;
 			word = ft_strtrim_leak(word, " ", 1214, "list_init");
 			free(tmp_char);
 			if (!word)
-				break;
+				break ;
 			tmp_char = str;
 			str = str_remover(str, word);
 			free(tmp_char);
@@ -161,12 +168,12 @@ t_list *list_init(char *str)
 		{
 			word = extract_operator(str);
 			if (!word)
-				break;
+				break ;
 			tmp_char = word;
 			word = ft_strtrim_leak(word, " ", 1235, "list_init");
 			free(tmp_char);
 			if (!word)
-				break;
+				break ;
 			tmp_char = str;
 			str = remove_operator(str, word);
 			free(tmp_char);
@@ -181,12 +188,12 @@ t_list *list_init(char *str)
 		{
 			word = extract_variable(str);
 			if (!word)
-				break;
+				break ;
 			tmp_char = word;
 			word = ft_strtrim_leak(word, " ", 1259, "list_init");
 			free(tmp_char);
 			if (!word)
-				break;
+				break ;
 			tmp_char = str;
 			str = first_word_remover(str, word);
 			free(tmp_char);
@@ -201,12 +208,12 @@ t_list *list_init(char *str)
 		{
 			word = extract_parenthesis(str);
 			if (!word)
-				break;
+				break ;
 			tmp_char = word;
 			word = ft_strtrim_leak(word, " ", 1283, "list_init");
 			free(tmp_char);
 			if (!word)
-				break;
+				break ;
 			tmp_char = str;
 			str = parenthesis_remover(str, word);
 			free(tmp_char);
@@ -221,12 +228,12 @@ t_list *list_init(char *str)
 		{
 			word = word_extractor(str);
 			if (!word)
-				break;
+				break ;
 			tmp_char = word;
 			word = ft_strtrim_leak(word, " ", 1307, "list_init");
 			free(tmp_char);
 			if (!word)
-				break;
+				break ;
 			tmp_char = str;
 			str = first_word_remover(str, word);
 			free(tmp_char);
@@ -241,7 +248,7 @@ t_list *list_init(char *str)
 		if (!new_node)
 		{
 			free(word);
-			break;
+			break ;
 		}
 		new_node->data = word;
 		new_node->next = NULL;
