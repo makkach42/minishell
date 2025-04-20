@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 09:12:43 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 09:25:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int main(int argc, char **argv, char **argev)
 		env_fill_quote_parse(&env, &str, argev);
 		lexer_to_tree(str, &tree, argev);
 		tree_to_rediropen(tree);
-		redirections_opener(&tree, &head_fd);
+		// redirections_opener(&tree, &head_fd);
 		last_free(&env, &tree, &head_fd);
 	}
 }

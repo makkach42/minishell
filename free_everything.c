@@ -6,47 +6,19 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 09:11:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 09:27:02 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void free_tree(t_tree *tree) {
-	int i;
-	if (!tree)
-		return;
-	if (tree->left)
-		free_tree(tree->left);
-	if (tree->right)
-		free_tree(tree->right);
-	if (tree->command) {
-		t_free(tree->command, __LINE__, "parsing.c");
-		tree->command = NULL;  
-	}
-	if (tree->redirections) {
-		t_free(tree->redirections, __LINE__, "parsing.c");
-		tree->redirections = NULL;
-	}
-	if (tree->command_arr) {
-		i = 0;
-		while (tree->command_arr[i]) {
-			t_free(tree->command_arr[i], __LINE__, "parsing.c");
-			tree->command_arr[i] = NULL;
-			i++;
-		}
-		t_free(tree->command_arr, __LINE__, "parsing.c");
-		tree->command_arr = NULL;
-	}
-	t_free(tree, __LINE__, "parsing.c");
-}
-
-void free_list(t_list **head)
+void	free_list(t_list **head)
 {
+	t_list	*tmp;
+	t_list	*tmp2;
+
 	if (!head || !*head)
-		return;
-	t_list *tmp;
-	t_list *tmp2;
+		return ;
 	tmp = *head;
 	while (tmp)
 	{
@@ -59,17 +31,50 @@ void free_list(t_list **head)
 	*head = NULL;
 }
 
-void free_list_fd(t_list_fd **head)
+void	free_tree(t_tree *tree)
 {
+	int	i;
+
+	if (!tree)
+		return ;
+	if (tree->left)
+		free_tree(tree->left);
+	if (tree->right)
+		free_tree(tree->right);
+	if (tree->command)
+		(t_free(tree->command, __LINE__, "parsing.c"), tree->command = NULL);
+	if (tree->redirections)
+	{
+		t_free(tree->redirections, __LINE__, "parsing.c");
+		tree->redirections = NULL;
+	}
+	if (tree->command_arr)
+	{
+		i = -1;
+		while (tree->command_arr[++i])
+			(t_free(tree->command_arr[i], __LINE__,
+					"parsing.c"), tree->command_arr[i] = NULL);
+		t_free(tree->command_arr, __LINE__, "parsing.c");
+		tree->command_arr = NULL;
+	}
+	t_free(tree, __LINE__, "parsing.c");
+}
+
+void	free_list_fd(t_list_fd **head)
+{
+	t_list_fd	*current;
+	t_list_fd	*next;
+
 	if (!head || !*head)
-		return;
-	t_list_fd *current = *head;
-	t_list_fd *next = NULL;
+		return ;
+	current = *head;
+	next = NULL;
 	while (current)
 	{
 		next = current->next;
 		if (current->command)
-			(t_free(current->command, 26, "parsing.c"), current->command = NULL);
+			(t_free(current->command, 26, "parsing.c"),
+				current->command = NULL);
 		if (current->name)
 			(t_free(current->name, 28, "parsing.c"), current->name = NULL);
 		if (current->redir)
@@ -84,8 +89,9 @@ void free_list_fd(t_list_fd **head)
 
 void	free_env(t_env **env)
 {
-	t_env *tmp;
-	t_env *tmp2;
+	t_env	*tmp;
+	t_env	*tmp2;
+
 	tmp = *env;
 	while (tmp)
 	{

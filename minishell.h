@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 09:12:18 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 10:01:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,22 @@ void	command_arr_fill(t_tree **tree);
 void	quote_remove_two(t_tree **tree);
 void free_tree(t_tree *tree);
 void free_list_fd(t_list_fd **head);
+int	redirection_recognizer(char *str);
+int	parenthasis_recognizer(char *str);
 void free_list(t_list **head);
 void	last_free(t_env **env, t_tree **tree, t_list_fd **head_fd);
 void	free_env(t_env **env);
 int variable_search(t_list **head);
 void variable_expantion(t_list **head, char **ev);
+int	variable_recognizer(char *str);
+int	operation_recognizer(char *str);
+int	pipe_recognizer(char *str);
+int	word_recognizer(char *str);
+int	command_recognizer(char *str);
 int	variable_in_word(t_list **head, char **argev);
 char	*ft_strdup(char *s1);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strtrim(char *s1, char *set);
-char	**ft_split(char *s, char c);
 size_t	ft_strlen(char *str);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 int		ft_strcmp(char *s1, char *s2);

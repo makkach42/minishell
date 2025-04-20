@@ -79,6 +79,5 @@ char	*ft_strtrim(char *s1, char *set)
 		j++;
 	}
 	new[j] = '\0';
-	// printf("DEBUG: ft_strtrim at line %d allocating %p for '%s'\n", __LINE__, (void*)new, s1);
 	return (new);
 }
