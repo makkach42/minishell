@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:35:48 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 23:28:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 09:12:53 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@
 // {
 //     if (!tree)
 //         return;
-        
+		
 //     if (tree->type && ft_strcmp(tree->type, "OPERATION") == 0) 
 //     {
 //         if (tree->left && tree->left->type && ft_strcmp(tree->left->type, "COMMAND") == 0) 
@@ -235,7 +235,7 @@
 //                     } else {
 //                         t_free(tree->command, __LINE__, "parsing.c");
 //                         tree->command = NULL;
-                        
+						
 //                         if (subtree->command) {
 //                             tree->command = subtree->command;
 //                             subtree->command = NULL;
@@ -352,7 +352,7 @@ int still_has_parentheses(t_tree **tree)
 //         char *content = extract_content_from_parentheses((*tree)->command);
 //         t_list *sub_list = list_init(content);
 //         t_tree *sub_tree = NULL;
-        
+		
 //         lexer(&sub_list);
 //         tree_maker(&sub_list, &sub_tree);
 //         if (sub_tree)
@@ -380,63 +380,63 @@ int still_has_parentheses(t_tree **tree)
 // }
 void process_nested_parentheses(t_tree **tree)
 {
-    if (!tree || !(*tree))
-        return;
-    if ((*tree)->left)
-        process_nested_parentheses(&((*tree)->left));
-    if ((*tree)->right)
-        process_nested_parentheses(&((*tree)->right));
-    
-    if ((*tree)->command && has_outer_parenthases((*tree)->command))
-    {
-        char *cmd_part = NULL;
-        char *original_redirs = NULL;
-        extract_redirections((*tree)->command, &cmd_part, &original_redirs);
-        if ((*tree)->redirections) {
-            if (original_redirs)
+	if (!tree || !(*tree))
+		return;
+	if ((*tree)->left)
+		process_nested_parentheses(&((*tree)->left));
+	if ((*tree)->right)
+		process_nested_parentheses(&((*tree)->right));
+	
+	if ((*tree)->command && has_outer_parenthases((*tree)->command))
+	{
+		char *cmd_part = NULL;
+		char *original_redirs = NULL;
+		extract_redirections((*tree)->command, &cmd_part, &original_redirs);
+		if ((*tree)->redirections) {
+			if (original_redirs)
 			{
-                char *temp = original_redirs;
-                original_redirs = ft_strjoin(original_redirs, (*tree)->redirections);
-                free(temp);
-            }
+				char *temp = original_redirs;
+				original_redirs = ft_strjoin(original_redirs, (*tree)->redirections);
+				free(temp);
+			}
 			else
 			{
-                original_redirs = ft_strdup((*tree)->redirections);
-            }
-        }
-        char *content = extract_content_from_parentheses(cmd_part ? cmd_part : (*tree)->command);
-        if (cmd_part) free(cmd_part);
-        t_list *sub_list = list_init(content);
-        t_tree *sub_tree = NULL;
-        lexer(&sub_list);
-        tree_maker(&sub_list, &sub_tree);
-        if (sub_tree)
-        {
-            if (still_has_parentheses(&sub_tree))
-                process_nested_parentheses(&sub_tree);
-            if ((*tree)->command)
-            {
-                free((*tree)->command);
-                (*tree)->command = NULL;
-            }
-            (*tree)->type = "PARENTHASIS";
-            if ((*tree)->redirections)
-                free((*tree)->redirections);
-            (*tree)->redirections = original_redirs;
-            if ((*tree)->left)
-                free_tree((*tree)->left);
-            (*tree)->left = sub_tree;
-            printf("**************************\n");
-            printf("After processing - tree with redirections: [%s]\n", 
-                   (*tree)->redirections ? (*tree)->redirections : "NULL");
-            print_tree_visual(*tree, 1, 1);
-            printf("**************************\n");
-        }
-        else
+				original_redirs = ft_strdup((*tree)->redirections);
+			}
+		}
+		char *content = extract_content_from_parentheses(cmd_part ? cmd_part : (*tree)->command);
+		if (cmd_part) free(cmd_part);
+		t_list *sub_list = list_init(content);
+		t_tree *sub_tree = NULL;
+		lexer(&sub_list);
+		tree_maker(&sub_list, &sub_tree);
+		if (sub_tree)
 		{
-            free(content);
-            if (original_redirs)
-                free(original_redirs);
-        }
-    }
+			if (still_has_parentheses(&sub_tree))
+				process_nested_parentheses(&sub_tree);
+			if ((*tree)->command)
+			{
+				free((*tree)->command);
+				(*tree)->command = NULL;
+			}
+			(*tree)->type = "PARENTHASIS";
+			if ((*tree)->redirections)
+				free((*tree)->redirections);
+			(*tree)->redirections = original_redirs;
+			if ((*tree)->left)
+				free_tree((*tree)->left);
+			(*tree)->left = sub_tree;
+			printf("**************************\n");
+			printf("After processing - tree with redirections: [%s]\n", 
+				   (*tree)->redirections ? (*tree)->redirections : "NULL");
+			print_tree_visual(*tree, 1, 1);
+			printf("**************************\n");
+		}
+		else
+		{
+			free(content);
+			if (original_redirs)
+				free(original_redirs);
+		}
+	}
 }

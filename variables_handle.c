@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/19 11:23:59 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 09:13:41 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int variable_search(t_list **head)
 {
-    t_list *tmp;
-    tmp = *head;
-    while (tmp)
-    {
-        if (!ft_strcmp(tmp->token, "VARIABLE"))
-            break ;
-        tmp = tmp->next;
-    }
-    if (tmp)
-        return (1);
-    return (0);
+	t_list *tmp;
+	tmp = *head;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->token, "VARIABLE"))
+			break ;
+		tmp = tmp->next;
+	}
+	if (tmp)
+		return (1);
+	return (0);
 }
 
 int	check_for_variable(char *str)
@@ -46,37 +46,37 @@ int	check_for_variable(char *str)
 
 void variable_expantion(t_list **head, char **ev)
 {
-    t_list *tmp;
-    int i;
-    char *variable_name = NULL;
-    char *tmp_char;
-    tmp = *head;
-    i = 0;
-    while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
-        tmp = tmp->next;
-    if (tmp && (ft_strcmp(tmp->prev->data, "<<")))
-    {
-        variable_name = ft_substr_leak(tmp->data, 1, ft_strlen(tmp->data) - 1, 2421);
-        while (ev[i])
-        {
-            if (!ft_strncmp(ev[i], variable_name, ft_strlen(variable_name)) && ev[i][ft_strlen(variable_name)] == '=')
-            {
-                tmp_char = tmp->data;
-                tmp->data = ft_substr_leak(ev[i], ft_strlen(variable_name), ft_strlen(ev[i]) - ft_strlen(variable_name), 2428);
-                t_free(tmp_char, 2147, "parsing.c");
-                tmp_char = tmp->data;
-                tmp->data = ft_strtrim_leak(tmp->data, "=", 2146, "list_init");
-                t_free(tmp_char, 2151, "parsing.c");
-            }
-            i++;
-        }
-        t_free(variable_name, 2157, "parsing.c");
-    }
+	t_list *tmp;
+	int i;
+	char *variable_name = NULL;
+	char *tmp_char;
+	tmp = *head;
+	i = 0;
+	while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
+		tmp = tmp->next;
+	if (tmp && (ft_strcmp(tmp->prev->data, "<<")))
+	{
+		variable_name = ft_substr_leak(tmp->data, 1, ft_strlen(tmp->data) - 1, 2421);
+		while (ev[i])
+		{
+			if (!ft_strncmp(ev[i], variable_name, ft_strlen(variable_name)) && ev[i][ft_strlen(variable_name)] == '=')
+			{
+				tmp_char = tmp->data;
+				tmp->data = ft_substr_leak(ev[i], ft_strlen(variable_name), ft_strlen(ev[i]) - ft_strlen(variable_name), 2428);
+				t_free(tmp_char, 2147, "parsing.c");
+				tmp_char = tmp->data;
+				tmp->data = ft_strtrim_leak(tmp->data, "=", 2146, "list_init");
+				t_free(tmp_char, 2151, "parsing.c");
+			}
+			i++;
+		}
+		t_free(variable_name, 2157, "parsing.c");
+	}
 }
 
 int	variable_in_word(t_list **head, char **argev)
 {
-    t_list *tmp;
+	t_list *tmp;
 	int i;
 	int j;
 	int k;
@@ -88,12 +88,12 @@ int	variable_in_word(t_list **head, char **argev)
 	char *second_part;
 	char quote_type;
 	int in_quote;
-    tmp = *head;
+	tmp = *head;
 	in_quote = 0;
-    while (tmp)
-    {
-        if (!ft_strcmp(tmp->token, "WORD"))
-        {
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->token, "WORD"))
+		{
 			if (check_for_variable(tmp->data))
 			{
 				i = 0;
@@ -172,7 +172,7 @@ int	variable_in_word(t_list **head, char **argev)
 				}
 			}
 		}
-        tmp = tmp->next;
-    }
+		tmp = tmp->next;
+	}
 	return (0);
 }
