@@ -6,49 +6,57 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:39:46 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 09:13:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/20 14:47:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *str_extractor(char *str)
+void	str_extractor_helper(char *str, int *i, int *flag, char **word)
 {
-	int i;
-	int flag;
-	char *word;
-	int quote_counter;
+	int	quote_counter;
+
+	quote_counter = 2;
+	while (str[*i] != '\0' && *flag == 0)
+	{
+		if (str[*i] == '\"')
+			quote_counter++;
+		i++;
+		if (str[*i] == 32 && quote_counter % 2 != 0)
+			*flag = 1;
+	}
+	*word = ft_substr_leak(str, 0, *i + 1, 470);
+}
+
+char	*str_extractor(char *str)
+{
+	int		i;
+	int		flag;
+	char	*word;
+
 	i = 1;
 	flag = 0;
 	if (!str || !*str)
 		return (NULL);
 	while (str[i] != '\"' && str[i] != '\0')
 		i++;
-	if (str[i] != '\0' && str[i + 1] && (str[i + 1] == 32 || str[i + 1] == '\0'))
+	if (str[i] != '\0' && str[i + 1] && (
+			str[i + 1] == 32 || str[i + 1] == '\0'))
 	{
 		word = ft_substr_leak(str, 0, i + 1, 456);
 		return (word);
 	}
 	else
-	{
-		quote_counter = 2;
-		while (str[i] != '\0' && flag == 0)
-		{
-			if (str[i] == '\"')
-				quote_counter++;
-			i++;
-			if (str[i] == 32 && quote_counter % 2 != 0)
-				flag = 1;
-		}
-		word = ft_substr_leak(str, 0, i + 1, 470);
-	}
+		str_extractor_helper(str, &i, &flag, &word);
 	return (word);
 }
-char *str_remover(char *str, char *word)
+
+char	*str_remover(char *str, char *word)
 {
-	int strlenth;
-	char *new_str;
-	int word_len;
+	int		strlenth;
+	char	*new_str;
+	int		word_len;
+
 	if (!str | !*str)
 		return (NULL);
 	strlenth = ft_strlen(str);
