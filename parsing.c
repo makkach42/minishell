@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 15:33:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 09:20:39 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,19 @@ int	main(int argc, char **argv, char **argev)
 		env_fill_quote_parse(&env, &str, argev);
 		lexer_to_tree(str, &tree, argev);
 		tree_to_rediropen(tree);
-		// redirections_opener(&tree, &head_fd);
+		redirections_opener(&tree, &head_fd);
+		t_list_fd * tmp;
+
+		tmp = head_fd;
+		while (tmp)
+		{
+			printf("command = %s\n", tmp->command);
+			printf("name = %s\n", tmp->name);
+			printf("redir = %s\n", tmp->redir);
+			printf("fd = %d\n", tmp->fd);
+			printf("\n");
+			tmp = tmp->next;
+		}
 		last_free(&env, &tree, &head_fd);
 	}
 }

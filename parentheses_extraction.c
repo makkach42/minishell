@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:42:38 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 10:38:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 09:30:16 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	extract_parenthesis_helper_two(char *str, int *i,
 
 	open_par = 1;
 	closed_par = 1;
-	while (str[*i] != '\0' && (*flag) == 0)
+	while (str[*i] != '\0' && !is_operator(str[*i]) && (*flag) == 0)
 	{
 		if (str[*i] == '(')
 			open_par++;
@@ -52,7 +52,7 @@ void	extract_parenthesis_helper_two(char *str, int *i,
 		if (str[*i] == 32 && open_par == closed_par)
 			(*flag) = 1;
 	}
-	*word = ft_substr_leak(str, 0, (*i) + 1, 605);
+	*word = ft_substr_leak(str, 0, (*i), 605);
 }
 
 char	*extract_parenthesis(char *str)
