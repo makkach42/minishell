@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:01:01 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/23 11:18:06 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 12:45:09 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,8 @@ int	parenthasis_recognizer(char *str)
 	in_quotes = 0;
 	if (!str)
 		return (0);
-	if (*str != '(')
-	{
-		return (0);
-	}
+	if (*str == '(')
+		return (1);
 	while (str[i])
 	{
 		if ((str[i] == '"' || str[i] == '\'') && !in_quotes)
