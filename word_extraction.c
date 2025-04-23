@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/23 11:25:49 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 11:32:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,37 +43,29 @@ int	string_in_word_recognizer(char *str)
 	return (0);
 }
 
-int	parenthesis_in_word_recogniser(char *str)
+int parenthesis_in_word_recogniser(char *str)
 {
-	int	i;
-	int	flag;
-	int	open_par;
-	int	closed_par;
+    int i;
+    int open_par;
+    int closed_par;
 
-	i = 0;
-	flag = 0;
-	open_par = 0;
-	closed_par = 0;
-	printf("////////////////////%s\n", str);
-	while ((open_par == closed_par && open_par != 0 && closed_par) || flag == 0)
-	{
-		printf("i====================%d\n", i);
-		printf("(====================%d\n", open_par);
-		printf(")====================%d\n", closed_par);
-		printf("\n");
-		if (str[i] == '(')
-			open_par++;
-		if (str[i] == ')')
-			closed_par++;
-		if (!str[i] || (
-				str[i] == 32 && open_par == 0 && closed_par == 0) || (
-				str[i] == 32 && open_par == closed_par))
-			flag = 1;
-		i++;
-	}
-	if (open_par == closed_par && (open_par != 0 && closed_par != 0))
-		return (1);
-	return (0);
+    i = 0;
+    open_par = 0;
+    closed_par = 0;
+    while (str[i] != '\0')
+    {
+        if (str[i] == '(')
+            open_par++;
+        if (str[i] == ')')
+            closed_par++;
+        if (open_par == closed_par && open_par > 0)
+        {
+            if (str[i+1] == ' ' || str[i+1] == '\0')
+                break;
+        }
+        i++;
+    }
+    return (open_par == closed_par && open_par > 0);
 }
 
 char	*word_extractor(char *str)

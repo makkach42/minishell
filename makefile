@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 RM = rm -rf
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra #-g3 -fsanitize=address
 SRC =	ft_strtrim.c parsing.c  mem_debug.c libft_funcs.c more_libft_funcs.c even_more_libft_funcs.c lexer.c word_extraction.c str_extraction.c parentheses_extraction.c operation_extraction.c list_init.c tree_maker.c process_pipe_tree.c free_everything.c variables_handle.c process_nested_parentheses.c process_all_redirections.c redirections_opener.c syntax_error.c quotes_handle.c helpers.c main_helper.c lexer_helper.c lexer_helper_two.c\
 					extra_tools.c
 OBJ = $(SRC:.c=.o)
