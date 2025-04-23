@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 10:10:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 11:21:05 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_tree
 
 t_env	*env_fill(char **argev);
 t_list	*list_init(char *str);
+int		syntax_error_parentheses(t_list **head);
 int		lst_size(t_list **head);
 char	*replace_whites_spaces(char *str);
 void	tree_maker(t_list **head, t_tree **tree);

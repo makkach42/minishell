@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 15:55:06 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 11:25:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,13 @@ int	parenthesis_in_word_recogniser(char *str)
 	flag = 0;
 	open_par = 0;
 	closed_par = 0;
+	printf("////////////////////%s\n", str);
 	while ((open_par == closed_par && open_par != 0 && closed_par) || flag == 0)
 	{
+		printf("i====================%d\n", i);
+		printf("(====================%d\n", open_par);
+		printf(")====================%d\n", closed_par);
+		printf("\n");
 		if (str[i] == '(')
 			open_par++;
 		if (str[i] == ')')

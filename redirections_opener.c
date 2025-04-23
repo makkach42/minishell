@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:47:08 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/23 10:43:59 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:57:16 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,15 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 			}
 			else
 			{
-				(*head)->command = ft_strdup((*tree)->command);
+				if (ft_strcmp((*tree)->type, "PARENTHASIS") == 0)
+				{
+					if ((*tree)->command)
+						(*head)->command = ft_strdup((*tree)->command);
+					else
+						(*head)->command = ft_strdup("");
+				}
+				else
+					(*head)->command = ft_strdup((*tree)->command);
 			}
 			tmp_char = (*tree)->redirections;
 			(*tree)->redirections = ft_substr_leak((*tree)->redirections, i,
@@ -174,24 +182,12 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				new_node->next = NULL;
 				if (ft_strcmp((*tree)->type, "OPERATION") == 0 || ft_strcmp((*tree)->type, "PARENTHASIS") == 0)
 				{
-					if (ft_strcmp((*tree)->type, "OPERATION") == 0)
-					{
-						if ((*tree)->right && (*tree)->right->command)
-							new_node->command = ft_strdup((*tree)->right->command);
-						else if ((*tree)->left && (*tree)->left->command)
-							new_node->command = ft_strdup((*tree)->left->command);
-						else
-							new_node->command = ft_strdup("");
-					}
-					else if (ft_strcmp((*tree)->type, "PARENTHASIS") == 0)
-					{
-						if ((*tree)->right && (*tree)->right->command)
-							new_node->command = ft_strdup("NULL");
-						else if ((*tree)->left && (*tree)->left->command)
-							new_node->command = ft_strdup("NULL");
-						else
-							new_node->command = ft_strdup("NULL");
-					}
+					if ((*tree)->right && (*tree)->right->command)
+						new_node->command = ft_strdup((*tree)->right->command);
+					else if ((*tree)->left && (*tree)->left->command)
+						new_node->command = ft_strdup((*tree)->left->command);
+					else
+						new_node->command = ft_strdup("");
 				}
 				else
 				{
@@ -285,24 +281,12 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				new_node->next = NULL;
 				if (ft_strcmp((*tree)->type, "OPERATION") == 0 || ft_strcmp((*tree)->type, "PARENTHASIS") == 0)
 				{
-					if (ft_strcmp((*tree)->type, "OPERATION") == 0)
-					{
-						if ((*tree)->right && (*tree)->right->command)
-							new_node->command = ft_strdup((*tree)->right->command);
-						else if ((*tree)->left && (*tree)->left->command)
-							new_node->command = ft_strdup((*tree)->left->command);
-						else
-							new_node->command = ft_strdup("");
-					}
-					else if (ft_strcmp((*tree)->type, "PARENTHASIS") == 0)
-					{
-						if ((*tree)->right && (*tree)->right->command)
-							new_node->command = ft_strdup("NULL");
-						else if ((*tree)->left && (*tree)->left->command)
-							new_node->command = ft_strdup("NULL");
-						else
-							new_node->command = ft_strdup("NULL");
-					}
+					if ((*tree)->right && (*tree)->right->command)
+						new_node->command = ft_strdup((*tree)->right->command);
+					else if ((*tree)->left && (*tree)->left->command)
+						new_node->command = ft_strdup((*tree)->left->command);
+					else
+						new_node->command = ft_strdup("");
 				}
 				else
 				{

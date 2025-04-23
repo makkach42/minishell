@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 14:55:56 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 11:20:23 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,39 @@ void	syntax_error_two(t_tree **tree)
 		if (check_quotes((*tree)->command) == 1)
 			exit (1);
 	}
+}
+
+int	syntax_error_parentheses(t_list **head)
+{
+	t_list *tmp;
+	int		i;
+	int		open_par;
+	int		closed_par;
+
+	tmp = *head;
+	if (!head || !*head)
+		return (0);
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->token, "WORD") == 0)
+		{
+			i = 0;
+			open_par = 0;
+			closed_par = 0;
+			while (tmp->data[i])
+			{
+				if (tmp->data[i] == '(')
+					open_par++;
+				if (tmp->data[i] == ')')
+					closed_par++;
+				if (tmp->data[i] != '(' && tmp->data[i] != ')' && !open_par && !closed_par)
+					return (print_syntax_error(tmp->data), 1);
+				else if (open_par == closed_par && tmp->data[i])
+					return (print_syntax_error(tmp->data), 1);
+				i++;
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (0);
 }

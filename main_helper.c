@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/23 10:40:20 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 11:20:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	lexer_to_tree(char *str, t_tree **tree, char **argev)
 		tmp = tmp->next;
 	}
 	syntax_error(&head);
+	if (syntax_error_parentheses(&head) == 1)
+		exit(1);
 	tree_maker(&head, tree);
 }
 
