@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:35:48 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 13:34:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:39:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,23 @@ int	has_outer_parenthases(char *str)
 	int	i;
 	int	par_open;
 	int	par_closed;
+	int in_quotes;
+	char quote_type;
 
 	i = 0;
 	par_open = 0;
 	par_closed = 0;
+	in_quotes = 0;
 	while (str[i])
 	{
-		if (str[i] == '(')
+		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
+		{
+			in_quotes = 1;
+			quote_type = str[i];
+		}
+		else if(in_quotes && str[i] == quote_type)
+			in_quotes = 0;
+		if (str[i] == '(' && !in_quotes)
 			par_open++;
 		else if (str[i] == ')')
 			par_closed++;
@@ -111,14 +121,6 @@ void	process_nested_parentheses(t_tree **tree)
 			if ((*tree)->left)
 				free_tree((*tree)->left);
 			(*tree)->left = sub_tree;
-			printf("**************************\n");
-			if ((*tree)->redirections)
-				printf("After processing - tree with redirections: [%s]\n", (
-						*tree)->redirections);
-			else
-				printf("After processing - tree with redirections: [NULL]\n");
-			print_tree_visual(*tree, 1, 1);
-			printf("**************************\n");
 		}
 		else
 		{

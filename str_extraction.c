@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:39:46 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 14:47:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:17:10 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	str_extractor_helper(char *str, int *i, int *flag, char **word)
 	{
 		if (str[*i] == '\"')
 			quote_counter++;
-		i++;
+		(*i)++;
 		if (str[*i] == 32 && quote_counter % 2 != 0)
 			*flag = 1;
 	}

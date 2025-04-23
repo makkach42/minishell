@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/23 09:20:39 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:35:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,3 +149,6 @@ int	main(int argc, char **argv, char **argev)
 }
 //(cat << EOF | grep "hello ") && (echo "skimi7a" || echo "fails") > infile.txt
 //((ls > file) && echo | la > file2) > file3
+
+//((ls)>file2) > file
+// "((ls)>file2) > file"
