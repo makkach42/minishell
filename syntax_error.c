@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/23 11:20:23 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/23 12:21:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,16 @@ void	syntax_error_two(t_tree **tree)
 
 int	syntax_error_parentheses(t_list **head)
 {
-	t_list *tmp;
+	t_list	*tmp;
 	int		i;
 	int		open_par;
 	int		closed_par;
+	int		in_quotes;
+	int		quote_type;
+	int		flag;
 
 	tmp = *head;
+	flag = 0;
 	if (!head || !*head)
 		return (0);
 	while (tmp)
@@ -112,18 +116,42 @@ int	syntax_error_parentheses(t_list **head)
 			i = 0;
 			open_par = 0;
 			closed_par = 0;
+			in_quotes = 0;
+			printf("*****************%s\n", tmp->data);
 			while (tmp->data[i])
 			{
+				printf("***********************%c\n", tmp->data[i]);
+				printf("***********************%d\n", in_quotes);
+				printf("***********************%d\n", (!in_quotes && !open_par));
+				printf("\n");
+				if (!in_quotes && (tmp->data[i] == '"' || tmp->data[i] == '\''))
+				{
+					in_quotes = 1;
+					quote_type = tmp->data[i];
+				}
+				else if(in_quotes && tmp->data[i] == quote_type)
+					in_quotes = 0;
+				if (!in_quotes && !open_par && parenthasis_recognizer(tmp->data))
+				{
+					flag = 1;
+					break ;
+				}
 				if (tmp->data[i] == '(')
 					open_par++;
 				if (tmp->data[i] == ')')
 					closed_par++;
-				if (tmp->data[i] != '(' && tmp->data[i] != ')' && !open_par && !closed_par)
-					return (print_syntax_error(tmp->data), 1);
-				else if (open_par == closed_par && tmp->data[i])
-					return (print_syntax_error(tmp->data), 1);
+				if (!in_quotes && (open_par == closed_par && open_par != 0) && tmp->data[i + 1])
+				{
+					flag = 2;
+					break ;
+				}
+				if (!in_quotes && (tmp->data[i] == 32 || is_operator(tmp->data[i])))
+					break ;
 				i++;
 			}
+			printf("\n%d\n", flag);
+			if (flag == 1 || flag == 2)
+				return (print_syntax_error(tmp->data), 1);
 		}
 		tmp = tmp->next;
 	}
