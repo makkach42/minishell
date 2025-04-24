@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:42:38 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 15:42:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/24 17:11:54 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	extract_parenthesis_helper(char *str, int *i,
 	if (str[*i] == ')')
 		(*closed_par)++;
 	(*i)++;
-	while (*i < (int)ft_strlen(str) && str[(*i)] != '\0' && (*open_par) > (*closed_par))
+	while (*i < (int)ft_strlen(str) && str[(*i)] != '\0' && (
+			*open_par) > (*closed_par))
 	{
 		printf("k\n");
 		if (str[(*i)] == '(')
