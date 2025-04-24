@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:42:38 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/23 09:30:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:42:08 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	extract_parenthesis_helper(char *str, int *i,
 	int *open_par, int *closed_par)
 {
-	while (str[*i] != ')' && str[*i] != '\0')
+	while (str[*i] != '\0' && str[*i] != ')')
 	{
 		if (str[*i] == '(')
 			(*open_par)++;
@@ -24,8 +24,9 @@ void	extract_parenthesis_helper(char *str, int *i,
 	if (str[*i] == ')')
 		(*closed_par)++;
 	(*i)++;
-	while ((*open_par) > (*closed_par) && str[(*i)] != '\0')
+	while (*i < (int)ft_strlen(str) && str[(*i)] != '\0' && (*open_par) > (*closed_par))
 	{
+		printf("k\n");
 		if (str[(*i)] == '(')
 			(*open_par)++;
 		if (str[(*i)] == ')')
@@ -71,6 +72,8 @@ char	*extract_parenthesis(char *str)
 	if (!str || !*str)
 		return (NULL);
 	extract_parenthesis_helper(str, &i, &open_par, &closed_par);
+	if (i > (int)ft_strlen(str))
+		return (ft_substr(str, 0, ft_strlen(str)));
 	if ((str[i] == '\0' || str[i] == 32))
 	{
 		word = ft_substr_leak(str, 0, i, 588);

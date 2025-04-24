@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 11:49:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:16:57 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,5 +137,10 @@ void	redirections_in_par_handle(t_tree **tree, char **cmd_part,
 			char **original_redirs, char **content);
 int		still_has_parentheses(t_tree **tree);
 void	redirections_handle(char **original_redirs, t_tree **tree);
+void	print_syntax_error(char *str2);
+void	syntax_error_parentheses_while_loop_parentheses(t_list *tmp,
+		int *i, int *open_par, int *closed_par);
+void	syntax_error_parentheses_while_loop(t_list *tmp,
+		int *i, int *flag, int *open_par);
 
 #endif
