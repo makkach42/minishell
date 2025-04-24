@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:01:01 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 11:07:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:11:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ void	parenthesis_recognizer_inits(int *i, int *j, int *flag, int *open_par)
 
 int	while_loop(char **str, char *quote_type, int *in_quotes, int *open_par)
 {
-	int i;
+	int	i;
 	int	closed_par;
-	int flag;
+	int	flag;
 
 	i = 0;
 	closed_par = 0;
@@ -97,5 +97,5 @@ int	parenthasis_recognizer(char *str)
 		return (0);
 	if (*str == '(')
 		return (1);
-		return (while_loop(&str, &quote_type, &in_quotes, &open_par));
+	return (while_loop(&str, &quote_type, &in_quotes, &open_par));
 }

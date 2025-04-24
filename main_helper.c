@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/23 14:09:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:12:23 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,10 @@ void	tree_to_rediropen(t_tree *tree)
 	process_nested_parentheses(&tree);
 	process_pipe_trees(tree);
 	process_all_redirections(&tree);
-	// print_tree_visual(tree, 1, 1);
-	// printf("\n");
-	// print_tree_visual(tree, 1, 1);
 	command_arr_fill(&tree);
-	// print_tree_visual(tree, 1, 1);
 	quote_remove_two(&tree);
 	syntax_error_two(&tree);
-			print_tree_visual(tree, 1, 1);
-	// printf("++++++++++++++++++++\n");
-	// print_tree_visual(tree, 1, 1);
-	// printf("\n");
-	// printf("++++++++++++++++++++\n");
+	print_tree_visual(tree, 1, 1);
 }
 
 void	inits_main(t_list_fd **head_fd, t_env **env, t_tree **tree)

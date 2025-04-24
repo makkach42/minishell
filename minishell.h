@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 11:08:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:49:02 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,15 @@ void	variable_handle(char **word, char **str);
 void	handle_parenthases(char **word, char **str);
 void	handle_else(char **word, char **str);
 void	open_quotes(int	*in_quotes, char *quote_type, char **str, int *i);
-void	parenthesis_recognizer_helper(int *open_par, int *closed_par, int *i, char *str);
+void	parenthesis_recognizer_helper(int *open_par,
+			int *closed_par, int *i, char *str);
+void	sub_tree_attachment(t_tree **sub_tree, t_tree **tree,
+			char **original_redirs);
+void	sub_tree_creation(t_tree **sub_tree, char **content, t_list **sub_list);
+void	free_all(char **content, char **original_redirs);
+void	redirections_in_par_handle(t_tree **tree, char **cmd_part,
+			char **original_redirs, char **content);
+int		still_has_parentheses(t_tree **tree);
+void	redirections_handle(char **original_redirs, t_tree **tree);
 
 #endif

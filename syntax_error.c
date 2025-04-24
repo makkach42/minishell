@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/23 12:52:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:50:06 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,8 @@ int	syntax_error_parentheses(t_list **head)
 					open_par++;
 				if (tmp->data[i] == ')')
 					closed_par++;
-				if ((open_par == closed_par && open_par != 0) && tmp->data[i + 1])
+				if ((open_par == closed_par && open_par != 0
+					) && tmp->data[i + 1])
 				{
 					flag = 2;
 					break ;
