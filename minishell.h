@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 09:29:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:08:29 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,7 @@ void	handle_operator(char **word, char **str);
 void	variable_handle(char **word, char **str);
 void	handle_parenthases(char **word, char **str);
 void	handle_else(char **word, char **str);
+void	open_quotes(int	*in_quotes, char *quote_type, char **str, int *i);
+void	parenthesis_recognizer_helper(int *open_par, int *closed_par, int *i, char *str);
 
 #endif

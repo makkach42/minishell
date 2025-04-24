@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:01:01 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/23 12:45:09 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:07:29 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,54 +55,47 @@ void	parenthesis_recognizer_inits(int *i, int *j, int *flag, int *open_par)
 	*open_par = 0;
 }
 
-void	parenthesis_recognizer_helper(int *open_par,
-	int *closed_par, int *i, char *str)
+int	while_loop(char **str, char *quote_type, int *in_quotes, int *open_par)
 {
-	if (str[*i] == '(')
-		(*open_par)++;
-	if (str[*i] == ')')
-		(*closed_par)++;
-}
-
-int	parenthasis_recognizer(char *str)
-{
-	int	i;
-	int	j;
-	int	flag;
-	int	open_par;
+	int i;
 	int	closed_par;
-	int in_quotes;
-	char quote_type;
+	int flag;
 
-	parenthesis_recognizer_inits(&i, &j, &flag, &open_par);
+	i = 0;
 	closed_par = 0;
-	in_quotes = 0;
-	if (!str)
-		return (0);
-	if (*str == '(')
-		return (1);
-	while (str[i])
+	flag = 0;
+	while ((*str)[i])
 	{
-		if ((str[i] == '"' || str[i] == '\'') && !in_quotes)
-		{
-			in_quotes = 1;
-			quote_type = str[i];
-		}
-		else if (in_quotes && str[i] == quote_type)
-		{
-			in_quotes = 0;
-		}
-		if ((str[i] == '(' || str[i] == ')') && !in_quotes)
-			parenthesis_recognizer_helper(&open_par, &closed_par, &i, str);
-		if (open_par != 0 && closed_par != 0 && open_par == closed_par)
+		if (((*str)[i] == '"' || (*str)[i] == '\'') && !*in_quotes)
+			open_quotes(in_quotes, quote_type, str, &i);
+		else if (in_quotes && (*str)[i] == *quote_type)
+			*in_quotes = 0;
+		if (((*str)[i] == '(' || (*str)[i] == ')') && !*in_quotes)
+			parenthesis_recognizer_helper(open_par, &closed_par, &i, (*str));
+		if (*open_par != 0 && closed_par != 0 && *open_par == closed_par)
 		{
 			flag = 1;
-			j = i;
 			break ;
 		}
 		i++;
 	}
-	if (flag == 1 && (str[i + 1] == 32 || str[i + 1] == '\0'))
+	if (flag == 1 && ((*str)[i + 1] == 32 || (*str)[i + 1] == '\0'))
 		return (1);
 	return (0);
+}
+
+int	parenthasis_recognizer(char *str)
+{
+	int		flag;
+	int		open_par;
+	int		closed_par;
+	int		in_quotes;
+	char	quote_type;
+
+	parenthesis_recognizer_inits(&in_quotes, &closed_par, &flag, &open_par);
+	if (!str)
+		return (0);
+	if (*str == '(')
+		return (1);
+		return (while_loop(&str, &quote_type, &in_quotes, &open_par));
 }
