@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/23 11:32:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:52:29 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,120 +45,50 @@ int	string_in_word_recognizer(char *str)
 
 int parenthesis_in_word_recogniser(char *str)
 {
-    int i;
-    int open_par;
-    int closed_par;
+	int i;
+	int open_par;
+	int closed_par;
 
-    i = 0;
-    open_par = 0;
-    closed_par = 0;
-    while (str[i] != '\0')
-    {
-        if (str[i] == '(')
-            open_par++;
-        if (str[i] == ')')
-            closed_par++;
-        if (open_par == closed_par && open_par > 0)
-        {
-            if (str[i+1] == ' ' || str[i+1] == '\0')
-                break;
-        }
-        i++;
-    }
-    return (open_par == closed_par && open_par > 0);
+	i = 0;
+	open_par = 0;
+	closed_par = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '(')
+			open_par++;
+		if (str[i] == ')')
+			closed_par++;
+		if (open_par == closed_par && open_par > 0)
+		{
+			if (str[i+1] == ' ' || str[i+1] == '\0')
+				break;
+		}
+		i++;
+	}
+	return (open_par == closed_par && open_par > 0);
 }
 
 char	*word_extractor(char *str)
 {
 	int		i;
-	int		flag;
-	int		count_quotes;
-	int		open_par;
-	int		closed_par;
 	char	*word;
 
-	i = -1;
+	i = 0;
 	if (!str || !*str)
 		return (NULL);
-	flag = 0;
 	if (string_in_word_recognizer(str) == 1)
 	{
-		i = 0;
-		count_quotes = 0;
-		while ((count_quotes == 0 || (count_quotes % 2 != 0)))
-		{
-			while (str[i] && str[i] != '\"' && str[i] != 32 && str[i] != '\0')
-				i++;
-			if (str[i] == 32)
-				break ;
-			else if (str[i] == '\"')
-			{
-				i++;
-				while (str[i] != '\"' && str[i] != '\0')
-					i++;
-				if (str[i] == '\0')
-					break ;
-				i++;
-				if (str[i] == '\0')
-					break ;
-				if (str[i] == 32)
-					break ;
-				else
-				{
-					while (str[i] != 32 && str[i] != '\0')
-						i++;
-				}
-			}
-			if (!str[i])
-				i--;
-			i++;
-			if (!str[i])
-				break ;
-		}
-		word = ft_substr_leak(str, 0, i, 354);
+		if_string_while_loop(&i, str, &word);
 		return (word);
 	}
 	else if (parenthesis_in_word_recogniser(str) == 1)
 	{
-		i = 0;
-		open_par = 0;
-		closed_par = 0;
-		while (((open_par == 0 && closed_par == 0) || (open_par != closed_par)))
-		{
-			while (str[i] && str[i] != '(' && str[i] != 32 && str[i] != '\0')
-				i++;
-			if (str[i] == 32)
-				break ;
-			else if (str[i] == '(')
-			{
-				i++;
-				while (str[i] != ')' && str[i] != '\0')
-					i++;
-				if (str[i] == '\0')
-					break ;
-				i++;
-				if (str[i] == '\0')
-					break ;
-				if (str[i] == 32)
-					break ;
-				else
-				{
-					while (str[i] != 32 && str[i] != '\0')
-						i++;
-				}
-			}
-			if (!str[i])
-				i--;
-			i++;
-			if (!str[i])
-				break ;
-		}
-		word = ft_substr_leak(str, 0, i, 392);
+		if_par_loop(&i, str, &word);
 		return (word);
 	}
 	else
 	{
-		while (str[++i] == 32)
+		while (str[i++] == 32)
 		{
 		}
 		while (str[i] != 32 && !is_operator(str[i]) && str[i] != '\0')
