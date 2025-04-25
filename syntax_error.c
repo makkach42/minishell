@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 16:17:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 08:55:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int	syntax_error_parentheses(t_list **head)
 			i = 0;
 			open_par = 0;
 			syntax_error_parentheses_while_loop(tmp, &i, &flag, &open_par);
+			printf("%d\n", flag);
 			if (flag == 1 || flag == 2 || flag == 3)
 				return (print_syntax_error(tmp->data), 1);
 		}

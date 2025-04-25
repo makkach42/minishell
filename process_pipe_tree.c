@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 17:13:10 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 08:49:31 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ void	extract_command_with_redirects_helper(
 {
 	char	*temp_str;
 
-	if (command_str)
+	if (*command_str)
 	{
-		temp_str = command_str;
-		command_str = ft_strjoin_leak(command_str, " ", __LINE__);
+		temp_str = *command_str;
+		*command_str = ft_strjoin_leak(*command_str, " ", __LINE__);
 		t_free(temp_str, __LINE__, "parsing.c");
-		temp_str = command_str;
-		command_str = ft_strjoin_leak(command_str, current->data, __LINE__);
+		temp_str = *command_str;
+		*command_str = ft_strjoin_leak(*command_str, current->data, __LINE__);
 		t_free(temp_str, __LINE__, "parsing.c");
 	}
 	else if (current->data)
-		command_str = ft_strdup(current->data);
+		*command_str = ft_strdup(current->data);
 }
 
 char	*extract_command_with_redirects(t_list **head, t_list **pipe_pos)

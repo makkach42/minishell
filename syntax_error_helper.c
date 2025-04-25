@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 16:16:12 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 08:57:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	syntax_error_parentheses_while_loop(t_list *tmp,
 			*flag = 2;
 			break ;
 		}
-		if ((tmp->data[*i] == 32 || is_operator(tmp->data[*i])))
+		if (*open_par == closed_par && (tmp->data[*i] == 32 || is_operator(tmp->data[*i])))
 			break ;
 		(*i)++;
 	}
