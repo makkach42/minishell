@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 14:54:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:58:26 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,8 @@ t_list	*free_until_node(t_list *start, t_list *stop);
 char	*find_first_redirection(char *cmd_str);
 int		find_args_start_pos(char *redir_start);
 int		is_valid_args_position(char *str, int j);
-void	init_args_search(int *i, int *in_quotes, char *quote_type, int *redir_active);
+void	init_args_search(int *i, int *in_quotes,
+			char *quote_type, int *redir_active);
 int		handle_redirection_char(char c, int *redir_active);
 int		process_break_point(char *redir_start, int i, int *j, int redir_active);
 void	update_redir_active(char c, int *redir_active);

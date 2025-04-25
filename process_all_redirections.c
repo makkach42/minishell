@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 14:45:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:56:39 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,7 @@ void	extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
 	}
 	cmd_len = redir_start - cmd_str;
 	*cmd_part = ft_substr_leak(cmd_str, 0, cmd_len, __LINE__);
-	
 	args_pos = find_args_start_pos(redir_start);
-	
 	if (args_pos != -1)
 		handle_args_found(cmd_part, redir_part, redir_start, args_pos);
 	else

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:36:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 14:52:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:57:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	is_args_break_point(char *str, int i, int redir_active)
 {
-	return (redir_active && str[i] == ' ' && i > 0 &&
-		str[i - 1] != '>' && str[i - 1] != '<');
+	return (redir_active && str[i] == ' ' && i > 0 && str[
+			i - 1] != '>' && str[i - 1] != '<');
 }
 
 int	skip_spaces(char *str, int start)
@@ -92,11 +92,10 @@ int	find_args_start_pos(char *redir_start)
 				if (pos >= 0)
 					return (pos);
 				else if (pos == -2)
-					break;
+					break ;
 				update_redir_active(redir_start[i], &redir_active);
 			}
 		}
 	}
 	return (-1);
 }
-

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:45:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 14:51:31 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:57:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ int	is_valid_args_position(char *str, int j)
 {
 	return (str[j] && str[j] != '>' && str[j] != '<');
 }
-void	init_args_search(int *i, int *in_quotes, char *quote_type, int *redir_active)
+
+void	init_args_search(int *i, int *in_quotes,
+		char *quote_type, int *redir_active)
 {
 	*i = -1;
 	*in_quotes = 0;
