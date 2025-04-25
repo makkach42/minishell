@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:26:40 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 15:23:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:50:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*cases(char *s1, char *s2)
 	if (!s2)
 		return (ft_strdup(s1));
 	len3 = ft_strlen(s1) + ft_strlen(s2);
-	return (t_malloc((len3 + 1) * sizeof(char), 26, "ft_strjoin.c"));
+	return (malloc((len3 + 1) * sizeof(char)));
 }
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -57,7 +57,7 @@ static char	*casereturns(char *s, size_t len, unsigned int start)
 
 	if ((s[0] == '\0' && len == 0) || (start >= ft_strlen(s)))
 	{
-		sub = t_malloc(1, 21, "ft_substr.c");
+		sub = malloc(1);
 		if (!sub)
 			return (0);
 		sub[0] = '\0';
@@ -80,7 +80,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		return (casereturns(s, len, start));
 	if (start + len > ft_strlen(s))
 		len = ft_strlen(s) - start;
-	sub = t_malloc((len + 1) * sizeof(char), 44, "ft_substr.c");
+	sub = malloc((len + 1) * sizeof(char));
 	if (!sub)
 		return (0);
 	while (i < len && s[start + i] != '\0')

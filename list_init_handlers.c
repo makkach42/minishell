@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:27:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 09:31:04 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:21:31 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_quotes(char **word, char **str)
 	if (!word)
 		return ;
 	tmp_char = *word;
-	*word = ft_strtrim_leak(*word, " ", 1092, "list_init");
+	*word = ft_strtrim(*word, " ");
 	free(tmp_char);
 	if (!*word)
 		return ;
@@ -30,7 +30,7 @@ void	handle_quotes(char **word, char **str)
 	if (*str)
 	{
 		tmp_char = *str;
-		*str = ft_strtrim_leak(*str, " ", 1102, "list_init");
+		*str = ft_strtrim(*str, " ");
 		free(tmp_char);
 	}
 }
@@ -43,7 +43,7 @@ void	handle_operator(char **word, char **str)
 	if (!word)
 		return ;
 	tmp_char = *word;
-	*word = ft_strtrim_leak(*word, " ", 1113, "list_init");
+	*word = ft_strtrim(*word, " ");
 	free(tmp_char);
 	if (!*word)
 		return ;
@@ -53,7 +53,7 @@ void	handle_operator(char **word, char **str)
 	if (*str)
 	{
 		tmp_char = *str;
-		*str = ft_strtrim_leak(*str, " ", 1126, "list_init");
+		*str = ft_strtrim(*str, " ");
 		free(tmp_char);
 	}
 }
@@ -66,7 +66,7 @@ void	variable_handle(char **word, char **str)
 	if (!*word)
 		return ;
 	tmp_char = *word;
-	*word = ft_strtrim_leak(*word, " ", 1137, "list_init");
+	*word = ft_strtrim(*word, " ");
 	free(tmp_char);
 	if (!*word)
 		return ;
@@ -76,7 +76,7 @@ void	variable_handle(char **word, char **str)
 	if (str)
 	{
 		tmp_char = *str;
-		*str = ft_strtrim_leak(*str, " ", 1150, "list_init");
+		*str = ft_strtrim(*str, " ");
 		free(tmp_char);
 	}
 }
@@ -89,7 +89,7 @@ void	handle_parenthases(char **word, char **str)
 	if (!*word)
 		return ;
 	tmp_char = *word;
-	*word = ft_strtrim_leak(*word, " ", 1161, "list_init");
+	*word = ft_strtrim(*word, " ");
 	free(tmp_char);
 	if (!*word)
 		return ;
@@ -99,7 +99,7 @@ void	handle_parenthases(char **word, char **str)
 	if (*str)
 	{
 		tmp_char = *str;
-		*str = ft_strtrim_leak(*str, " ", 1174, "list_init");
+		*str = ft_strtrim(*str, " ");
 		free(tmp_char);
 	}
 }
@@ -112,7 +112,7 @@ void	handle_else(char **word, char **str)
 	if (!*word)
 		return ;
 	tmp_char = *word;
-	*word = ft_strtrim_leak(*word, " ", 1185, "list_init");
+	*word = ft_strtrim(*word, " ");
 	free(tmp_char);
 	if (!*word)
 		return ;
@@ -122,7 +122,7 @@ void	handle_else(char **word, char **str)
 	if (*str)
 	{
 		tmp_char = *str;
-		*str = ft_strtrim_leak(*str, " ", 1197, "list_init");
+		*str = ft_strtrim(*str, " ");
 		free(tmp_char);
 	}
 }

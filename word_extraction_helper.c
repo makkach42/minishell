@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:50:28 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 17:01:36 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:12:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	if_string_while_loop(int *i, char *str, char **word)
 		if (!str[*i])
 			break ;
 	}
-	*word = ft_substr_leak(str, 0, *i, 354);
+	*word = ft_substr(str, 0, *i);
 }
 
 int	else_if_str_is_par(int *i, char *str)
@@ -101,5 +101,5 @@ void	if_par_loop(int *i, char *str, char **word)
 		if (!str[*i])
 			break ;
 	}
-	*word = ft_substr_leak(str, 0, *i, 392);
+	*word = ft_substr(str, 0, *i);
 }

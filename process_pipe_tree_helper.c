@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:00:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 14:15:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:23:36 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	if_cmd_list(t_list **cmd_list)
 		{
 			next = current->next;
 			if (current->data)
-				t_free(current->data, __LINE__, "parsing.c");
-			t_free(current, __LINE__, "parsing.c");
+				free(current->data);
+			free(current);
 			current = next;
 		}
 		*cmd_list = NULL;
@@ -59,7 +59,7 @@ void	process_command_with_pipes(char *command_str, t_tree **command_tree)
 	cmd_list = list_init_leak(cmd_copy, __LINE__, "process_command_with_pipes");
 	if (!cmd_list)
 	{
-		t_free(cmd_copy, __LINE__, "parsing.c");
+		free(cmd_copy);
 		*command_tree = NULL;
 		return ;
 	}
@@ -75,11 +75,11 @@ void	extract_command_with_redirects_helper(
 	if (*command_str)
 	{
 		temp_str = *command_str;
-		*command_str = ft_strjoin_leak(*command_str, " ", __LINE__);
-		t_free(temp_str, __LINE__, "parsing.c");
+		*command_str = ft_strjoin(*command_str, " ");
+		free(temp_str);
 		temp_str = *command_str;
-		*command_str = ft_strjoin_leak(*command_str, current->data, __LINE__);
-		t_free(temp_str, __LINE__, "parsing.c");
+		*command_str = ft_strjoin(*command_str, current->data);
+		free(temp_str);
 	}
 	else if (current->data)
 		*command_str = ft_strdup(current->data);

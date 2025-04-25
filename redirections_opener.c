@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:47:08 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 17:13:43 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:14:20 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 			while ((*tree)->redirections[i] != ' ' && (
 					*tree)->redirections[i] != '\0')
 				i++;
-			*head = t_malloc(sizeof(t_list_fd), __LINE__, "parsing.c");
+			*head = malloc(sizeof(t_list_fd));
 			if (!*head)
 				return ;
-			(*head)->name = ft_substr_leak(
-					(*tree)->redirections, j, i - j, __LINE__);
+			(*head)->name = ft_substr(
+					(*tree)->redirections, j, i - j);
 			(*head)->redir = NULL;
 			(*head)->next = NULL;
 			(*head)->fd = -1;
@@ -106,13 +106,13 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					(*head)->command = ft_strdup((*tree)->command);
 			}
 			tmp_char = (*tree)->redirections;
-			(*tree)->redirections = ft_substr_leak((*tree)->redirections, i,
-					ft_strlen((*tree)->redirections) - i, __LINE__);
-			t_free(tmp_char, __LINE__, "parsing.c");
+			(*tree)->redirections = ft_substr((*tree)->redirections, i,
+					ft_strlen((*tree)->redirections) - i);
+			free(tmp_char);
 			tmp_char = (*tree)->redirections;
-			(*tree)->redirections = ft_strtrim_leak(
-					(*tree)->redirections, " ", __LINE__, "parsing.c");
-			t_free(tmp_char, __LINE__, "parsing.c");
+			(*tree)->redirections = ft_strtrim(
+					(*tree)->redirections, " ");
+			free(tmp_char);
 			if (flag == 1 && !check_empty((*head)->name))
 			{
 				(*head)->fd = -1;
@@ -172,11 +172,11 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				while ((*tree)->redirections[i] != ' ' && (
 						*tree)->redirections[i] != '\0')
 					i++;
-				new_node = t_malloc(sizeof(t_list_fd), __LINE__, "parsing.c");
+				new_node = malloc(sizeof(t_list_fd));
 				if (!new_node)
 					break ;
-				new_node->name = ft_substr_leak(
-						(*tree)->redirections, j, i - j, __LINE__);
+				new_node->name = ft_substr(
+						(*tree)->redirections, j, i - j);
 				new_node->fd = -1;
 				new_node->redir = NULL;
 				new_node->next = NULL;
@@ -195,13 +195,13 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					new_node->command = ft_strdup((*tree)->command);
 				}
 				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_substr_leak((*tree)->redirections, i,
-						ft_strlen((*tree)->redirections) - i, __LINE__);
-				t_free(tmp_char, __LINE__, "parsing.c");
+				(*tree)->redirections = ft_substr((*tree)->redirections, i,
+						ft_strlen((*tree)->redirections) - i);
+				free(tmp_char);
 				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_strtrim_leak(
-						(*tree)->redirections, " ", __LINE__, "parsing.c");
-				t_free(tmp_char, __LINE__, "parsing.c");
+				(*tree)->redirections = ft_strtrim(
+						(*tree)->redirections, " ");
+				free(tmp_char);
 				if (flag == 1 && !check_empty(new_node->name))
 				{
 					new_node->fd = -1;
@@ -272,11 +272,11 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 				while ((*tree)->redirections[i] != ' ' && (
 						*tree)->redirections[i] != '\0')
 					i++;
-				new_node = t_malloc(sizeof(t_list_fd), __LINE__, "parsing.c");
+				new_node = malloc(sizeof(t_list_fd));
 				if (!new_node)
 					break ;
-				new_node->name = ft_substr_leak(
-						(*tree)->redirections, j, i - j, __LINE__);
+				new_node->name = ft_substr(
+						(*tree)->redirections, j, i - j);
 				new_node->fd = -1;
 				new_node->redir = NULL;
 				new_node->next = NULL;
@@ -295,13 +295,13 @@ void	redirections_opener(t_tree **tree, t_list_fd **head)
 					new_node->command = ft_strdup((*tree)->command);
 				}
 				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_substr_leak((*tree)->redirections, i,
-						ft_strlen((*tree)->redirections) - i, __LINE__);
-				t_free(tmp_char, __LINE__, "parsing.c");
+				(*tree)->redirections = ft_substr((*tree)->redirections, i,
+						ft_strlen((*tree)->redirections) - i);
+				free(tmp_char);
 				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_strtrim_leak(
-						(*tree)->redirections, " ", __LINE__, "parsing.c");
-				t_free(tmp_char, __LINE__, "parsing.c");
+				(*tree)->redirections = ft_strtrim(
+						(*tree)->redirections, " ");
+				free(tmp_char);
 				if (flag == 1 && !check_empty(new_node->name))
 				{
 					new_node->fd = -1;

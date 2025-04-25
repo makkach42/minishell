@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 08:57:38 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:20:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void	env_fill_quote_parse(t_env **env, char **str, char **argev)
 	*env = env_fill(argev);
 	*str = replace_whites_spaces(*str);
 	tmp_str = *str;
-	*str = ft_strtrim_leak(*str, " ", 2509, "main");
-	t_free(tmp_str, 2514, "parsing.c");
+	*str = ft_strtrim(*str, " ");
+	free(tmp_str);
 	if (check_quotes(*str) == 1)
 		exit(1);
 }

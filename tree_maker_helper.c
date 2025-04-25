@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:00:03 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 10:00:56 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:23:24 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ char	*side_maker(t_list **head, int number, int j)
 	while (i < number - j)
 	{
 		tmp_char = tmp2;
-		tmp2 = ft_strjoin_leak(tmp2, tmp->data, 1441);
-		t_free(tmp_char, 1442, "parsing.c");
+		tmp2 = ft_strjoin(tmp2, tmp->data);
+		free(tmp_char);
 		tmp_char = tmp2;
-		tmp2 = ft_strjoin_leak(tmp2, " ", __LINE__);
-		t_free(tmp_char, __LINE__, "parsing.c");
+		tmp2 = ft_strjoin(tmp2, " ");
+		free(tmp_char);
 		i++;
 		tmp = tmp->next;
 	}
@@ -38,7 +38,7 @@ char	*side_maker(t_list **head, int number, int j)
 
 void	init_tree_node(t_tree **node, char *type)
 {
-	*node = t_malloc(sizeof(t_tree), __LINE__, "parsing.c");
+	*node = malloc(sizeof(t_tree));
 	if (!(*node))
 		return ;
 	(*node)->type = type;
@@ -50,8 +50,8 @@ void	init_tree_node(t_tree **node, char *type)
 void	free_node_data(t_list *node)
 {
 	if (node->data)
-		t_free(node->data, __LINE__, "parsing.c");
-	t_free(node, __LINE__, "parsing.c");
+		free(node->data);
+	free(node);
 }
 
 void	cleanup_right_nodes(t_list *nodes)
@@ -64,8 +64,8 @@ void	cleanup_right_nodes(t_list *nodes)
 	{
 		next_right = right_nodes->next;
 		if (right_nodes->data)
-			t_free(right_nodes->data, __LINE__, "parsing.c");
-		t_free(right_nodes, __LINE__, "parsing.c");
+			free(right_nodes->data);
+		free(right_nodes);
 		right_nodes = next_right;
 	}
 }
@@ -80,8 +80,8 @@ void	cleanup_left_nodes(t_list *nodes)
 	{
 		next_left = left_cleanup->next;
 		if (left_cleanup->data)
-			t_free(left_cleanup->data, __LINE__, "parsing.c");
-		t_free(left_cleanup, __LINE__, "parsing.c");
+			free(left_cleanup->data);
+		free(left_cleanup);
 		left_cleanup = next_left;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 14:56:39 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:23:09 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,16 @@ void	handle_args_found(char **cmd_part, char **redir_part, char *redir_start,
 
 	args_start = &redir_start[args_pos];
 	redir_len = args_start - redir_start;
-	*redir_part = ft_substr_leak(redir_start, 0, redir_len, __LINE__);
+	*redir_part = ft_substr(redir_start, 0, redir_len);
 	tmp = *cmd_part;
 	if (tmp[0] != '\0')
-		*cmd_part = ft_strjoin_leak(tmp, " ", __LINE__);
+		*cmd_part = ft_strjoin(tmp, " ");
 	else
 		*cmd_part = ft_strdup("");
-	t_free(tmp, __LINE__, "parsing.c");
+	free(tmp);
 	tmp = *cmd_part;
-	*cmd_part = ft_strjoin_leak(tmp, args_start, __LINE__);
-	t_free(tmp, __LINE__, "parsing.c");
+	*cmd_part = ft_strjoin(tmp, args_start);
+	free(tmp);
 }
 
 void	extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
@@ -79,7 +79,7 @@ void	extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
 		return ;
 	}
 	cmd_len = redir_start - cmd_str;
-	*cmd_part = ft_substr_leak(cmd_str, 0, cmd_len, __LINE__);
+	*cmd_part = ft_substr(cmd_str, 0, cmd_len);
 	args_pos = find_args_start_pos(redir_start);
 	if (args_pos != -1)
 		handle_args_found(cmd_part, redir_part, redir_start, args_pos);
@@ -97,16 +97,16 @@ void	process_all_redirections_helper(t_tree **tree, char **cmd)
 	extract_redirections(*cmd, &cmd_part, &redir_part);
 	if (cmd_part && redir_part)
 	{
-		t_free((*tree)->command, __LINE__, "parsing.c");
+		free((*tree)->command);
 		(*tree)->command = cmd_part;
 		(*tree)->redirections = redir_part;
 	}
 	else
 	{
 		if (cmd_part)
-			t_free(cmd_part, __LINE__, "parsing.c");
+			free(cmd_part);
 		if (redir_part)
-			t_free(redir_part, __LINE__, "parsing.c");
+			free(redir_part);
 	}
 }
 

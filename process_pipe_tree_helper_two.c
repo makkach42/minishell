@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:17:26 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 14:27:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:06:08 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	free_list_nodes(t_list *current)
 	{
 		next = current->next;
 		if (current->data)
-			t_free(current->data, __LINE__, "parsing.c");
-		t_free(current, __LINE__, "parsing.c");
+			free(current->data);
+		free(current);
 		current = next;
 	}
 }
@@ -41,7 +41,7 @@ t_tree	*create_tree_node(void *command, char *type)
 {
 	t_tree	*node;
 
-	node = t_malloc(sizeof(t_tree), __LINE__, "parsing.c");
+	node = malloc(sizeof(t_tree));
 	if (!node)
 		return (NULL);
 	node->command = command;
@@ -62,7 +62,7 @@ t_list	*create_list_copy(t_list *source, t_list *stop)
 	tmp_list = NULL;
 	while (source && source != stop)
 	{
-		new_node = t_malloc(sizeof(t_list), __LINE__, "parsing.c");
+		new_node = malloc(sizeof(t_list));
 		new_node->data = ft_strdup(source->data);
 		new_node->token = source->token;
 		new_node->next = NULL;
@@ -93,16 +93,16 @@ t_list	*free_until_node(t_list *start, t_list *stop)
 	{
 		next = current->next;
 		if (current->data)
-			t_free(current->data, __LINE__, "parsing.c");
-		t_free(current, __LINE__, "parsing.c");
+			free(current->data);
+		free(current);
 		current = next;
 	}
 	if (current == stop)
 	{
 		next = current->next;
 		if (current->data)
-			t_free(current->data, __LINE__, "parsing.c");
-		t_free(current, __LINE__, "parsing.c");
+			free(current->data);
+		free(current);
 		current = next;
 	}
 	return (current);

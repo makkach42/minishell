@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 11:13:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:13:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	command_arr_fill_helper(t_tree **tree, char **str)
 	int		list_size;
 
 	i = 0;
-	head = list_init_leak(*str, 2952, "command_arr_fill");
+	head = list_init_leak(*str, __LINE__, "command_arr_fill");
 	list_size = lst_size(&head);
-	arr = t_malloc(sizeof(char *) * (list_size + 1), 2404, "parsing.c");
+	arr = malloc(sizeof(char *) * (list_size + 1));
 	tmp = head;
 	while (tmp)
 	{
@@ -51,11 +51,11 @@ void	command_arr_fill(t_tree **tree)
 		str = ft_strdup((*tree)->command);
 		if (!str || !*str)
 		{
-			arr = t_malloc(sizeof(char *), 2395, "parsing.c");
+			arr = malloc(sizeof(char *));
 			if (arr)
 				arr[0] = NULL;
 			(*tree)->command_arr = arr;
-			t_free(str, 2399, "parsing.c");
+			free(str);
 			return ;
 		}
 		tmp = str;
@@ -67,12 +67,12 @@ void	command_arr_fill(t_tree **tree)
 
 void	env_fill_helper(t_env **node, int *i, int *j, char **argev)
 {
-	*node = t_malloc(sizeof(t_env), 2428, "parsing.c");
+	*node = malloc(sizeof(t_env));
 	while (argev[*i] && argev[*i][*j] != '=')
 		(*j)++;
-	(*node)->key = ft_substr_leak(argev[*i], 0, *j, 2711);
-	(*node)->value = ft_substr_leak(argev[*i],
-			(*j + 1), ft_strlen(argev[*i]) - (*j + 1), 2712);
+	(*node)->key = ft_substr(argev[*i], 0, *j);
+	(*node)->value = ft_substr(argev[*i],
+			(*j + 1), ft_strlen(argev[*i]) - (*j + 1));
 	*j = 0;
 }
 
@@ -143,7 +143,7 @@ int	main(int argc, char **argv, char **argev)
 			printf("\n");
 			tmp = tmp->next;
 		}
-		last_free(&env, &tree, &head_fd);
+		lasfree(&env, &tree, &head_fd);
 	}
 }
 //(cat << EOF | grep "hello ") && (echo "skimi7a" || echo "fails") > infile.txt

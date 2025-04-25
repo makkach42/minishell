@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:09:28 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 15:25:49 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:54:10 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	process_regular_node(t_list **head, t_tree **tree, int i)
 		to_free = current;
 		current = current->next;
 		if (to_free->data)
-			t_free(to_free->data, __LINE__, "parsing.c");
-		t_free(to_free, __LINE__, "parsing.c");
+			free(to_free->data);
+		free(to_free);
 	}
 	*head = NULL;
 }
@@ -114,3 +114,5 @@ void	tree_maker(t_list **head, t_tree **tree)
 
 //(ls>file | ls>file2) && (la>file3 | la>file4)
 //"(ls>file | ls>file2) && (la>file3 | la>file4)"
+//"sksksksk | kksksl"
+//"sksksksk && kksksl"

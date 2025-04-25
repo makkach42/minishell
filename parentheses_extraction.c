@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:42:38 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 17:11:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:09:24 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	extract_parenthesis_helper_two(char *str, int *i,
 		if (str[*i] == 32 && open_par == closed_par)
 			(*flag) = 1;
 	}
-	*word = ft_substr_leak(str, 0, (*i), 605);
+	*word = ft_substr(str, 0, (*i));
 }
 
 char	*extract_parenthesis(char *str)
@@ -77,7 +77,7 @@ char	*extract_parenthesis(char *str)
 		return (ft_substr(str, 0, ft_strlen(str)));
 	if ((str[i] == '\0' || str[i] == 32))
 	{
-		word = ft_substr_leak(str, 0, i, 588);
+		word = ft_substr(str, 0, i);
 		return (word);
 	}
 	else
@@ -95,6 +95,6 @@ char	*parenthesis_remover(char *str, char *word)
 		return (NULL);
 	strlenth = ft_strlen(str);
 	word_len = ft_strlen(word);
-	new_str = ft_substr_leak(str, word_len, strlenth - word_len, 498);
+	new_str = ft_substr(str, word_len, strlenth - word_len);
 	return (new_str);
 }

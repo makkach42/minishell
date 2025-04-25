@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:16:32 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 10:05:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:49:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*ft_strdup(char *s1)
 	while (s1[i] != '\0')
 		i++;
 	i += 1;
-	j = (char *)t_malloc(i * sizeof(char), 24, "ft_strdup.c");
+	j = (char *)malloc(i * sizeof(char));
 	if (!j)
 		return (0);
 	i = 0;

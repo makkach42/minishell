@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 09:27:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:56:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	free_list(t_list **head)
 	{
 		tmp2 = tmp->next;
 		if (tmp->data)
-			t_free(tmp->data, 1388, "parsing.c");
-		t_free(tmp, 1389, "parsing.c");
+			free(tmp->data);
+		free(tmp);
 		tmp = tmp2;
 	}
 	*head = NULL;
@@ -42,22 +42,21 @@ void	free_tree(t_tree *tree)
 	if (tree->right)
 		free_tree(tree->right);
 	if (tree->command)
-		(t_free(tree->command, __LINE__, "parsing.c"), tree->command = NULL);
+		(free(tree->command), tree->command = NULL);
 	if (tree->redirections)
 	{
-		t_free(tree->redirections, __LINE__, "parsing.c");
+		free(tree->redirections);
 		tree->redirections = NULL;
 	}
 	if (tree->command_arr)
 	{
 		i = -1;
 		while (tree->command_arr[++i])
-			(t_free(tree->command_arr[i], __LINE__,
-					"parsing.c"), tree->command_arr[i] = NULL);
-		t_free(tree->command_arr, __LINE__, "parsing.c");
+			(free(tree->command_arr[i]), tree->command_arr[i] = NULL);
+		free(tree->command_arr);
 		tree->command_arr = NULL;
 	}
-	t_free(tree, __LINE__, "parsing.c");
+	free(tree);
 }
 
 void	free_list_fd(t_list_fd **head)
@@ -73,15 +72,15 @@ void	free_list_fd(t_list_fd **head)
 	{
 		next = current->next;
 		if (current->command)
-			(t_free(current->command, 26, "parsing.c"),
+			(free(current->command),
 				current->command = NULL);
 		if (current->name)
-			(t_free(current->name, 28, "parsing.c"), current->name = NULL);
+			(free(current->name), current->name = NULL);
 		if (current->redir)
-			(t_free(current->redir, 30, "parsing.c"), current->redir = NULL);
+			(free(current->redir), current->redir = NULL);
 		if (current->fd > 0)
 			(close(current->fd), current->fd = -1);
-		t_free(current, 33, "parsing.c");
+		free(current);
 		current = next;
 	}
 	*head = NULL;
@@ -96,15 +95,15 @@ void	free_env(t_env **env)
 	while (tmp)
 	{
 		tmp2 = tmp->next;
-		t_free(tmp->key, 2462, "parsing.c");
-		t_free(tmp->value, 2463, "parsing.c");
-		t_free(tmp, 2464, "parsing.c");
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
 		tmp = tmp2;
 	}
 	*env = NULL;
 }
 
-void	last_free(t_env **env, t_tree **tree, t_list_fd **head_fd)
+void	lasfree(t_env **env, t_tree **tree, t_list_fd **head_fd)
 {
 	free_env(env);
 	if (tree)

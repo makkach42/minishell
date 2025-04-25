@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 10:15:00 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:22:57 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	variable_expantion(t_list **head, char **ev)
 		tmp = tmp->next;
 	if (tmp && tmp->prev && (ft_strcmp(tmp->prev->data, "<<"))) //in double quotes
 	{
-		variable_name = ft_substr_leak(
+		variable_name = ft_substr(
 				tmp->data, 1, ft_strlen(
-					tmp->data) - 1, 2421);
+					tmp->data) - 1);
 		while (ev[i])
 		{
 			if (!ft_strncmp(ev[i], variable_name, ft_strlen(
@@ -70,18 +70,18 @@ void	variable_expantion(t_list **head, char **ev)
 				ft_strlen(variable_name)] == '=')
 			{
 				tmp_char = tmp->data;
-				tmp->data = ft_substr_leak(ev[i], ft_strlen(
+				tmp->data = ft_substr(ev[i], ft_strlen(
 							variable_name), ft_strlen(
 							ev[i]) - ft_strlen(
-							variable_name), 2428);
-				t_free(tmp_char, 2147, "parsing.c");
+							variable_name));
+				free(tmp_char);
 				tmp_char = tmp->data;
-				tmp->data = ft_strtrim_leak(tmp->data, "=", 2146, "list_init");
-				t_free(tmp_char, 2151, "parsing.c");
+				tmp->data = ft_strtrim(tmp->data, "=");
+				free(tmp_char);
 			}
 			i++;
 		}
-		t_free(variable_name, 2157, "parsing.c");
+		free(variable_name);
 	}
 }
 
@@ -138,63 +138,63 @@ int	variable_in_word(t_list **head, char **argev)
 							j++;
 						l++;
 						tmp_char = tmp_word;
-						tmp_word = ft_substr_leak(tmp->data, l, j - l, 2506);
-						t_free(tmp_char, 2227, "parsing.c");
+						tmp_word = ft_substr(tmp->data, l, j - l);
+						free(tmp_char);
 						k = 0;
 						while (argev[k] && ft_strncmp(
 								argev[k], tmp_word, ft_strlen(tmp_word)))
 							k++;
 						if (!argev[k])
 						{
-							t_free(tmp_word, 2233, "parsing.c");
+							free(tmp_word);
 							tmp_char = first_part;
-							first_part = ft_substr_leak(
-									tmp->data, 0, i, 2515);
-							t_free(tmp_char, 2236, "parsing.c");
+							first_part = ft_substr(
+									tmp->data, 0, i);
+							free(tmp_char);
 							tmp_char = second_part;
-							second_part = ft_substr_leak(
+							second_part = ft_substr(
 									tmp->data, j, ft_strlen(
-										tmp->data) - j, 2518);
-							t_free(tmp_char, 2239, "parsing.c");
+										tmp->data) - j);
+							free(tmp_char);
 							tmp_char = new_str;
-							new_str = ft_strjoin_leak(
-									first_part, second_part, 2501);
-							t_free(tmp_char, 2242, "parsing.c");
-							t_free(tmp->data, 2243, "parsing.c");
+							new_str = ft_strjoin(
+									first_part, second_part);
+							free(tmp_char);
+							free(tmp->data);
 							tmp->data = new_str;
 						}
 						else
 						{
-							t_free(tmp_word, 2248, "parsing.c");
+							free(tmp_word);
 							l = 0;
 							while (argev[k][l] && argev[k][l] != '=')
 								l++;
 							tmp_char = tmp_word;
-							tmp_word = ft_substr_leak(
-									argev[k], l, ft_strlen(argev[k]) - l, 2533);
-							t_free(tmp_char, 2254, "parsing.c");
+							tmp_word = ft_substr(
+									argev[k], l, ft_strlen(argev[k]) - l);
+							free(tmp_char);
 							tmp_char = tmp_word;
-							tmp_word = ft_strtrim_leak(
-									tmp_word, "=", 2252, "list_init");
-							t_free(tmp_char, 2257, "parsing.c");
+							tmp_word = ft_strtrim(
+									tmp_word, "=");
+							free(tmp_char);
 							tmp_char = first_part;
-							first_part = ft_substr_leak(
-									tmp->data, 0, i, 2539);
-							t_free(tmp_char, 2260, "parsing.c");
+							first_part = ft_substr(
+									tmp->data, 0, i);
+							free(tmp_char);
 							tmp_char = second_part;
-							second_part = ft_substr_leak(
+							second_part = ft_substr(
 									tmp->data, j, ft_strlen(
-										tmp->data) - j, 2542);
-							t_free(tmp_char, 2263, "parsing.c");
+										tmp->data) - j);
+							free(tmp_char);
 							tmp_char = new_str;
-							new_str = ft_strjoin_leak(
-									first_part, tmp_word, 2525);
-							t_free(tmp_char, 2266, "parsing.c");
+							new_str = ft_strjoin(
+									first_part, tmp_word);
+							free(tmp_char);
 							tmp_char = new_str;
-							new_str = ft_strjoin_leak(
-									new_str, second_part, 2528);
-							t_free(tmp_char, 2269, "parsing.c");
-							t_free(tmp->data, 2270, "parsing.c");
+							new_str = ft_strjoin(
+									new_str, second_part);
+							free(tmp_char);
+							free(tmp->data);
 							tmp->data = new_str;
 						}
 					}

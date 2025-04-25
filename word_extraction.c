@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 17:00:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:08:40 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*word_extractor(char *str)
 			;
 		while (str[i] != 32 && !is_operator(str[i]) && str[i] != '\0')
 			i++;
-		word = ft_substr_leak(str, 0, i, 400);
+		word = ft_substr(str, 0, i);
 	}
 	return (word);
 }
@@ -107,6 +107,6 @@ char	*first_word_remover(char *str, char *word)
 		return (NULL);
 	strlenth = ft_strlen(str);
 	wordlenth = ft_strlen(word);
-	new_str = ft_substr_leak(str, wordlenth, strlenth - wordlenth + 1, 415);
+	new_str = ft_substr(str, wordlenth, strlenth - wordlenth + 1);
 	return (new_str);
 }

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 14:27:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:54:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	if_cmd_tree(t_tree *tree, t_tree **cmd_tree)
 {
 	if ((*cmd_tree))
 	{
-		t_free(tree->command, __LINE__, "parsing.c");
+		free(tree->command);
 		tree->command = NULL;
 		tree->type = (*cmd_tree)->type;
 		if (tree->left)
@@ -90,25 +90,30 @@ void	if_cmd_tree(t_tree *tree, t_tree **cmd_tree)
 		tree->right = (*cmd_tree)->right;
 		(*cmd_tree)->left = NULL;
 		(*cmd_tree)->right = NULL;
-		t_free((*cmd_tree), __LINE__, "parsing.c");
+		free((*cmd_tree));
 	}
 }
 
-void	process_pipe_trees(t_tree *tree)
+void process_pipe_trees(t_tree *tree)
 {
-	t_tree	*cmd_tree;
+    t_tree *cmd_tree;
 
-	if (!tree)
-		return ;
-	if (tree->command && tree->type && (
-			ft_strcmp(tree->type, "PARENTHASIS") != 0) && (
-			ft_strchr(tree->command, '|') || ft_strchr(tree->command, '&')))
-	{
-		cmd_tree = NULL;
-		process_command_with_pipes(tree->command, &cmd_tree);
-	}
-	if (tree->left)
-		process_pipe_trees(tree->left);
-	if (tree->right)
-		process_pipe_trees(tree->right);
+    if (!tree)
+        return;
+    if (tree->command && tree->type && (
+            ft_strcmp(tree->type, "PARENTHASIS") != 0) && (
+            ft_strchr(tree->command, '|') || ft_strchr(tree->command, '&')))
+    {
+        cmd_tree = NULL;
+        process_command_with_pipes(tree->command, &cmd_tree);
+        // Add this line to use the if_cmd_tree function
+        if_cmd_tree(tree, &cmd_tree);
+        // Or alternatively, if you don't want to use the cmd_tree structure:
+        // free(tree->command, __LINE__, "parsing.c");
+        // tree->command = NULL;
+    }
+    if (tree->left)
+        process_pipe_trees(tree->left);
+    if (tree->right)
+        process_pipe_trees(tree->right);
 }

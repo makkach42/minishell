@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:58:14 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 09:39:06 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:12:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*extract_content_from_parentheses(char *command)
 	if (j != 0)
 		return (NULL);
 	end = i - 1;
-	content = ft_substr_leak(command, start, end - start, 1573);
+	content = ft_substr(command, start, end - start);
 	return (content);
 }
 

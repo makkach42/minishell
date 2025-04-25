@@ -70,7 +70,7 @@ char	*ft_strtrim(char *s1, char *set)
 	end = start;
 	end = getend(s1, start, end, set);
 	nlen = end - start + 1;
-	new = t_malloc((nlen + 1) * sizeof(char), 73, "ft_strtrim.c");
+	new = malloc((nlen + 1) * sizeof(char));
 	if (!new)
 		return (0);
 	while (j < nlen)

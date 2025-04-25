@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:03:26 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 10:03:45 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:05:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_tree	*create_command_node(t_list **node_list, int offset)
 	t_list	*node;
 
 	node = *node_list;
-	command = t_malloc(sizeof(t_tree), __LINE__, "parsing.c");
+	command = malloc(sizeof(t_tree));
 	if (!command)
 		return (NULL);
 	if (node->token && node->token[0] != '\0')
@@ -92,7 +92,7 @@ void	handle_operation_command(t_tree **tree, t_list *tmp,
 		command = setup_operation_command(&(tmp->next), total_nodes - i);
 		if (!command)
 		{
-			t_free(*tree, __LINE__, "parsing.c");
+			free(*tree);
 			*tree = NULL;
 			return ;
 		}

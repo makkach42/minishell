@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 15:19:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:02:25 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ char	*create_filtered_string(char *old_str, int final_len)
 	int		in_single_quotes;
 	int		in_double_quotes;
 
-			new_str = (char *)t_malloc(sizeof(char) * (
-						final_len + 1), 2341, "parsing.c");
+			new_str = (char *)malloc(sizeof(char) * (
+						final_len + 1));
 			if (!new_str)
 		return (NULL);
 	len = ft_strlen(old_str);
@@ -87,7 +87,7 @@ void	process_command_string(t_tree **tree, int k)
 	new_str = create_filtered_string(old_str, final_len);
 	if (!new_str)
 		return ;
-			t_free((*tree)->command_arr[k], 2370, "parsing.c");
+			free((*tree)->command_arr[k]);
 			(*tree)->command_arr[k] = new_str;
 }
 

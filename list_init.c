@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:06:02 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 09:31:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:53:54 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*node_maker(char *word)
 {
 	t_list	*node;
 
-	node = t_malloc(sizeof(t_list), 423, "parsing.c");
+	node = malloc(sizeof(t_list));
 	node->data = word;
 	node->next = NULL;
 	node->prev = NULL;
