@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 16:54:56 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 17:44:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,43 @@ void	process_command_with_pipes(char *command_str, t_tree **command_tree)
 	}
 }
 
+/* Returns 1 if the string contains unquoted pipe or ampersand, 0 otherwise */
+int	has_unquoted_pipe_or_amp(const char *str)
+{
+	int		i;
+	char	quote;
+	
+	if (!str)
+		return (0);
+	i = 0;
+	quote = 0;
+	while (str[i])
+	{
+		/* Toggle quote state when encountering quotes */
+		if ((str[i] == '\'' || str[i] == '\"') && (quote == 0 || quote == str[i]))
+		{
+			if (quote == 0)
+				quote = str[i];
+			else
+				quote = 0;
+		}
+		/* Check for pipe or ampersand outside of quotes */
+		else if (!quote && (str[i] == '|' || str[i] == '&'))
+		{
+			/* For &, check if next char is also & */
+			if (str[i] == '&' && str[i + 1] != '&')
+			{
+				i++;
+				continue;
+			}
+			/* Found unquoted pipe or && */
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 void	process_pipe_trees(t_tree *tree)
 {
 	t_tree	*cmd_tree;
@@ -235,8 +272,8 @@ void	process_pipe_trees(t_tree *tree)
 	if (!tree)
 		return ;
 	if (tree->command && tree->type && (
-			ft_strcmp(tree->type, "PARENTHASIS") != 0) && (
-			ft_strchr(tree->command, '|') || ft_strchr(tree->command, '&')))
+			ft_strcmp(tree->type, "PARENTHASIS") != 0) && 
+			has_unquoted_pipe_or_amp(tree->command))
 	{
 		cmd_tree = NULL;
 		process_command_with_pipes(tree->command, &cmd_tree);
