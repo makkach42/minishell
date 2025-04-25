@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 16:59:25 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 10:13:24 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,20 @@ void	syntax_error_parentheses_while_loop(t_list *tmp,
 			int *i, int *flag, int *open_par);
 void	if_par_loop(int *i, char *str, char **word);
 void	if_string_while_loop(int *i, char *str, char **word);
+char	*side_maker(t_list **head, int number, int j);
+void	init_tree_node(t_tree **node, char *type);
+void	free_node_data(t_list *node);
+void	cleanup_right_nodes(t_list *nodes);
+void	cleanup_left_nodes(t_list *nodes);
+t_tree	*create_command_node(t_list **node_list, int offset);
+int		count_total_nodes(t_list *head, t_list **last);
+void	if_prev(t_list *tmp, t_list **prev_part, t_tree **tree, t_list **head);
+t_tree	*setup_operation_command(t_list **next_list, int offset);
+void	handle_operation_command(t_tree **tree, t_list *tmp,
+		int total_nodes, int i);
+void	process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
+							int node_info[2]);
+void	process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
+						int node_info[2]);
 
 #endif

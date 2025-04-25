@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 17:02:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 10:15:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	variable_expantion(t_list **head, char **ev)
 	variable_name = NULL;
 	while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
 		tmp = tmp->next;
-	if (tmp && tmp->prev && (ft_strcmp(tmp->prev->data, "<<")))//in double quotes
+	if (tmp && tmp->prev && (ft_strcmp(tmp->prev->data, "<<"))) //in double quotes
 	{
 		variable_name = ft_substr_leak(
 				tmp->data, 1, ft_strlen(
