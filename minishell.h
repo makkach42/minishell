@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 10:18:30 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:27:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,14 @@ void	process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
 			int node_info[2]);
 void	process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
 			int node_info[2]);
+t_tree	*build_pipe_tree(t_list **head);
+t_tree	*handle_pipe_node(t_list **head, t_list *pipe_pos, char *left_cmd);
+t_tree	*handle_operation_node(t_list **head, t_list *pipe_pos, char *left_cmd);
+void	process_command_with_pipes(char *command_str, t_tree **command_tree);
+char	*extract_command_with_redirects(t_list **head, t_list **pipe_pos);
+t_tree	*handle_simple_command(t_list **head, char *left_cmd);
+t_list	*create_list_copy(t_list *source, t_list *stop);
+t_tree	*create_tree_node(void *command, char *type);
+t_list	*free_until_node(t_list *start, t_list *stop);
 
 #endif
