@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 14:27:45 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:54:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,5 +168,15 @@ t_tree	*handle_simple_command(t_list **head, char *left_cmd);
 t_list	*create_list_copy(t_list *source, t_list *stop);
 t_tree	*create_tree_node(void *command, char *type);
 t_list	*free_until_node(t_list *start, t_list *stop);
+char	*find_first_redirection(char *cmd_str);
+int		find_args_start_pos(char *redir_start);
+int		is_valid_args_position(char *str, int j);
+void	init_args_search(int *i, int *in_quotes, char *quote_type, int *redir_active);
+int		handle_redirection_char(char c, int *redir_active);
+int		process_break_point(char *redir_start, int i, int *j, int redir_active);
+void	update_redir_active(char c, int *redir_active);
+int		find_args_in_chunk(char *redir_start, int i, int redir_active);
+int		is_args_break_point(char *str, int i, int redir_active);
+int		skip_spaces(char *str, int start);
 
 #endif
