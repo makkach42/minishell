@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 08:49:31 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 09:21:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,13 +189,36 @@ t_tree	*build_pipe_tree(t_list **head)
 	}
 	return (root);
 }
+void	if_cmd_list(t_list **cmd_list)
+{
+	t_list	*next;
+	t_list	*current;
+
+	if (*cmd_list)
+	{
+		current = *cmd_list;
+		while (current)
+		{
+			next = current->next;
+			if (current->data)
+				t_free(current->data, __LINE__, "parsing.c");
+			t_free(current, __LINE__, "parsing.c");
+			current = next;
+		}
+		*cmd_list = NULL;
+	}
+}
+
+void	lexing_list_and_setting_tree(t_list **cmd_list, t_tree **command_tree)
+{
+	lexer(cmd_list);
+	*command_tree = build_pipe_tree(cmd_list);
+}
 
 void	process_command_with_pipes(char *command_str, t_tree **command_tree)
 {
 	t_list	*cmd_list;
 	char	*cmd_copy;
-	t_list	*current;
-	t_list	*next;
 
 	cmd_list = NULL;
 	cmd_copy = NULL;
@@ -217,21 +240,8 @@ void	process_command_with_pipes(char *command_str, t_tree **command_tree)
 		*command_tree = NULL;
 		return ;
 	}
-	lexer(&cmd_list);
-	*command_tree = build_pipe_tree(&cmd_list);
-	if (cmd_list)
-	{
-		current = cmd_list;
-		while (current)
-		{
-			next = current->next;
-			if (current->data)
-				t_free(current->data, __LINE__, "parsing.c");
-			t_free(current, __LINE__, "parsing.c");
-			current = next;
-		}
-		cmd_list = NULL;
-	}
+	lexing_list_and_setting_tree(&cmd_list, command_tree);
+	if_cmd_list(&cmd_list);
 }
 
 void	process_pipe_trees(t_tree *tree)
