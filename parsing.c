@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 16:13:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:56:03 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	command_arr_fill_helper(t_tree **tree, char **str)
 	int		list_size;
 
 	i = 0;
-	head = list_init_leak(*str, __LINE__, "command_arr_fill");
+	head = list_init(*str);
 	list_size = lst_size(&head);
 	arr = malloc(sizeof(char *) * (list_size + 1));
 	tmp = head;

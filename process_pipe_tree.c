@@ -6,114 +6,258 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 15:54:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:54:56 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_tree	*handle_operation_node(t_list **head, t_list *pipe_pos, char *left_cmd)
+char	*extract_command_with_redirects(t_list **head, t_list **pipe_pos)
 {
-	t_tree	*root;
-	t_list	*left_head;
-	t_list	*tmp_list;
 	t_list	*current;
-	t_list	*right_head;
+	char	*command_str;
+	char	*temp_str;
 
-	(void)left_cmd;
-	root = create_tree_node(NULL, "OPERATION");
-	left_head = *head;
-	tmp_list = create_list_copy(left_head, pipe_pos);
-	root->left = build_pipe_tree(&tmp_list);
-	current = free_until_node(*head, pipe_pos);
-	if (current)
+	*pipe_pos = NULL;
+	current = *head;
+	command_str = NULL;
+	temp_str = NULL;
+	while (current)
 	{
-		right_head = current;
-		root->right = build_pipe_tree(&right_head);
+		if ((current->token && ft_strcmp(current->token, "PIPE") == 0) || (
+				current->token && ft_strcmp(current->token, "OPERATION") == 0))
+		{
+			*pipe_pos = current;
+			break ;
+		}
+		if (command_str)
+		{
+			temp_str = command_str;
+			command_str = ft_strjoin(command_str, " ");
+			free(temp_str);
+			temp_str = command_str;
+			command_str = ft_strjoin(command_str, current->data);
+			free(temp_str);
+		}
+		else if (current->data)
+			command_str = ft_strdup(current->data);
+		current = current->next;
 	}
-	*head = NULL;
-	return (root);
+	if (!command_str)
+		command_str = ft_strdup("");
+	return (command_str);
 }
 
-t_tree	*handle_pipe_node(t_list **head, t_list *pipe_pos, char *left_cmd)
+t_tree	*create_tree_node(void *command, char *type)
 {
-	t_tree	*root;
-	t_tree	*command_node;
-	t_list	*current;
-	t_list	*right_head;
+	t_tree	*node;
 
-	root = create_tree_node(NULL, "PIPE");
-	command_node = create_tree_node(left_cmd, "COMMAND");
-	root->left = command_node;
-	current = free_until_node(*head, pipe_pos);
-	if (current)
-	{
-		right_head = current;
-		root->right = build_pipe_tree(&right_head);
-	}
-	*head = NULL;
-	return (root);
+	node = malloc(sizeof(t_tree));
+	if (!node)
+		return (NULL);
+	node->command = command;
+	node->type = type;
+	node->left = NULL;
+	node->right = NULL;
+	node->redirections = NULL;
+	node->command_arr = NULL;
+	return (node);
 }
 
 t_tree	*build_pipe_tree(t_list **head)
 {
 	t_list	*pipe_pos;
 	t_tree	*root;
+	t_tree	*command_node;
 	char	*left_cmd;
+	t_list	*current;
+	t_list	*next;
+	t_list	*right_head;
+	t_list	*left_head;
+	t_list	*tmp_list;
+	t_list	*new_node;
+	t_list	*last;
 
 	pipe_pos = NULL;
 	root = NULL;
+	command_node = NULL;
+	left_cmd = NULL;
 	if (!head || !(*head))
 		return (NULL);
 	left_cmd = extract_command_with_redirects(head, &pipe_pos);
 	if (!pipe_pos)
-		return (handle_simple_command(head, left_cmd));
+	{
+		root = create_tree_node(left_cmd, "COMMAND");
+		current = *head;
+		next = NULL;
+		while (current)
+		{
+			next = current->next;
+			if (current->data)
+				free(current->data);
+			free(current);
+			current = next;
+		}
+		*head = NULL;
+		return (root);
+	}
 	if (ft_strcmp(pipe_pos->token, "PIPE") == 0)
-		return (handle_pipe_node(head, pipe_pos, left_cmd));
+	{
+		root = create_tree_node(NULL, "PIPE");
+		command_node = create_tree_node(left_cmd, "COMMAND");
+		root->left = command_node;
+		current = *head;
+		next = NULL;
+		while (current && current != pipe_pos)
+		{
+			next = current->next;
+			if (current->data)
+				free(current->data);
+			free(current);
+			current = next;
+		}
+		if (current == pipe_pos)
+		{
+			next = current->next;
+			if (current->data)
+				free(current->data);
+			free(current);
+			current = next;
+		}
+		if (current)
+		{
+			right_head = current;
+			root->right = build_pipe_tree(&right_head);
+		}
+		*head = NULL;
+	}
 	else if (ft_strcmp(pipe_pos->token, "OPERATION") == 0)
-		return (handle_operation_node(head, pipe_pos, left_cmd));
+	{
+		root = create_tree_node(NULL, "OPERATION");
+		left_head = *head;
+		tmp_list = NULL;
+		while (left_head && left_head != pipe_pos)
+		{
+			new_node = malloc(sizeof(t_list));
+			new_node->data = ft_strdup(left_head->data);
+			new_node->token = left_head->token;
+			new_node->next = NULL;
+			new_node->prev = NULL;
+			if (!tmp_list)
+				tmp_list = new_node;
+			else
+			{
+				last = tmp_list;
+				while (last->next)
+					last = last->next;
+				last->next = new_node;
+				new_node->prev = last;
+			}
+			left_head = left_head->next;
+		}
+		root->left = build_pipe_tree(&tmp_list);
+		current = *head;
+		next = NULL;
+		while (current && current != pipe_pos)
+		{
+			next = current->next;
+			if (current->data)
+				free(current->data);
+			free(current);
+			current = next;
+		}
+		if (current == pipe_pos)
+		{
+			next = current->next;
+			if (current->data)
+				free(current->data);
+			free(current);
+			current = next;
+		}
+		if (current)
+		{
+			right_head = current;
+			root->right = build_pipe_tree(&right_head);
+		}
+		*head = NULL;
+	}
 	return (root);
 }
 
-void	if_cmd_tree(t_tree *tree, t_tree **cmd_tree)
+void	process_command_with_pipes(char *command_str, t_tree **command_tree)
 {
-	if ((*cmd_tree))
+	t_list	*cmd_list;
+	char	*cmd_copy;
+	t_list	*current;
+	t_list	*next;
+
+	cmd_list = NULL;
+	cmd_copy = NULL;
+	if (!command_str || !(*command_str))
 	{
-		free(tree->command);
-		tree->command = NULL;
-		tree->type = (*cmd_tree)->type;
-		if (tree->left)
-			free_tree(tree->left);
-		if (tree->right)
-			free_tree(tree->right);
-		tree->left = (*cmd_tree)->left;
-		tree->right = (*cmd_tree)->right;
-		(*cmd_tree)->left = NULL;
-		(*cmd_tree)->right = NULL;
-		free((*cmd_tree));
+		*command_tree = NULL;
+		return ;
+	}
+	cmd_copy = ft_strdup(command_str);
+	if (!cmd_copy)
+	{
+		*command_tree = NULL;
+		return ;
+	}
+	cmd_list = list_init(cmd_copy);
+	if (!cmd_list)
+	{
+		free(cmd_copy);
+		*command_tree = NULL;
+		return ;
+	}
+	lexer(&cmd_list);
+	*command_tree = build_pipe_tree(&cmd_list);
+	if (cmd_list)
+	{
+		current = cmd_list;
+		while (current)
+		{
+			next = current->next;
+			if (current->data)
+				free(current->data);
+			free(current);
+			current = next;
+		}
+		cmd_list = NULL;
 	}
 }
 
-void process_pipe_trees(t_tree *tree)
+void	process_pipe_trees(t_tree *tree)
 {
-    t_tree *cmd_tree;
+	t_tree	*cmd_tree;
 
-    if (!tree)
-        return;
-    if (tree->command && tree->type && (
-            ft_strcmp(tree->type, "PARENTHASIS") != 0) && (
-            ft_strchr(tree->command, '|') || ft_strchr(tree->command, '&')))
-    {
-        cmd_tree = NULL;
-        process_command_with_pipes(tree->command, &cmd_tree);
-        // Add this line to use the if_cmd_tree function
-        if_cmd_tree(tree, &cmd_tree);
-        // Or alternatively, if you don't want to use the cmd_tree structure:
-        // free(tree->command, __LINE__, "parsing.c");
-        // tree->command = NULL;
-    }
-    if (tree->left)
-        process_pipe_trees(tree->left);
-    if (tree->right)
-        process_pipe_trees(tree->right);
+	if (!tree)
+		return ;
+	if (tree->command && tree->type && (
+			ft_strcmp(tree->type, "PARENTHASIS") != 0) && (
+			ft_strchr(tree->command, '|') || ft_strchr(tree->command, '&')))
+	{
+		cmd_tree = NULL;
+		process_command_with_pipes(tree->command, &cmd_tree);
+		if (cmd_tree)
+		{
+			free(tree->command);
+			tree->command = NULL;
+			tree->type = cmd_tree->type;
+			if (tree->left)
+				free_tree(tree->left);
+			if (tree->right)
+				free_tree(tree->right);
+			tree->left = cmd_tree->left;
+			tree->right = cmd_tree->right;
+			cmd_tree->left = NULL;
+			cmd_tree->right = NULL;
+			free(cmd_tree);
+		}
+	}
+	if (tree->left)
+		process_pipe_trees(tree->left);
+	if (tree->right)
+		process_pipe_trees(tree->right);
 }
