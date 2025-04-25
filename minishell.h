@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 10:13:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 10:18:30 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,10 +154,10 @@ int		count_total_nodes(t_list *head, t_list **last);
 void	if_prev(t_list *tmp, t_list **prev_part, t_tree **tree, t_list **head);
 t_tree	*setup_operation_command(t_list **next_list, int offset);
 void	handle_operation_command(t_tree **tree, t_list *tmp,
-		int total_nodes, int i);
+			int total_nodes, int i);
 void	process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
-							int node_info[2]);
+			int node_info[2]);
 void	process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
-						int node_info[2]);
+			int node_info[2]);
 
 #endif

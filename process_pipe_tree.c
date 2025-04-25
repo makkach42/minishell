@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 09:21:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 10:19:25 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ t_tree	*build_pipe_tree(t_list **head)
 	}
 	return (root);
 }
+
 void	if_cmd_list(t_list **cmd_list)
 {
 	t_list	*next;
