@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 14:14:38 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 14:58:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ void	build_command_str(char **command_str, t_list *current);
 void	free_list_to_position(t_list **head, t_list *position);
 t_list	*copy_list_segment(t_list *head, t_list *end_pos);
 t_tree	*handle_pipe_token(t_list **head, char *left_cmd,
-									t_list *pipe_pos);
+			t_list *pipe_pos);
 t_tree	*handle_operation_token(t_list **head, t_list *pipe_pos);
 void	free_cmd_list(t_list *cmd_list);
 void	process_command_with_pipes_inits(t_list **cmd_list, char **cmd_copy);
@@ -178,6 +178,16 @@ char	*check_for_valid_args(char *redir_start, int j);
 int		handle_space_after_redir(char *redir_start, int i, char **args);
 int		update_redir_state(char *redir_start, int i, int *redir_active);
 char	*while_loop_args_aftredirs(char *redir_start,
-	int in_quotes, char quote_type, int redir_active);
+			int in_quotes, char quote_type, int redir_active);
+void	join_cmd_with_args(char **cmd_part, char *args_start,
+			char *redir_start);
+int		count_filtered_length(char *old_str);
+char	*get_env_value(char *variable_name, char **ev);
+int		is_valid_var_char(char c);
+int		get_var_info(char *str, int i, char **var_name);
+char	**prepare_parts(char *str, int i, int j);
+char	*find_var_value(char *var_name, char **argev);
+int		process_variable(t_list *tmp, int i, char **argev);
+int		process_word_variable(t_list *tmp, char **argev);
 
 #endif

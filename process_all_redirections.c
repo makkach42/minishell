@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 14:14:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 14:17:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,6 @@ static char	*find_args_after_redirection(char *redir_start)
 	args = while_loop_args_aftredirs(redir_start,
 			in_quotes, quote_type, redir_active);
 	return (args);
-}
-
-static void	join_cmd_with_args(char **cmd_part, char *args_start,
-			char *redir_start)
-{
-	int		redir_len;
-	char	*tmp;
-	char	*redir_part;
-
-	redir_len = args_start - redir_start;
-	redir_part = ft_substr(redir_start, 0, redir_len);
-	tmp = *cmd_part;
-	if (tmp[0] != '\0')
-		*cmd_part = ft_strjoin(tmp, " ");
-	else
-		*cmd_part = ft_strdup("");
-	free(tmp);
-	tmp = *cmd_part;
-	*cmd_part = ft_strjoin(tmp, args_start);
-	free(tmp);
-	free(redir_part);
 }
 
 void	extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
