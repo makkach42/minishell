@@ -6,22 +6,37 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 17:46:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 09:21:18 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	build_command_str(char **command_str, t_list *current)
+{
+	char	*temp_str;
+
+	if (*command_str)
+	{
+		temp_str = *command_str;
+		*command_str = ft_strjoin(*command_str, " ");
+		free(temp_str);
+		temp_str = *command_str;
+		*command_str = ft_strjoin(*command_str, current->data);
+		free(temp_str);
+	}
+	else if (current->data)
+		*command_str = ft_strdup(current->data);
+}
+
 char	*extract_command_with_redirects(t_list **head, t_list **pipe_pos)
 {
 	t_list	*current;
 	char	*command_str;
-	char	*temp_str;
 
 	*pipe_pos = NULL;
 	current = *head;
 	command_str = NULL;
-	temp_str = NULL;
 	while (current)
 	{
 		if ((current->token && ft_strcmp(current->token, "PIPE") == 0) || (
@@ -30,17 +45,7 @@ char	*extract_command_with_redirects(t_list **head, t_list **pipe_pos)
 			*pipe_pos = current;
 			break ;
 		}
-		if (command_str)
-		{
-			temp_str = command_str;
-			command_str = ft_strjoin(command_str, " ");
-			free(temp_str);
-			temp_str = command_str;
-			command_str = ft_strjoin(command_str, current->data);
-			free(temp_str);
-		}
-		else if (current->data)
-			command_str = ft_strdup(current->data);
+		build_command_str(&command_str, current);
 		current = current->next;
 	}
 	if (!command_str)

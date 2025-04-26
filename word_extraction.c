@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 16:08:40 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 09:39:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,34 @@ int	parenthesis_in_word_recogniser(char *str)
 	return (open_par == closed_par && open_par > 0);
 }
 
+int	operation_or_pipe_before_condition(char *str, int flag)
+{
+	int i;
+
+	i = 0;
+	if (flag == 1)
+	{
+		while (str[i] && str[i] != '(')
+		{
+			if (is_operator(str[i]))
+				break ;
+			i++;
+		}
+	}
+	else if(flag == 2)
+	{
+		while (str[i] && (str[i] != '"' || str[i] != '\''))
+		{
+			if (is_operator(str[i]))
+				break ;
+			i++;
+		}
+	}
+	if (str[i] == '(' || str[i] == '"' || str[i] == '\'')
+		return (0);
+	return (1);
+}
+
 char	*word_extractor(char *str)
 {
 	int		i;
@@ -76,12 +104,12 @@ char	*word_extractor(char *str)
 	i = 0;
 	if (!str || !*str)
 		return (NULL);
-	if (string_in_word_recognizer(str) == 1)
+	if (string_in_word_recognizer(str) && !operation_or_pipe_before_condition(str, 2))
 	{
 		if_string_while_loop(&i, str, &word);
 		return (word);
 	}
-	else if (parenthesis_in_word_recogniser(str) == 1)
+	else if (parenthesis_in_word_recogniser(str) && !operation_or_pipe_before_condition(str, 1))
 	{
 		if_par_loop(&i, str, &word);
 		return (word);
