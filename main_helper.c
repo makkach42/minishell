@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 14:03:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 18:33:43 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	lexer_to_tree(char *str, t_tree **tree, char **argev)
 		variable_expantion(&head, argev);
 	variable_in_word(&head, argev);
 	tmp = head;
-	while (tmp)
-	{
-		printf("%s\n", tmp->data);
-		printf("%s\n", tmp->token);
-		tmp = tmp->next;
-	}
+	// while (tmp)
+	// {
+	// 	printf("%s\n", tmp->data);
+	// 	printf("%s\n", tmp->token);
+	// 	tmp = tmp->next;
+	// }
 	syntax_error(&head);
 	if (syntax_error_parentheses(&head) == 1)
 		exit(1);
@@ -39,6 +39,8 @@ void	tree_to_rediropen(t_tree *tree)
 {
 	process_nested_parentheses(&tree);
 	process_pipe_trees(tree);
+	// print_tree_visual(tree, 1, 1);
+
 	process_all_redirections(&tree);
 	command_arr_fill(&tree);
 	quote_remove_two(&tree);

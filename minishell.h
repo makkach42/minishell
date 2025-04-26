@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 14:58:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 18:09:44 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,12 +173,6 @@ void	process_command_with_pipes_inits(t_list **cmd_list, char **cmd_copy);
 int		check_pipe_or_amp(const char *str, int i, char quote);
 void	update_tree_with_cmd(t_tree *tree, t_tree *cmd_tree);
 void	update_quote_state(char c, int *in_quotes, char *quote_type);
-char	*find_redirection_start(char *cmd_str);
-char	*check_for_valid_args(char *redir_start, int j);
-int		handle_space_after_redir(char *redir_start, int i, char **args);
-int		update_redir_state(char *redir_start, int i, int *redir_active);
-char	*while_loop_args_aftredirs(char *redir_start,
-			int in_quotes, char quote_type, int redir_active);
 void	join_cmd_with_args(char **cmd_part, char *args_start,
 			char *redir_start);
 int		count_filtered_length(char *old_str);
@@ -189,5 +183,9 @@ char	**prepare_parts(char *str, int i, int j);
 char	*find_var_value(char *var_name, char **argev);
 int		process_variable(t_list *tmp, int i, char **argev);
 int		process_word_variable(t_list *tmp, char **argev);
+char	*check_for_valid_args(char *redir_start, int j);
+int		handle_space_after_redir(char *redir_start, int i, char **args);
+int		update_redir_state(char *redir_start, int i, int *redir_active);
+int		check_spaces_and_redirs(char *str, int i, int *redir_active);
 
 #endif

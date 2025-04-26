@@ -6,11 +6,37 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 14:17:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 18:43:01 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	count_filtered_length(char *old_str)
+{
+	int	i;
+	int	len;
+	int	final_len;
+	int	in_single_quotes;
+	int	in_double_quotes;
+
+	len = ft_strlen(old_str);
+	final_len = 0;
+	in_single_quotes = 0;
+	in_double_quotes = 0;
+	i = 0;
+	while (i < len)
+	{
+		if (old_str[i] == '\'' && !in_double_quotes)
+			in_single_quotes = !in_single_quotes;
+		else if (old_str[i] == '\"' && !in_single_quotes)
+			in_double_quotes = !in_double_quotes;
+		else
+			final_len++;
+		i++;
+	}
+	return (final_len);
+}
 
 int	check_if_in_string(char *cmd)
 {
@@ -41,45 +67,113 @@ int	check_if_in_string(char *cmd)
 	return (1);
 }
 
-static char	*find_args_after_redirection(char *redir_start)
-{
-	int		in_quotes;
-	char	quote_type;
-	int		redir_active;
-	char	*args;
-
-	in_quotes = 0;
-	quote_type = 0;
-	redir_active = 0;
-	args = NULL;
-	args = while_loop_args_aftredirs(redir_start,
-			in_quotes, quote_type, redir_active);
-	return (args);
-}
-
 void	extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
 {
+	int		i;
+	int		j;
+	int		cmd_len;
+	int		in_quotes;
+	int		paren_count;
+	char	quote_type;
 	char	*redir_start;
 	char	*args_start;
-	int		cmd_len;
+	int		redir_active;
+	int		redir_len;
+	char	*tmp;
 
 	*cmd_part = NULL;
 	*redir_part = NULL;
 	if (!cmd_str)
 		return ;
-	redir_start = find_redirection_start(cmd_str);
+	i = 0;
+	in_quotes = 0;
+	paren_count = 0;
+	quote_type = 0;
+	redir_start = NULL;
+	while (cmd_str[i])
+	{
+		if ((cmd_str[i] == '\'' || cmd_str[i] == '\"') && !in_quotes)
+		{
+			in_quotes = 1;
+			quote_type = cmd_str[i];
+		}
+		else if (in_quotes && cmd_str[i] == quote_type)
+			in_quotes = 0;
+		if (!in_quotes)
+		{
+			if (cmd_str[i] == '(')
+				paren_count++;
+			else if (cmd_str[i] == ')')
+				paren_count--;
+			if ((cmd_str[i] == '>' || cmd_str[i] == '<')
+				&& paren_count == 0 && !redir_start)
+			{
+				redir_start = &cmd_str[i];
+				break ;
+			}
+		}
+		i++;
+	}
 	if (!redir_start)
 	{
 		*cmd_part = ft_strdup(cmd_str);
 		return ;
 	}
 	cmd_len = redir_start - cmd_str;
-	*cmd_part = ft_substr(cmd_str, 0, cmd_len);
-	args_start = find_args_after_redirection(redir_start);
+	*cmd_part = ft_substr_leak(cmd_str, 0, cmd_len, __LINE__);
+	args_start = NULL;
+	i = 0;
+	in_quotes = 0;
+	quote_type = 0;
+	redir_active = 0;
+	while (redir_start[i])
+	{
+		if ((redir_start[i] == '\'' || redir_start[i] == '\"') && !in_quotes)
+		{
+			in_quotes = 1;
+			quote_type = redir_start[i];
+		}
+		else if (in_quotes && redir_start[i] == quote_type)
+			in_quotes = 0;
+		if (!in_quotes)
+		{
+			if (redir_start[i] == '>' || redir_start[i] == '<')
+				redir_active = 1;
+			else if ((redir_active && redir_start[i] == ' ') && (i > 0) && (
+					redir_start[i - 1] != '>') && (redir_start[i - 1] != '<'))
+			{
+				j = i + 1;
+				while (redir_start[j] && redir_start[j] == ' ')
+					j++;
+				if (redir_start[j] && (
+						redir_start[j] != '>') && redir_start[j] != '<')
+				{
+					args_start = &redir_start[j];
+					break ;
+				}
+				else if (redir_start[j] == '>' || redir_start[j] == '<')
+					i = j - 1;
+				else
+					break ;
+			}
+			else if (redir_active && redir_start[i] != ' ')
+				redir_active = 2;
+		}
+		i++;
+	}
 	if (args_start)
 	{
-		join_cmd_with_args(cmd_part, args_start, redir_start);
-		*redir_part = ft_substr(redir_start, 0, args_start - redir_start);
+		redir_len = args_start - redir_start;
+		*redir_part = ft_substr_leak(redir_start, 0, redir_len, __LINE__);
+		tmp = *cmd_part;
+		if (tmp[0] != '\0')
+			*cmd_part = ft_strjoin_leak(tmp, " ", __LINE__);
+		else
+			*cmd_part = ft_strdup("");
+		t_free(tmp, __LINE__, "parsing.c");
+		tmp = *cmd_part;
+		*cmd_part = ft_strjoin_leak(tmp, args_start, __LINE__);
+		t_free(tmp, __LINE__, "parsing.c");
 	}
 	else
 		*redir_part = ft_strdup(redir_start);
@@ -95,16 +189,16 @@ void	process_all_redirections_helper(t_tree **tree, char **cmd)
 	extract_redirections(*cmd, &cmd_part, &redir_part);
 	if (cmd_part && redir_part)
 	{
-		free((*tree)->command);
+		t_free((*tree)->command, __LINE__, "parsing.c");
 		(*tree)->command = cmd_part;
 		(*tree)->redirections = redir_part;
 	}
 	else
 	{
 		if (cmd_part)
-			free(cmd_part);
+			t_free(cmd_part, __LINE__, "parsing.c");
 		if (redir_part)
-			free(redir_part);
+			t_free(redir_part, __LINE__, "parsing.c");
 	}
 }
 
