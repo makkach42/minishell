@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 09:18:01 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 10:22:43 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,5 +170,17 @@ void	update_redir_active(char c, int *redir_active);
 int		find_args_in_chunk(char *redir_start, int i, int redir_active);
 int		is_args_break_point(char *str, int i, int redir_active);
 int		skip_spaces(char *str, int start);
+t_tree	*build_pipe_tree(t_list **head);
+t_tree	*create_tree_node(void *command, char *type);
+void	build_command_str(char **command_str, t_list *current);
+void	free_list_to_position(t_list **head, t_list *position);
+t_list	*copy_list_segment(t_list *head, t_list *end_pos);
+t_tree	*handle_pipe_token(t_list **head, char *left_cmd,
+									t_list *pipe_pos);
+t_tree	*handle_operation_token(t_list **head, t_list *pipe_pos);
+void	free_cmd_list(t_list *cmd_list);
+void	process_command_with_pipes_inits(t_list **cmd_list, char **cmd_copy);
+int		check_pipe_or_amp(const char *str, int i, char quote);
+void	update_tree_with_cmd(t_tree *tree, t_tree *cmd_tree);
 
 #endif
