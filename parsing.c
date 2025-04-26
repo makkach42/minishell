@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 16:56:03 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 11:54:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	f(void)
 	system("leaks -q minishell");
 }
 
-int	main(int argc, char **argv, char **argev)
+int	main(int argc, char **argv, char **argev)// expand variable if herdoc and in double quotes
 {
 	char		*str;
 	t_env		*env;
@@ -132,7 +132,11 @@ int	main(int argc, char **argv, char **argev)
 		env_fill_quote_parse(&env, &str, argev);
 		lexer_to_tree(str, &tree, argev);
 		tree_to_rediropen(tree);
+		// printf("this is type: %s\n", tree->redirections);
+		// print_tree_visual(tree, 1, 1);
 		redirections_opener(&tree, &head_fd);
+		// printf("this is typeAAAAAAAAAAAAAAAAAAAA: %s\n", tree->redirections);
+		// print_tree_visual(tree, 1, 1);
 		tmp = head_fd;
 		while (tmp)
 		{

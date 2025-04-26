@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 10:22:43 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 12:02:36 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ char	*extract_content_from_parentheses(char *command);
 void	redirections_opener(t_tree **tree, t_list_fd **head);
 void	syntax_error_two(t_tree **tree);
 void	syntax_error(t_list **head);
-int		check_quotes(char *str);
 void	lexer_to_tree(char *str, t_tree **tree, char **argev);
 void	tree_to_rediropen(t_tree *tree);
 void	inits_main(t_list_fd **head_fd, t_env **env, t_tree **tree);
@@ -159,17 +158,8 @@ void	process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
 			int *node_info);
 void	process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
 			int *node_info);
-char	*find_first_redirection(char *cmd_str);
-int	find_args_start_pos(char *redir_start);
-int		is_valid_args_position(char *str, int j);
-void	init_args_search(int *i, int *in_quotes,
-			char *quote_type, int *redir_active);
-int		handle_redirection_char(char c, int *redir_active);
-int		process_break_point(char *redir_start, int i, int *j, int redir_active);
-void	update_redir_active(char c, int *redir_active);
-int		find_args_in_chunk(char *redir_start, int i, int redir_active);
-int		is_args_break_point(char *str, int i, int redir_active);
 int		skip_spaces(char *str, int start);
+int		check_quotes(char *str);
 t_tree	*build_pipe_tree(t_list **head);
 t_tree	*create_tree_node(void *command, char *type);
 void	build_command_str(char **command_str, t_list *current);

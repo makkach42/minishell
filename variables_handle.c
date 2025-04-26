@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 16:22:57 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 11:34:43 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,160 +46,180 @@ int	check_for_variable(char *str)
 	return (1);
 }
 
+static char	*get_env_value(char *variable_name, char **ev)
+{
+	int		i;
+	char	*value;
+
+	i = 0;
+	value = NULL;
+	while (ev[i])
+	{
+		if (!ft_strncmp(ev[i], variable_name, ft_strlen(variable_name)
+			) && ev[i][ft_strlen(variable_name)] == '=')
+		{
+			value = ft_substr(ev[i], ft_strlen(variable_name),
+					ft_strlen(ev[i]) - ft_strlen(variable_name));
+			return (value);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 void	variable_expantion(t_list **head, char **ev)
 {
 	t_list	*tmp;
-	int		i;
 	char	*variable_name;
 	char	*tmp_char;
+	char	*env_value;
 
 	tmp = *head;
-	i = 0;
 	variable_name = NULL;
 	while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
 		tmp = tmp->next;
-	if (tmp && tmp->prev && (ft_strcmp(tmp->prev->data, "<<"))) //in double quotes
+	if (tmp && tmp->prev && (ft_strcmp(tmp->prev->data, "<<")))
 	{
 		variable_name = ft_substr(
-				tmp->data, 1, ft_strlen(
-					tmp->data) - 1);
-		while (ev[i])
+				tmp->data, 1, ft_strlen(tmp->data) - 1);
+		env_value = get_env_value(variable_name, ev);
+		if (env_value)
 		{
-			if (!ft_strncmp(ev[i], variable_name, ft_strlen(
-						variable_name)) && ev[i][
-				ft_strlen(variable_name)] == '=')
-			{
-				tmp_char = tmp->data;
-				tmp->data = ft_substr(ev[i], ft_strlen(
-							variable_name), ft_strlen(
-							ev[i]) - ft_strlen(
-							variable_name));
-				free(tmp_char);
-				tmp_char = tmp->data;
-				tmp->data = ft_strtrim(tmp->data, "=");
-				free(tmp_char);
-			}
-			i++;
+			tmp_char = tmp->data;
+			tmp->data = env_value;
+			free(tmp_char);
+			tmp_char = tmp->data;
+			tmp->data = ft_strtrim(tmp->data, "=");
+			free(tmp_char);
 		}
 		free(variable_name);
 	}
+}
+
+static int	is_valid_var_char(char c)
+{
+	return ((c >= 'a' && c <= 'z') || (
+			c >= 'A' && c <= 'Z') || (
+			c >= '0' && c <= '9'));
+}
+
+static void	update_quote_state(char c, int *in_quote, char *quote_type)
+{
+	if (*in_quote == 0 && (c == '"' || c == '\''))
+	{
+		*quote_type = c;
+		*in_quote = 1;
+	}
+	else if (*in_quote && c == *quote_type)
+	{
+		*in_quote = 0;
+		*quote_type = '\0';
+	}
+}
+
+static int	get_var_info(char *str, int i, char **var_name)
+{
+	int	j;
+
+	j = i + 1;
+	if ((str[j] >= '0' && str[j] <= '9') || !str[j])
+		return (-1);
+	while (is_valid_var_char(str[j]))
+		j++;
+	*var_name = ft_substr(str, i + 1, j - (i + 1));
+	return (j);
+}
+
+static char	**prepare_parts(char *str, int i, int j)
+{
+	char	**parts;
+
+	parts = malloc(sizeof(char *) * 2);
+	if (!parts)
+		return (NULL);
+	parts[0] = ft_substr(str, 0, i);
+	parts[1] = ft_substr(str, j, ft_strlen(str) - j);
+	return (parts);
+}
+
+static char	*find_var_value(char *var_name, char **argev)
+{
+	int		k;
+	int		l;
+	char	*value;
+	char	*tmp;
+
+	k = 0;
+	while (argev[k] && ft_strncmp(argev[k], var_name, ft_strlen(var_name)))
+		k++;
+	if (!argev[k])
+		return (NULL);
+	l = 0;
+	while (argev[k][l] && argev[k][l] != '=')
+		l++;
+	value = ft_substr(argev[k], l, ft_strlen(argev[k]) - l);
+	tmp = value;
+	value = ft_strtrim(value, "=");
+	free(tmp);
+	return (value);
+}
+
+static int	process_variable(t_list *tmp, int i, char **argev)
+{
+	int		j;
+	char	*var_name;
+	char	**parts;
+	char	*val;
+	char	*new_str;
+
+	j = get_var_info(tmp->data, i, &var_name);
+	if (j == -1)
+		return (-1);
+	parts = prepare_parts(tmp->data, i, j);
+	val = find_var_value(var_name, argev);
+	if (!val)
+		new_str = ft_strjoin(parts[0], parts[1]);
+	else
+	{
+		new_str = ft_strjoin(parts[0], val);
+		free(val);
+		val = new_str;
+		new_str = ft_strjoin(val, parts[1]);
+		free(val);
+	}
+	(free(var_name), free(parts[0]), free(parts[1]), free(parts));
+	free(tmp->data);
+	tmp->data = new_str;
+	return (0);
 }
 
 int	variable_in_word(t_list **head, char **argev)
 {
 	t_list	*tmp;
 	int		i;
-	int		j;
-	int		k;
-	int		l;
-	char	*new_str;
-	char	*tmp_word;
-	char	*first_part;
-	char	*tmp_char;
-	char	*second_part;
 	char	quote_type;
 	int		in_quote;
 
 	tmp = *head;
-	in_quote = 0;
 	while (tmp)
 	{
-		if (!ft_strcmp(tmp->token, "WORD"))
+		if (!ft_strcmp(tmp->token, "WORD") && check_for_variable(tmp->data))
 		{
-			if (check_for_variable(tmp->data))
+			i = 0;
+			in_quote = 0;
+			quote_type = '\0';
+			while (tmp->data[i])
 			{
-				i = 0;
-				while (tmp->data[i])
+				update_quote_state(tmp->data[i], &in_quote, &quote_type);
+				if ((tmp->data[i] == '$' && (in_quote && quote_type == '"')
+					) || (tmp->data[i] == '$' && !in_quote))
 				{
-					if (in_quote == 0 && (
-							tmp->data[i] == '"' || tmp->data[i] == '\''))
-					{
-						quote_type = tmp->data[i];
-						in_quote = 1;
-					}
-					else if (in_quote && tmp->data[i] == quote_type)
-					{
-						in_quote = 0;
-						quote_type = '\0';
-					}
-					if ((tmp->data[i] == '$' && (
-								in_quote && quote_type == '"')) || (
-							tmp->data[i] == '$' && !in_quote))
-					{
-						j = i;
-						l = i;
-						j++;
-						if ((tmp->data[j] >= '0' && tmp->data[j] <= '9'
-							) || !tmp->data[j])
-							return (-1);
-						while ((tmp->data[j] >= 'a' && tmp->data[j] <= 'z') || (
-								tmp->data[j] >= 'A' && tmp->data[j] <= 'Z') || (
-								tmp->data[j] >= '0' && tmp->data[j] <= '9'))
-							j++;
-						l++;
-						tmp_char = tmp_word;
-						tmp_word = ft_substr(tmp->data, l, j - l);
-						free(tmp_char);
-						k = 0;
-						while (argev[k] && ft_strncmp(
-								argev[k], tmp_word, ft_strlen(tmp_word)))
-							k++;
-						if (!argev[k])
-						{
-							free(tmp_word);
-							tmp_char = first_part;
-							first_part = ft_substr(
-									tmp->data, 0, i);
-							free(tmp_char);
-							tmp_char = second_part;
-							second_part = ft_substr(
-									tmp->data, j, ft_strlen(
-										tmp->data) - j);
-							free(tmp_char);
-							tmp_char = new_str;
-							new_str = ft_strjoin(
-									first_part, second_part);
-							free(tmp_char);
-							free(tmp->data);
-							tmp->data = new_str;
-						}
-						else
-						{
-							free(tmp_word);
-							l = 0;
-							while (argev[k][l] && argev[k][l] != '=')
-								l++;
-							tmp_char = tmp_word;
-							tmp_word = ft_substr(
-									argev[k], l, ft_strlen(argev[k]) - l);
-							free(tmp_char);
-							tmp_char = tmp_word;
-							tmp_word = ft_strtrim(
-									tmp_word, "=");
-							free(tmp_char);
-							tmp_char = first_part;
-							first_part = ft_substr(
-									tmp->data, 0, i);
-							free(tmp_char);
-							tmp_char = second_part;
-							second_part = ft_substr(
-									tmp->data, j, ft_strlen(
-										tmp->data) - j);
-							free(tmp_char);
-							tmp_char = new_str;
-							new_str = ft_strjoin(
-									first_part, tmp_word);
-							free(tmp_char);
-							tmp_char = new_str;
-							new_str = ft_strjoin(
-									new_str, second_part);
-							free(tmp_char);
-							free(tmp->data);
-							tmp->data = new_str;
-						}
-					}
-					i++;
+					if (process_variable(tmp, i, argev) == -1)
+						return (-1);
+					i = 0;
+					continue ;
 				}
+				i++;
 			}
 		}
 		tmp = tmp->next;

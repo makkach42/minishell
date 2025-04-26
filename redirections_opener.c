@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:47:08 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 16:14:20 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 11:51:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,310 +24,164 @@ int	check_empty(char *str)
 	return (0);
 }
 
-void	redirections_opener(t_tree **tree, t_list_fd **head)
+static t_list_fd *process_single_redirection(t_tree *tree, 
+                                           char *redirection, 
+                                           int *pos)
 {
-	int			i;
-	int			j;
-	t_list_fd	*tmp;
-	t_list_fd	*tmp2;
-	t_list_fd	*new_node;
-	char		*tmp_char;
-	int			flag;
+    int         i;
+    int         j;
+    int         flag;
+    t_list_fd   *new_node;
+    // char        *tmp_char;
 
-	i = 0;
-	j = 0;
+    i = *pos;
 	flag = 0;
-	if ((*tree)->left)
-		redirections_opener(&(*tree)->left, head);
-	if ((*tree)->right)
-		redirections_opener(&(*tree)->right, head);
-	if ((*tree)->redirections)
-	{
-		if (!*head)
-		{
-			while (((*tree)->redirections[i] != '>' && (
-						*tree)->redirections[i] != '<') && (
-					*tree)->redirections[i] != '\0')
-				i++;
-			if ((*tree)->redirections[i] == '>' && (
-					(*tree)->redirections[i + 1] == ' ' || (
-						*tree)->redirections[i + 1] == '\0' || (
-						*tree)->redirections[i + 1] == '\t'))
-				flag = 1;
-			if ((*tree)->redirections[i] == '>' && (
-					*tree)->redirections[i + 1] == '>')
-				flag = 2;
-			if ((*tree)->redirections[i] == '<' && (
-					(*tree)->redirections[i + 1] == ' ' || (
-						*tree)->redirections[i + 1] == '\0' || (
-						*tree)->redirections[i + 1] == '\t'))
-				flag = 3;
-			if ((*tree)->redirections[i] == '<' && (
-					*tree)->redirections[i + 1] == '<')
-				flag = 4;
-			while (((*tree)->redirections[i] == '>' || (
-						*tree)->redirections[i] == '<') && (
-					*tree)->redirections[i] != '\0')
-				i++;
-			while ((*tree)->redirections[i] == ' ' && (
-					*tree)->redirections[i] != '\0')
-				i++;
-			j = i;
-			while ((*tree)->redirections[i] != ' ' && (
-					*tree)->redirections[i] != '\0')
-				i++;
-			*head = malloc(sizeof(t_list_fd));
-			if (!*head)
-				return ;
-			(*head)->name = ft_substr(
-					(*tree)->redirections, j, i - j);
-			(*head)->redir = NULL;
-			(*head)->next = NULL;
-			(*head)->fd = -1;
-			if (ft_strcmp((*tree)->type, "OPERATION") == 0)
-			{
-				if ((*tree)->right && (*tree)->right->command)
-					(*head)->command = ft_strdup((*tree)->right->command);
-				else if ((*tree)->left && (*tree)->left->command)
-					(*head)->command = ft_strdup((*tree)->left->command);
-				else
-					(*head)->command = ft_strdup("");
-			}
-			else
-			{
-				if (ft_strcmp((*tree)->type, "PARENTHASIS") == 0)
-				{
-					if ((*tree)->command)
-						(*head)->command = ft_strdup((*tree)->command);
-					else
-						(*head)->command = ft_strdup("");
-				}
-				else
-					(*head)->command = ft_strdup((*tree)->command);
-			}
-			tmp_char = (*tree)->redirections;
-			(*tree)->redirections = ft_substr((*tree)->redirections, i,
-					ft_strlen((*tree)->redirections) - i);
-			free(tmp_char);
-			tmp_char = (*tree)->redirections;
-			(*tree)->redirections = ft_strtrim(
-					(*tree)->redirections, " ");
-			free(tmp_char);
-			if (flag == 1 && !check_empty((*head)->name))
-			{
-				(*head)->fd = -1;
-				(*head)->redir = ft_strdup(">");
-			}
-			if (flag == 2 && !check_empty((*head)->name))
-			{
-				(*head)->fd = -1;
-				(*head)->redir = ft_strdup(">>");
-			}
-			if (flag == 3)
-			{
-				(*head)->fd = -1;
-				(*head)->redir = ft_strdup("<");
-			}
-			if (flag == 4)
-			{
-				(*head)->fd = -1;
-				(*head)->redir = ft_strdup("<<");
-			}
-			(*head)->next = NULL;
-			tmp = *head;
-			while ((*tree)->redirections && !check_empty((*tree)->redirections))
-			{
-				i = 0;
-				while ((*tree)->redirections != NULL && (
-						*tree)->redirections[i] && (
-						(*tree)->redirections[i] != '>' && (
-							*tree)->redirections[i] != '<'))
-					i++;
-				if (!(*tree)->redirections[i])
-					break ;
-				if ((*tree)->redirections[i] == '>' && (
-						(*tree)->redirections[i + 1] == ' ' || (
-							*tree)->redirections[i + 1] == '\0' || (
-							*tree)->redirections[i + 1] == '\t'))
+    if (redirection[i] == '>' && (redirection[i + 1] == ' ' || 
+                                 redirection[i + 1] == '\0' || 
+                                 redirection[i + 1] == '\t'))
 					flag = 1;
-				if ((*tree)->redirections[i] == '>' && (
-						*tree)->redirections[i + 1] == '>')
+    else if (redirection[i] == '>' && redirection[i + 1] == '>')
 					flag = 2;
-				if ((*tree)->redirections[i] == '<' && (
-						(*tree)->redirections[i + 1] == ' ' || (
-							*tree)->redirections[i + 1] == '\0' || (
-							*tree)->redirections[i + 1] == '\t'))
+    else if (redirection[i] == '<' && (redirection[i + 1] == ' ' || 
+                                      redirection[i + 1] == '\0' || 
+                                      redirection[i + 1] == '\t'))
 					flag = 3;
-				if ((*tree)->redirections[i] == '<' && (
-						*tree)->redirections[i + 1] == '<')
+    else if (redirection[i] == '<' && redirection[i + 1] == '<')
 					flag = 4;
-				while (((*tree)->redirections[i] == '>' || (
-							*tree)->redirections[i] == '<') && (
-						*tree)->redirections[i] != '\0')
+    while ((redirection[i] == '>' || redirection[i] == '<') && 
+           redirection[i] != '\0')
 					i++;
-				while ((*tree)->redirections[i] == ' ' && (
-						*tree)->redirections[i] != '\0')
+    while (redirection[i] == ' ' && redirection[i] != '\0')
 					i++;
 				j = i;
-				while ((*tree)->redirections[i] != ' ' && (
-						*tree)->redirections[i] != '\0')
+    while (redirection[i] != ' ' && redirection[i] != '\0')
 					i++;
+    *pos = i;
 				new_node = malloc(sizeof(t_list_fd));
 				if (!new_node)
-					break ;
-				new_node->name = ft_substr(
-						(*tree)->redirections, j, i - j);
-				new_node->fd = -1;
+        return (NULL);
+    new_node->name = ft_substr(redirection, j, i - j);
 				new_node->redir = NULL;
 				new_node->next = NULL;
-				if (ft_strcmp((*tree)->type, "OPERATION") == 0 || ft_strcmp(
-						(*tree)->type, "PARENTHASIS") == 0)
+    new_node->fd = -1;
+    if (ft_strcmp(tree->type, "OPERATION") == 0)
 				{
-					if ((*tree)->right && (*tree)->right->command)
-						new_node->command = ft_strdup((*tree)->right->command);
-					else if ((*tree)->left && (*tree)->left->command)
-						new_node->command = ft_strdup((*tree)->left->command);
+        if (tree->right && tree->right->command)
+            new_node->command = ft_strdup(tree->right->command);
+        else if (tree->left && tree->left->command)
+            new_node->command = ft_strdup(tree->left->command);
+        else
+            new_node->command = ft_strdup("");
+    }
+    else if (ft_strcmp(tree->type, "PARENTHASIS") == 0)
+    {
+        if (tree->command)
+            new_node->command = ft_strdup(tree->command);
 					else
 						new_node->command = ft_strdup("");
 				}
 				else
 				{
-					new_node->command = ft_strdup((*tree)->command);
+        new_node->command = ft_strdup(tree->command);
 				}
-				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_substr((*tree)->redirections, i,
-						ft_strlen((*tree)->redirections) - i);
-				free(tmp_char);
-				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_strtrim(
-						(*tree)->redirections, " ");
-				free(tmp_char);
 				if (flag == 1 && !check_empty(new_node->name))
 				{
 					new_node->fd = -1;
 					new_node->redir = ft_strdup(">");
 				}
-				if (flag == 2 && !check_empty(new_node->name))
+    else if (flag == 2 && !check_empty(new_node->name))
 				{
 					new_node->fd = -1;
 					new_node->redir = ft_strdup(">>");
 				}
-				if (flag == 3)
+    else if (flag == 3)
 				{
 					new_node->fd = -1;
 					new_node->redir = ft_strdup("<");
 				}
-				if (flag == 4)
+    else if (flag == 4)
 				{
 					new_node->fd = -1;
 					new_node->redir = ft_strdup("<<");
 				}
-				new_node->next = NULL;
-				tmp->next = new_node;
-				tmp = new_node;
-				if (check_empty((*tree)->redirections) == 1)
-					break ;
-			}
-		}
-		else
-		{
-			tmp2 = *head;
-			while (tmp2->next)
-				tmp2 = tmp2->next;
-			tmp = tmp2;
-			while ((*tree)->redirections && !check_empty((*tree)->redirections))
-			{
-				i = 0;
-				while ((*tree)->redirections != NULL && (
-						*tree)->redirections[i] && (
-						(*tree)->redirections[i] != '>' && (
-							*tree)->redirections[i] != '<'))
-					i++;
-				if (!(*tree)->redirections[i])
-					break ;
-				if ((*tree)->redirections[i] == '>' && (
-						(*tree)->redirections[i + 1] == ' ' || (
-							*tree)->redirections[i + 1] == '\0' || (
-							*tree)->redirections[i + 1] == '\t'))
-					flag = 1;
-				if ((*tree)->redirections[i] == '>' && (
-						*tree)->redirections[i + 1] == '>')
-					flag = 2;
-				if ((*tree)->redirections[i] == '<' && (
-						(*tree)->redirections[i + 1] == ' ' || (
-							*tree)->redirections[i + 1] == '\0' || (
-							*tree)->redirections[i + 1] == '\t'))
-					flag = 3;
-				if ((*tree)->redirections[i] == '<' && (
-						*tree)->redirections[i + 1] == '<')
-					flag = 4;
-				while (((*tree)->redirections[i] == '>' || (
-							*tree)->redirections[i] == '<') && (
-						*tree)->redirections[i] != '\0')
-					i++;
-				while ((*tree)->redirections[i] == ' ' && (
-						*tree)->redirections[i] != '\0')
-					i++;
-				j = i;
-				while ((*tree)->redirections[i] != ' ' && (
-						*tree)->redirections[i] != '\0')
-					i++;
-				new_node = malloc(sizeof(t_list_fd));
-				if (!new_node)
-					break ;
-				new_node->name = ft_substr(
-						(*tree)->redirections, j, i - j);
-				new_node->fd = -1;
-				new_node->redir = NULL;
-				new_node->next = NULL;
-				if (ft_strcmp((*tree)->type, "OPERATION") == 0 || ft_strcmp(
-						(*tree)->type, "PARENTHASIS") == 0)
-				{
-					if ((*tree)->right && (*tree)->right->command)
-						new_node->command = ft_strdup((*tree)->right->command);
-					else if ((*tree)->left && (*tree)->left->command)
-						new_node->command = ft_strdup((*tree)->left->command);
-					else
-						new_node->command = ft_strdup("");
-				}
-				else
-				{
-					new_node->command = ft_strdup((*tree)->command);
-				}
-				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_substr((*tree)->redirections, i,
-						ft_strlen((*tree)->redirections) - i);
-				free(tmp_char);
-				tmp_char = (*tree)->redirections;
-				(*tree)->redirections = ft_strtrim(
-						(*tree)->redirections, " ");
-				free(tmp_char);
-				if (flag == 1 && !check_empty(new_node->name))
-				{
-					new_node->fd = -1;
-					new_node->redir = ft_strdup(">");
-				}
-				if (flag == 2 && !check_empty(new_node->name))
-				{
-					new_node->fd = -1;
-					new_node->redir = ft_strdup(">>");
-				}
-				if (flag == 3)
-				{
-					new_node->fd = -1;
-					new_node->redir = ft_strdup("<");
-				}
-				if (flag == 4)
-				{
-					new_node->fd = -1;
-					new_node->redir = ft_strdup("<<");
-				}
-				new_node->next = NULL;
-				tmp->next = new_node;
-				tmp = new_node;
-				if (check_empty((*tree)->redirections) == 1)
-					break ;
-			}
-		}
-	}
+    return (new_node);
 }
+
+
+static void process_node_redirections(t_tree *tree, t_list_fd **head)
+{
+    int         i;
+    t_list_fd   *tmp;
+    t_list_fd   *new_node;
+    char        *redirections_copy;
+    
+    if (!tree->redirections || check_empty(tree->redirections))
+        return;
+    redirections_copy = ft_strdup(tree->redirections);
+    if (!redirections_copy)
+        return;
+    i = 0;
+    while (redirections_copy[i] && redirections_copy[i] != '>' && 
+           redirections_copy[i] != '<')
+					i++;
+    
+    if (!redirections_copy[i])
+    {
+        free(redirections_copy);
+        return;
+    }
+    if (!*head)
+    {
+        *head = process_single_redirection(tree, redirections_copy, &i);
+        if (!*head)
+        {
+            free(redirections_copy);
+            return;
+        }
+        tmp = *head;
+				}
+				else
+				{
+        tmp = *head;
+        while (tmp->next)
+            tmp = tmp->next;
+        new_node = process_single_redirection(tree, redirections_copy, &i);
+        if (new_node)
+        {
+            tmp->next = new_node;
+            tmp = new_node;
+        }
+    }
+    while (!check_empty(redirections_copy + i))
+    {
+        while (redirections_copy[i] == ' ')
+            i++;
+        while (redirections_copy[i] && redirections_copy[i] != '>' && 
+               redirections_copy[i] != '<')
+            i++;
+        if (!redirections_copy[i])
+            break;
+        new_node = process_single_redirection(tree, redirections_copy, &i);
+        if (new_node)
+        {
+				tmp->next = new_node;
+				tmp = new_node;
+        }
+        else
+            break;
+    }
+    
+    free(redirections_copy);
+}
+
+void    redirections_opener(t_tree **tree, t_list_fd **head)
+{
+    if (!tree || !*tree)
+        return;
+    if ((*tree)->left)
+        redirections_opener(&(*tree)->left, head);
+    if ((*tree)->right)
+        redirections_opener(&(*tree)->right, head);
+    if ((*tree)->redirections)
+        process_node_redirections(*tree, head);
+			}
