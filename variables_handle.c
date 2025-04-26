@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 11:34:43 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 14:11:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static int	is_valid_var_char(char c)
 			c >= '0' && c <= '9'));
 }
 
-static void	update_quote_state(char c, int *in_quote, char *quote_type)
+void	update_quote_state(char c, int *in_quote, char *quote_type)
 {
 	if (*in_quote == 0 && (c == '"' || c == '\''))
 	{
