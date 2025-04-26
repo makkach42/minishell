@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 18:49:56 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 20:01:16 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
     *redir_part = NULL;
     if (!cmd_str)
         return;
-
     command_buf = malloc(ft_strlen(cmd_str) + 1);
     redir_buf = malloc(ft_strlen(cmd_str) + 1);
     if (!command_buf || !redir_buf)
@@ -131,9 +130,7 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
         {
             redir_buf[redir_pos++] = cmd_str[i];
             if (cmd_str[i+1] && cmd_str[i] == cmd_str[i+1])
-            {
                 redir_buf[redir_pos++] = cmd_str[++i];
-            }
             redir_buf[redir_pos++] = ' ';
             i++;
             while (cmd_str[i] && cmd_str[i] == ' ')
@@ -152,22 +149,16 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
                         redir_buf[redir_pos++] = cmd_str[i];
                 }
                 else
-                {
                     redir_buf[redir_pos++] = cmd_str[i];
-                }
                 i++;
             }
             redir_buf[redir_pos++] = ' ';
             i--;
         }
         else if (cmd_str[i] == ' ')
-        {
             command_buf[cmd_pos++] = cmd_str[i];
-        }
         else if (is_command_char(cmd_str[i], in_quotes || paren_count > 0))
-        {
             command_buf[cmd_pos++] = cmd_str[i];
-        }
         i++;
     }
     command_buf[cmd_pos] = '\0';
@@ -176,13 +167,9 @@ void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
     t_free(command_buf, __LINE__, "parsing.c");
     
     if (redir_pos > 0)
-    {
         *redir_part = ft_strtrim(redir_buf, " ");
-    }
     else
-    {
         *redir_part = ft_strdup("");
-    }
     t_free(redir_buf, __LINE__, "parsing.c");
 }
 
