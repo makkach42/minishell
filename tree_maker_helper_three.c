@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:12:02 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 10:42:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 09:17:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
 }
 
 void	process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
-						int node_info[2])
+						int *node_info)
 {
 	t_list	*prev_part;
 

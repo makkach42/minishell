@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 16:55:55 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 09:18:01 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,20 +156,11 @@ t_tree	*setup_operation_command(t_list **next_list, int offset);
 void	handle_operation_command(t_tree **tree, t_list *tmp,
 			int total_nodes, int i);
 void	process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
-			int node_info[2]);
+			int *node_info);
 void	process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
-			int node_info[2]);
-t_tree	*build_pipe_tree(t_list **head);
-t_tree	*handle_pipe_node(t_list **head, t_list *pipe_pos, char *left_cmd);
-t_tree	*handle_operation_node(t_list **head, t_list *pipe_pos, char *left_cmd);
-void	process_command_with_pipes(char *command_str, t_tree **command_tree);
-char	*extract_command_with_redirects(t_list **head, t_list **pipe_pos);
-t_tree	*handle_simple_command(t_list **head, char *left_cmd);
-t_list	*create_list_copy(t_list *source, t_list *stop);
-t_tree	*create_tree_node(void *command, char *type);
-t_list	*free_until_node(t_list *start, t_list *stop);
+			int *node_info);
 char	*find_first_redirection(char *cmd_str);
-int		find_args_start_pos(char *redir_start);
+int	find_args_start_pos(char *redir_start);
 int		is_valid_args_position(char *str, int j);
 void	init_args_search(int *i, int *in_quotes,
 			char *quote_type, int *redir_active);

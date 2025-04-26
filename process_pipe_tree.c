@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 17:44:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/25 17:46:16 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,6 @@ void	process_command_with_pipes(char *command_str, t_tree **command_tree)
 	}
 }
 
-/* Returns 1 if the string contains unquoted pipe or ampersand, 0 otherwise */
 int	has_unquoted_pipe_or_amp(const char *str)
 {
 	int		i;
@@ -240,7 +239,6 @@ int	has_unquoted_pipe_or_amp(const char *str)
 	quote = 0;
 	while (str[i])
 	{
-		/* Toggle quote state when encountering quotes */
 		if ((str[i] == '\'' || str[i] == '\"') && (quote == 0 || quote == str[i]))
 		{
 			if (quote == 0)
@@ -248,16 +246,13 @@ int	has_unquoted_pipe_or_amp(const char *str)
 			else
 				quote = 0;
 		}
-		/* Check for pipe or ampersand outside of quotes */
 		else if (!quote && (str[i] == '|' || str[i] == '&'))
 		{
-			/* For &, check if next char is also & */
 			if (str[i] == '&' && str[i + 1] != '&')
 			{
 				i++;
 				continue;
 			}
-			/* Found unquoted pipe or && */
 			return (1);
 		}
 		i++;
