@@ -6,11 +6,18 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:50:28 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 16:12:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 09:40:16 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_operator(char c)
+{
+	if (c == '&' || c == '|' || c == '>' || c == '<')
+		return (1);
+	return (0);
+}
 
 int	else_if_str_is_quote(int *i, char *str)
 {

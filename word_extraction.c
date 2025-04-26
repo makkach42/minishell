@@ -6,18 +6,11 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 09:39:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 09:40:07 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_operator(char c)
-{
-	if (c == '&' || c == '|' || c == '>' || c == '<')
-		return (1);
-	return (0);
-}
 
 int	string_in_word_recognizer(char *str)
 {
