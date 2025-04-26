@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 16:02:25 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/26 09:42:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@ int	count_filtered_length(char *old_str)
 	int	in_single_quotes;
 	int	in_double_quotes;
 
-			len = ft_strlen(old_str);
-			final_len = 0;
-			in_single_quotes = 0;
-			in_double_quotes = 0;
-			i = 0;
-			while (i < len)
-			{
-				if (old_str[i] == '\'' && !in_double_quotes)
-					in_single_quotes = !in_single_quotes;
-				else if (old_str[i] == '\"' && !in_single_quotes)
-					in_double_quotes = !in_double_quotes;
-				else
-					final_len++;
-				i++;
-			}
+	len = ft_strlen(old_str);
+	final_len = 0;
+	in_single_quotes = 0;
+	in_double_quotes = 0;
+	i = 0;
+	while (i < len)
+	{
+		if (old_str[i] == '\'' && !in_double_quotes)
+			in_single_quotes = !in_single_quotes;
+		else if (old_str[i] == '\"' && !in_single_quotes)
+			in_double_quotes = !in_double_quotes;
+		else
+			final_len++;
+		i++;
+	}
 	return (final_len);
 }
 
@@ -56,23 +56,23 @@ char	*create_filtered_string(char *old_str, int final_len)
 	int		in_single_quotes;
 	int		in_double_quotes;
 
-			new_str = (char *)malloc(sizeof(char) * (
-						final_len + 1));
-			if (!new_str)
+	new_str = (char *)malloc(sizeof(char) * (
+				final_len + 1));
+	if (!new_str)
 		return (NULL);
 	len = ft_strlen(old_str);
 	create_filtered_string_inits(&j, &in_single_quotes, &in_double_quotes, &i);
-			while (i < len)
-			{
-				if (old_str[i] == '\'' && !in_double_quotes)
-					in_single_quotes = !in_single_quotes;
-				else if (old_str[i] == '\"' && !in_single_quotes)
-					in_double_quotes = !in_double_quotes;
-				else
+	while (i < len)
+	{
+		if (old_str[i] == '\'' && !in_double_quotes)
+			in_single_quotes = !in_single_quotes;
+		else if (old_str[i] == '\"' && !in_single_quotes)
+			in_double_quotes = !in_double_quotes;
+		else
 			new_str[j++] = old_str[i];
-				i++;
-			}
-			new_str[j] = '\0';
+		i++;
+	}
+	new_str[j] = '\0';
 	return (new_str);
 }
 
