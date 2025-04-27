@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 15:56:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 11:56:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,8 @@ void	free_env(t_env **env)
 	*env = NULL;
 }
 
-void	lasfree(t_env **env, t_tree **tree, t_list_fd **head_fd)
+void	lasfree(t_tree **tree, t_list_fd **head_fd)
 {
-	free_env(env);
 	if (tree)
 		free_tree(*tree);
 	if (head_fd)

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 11:53:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 11:56:34 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void		free_list_fd(t_list_fd **head);
 int			redirection_recognizer(char *str);
 int			parenthasis_recognizer(char *str);
 void		free_list(t_list **head);
-void		lasfree(t_env **env, t_tree **tree, t_list_fd **head_fd);
+void		lasfree(t_tree **tree, t_list_fd **head_fd);
 void		free_env(t_env **env);
 int			variable_search(t_list **head);
 void		variable_expantion(t_list **head, char **ev);

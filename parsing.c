@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 11:03:12 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 11:56:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,9 @@ int	main(int argc, char **argv, char **argev)
 			printf("\n");
 			tmp = tmp->next;
 		}
-		lasfree(&env, &tree, &head_fd);
+		lasfree(&tree, &head_fd);
 	}
+	free_env(&env);
 }
 //(cat << EOF | grep "hello ") && (echo "skimi7a" || echo "fails") > infile.txt
 //((ls > file) && echo | la > file2) > file3

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 10:36:41 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 11:55:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	lexer_to_tree(char *str, t_tree **tree, char **argev)
 	head = list_init(str);
 	lexer(&head);
 	if (variable_search(&head))
-		variable_expantion(&head, argev);
+		variable_expantion(&head, argev);//expand from linked_list instead of the filled env;
 	variable_in_word(&head, argev);
 	tmp = head;
 	while (tmp)
