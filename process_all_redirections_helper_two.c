@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:10:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 10:26:07 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:43:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	cleanup_and_assign(char *command_buf, char *redir_buf,
 				char **cmd_part, char **redir_part)
 {
 	*cmd_part = ft_strtrim(command_buf, " ");
-	t_free(command_buf, __LINE__, "parsing.c");
+	free(command_buf);
 	if (ft_strlen(redir_buf) > 0)
 		*redir_part = ft_strtrim(redir_buf, " ");
 	else
 		*redir_part = ft_strdup("");
-	t_free(redir_buf, __LINE__, "parsing.c");
+	free(redir_buf);
 }
 
 int	initialize_buffers(t_extract *v, char *cmd_str)
@@ -40,9 +40,9 @@ int	initialize_buffers(t_extract *v, char *cmd_str)
 	if (!v->command_buf || !v->redir_buf)
 	{
 		if (v->command_buf)
-			t_free(v->command_buf, __LINE__, "parsing.c");
+			free(v->command_buf);
 		if (v->redir_buf)
-			t_free(v->redir_buf, __LINE__, "parsing.c");
+			free(v->redir_buf);
 		return (0);
 	}
 	return (1);

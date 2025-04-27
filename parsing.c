@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 14:13:14 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:48:48 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,7 @@ int	main(int argc, char **argv, char **argev)
 	t_list_fd	*tmp;
 
 	atexit(f);
-	(void)argc;
-	(void)argv;
-	inits_main(&head_fd, &env, &tree, argev);
+	((void)argc, (void)argv, inits_main(&head_fd, &env, &tree, argev));
 	while (1)
 	{
 		str = readline("minishell$> ");

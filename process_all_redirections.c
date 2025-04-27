@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 10:25:45 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:45:04 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,16 @@ void	process_all_redirections_helper(t_tree **tree, char **cmd)
 	extract_redirections(*cmd, &cmd_part, &redir_part);
 	if (cmd_part && redir_part)
 	{
-		t_free((*tree)->command, __LINE__, "parsing.c");
+		free((*tree)->command);
 		(*tree)->command = cmd_part;
 		(*tree)->redirections = redir_part;
 	}
 	else
 	{
 		if (cmd_part)
-			t_free(cmd_part, __LINE__, "parsing.c");
+			free(cmd_part);
 		if (redir_part)
-			t_free(redir_part, __LINE__, "parsing.c");
+			free(redir_part);
 	}
 }
 

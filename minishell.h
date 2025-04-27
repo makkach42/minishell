@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 14:13:04 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:41:48 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,12 +124,6 @@ char		*ft_strcpy(char *dest, char *src);
 char		*ft_strcat(char *dest, const char *src);
 int			ft_strncmp(char *str1, char *str2, size_t n);
 void		t_free(void *ptr, int line, char *file);
-void		*t_malloc(size_t i, int line, char *file);
-char		*ft_strdup_leak(char *s1, int line);
-char		*ft_strjoin_leak(char *s1, char *s2, int line);
-char		*ft_substr_leak(char *s, unsigned int start, size_t len, int line);
-char		*ft_strtrim_leak(char *s1, char *set, int line, char *str);
-t_list		*list_init_leak(char *str, int line, char *str2);
 char		*ft_strstr(const char *haystack, const char *needle);
 void		print_tree_visual(t_tree *tree, int level, int is_left);
 void		handle_quotes(char **word, char **str);
