@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_all_redirections_helper_three.c            :+:      :+:    :+:   */
+/*   some_other_helpers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 10:30:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 11:48:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,16 @@ void	process_redirection_helper(char *cmd_str, int *i, char *redir_buf,
 			redir_buf[(*redir_pos)++] = cmd_str[*i];
 		(*i)++;
 	}
+}
+
+int	check_empty(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] == 32)
+		i++;
+	if (str[i] == '\0')
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 11:12:18 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 11:53:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,155 +65,174 @@ typedef struct s_extract
 	char	*redir_buf;
 }	t_extract;
 
-t_env	*env_fill(char **argev);
-t_list	*list_init(char *str);
-int		syntax_error_parentheses(t_list **head);
-int		lst_size(t_list **head);
-char	*replace_whites_spaces(char *str);
-void	tree_maker(t_list **head, t_tree **tree);
-void	lexer(t_list **head);
-char	*word_extractor(char *str);
-char	*first_word_remover(char *str, char *word);
-int		is_operator(char c);
-char	*str_extractor(char *str);
-char	*str_remover(char *str, char *word);
-char	*extract_parenthesis(char *str);
-char	*parenthesis_remover(char *str, char *word);
-char	*extract_variable(char *str);
-char	*remove_operator(char *str, char *word);
-char	*extract_operator(char *str);
-void	process_pipe_trees(t_tree *tree);
-void	process_nested_parentheses(t_tree **tree);
-void	process_all_redirections(t_tree **tree);
-void	extract_redirections(char *cmd_str, char **cmd_part, char **redir_part);
-char	*extract_content_from_parentheses(char *command);
-void	redirections_opener(t_tree **tree, t_list_fd **head);
-void	syntax_error_two(t_tree **tree);
-void	syntax_error(t_list **head);
-void	lexer_to_tree(char *str, t_tree **tree, char **argev);
-void	tree_to_rediropen(t_tree *tree);
-void	inits_main(t_list_fd **head_fd, t_env **env, t_tree **tree);
-void	env_fill_quote_parse(t_env **env, char **str, char **argev);
-void	command_arr_fill(t_tree **tree);
-void	quote_remove_two(t_tree **tree);
-void	free_tree(t_tree *tree);
-void	free_list_fd(t_list_fd **head);
-int		redirection_recognizer(char *str);
-int		parenthasis_recognizer(char *str);
-void	free_list(t_list **head);
-void	lasfree(t_env **env, t_tree **tree, t_list_fd **head_fd);
-void	free_env(t_env **env);
-int		variable_search(t_list **head);
-void	variable_expantion(t_list **head, char **ev);
-int		variable_recognizer(char *str);
-int		operation_recognizer(char *str);
-int		pipe_recognizer(char *str);
-int		word_recognizer(char *str);
-int		command_recognizer(char *str);
-int		variable_in_word(t_list **head, char **argev);
-char	*ft_strdup(char *s1);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strtrim(char *s1, char *set);
-size_t	ft_strlen(char *str);
-char	*ft_substr(char *s, unsigned int start, size_t len);
-int		ft_strcmp(char *s1, char *s2);
-char	*ft_strchr(char *str, int c);
-char	*ft_strncpy(char *dest, char *src, int n);
-char	*ft_strcpy(char *dest, char *src);
-char	*ft_strcat(char *dest, const char *src);
-int		ft_strncmp(char *str1, char *str2, size_t n);
-void	t_free(void *ptr, int line, char *file);
-void	*t_malloc(size_t i, int line, char *file);
-char	*ft_strdup_leak(char *s1, int line);
-char	*ft_strjoin_leak(char *s1, char *s2, int line);
-char	*ft_substr_leak(char *s, unsigned int start, size_t len, int line);
-char	*ft_strtrim_leak(char *s1, char *set, int line, char *str);
-t_list	*list_init_leak(char *str, int line, char *str2);
-char	*ft_strstr(const char *haystack, const char *needle);
-void	print_tree_visual(t_tree *tree, int level, int is_left);
-void	handle_quotes(char **word, char **str);
-void	handle_operator(char **word, char **str);
-void	variable_handle(char **word, char **str);
-void	handle_parenthases(char **word, char **str);
-void	handle_else(char **word, char **str);
-void	open_quotes(int	*in_quotes, char *quote_type, char **str, int *i);
-void	parenthesis_recognizer_helper(int *open_par,
-			int *closed_par, int *i, char *str);
-void	sub_tree_attachment(t_tree **sub_tree, t_tree **tree,
-			char **original_redirs);
-void	sub_tree_creation(t_tree **sub_tree, char **content, t_list **sub_list);
-void	free_all(char **content, char **original_redirs);
-void	redirections_in_par_handle(t_tree **tree, char **cmd_part,
-			char **original_redirs, char **content);
-int		still_has_parentheses(t_tree **tree);
-void	redirections_handle(char **original_redirs, t_tree **tree);
-void	print_syntax_error(char *str2);
-void	syntax_error_parentheses_while_loop_parentheses(t_list *tmp,
-			int *i, int *open_par, int *closed_par);
-void	syntax_error_parentheses_while_loop(t_list *tmp,
-			int *i, int *flag, int *open_par);
-void	if_par_loop(int *i, char *str, char **word);
-void	if_string_while_loop(int *i, char *str, char **word);
-char	*side_maker(t_list **head, int number, int j);
-void	init_tree_node(t_tree **node, char *type);
-void	free_node_data(t_list *node);
-void	cleanup_right_nodes(t_list *nodes);
-void	cleanup_left_nodes(t_list *nodes);
-t_tree	*create_command_node(t_list **node_list, int offset);
-int		count_total_nodes(t_list *head, t_list **last);
-void	if_prev(t_list *tmp, t_list **prev_part, t_tree **tree, t_list **head);
-t_tree	*setup_operation_command(t_list **next_list, int offset);
-void	handle_operation_command(t_tree **tree, t_list *tmp,
-			int total_nodes, int i);
-void	process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
-			int *node_info);
-void	process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
-			int *node_info);
-int		skip_spaces(char *str, int start);
-int		check_quotes(char *str);
-t_tree	*build_pipe_tree(t_list **head);
-t_tree	*create_tree_node(void *command, char *type);
-void	build_command_str(char **command_str, t_list *current);
-void	free_list_to_position(t_list **head, t_list *position);
-t_list	*copy_list_segment(t_list *head, t_list *end_pos);
-t_tree	*handle_pipe_token(t_list **head, char *left_cmd,
-			t_list *pipe_pos);
-t_tree	*handle_operation_token(t_list **head, t_list *pipe_pos);
-void	free_cmd_list(t_list *cmd_list);
-void	process_command_with_pipes_inits(t_list **cmd_list, char **cmd_copy);
-int		check_pipe_or_amp(const char *str, int i, char quote);
-void	update_tree_with_cmd(t_tree *tree, t_tree *cmd_tree);
-void	update_quote_state(char c, int *in_quotes, char *quote_type);
-void	join_cmd_with_args(char **cmd_part, char *args_start,
-			char *redir_start);
-int		count_filtered_length(char *old_str);
-char	*get_env_value(char *variable_name, char **ev);
-int		is_valid_var_char(char c);
-int		get_var_info(char *str, int i, char **var_name);
-char	**prepare_parts(char *str, int i, int j);
-char	*find_var_value(char *var_name, char **argev);
-int		process_variable(t_list *tmp, int i, char **argev);
-int		process_word_variable(t_list *tmp, char **argev);
-char	*check_for_valid_args(char *redir_start, int j);
-int		handle_space_after_redir(char *redir_start, int i, char **args);
-int		update_redir_state(char *redir_start, int i, int *redir_active);
-int		check_spaces_and_redirs(char *str, int i, int *redir_active);
-int		is_command_char(char c, int in_quotes);
-int		skip_spaces_in_str(char *str, int start);
-void	init_extraction_vars(int *i, int *in_quotes, char *quote_type,
-			int *paren_count);
-void	handle_quotes_and_parens(char c, int *in_quotes, char *quote_type,
-			int *paren_count);
-void	process_redirection(char *cmd_str, int *i, char *redir_buf,
-			int *redir_pos);
-void	process_regular_char(char c, char *command_buf, int *cmd_pos,
-			int in_quotes_or_paren);
-void	cleanup_and_assign(char *command_buf, char *redir_buf,
-			char **cmd_part, char **redir_part);
-int		initialize_buffers(t_extract *v, char *cmd_str);
-void	process_command_char(t_extract *v, char *cmd_str);
-void	process_command_string_two(t_extract *v, char *cmd_str);
-void	process_redirection_helper(char *cmd_str, int *i, char *redir_buf,
-			int *redir_pos);
+t_env		*env_fill(char **argev);
+t_list		*list_init(char *str);
+int			syntax_error_parentheses(t_list **head);
+int			lst_size(t_list **head);
+char		*replace_whites_spaces(char *str);
+void		tree_maker(t_list **head, t_tree **tree);
+void		lexer(t_list **head);
+char		*word_extractor(char *str);
+char		*first_word_remover(char *str, char *word);
+int			is_operator(char c);
+char		*str_extractor(char *str);
+char		*str_remover(char *str, char *word);
+char		*extract_parenthesis(char *str);
+char		*parenthesis_remover(char *str, char *word);
+char		*extract_variable(char *str);
+char		*remove_operator(char *str, char *word);
+char		*extract_operator(char *str);
+void		process_pipe_trees(t_tree *tree);
+void		process_nested_parentheses(t_tree **tree);
+void		process_all_redirections(t_tree **tree);
+void		extract_redirections(char *cmd_str,
+				char **cmd_part, char **redir_part);
+char		*extract_content_from_parentheses(char *command);
+void		redirections_opener(t_tree **tree, t_list_fd **head);
+void		syntax_error_two(t_tree **tree);
+void		syntax_error(t_list **head);
+void		lexer_to_tree(char *str, t_tree **tree, char **argev);
+void		tree_to_rediropen(t_tree *tree);
+void		inits_main(t_list_fd **head_fd, t_env **env, t_tree **tree);
+void		env_fill_quote_parse(t_env **env, char **str, char **argev);
+void		command_arr_fill(t_tree **tree);
+void		quote_remove_two(t_tree **tree);
+void		free_tree(t_tree *tree);
+void		free_list_fd(t_list_fd **head);
+int			redirection_recognizer(char *str);
+int			parenthasis_recognizer(char *str);
+void		free_list(t_list **head);
+void		lasfree(t_env **env, t_tree **tree, t_list_fd **head_fd);
+void		free_env(t_env **env);
+int			variable_search(t_list **head);
+void		variable_expantion(t_list **head, char **ev);
+int			variable_recognizer(char *str);
+int			operation_recognizer(char *str);
+int			pipe_recognizer(char *str);
+int			word_recognizer(char *str);
+int			command_recognizer(char *str);
+int			variable_in_word(t_list **head, char **argev);
+char		*ft_strdup(char *s1);
+char		*ft_strjoin(char *s1, char *s2);
+char		*ft_strtrim(char *s1, char *set);
+size_t		ft_strlen(char *str);
+char		*ft_substr(char *s, unsigned int start, size_t len);
+int			ft_strcmp(char *s1, char *s2);
+char		*ft_strchr(char *str, int c);
+char		*ft_strncpy(char *dest, char *src, int n);
+char		*ft_strcpy(char *dest, char *src);
+char		*ft_strcat(char *dest, const char *src);
+int			ft_strncmp(char *str1, char *str2, size_t n);
+void		t_free(void *ptr, int line, char *file);
+void		*t_malloc(size_t i, int line, char *file);
+char		*ft_strdup_leak(char *s1, int line);
+char		*ft_strjoin_leak(char *s1, char *s2, int line);
+char		*ft_substr_leak(char *s, unsigned int start, size_t len, int line);
+char		*ft_strtrim_leak(char *s1, char *set, int line, char *str);
+t_list		*list_init_leak(char *str, int line, char *str2);
+char		*ft_strstr(const char *haystack, const char *needle);
+void		print_tree_visual(t_tree *tree, int level, int is_left);
+void		handle_quotes(char **word, char **str);
+void		handle_operator(char **word, char **str);
+void		variable_handle(char **word, char **str);
+void		handle_parenthases(char **word, char **str);
+void		handle_else(char **word, char **str);
+void		open_quotes(int	*in_quotes, char *quote_type, char **str, int *i);
+void		parenthesis_recognizer_helper(int *open_par,
+				int *closed_par, int *i, char *str);
+void		sub_tree_attachment(t_tree **sub_tree, t_tree **tree,
+				char **original_redirs);
+void		sub_tree_creation(t_tree **sub_tree,
+				char **content, t_list **sub_list);
+void		free_all(char **content, char **original_redirs);
+void		redirections_in_par_handle(t_tree **tree, char **cmd_part,
+				char **original_redirs, char **content);
+int			still_has_parentheses(t_tree **tree);
+void		redirections_handle(char **original_redirs, t_tree **tree);
+void		print_syntax_error(char *str2);
+void		syntax_error_parentheses_while_loop_parentheses(t_list *tmp,
+				int *i, int *open_par, int *closed_par);
+void		syntax_error_parentheses_while_loop(t_list *tmp,
+				int *i, int *flag, int *open_par);
+void		if_par_loop(int *i, char *str, char **word);
+void		if_string_while_loop(int *i, char *str, char **word);
+char		*side_maker(t_list **head, int number, int j);
+void		init_tree_node(t_tree **node, char *type);
+void		free_node_data(t_list *node);
+void		cleanup_right_nodes(t_list *nodes);
+void		cleanup_left_nodes(t_list *nodes);
+t_tree		*create_command_node(t_list **node_list, int offset);
+int			count_total_nodes(t_list *head, t_list **last);
+void		if_prev(t_list *tmp, t_list **prev_part,
+				t_tree **tree, t_list **head);
+t_tree		*setup_operation_command(t_list **next_list, int offset);
+void		handle_operation_command(t_tree **tree, t_list *tmp,
+				int total_nodes, int i);
+void		process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
+				int *node_info);
+void		process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
+				int *node_info);
+int			skip_spaces(char *str, int start);
+int			check_quotes(char *str);
+t_tree		*build_pipe_tree(t_list **head);
+t_tree		*create_tree_node(void *command, char *type);
+void		build_command_str(char **command_str, t_list *current);
+void		free_list_to_position(t_list **head, t_list *position);
+t_list		*copy_list_segment(t_list *head, t_list *end_pos);
+t_tree		*handle_pipe_token(t_list **head, char *left_cmd,
+				t_list *pipe_pos);
+t_tree		*handle_operation_token(t_list **head, t_list *pipe_pos);
+void		free_cmd_list(t_list *cmd_list);
+void		process_command_with_pipes_inits(t_list **cmd_list,
+				char **cmd_copy);
+int			check_pipe_or_amp(const char *str, int i, char quote);
+void		update_tree_with_cmd(t_tree *tree, t_tree *cmd_tree);
+void		update_quote_state(char c, int *in_quotes, char *quote_type);
+void		join_cmd_with_args(char **cmd_part, char *args_start,
+				char *redir_start);
+int			count_filtered_length(char *old_str);
+char		*get_env_value(char *variable_name, char **ev);
+int			is_valid_var_char(char c);
+int			get_var_info(char *str, int i, char **var_name);
+char		**prepare_parts(char *str, int i, int j);
+char		*find_var_value(char *var_name, char **argev);
+int			process_variable(t_list *tmp, int i, char **argev);
+int			process_word_variable(t_list *tmp, char **argev);
+char		*check_for_valid_args(char *redir_start, int j);
+int			handle_space_after_redir(char *redir_start, int i, char **args);
+int			update_redir_state(char *redir_start, int i, int *redir_active);
+int			check_spaces_and_redirs(char *str, int i, int *redir_active);
+int			is_command_char(char c, int in_quotes);
+int			skip_spaces_in_str(char *str, int start);
+void		init_extraction_vars(int *i, int *in_quotes, char *quote_type,
+				int *paren_count);
+void		handle_quotes_and_parens(char c, int *in_quotes, char *quote_type,
+				int *paren_count);
+void		process_redirection(char *cmd_str, int *i, char *redir_buf,
+				int *redir_pos);
+void		process_regular_char(char c, char *command_buf, int *cmd_pos,
+				int in_quotes_or_paren);
+void		cleanup_and_assign(char *command_buf, char *redir_buf,
+				char **cmd_part, char **redir_part);
+int			initialize_buffers(t_extract *v, char *cmd_str);
+void		process_command_char(t_extract *v, char *cmd_str);
+void		process_command_string_two(t_extract *v, char *cmd_str);
+void		process_redirection_helper(char *cmd_str, int *i, char *redir_buf,
+				int *redir_pos);
+int			determine_redirection_flag(char *redirection, int i);
+void		skip_redirection_and_spaces(char *redirection, int *i);
+char		*extract_filename(char *redirection, int *i);
+void		set_command_for_node(t_tree *tree, t_list_fd *new_node);
+void		set_redirection_type(t_list_fd *new_node, int flag);
+t_list_fd	*process_single_redirection(t_tree *tree,
+				char *redirection, int *pos);
+int			skip_to_next_redirection(char *redirections, int i);
+int			initialize_redirection_processing(t_tree *tree,
+				char **redirections_copy);
+int			process_first_redirection(t_tree *tree, t_list_fd **head,
+				char *redirections_copy, int *i);
+void		append_new_redirection(t_list_fd **tmp, t_tree *tree,
+				char *redirections_copy, int *i);
+int			check_empty(char *str);
 
 #endif
