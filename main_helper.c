@@ -6,29 +6,21 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 11:55:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:14:48 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	lexer_to_tree(char *str, t_tree **tree, char **argev)
+void	lexer_to_tree(char *str, t_tree **tree, t_env **env)
 {
 	t_list	*head;
-	t_list	*tmp;
 
 	head = list_init(str);
 	lexer(&head);
 	if (variable_search(&head))
-		variable_expantion(&head, argev);//expand from linked_list instead of the filled env;
-	variable_in_word(&head, argev);
-	tmp = head;
-	while (tmp)
-	{
-		printf("%s\n", tmp->data);
-		printf("%s\n", tmp->token);
-		tmp = tmp->next;
-	}
+		variable_expantion(&head, env);
+	variable_in_word(&head, env);
 	syntax_error(&head);
 	if (syntax_error_parentheses(&head) == 1)
 		exit(1);
@@ -46,18 +38,18 @@ void	tree_to_rediropen(t_tree *tree)
 	print_tree_visual(tree, 1, 1);
 }
 
-void	inits_main(t_list_fd **head_fd, t_env **env, t_tree **tree)
+void	inits_main(t_list_fd **head_fd, t_env **env,
+		t_tree **tree, char **argev)
 {
 	*head_fd = NULL;
-	*env = NULL;
+	*env = env_fill(argev);
 	*tree = NULL;
 }
 
-void	env_fill_quote_parse(t_env **env, char **str, char **argev)
+void	quote_parse(char **str)
 {
 	char	*tmp_str;
 
-	*env = env_fill(argev);
 	*str = replace_whites_spaces(*str);
 	tmp_str = *str;
 	*str = ft_strtrim(*str, " ");

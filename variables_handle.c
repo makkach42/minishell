@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 14:58:23 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:14:32 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	check_for_variable(char *str)
 	return (1);
 }
 
-void	variable_expantion(t_list **head, char **ev)
+void	variable_expantion(t_list **head, t_env **env)
 {
 	t_list	*tmp;
 	char	*variable_name;
@@ -57,11 +57,11 @@ void	variable_expantion(t_list **head, char **ev)
 	variable_name = NULL;
 	while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
 		tmp = tmp->next;
-	if (tmp && tmp->prev && (ft_strcmp(tmp->prev->data, "<<")))
+	if (tmp && ((tmp->prev && (
+					ft_strcmp(tmp->prev->data, "<<"))) || !tmp->prev))
 	{
-		variable_name = ft_substr(
-				tmp->data, 1, ft_strlen(tmp->data) - 1);
-		env_value = get_env_value(variable_name, ev);
+		variable_name = ft_substr(tmp->data, 1, ft_strlen(tmp->data) - 1);
+		env_value = get_env_value(variable_name, env);
 		if (env_value)
 		{
 			tmp_char = tmp->data;
@@ -89,7 +89,7 @@ void	update_quote_state(char c, int *in_quote, char *quote_type)
 	}
 }
 
-int	variable_in_word(t_list **head, char **argev)
+int	variable_in_word(t_list **head, t_env **env)
 {
 	t_list	*tmp;
 	int		result;
@@ -99,7 +99,7 @@ int	variable_in_word(t_list **head, char **argev)
 	{
 		if (!ft_strcmp(tmp->token, "WORD") && check_for_variable(tmp->data))
 		{
-			result = process_word_variable(tmp, argev);
+			result = process_word_variable(tmp, env);
 			if (result == -1)
 				return (-1);
 		}

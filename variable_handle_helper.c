@@ -6,29 +6,28 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 14:55:06 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:09:08 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env_value(char *variable_name, char **ev)
+char	*get_env_value(char *variable_name, t_env **env)
 {
-	int		i;
 	char	*value;
+	t_env	*tmp;
 
-	i = 0;
 	value = NULL;
-	while (ev[i])
+	tmp = *env;
+	while (tmp)
 	{
-		if (!ft_strncmp(ev[i], variable_name, ft_strlen(variable_name)
-			) && ev[i][ft_strlen(variable_name)] == '=')
+		if (!ft_strncmp(tmp->key, variable_name, ft_strlen(variable_name)
+			))
 		{
-			value = ft_substr(ev[i], ft_strlen(variable_name),
-					ft_strlen(ev[i]) - ft_strlen(variable_name));
+			value = ft_strdup(tmp->value);
 			return (value);
 		}
-		i++;
+		tmp = tmp->next;
 	}
 	return (NULL);
 }
@@ -65,22 +64,20 @@ char	**prepare_parts(char *str, int i, int j)
 	return (parts);
 }
 
-char	*find_var_value(char *var_name, char **argev)
+char	*find_var_value(char *var_name, t_env **env)
 {
 	int		k;
-	int		l;
 	char	*value;
 	char	*tmp;
+	t_env	*tmp_env;
 
 	k = 0;
-	while (argev[k] && ft_strncmp(argev[k], var_name, ft_strlen(var_name)))
-		k++;
-	if (!argev[k])
+	tmp_env = *env;
+	while (tmp_env && ft_strncmp(tmp_env->key, var_name, ft_strlen(var_name)))
+		tmp_env = tmp_env->next;
+	if (!tmp_env)
 		return (NULL);
-	l = 0;
-	while (argev[k][l] && argev[k][l] != '=')
-		l++;
-	value = ft_substr(argev[k], l, ft_strlen(argev[k]) - l);
+	value = ft_strdup(tmp_env->value);
 	tmp = value;
 	value = ft_strtrim(value, "=");
 	free(tmp);

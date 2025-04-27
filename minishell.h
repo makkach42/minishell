@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 11:56:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:13:04 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ char		*extract_content_from_parentheses(char *command);
 void		redirections_opener(t_tree **tree, t_list_fd **head);
 void		syntax_error_two(t_tree **tree);
 void		syntax_error(t_list **head);
-void		lexer_to_tree(char *str, t_tree **tree, char **argev);
+void		lexer_to_tree(char *str, t_tree **tree, t_env **env);
 void		tree_to_rediropen(t_tree *tree);
-void		inits_main(t_list_fd **head_fd, t_env **env, t_tree **tree);
-void		env_fill_quote_parse(t_env **env, char **str, char **argev);
+void		inits_main(t_list_fd **head_fd, t_env **env,
+				t_tree **tree, char **argev);
 void		command_arr_fill(t_tree **tree);
 void		quote_remove_two(t_tree **tree);
 void		free_tree(t_tree *tree);
@@ -105,13 +105,13 @@ void		free_list(t_list **head);
 void		lasfree(t_tree **tree, t_list_fd **head_fd);
 void		free_env(t_env **env);
 int			variable_search(t_list **head);
-void		variable_expantion(t_list **head, char **ev);
+void		variable_expantion(t_list **head, t_env **env);
 int			variable_recognizer(char *str);
 int			operation_recognizer(char *str);
 int			pipe_recognizer(char *str);
 int			word_recognizer(char *str);
 int			command_recognizer(char *str);
-int			variable_in_word(t_list **head, char **argev);
+int			variable_in_word(t_list **head, t_env **env);
 char		*ft_strdup(char *s1);
 char		*ft_strjoin(char *s1, char *s2);
 char		*ft_strtrim(char *s1, char *set);
@@ -191,13 +191,13 @@ void		update_quote_state(char c, int *in_quotes, char *quote_type);
 void		join_cmd_with_args(char **cmd_part, char *args_start,
 				char *redir_start);
 int			count_filtered_length(char *old_str);
-char		*get_env_value(char *variable_name, char **ev);
+char		*get_env_value(char *variable_name, t_env **env);
 int			is_valid_var_char(char c);
 int			get_var_info(char *str, int i, char **var_name);
 char		**prepare_parts(char *str, int i, int j);
-char		*find_var_value(char *var_name, char **argev);
-int			process_variable(t_list *tmp, int i, char **argev);
-int			process_word_variable(t_list *tmp, char **argev);
+char		*find_var_value(char *var_name, t_env **env);
+int			process_variable(t_list *tmp, int i, t_env **env);
+int			process_word_variable(t_list *tmp, t_env **env);
 char		*check_for_valid_args(char *redir_start, int j);
 int			handle_space_after_redir(char *redir_start, int i, char **args);
 int			update_redir_state(char *redir_start, int i, int *redir_active);
@@ -234,5 +234,6 @@ int			process_first_redirection(t_tree *tree, t_list_fd **head,
 void		append_new_redirection(t_list_fd **tmp, t_tree *tree,
 				char *redirections_copy, int *i);
 int			check_empty(char *str);
+void		quote_parse(char **str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 11:56:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:13:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	main(int argc, char **argv, char **argev)
 	atexit(f);
 	(void)argc;
 	(void)argv;
-	inits_main(&head_fd, &env, &tree);
+	inits_main(&head_fd, &env, &tree, argev);
 	while (1)
 	{
 		str = readline("minishell$> ");
@@ -129,20 +129,11 @@ int	main(int argc, char **argv, char **argev)
 			continue ;
 		}
 		add_history(str);
-		env_fill_quote_parse(&env, &str, argev);
-		lexer_to_tree(str, &tree, argev);
+		quote_parse(&str);
+		lexer_to_tree(str, &tree, &env);
 		tree_to_rediropen(tree);
 		redirections_opener(&tree, &head_fd);
 		tmp = head_fd;
-		while (tmp)
-		{
-			printf("command = %s\n", tmp->command);
-			printf("name = %s\n", tmp->name);
-			printf("redir = %s\n", tmp->redir);
-			printf("fd = %d\n", tmp->fd);
-			printf("\n");
-			tmp = tmp->next;
-		}
 		lasfree(&tree, &head_fd);
 	}
 	free_env(&env);
