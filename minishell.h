@@ -19,6 +19,8 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <limits.h>
+# include <sys/wait.h>
 
 typedef struct s_list
 {
@@ -53,6 +55,31 @@ typedef struct s_tree
 	char			**command_arr;
 	char			*redirections;
 }	t_tree;
+
+typedef struct s_pip
+{
+	char	*e;
+	int		input_fd;
+	int		output_fd;
+	int		fd[2];
+	int		id;
+	int		flag;
+	char	**cmd;
+	int		i;
+	int		prev_fd;
+	char	*temp;
+	char	*str;
+	int		j;
+}	t_pip;
+
+typedef struct s_cmd
+{
+	char	**p;
+	char	**t;
+	char	*str;
+	char	*cmd;
+	int		i;
+}	t_cmd;
 
 typedef struct s_extract
 {
@@ -216,5 +243,29 @@ void	process_command_char(t_extract *v, char *cmd_str);
 void	process_command_string_two(t_extract *v, char *cmd_str);
 void	process_redirection_helper(char *cmd_str, int *i, char *redir_buf,
 			int *redir_pos);
+char	**ft_split(char	const	*s, char c);
+char	*ft_cmd_check(char *env, char *s);
+int		ft_parse(char *s);
+long	ft_atoi(const char *str);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+void    ft_empty_list(t_env *h, char **env);
+void	ft_lstadd_front(t_env **lst, t_env *new);
+t_env	*ft_check(t_env *h, char *str);
+t_env	*ft_lstnew(void *key, void *value);
+void	ft_lstadd_back(t_env **lst, t_env *new);
+void	ft_cmd_helper(t_cmd *com, int i, char *env, char *s);
+char	*ft_strmcpy(char *src);
+int		ft_is_spaces(char *s);
+void    ft_cd(char **s, t_env *h);
+void    ft_echo(char **s);
+void    ft_env(t_env *h);
+int ft_check_string(char *str);
+void    ft_exit(char **s);
+void    ft_export(char  **s, t_env *h);
+void    ft_pwd(void);
+t_env   *ft_unset(t_env *h, char **s);
+int	ft_file_check(char *str);
+int	ft_file_create(char *str);
 
 #endif
