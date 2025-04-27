@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:09:28 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 15:54:10 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 15:08:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void	find_and_process_operation(t_list **head, t_tree **tree,
 	i = total_nodes;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->token, "OPERATION") == 0)
+		if (!ft_strcmp(tmp->token, "OPERATION_&&") || !ft_strcmp(
+				tmp->token, "OPERATION_||"))
 		{
 			node_info[0] = total_nodes;
 			node_info[1] = i;

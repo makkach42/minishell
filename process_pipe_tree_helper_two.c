@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 10:18:57 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 10:22:48 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 15:25:29 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_tree	*handle_operation_token(t_list **head, t_list *pipe_pos)
 	t_list	*tmp_list;
 	t_list	*right_head;
 
-	root = create_tree_node(NULL, "OPERATION");
+	root = create_tree_node(NULL, pipe_pos->token);
 	tmp_list = copy_list_segment(*head, pipe_pos);
 	root->left = build_pipe_tree(&tmp_list);
 	free_list_to_position(head, pipe_pos);
@@ -55,11 +55,14 @@ void	process_command_with_pipes_inits(t_list **cmd_list, char **cmd_copy)
 
 int	check_pipe_or_amp(const char *str, int i, char quote)
 {
-	if (!quote && (str[i] == '|' || str[i] == '&'))
+	if (quote == 0)
 	{
-		if (str[i] == '&' && str[i + 1] != '&')
-			return (0);
-		return (1);
+		if (str[i] == '|' && str[i + 1] && str[i + 1] == '|')
+			return (1);
+		if (str[i] == '&' && str[i + 1] && str[i + 1] == '&')
+			return (1);
+		if (str[i] == '|' && (!str[i + 1] || str[i + 1] != '|'))
+			return (1);
 	}
 	return (0);
 }

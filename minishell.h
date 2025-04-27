@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 14:41:48 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 15:30:17 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ char		*extract_content_from_parentheses(char *command);
 void		redirections_opener(t_tree **tree, t_list_fd **head);
 void		syntax_error_two(t_tree **tree);
 void		syntax_error(t_list **head);
+int			even_more_ifs(char *prev_token, char *prev_data, t_list *tmp);
 void		lexer_to_tree(char *str, t_tree **tree, t_env **env);
 void		tree_to_rediropen(t_tree *tree);
 void		inits_main(t_list_fd **head_fd, t_env **env,

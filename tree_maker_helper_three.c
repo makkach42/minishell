@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:12:02 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 09:17:55 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 15:05:54 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
 {
 	t_list	*prev_part;
 
-	init_tree_node(tree, "OPERATION");
+	init_tree_node(tree, tmp->token);
 	if (!(*tree))
 		return ;
 	handle_operation_command(tree, tmp, node_info[0], node_info[1]);

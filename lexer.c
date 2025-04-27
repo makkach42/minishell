@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:31:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 16:10:05 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 15:03:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	tokenizer(t_list *tmp)
 	else if (pipe_recognizer(tmp->data) == 1)
 		tmp->token = "PIPE";
 	else if (pipe_recognizer(tmp->data) == 2)
-		tmp->token = "OPERATION";
+		tmp->token = "OPERATION_||";
 	else if (redirection_recognizer(tmp->data) == 1)
 		tmp->token = "REDIRECTION";
 	else if (operation_recognizer(tmp->data) == 1)
-		tmp->token = "OPERATION";
+		tmp->token = "OPERATION_&&";
 	else
 		tmp->token = "WORD";
 }

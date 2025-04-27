@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 10:21:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 15:27:05 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ char	*extract_command_with_redirects(t_list **head, t_list **pipe_pos)
 	command_str = NULL;
 	while (current)
 	{
-		if ((current->token && ft_strcmp(current->token, "PIPE") == 0) || (
-				current->token && ft_strcmp(current->token, "OPERATION") == 0))
+		if ((ft_strcmp(current->token, "PIPE") == 0) || (
+				ft_strcmp(current->token, "OPERATION_&&"
+				) == 0 || ft_strcmp(current->token, "OPERATION_||") == 0))
 		{
 			*pipe_pos = current;
 			break ;
@@ -89,18 +90,16 @@ void	process_command_with_pipes(char *command_str, t_tree **command_tree)
 	free_cmd_list(cmd_list);
 }
 
-int	has_unquoted_pipe_or_amp(const char *str)
+int	has_unquoted_pipe_or_amp(char *str)
 {
 	int		i;
 	char	quote;
 
-	if (!str)
-		return (0);
 	i = 0;
 	quote = 0;
-	while (str[i])
+	while (str && str[i])
 	{
-		if ((str[i] == '\'' || str[i] == '\"') && (
+		if ((str[i] == '\'' || str[i] == '"') && (
 				quote == 0 || quote == str[i]))
 		{
 			if (quote == 0)

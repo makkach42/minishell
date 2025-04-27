@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 10:17:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 15:32:07 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,20 @@ void	syntax_error_parentheses_while_loop(t_list *tmp,
 	}
 	if (*open_par != closed_par)
 		*flag = 3;
+}
+
+int	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp)
+{
+	if (ft_strcmp("REDIRECTION", prev_token) == 0 && (
+			ft_strcmp(tmp->token, "OPERATION_&&") == 0 || ft_strcmp(
+				tmp->token, "OPERATION_||") == 0))
+		return (print_syntax_error(prev_data), 1);
+	if ((ft_strcmp("OPERATION_&&", prev_token) == 0 || ft_strcmp(
+				"OPERATION_||", prev_token) == 0) && ft_strcmp(
+			tmp->token, "REDIRECTION") == 0)
+		return (print_syntax_error(prev_data), 1);
+	if (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
+			tmp->token, prev_token) == 0)
+		return (print_syntax_error(prev_data), 1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 08:55:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 15:29:42 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,23 @@ int	more_ifs(char *prev_token, char *prev_data, t_list *tmp)
 	if (ft_strcmp("PIPE", prev_token) == 0 && ft_strcmp(
 			prev_token, tmp->token) == 0)
 		return (write(2, "syntax error near unexpected token `|'\n", 40), 1);
-	if (ft_strcmp("OPERATION", prev_token) == 0 && ft_strcmp(
-			prev_token, tmp->token) == 0)
+	if ((ft_strcmp("OPERATION_&&", prev_token) == 0 || ft_strcmp(
+				"OPERATION_||", prev_token) == 0
+		) && ft_strcmp(prev_token, tmp->token) == 0)
 		return (print_syntax_error((tmp)->data), 1);
-	if (ft_strcmp("OPERATION", prev_token) == 0 && ft_strcmp(
-			tmp->token, "PIPE") == 0)
+	if ((ft_strcmp("OPERATION_&&", prev_token) == 0 || ft_strcmp(
+				"OPERATION_||", prev_token) == 0
+		) && ft_strcmp(tmp->token, "PIPE") == 0)
 		return (print_syntax_error((tmp)->data), 1);
-	if (ft_strcmp("PIPE", prev_token) == 0 && ft_strcmp(
-			tmp->token, "OPERATION") == 0)
+	if (ft_strcmp("PIPE", prev_token) == 0 && (ft_strcmp(
+				tmp->token, "OPERATION_&&") == 0 || ft_strcmp(
+				tmp->token, "OPERATION_||") == 0))
 		(write(2, "syntax error near unexpected token `|'\n", 40), exit(1));
 	if (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
 			tmp->token, "PIPE") == 0 && ft_strlen(prev_token) == 1)
 		return (print_syntax_error(prev_data), 1);
-	if (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
-			tmp->token, "OPERATION") == 0)
-		return (print_syntax_error(prev_data), 1);
-	if (ft_strcmp("OPERATION", prev_token) == 0 && ft_strcmp(
-			tmp->token, "REDIRECTION") == 0)
-		return (print_syntax_error(prev_data), 1);
-	if (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
-			tmp->token, prev_token) == 0)
-		return (print_syntax_error(prev_data), 1);
+	if (even_more_ifs(prev_token, prev_data, tmp) == 1)
+		exit(1);
 	return (0);
 }
 
@@ -60,7 +56,8 @@ void	while_loop_syntax_error(t_list *tmp, char *prev_token, char *prev_data)
 			else
 				(print_syntax_error(prev_data), exit(1));
 		}
-		if (ft_strcmp("OPERATION", prev_token) == 0 && tmp == NULL)
+		if ((ft_strcmp("OPERATION_&&", prev_token) == 0 || ft_strcmp(
+					"OPERATION_||", prev_token) == 0) && tmp == NULL)
 			(print_syntax_error(prev_data), exit(1));
 		if (ft_strcmp("PIPE", prev_token) == 0 && tmp == NULL)
 			(print_syntax_error(prev_data), exit(1));
@@ -82,8 +79,9 @@ void	syntax_error(t_list **head)
 	prev_token = NULL;
 	if (ft_strcmp((*head)->token, "PIPE") == 0)
 		(print_syntax_error("|"), exit (1));
-	if (ft_strcmp((*head)->token, "OPERATION") == 0)
-		(print_syntax_error((*head)->data), exit (1));
+	if (ft_strcmp((*head)->token, "OPERATION_&&") == 0 || ft_strcmp(
+			(*head)->token, "OPERATION_||") == 0)
+		(print_syntax_error((*head)->data), exit(1));
 	while_loop_syntax_error(tmp, prev_token, prev_data);
 }
 
