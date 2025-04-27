@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 18:33:45 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 09:34:44 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,15 +138,15 @@ int	main(int argc, char **argv, char **argev)// expand variable if herdoc and in
 		// printf("this is typeAAAAAAAAAAAAAAAAAAAA: %s\n", tree->redirections);
 		// print_tree_visual(tree, 1, 1);
 		tmp = head_fd;
-		// while (tmp)
-		// {
-		// 	printf("command = %s\n", tmp->command);
-		// 	printf("name = %s\n", tmp->name);
-		// 	printf("redir = %s\n", tmp->redir);
-		// 	printf("fd = %d\n", tmp->fd);
-		// 	printf("\n");
-		// 	tmp = tmp->next;
-		// }
+		while (tmp)
+		{
+			printf("command = %s\n", tmp->command);
+			printf("name = %s\n", tmp->name);
+			printf("redir = %s\n", tmp->redir);
+			printf("fd = %d\n", tmp->fd);
+			printf("\n");
+			tmp = tmp->next;
+		}
 		lasfree(&env, &tree, &head_fd);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 18:09:44 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 10:31:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,18 @@ typedef struct s_tree
 	char			**command_arr;
 	char			*redirections;
 }	t_tree;
+
+typedef struct s_extract
+{
+    int		i;
+    int		in_quotes;
+    char	quote_type;
+    int		paren_count;
+    int		cmd_pos;
+    int		redir_pos;
+    char	*command_buf;
+    char	*redir_buf;
+}   t_extract;
 
 t_env	*env_fill(char **argev);
 t_list	*list_init(char *str);
@@ -187,5 +199,22 @@ char	*check_for_valid_args(char *redir_start, int j);
 int		handle_space_after_redir(char *redir_start, int i, char **args);
 int		update_redir_state(char *redir_start, int i, int *redir_active);
 int		check_spaces_and_redirs(char *str, int i, int *redir_active);
+int		is_command_char(char c, int in_quotes);
+int		skip_spaces_in_str(char *str, int start);
+void	init_extraction_vars(int *i, int *in_quotes, char *quote_type,
+				int *paren_count);
+void	handle_quotes_and_parens(char c, int *in_quotes, char *quote_type,
+				int *paren_count);
+void	process_redirection(char *cmd_str, int *i, char *redir_buf,
+				int *redir_pos);
+void	process_regular_char(char c, char *command_buf, int *cmd_pos,
+				int in_quotes_or_paren);
+void	cleanup_and_assign(char *command_buf, char *redir_buf,
+				char **cmd_part, char **redir_part);
+int		initialize_buffers(t_extract *v, char *cmd_str);
+void	process_command_char(t_extract *v, char *cmd_str);
+void	process_command_string_two(t_extract *v, char *cmd_str);
+void	process_redirection_helper(char *cmd_str, int *i, char *redir_buf,
+				int *redir_pos);
 
 #endif
