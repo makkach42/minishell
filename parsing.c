@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 14:48:48 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/28 09:14:36 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,15 @@ int	main(int argc, char **argv, char **argev)
 		tree_to_rediropen(tree);
 		redirections_opener(&tree, &head_fd);
 		tmp = head_fd;
+		while (tmp)
+		{
+			printf("%s\n", tmp->command);
+			printf("%s\n", tmp->name);
+			printf("%s\n", tmp->redir);
+			printf("%d\n", tmp->fd);
+			tmp = tmp->next;
+		}
+		
 		lasfree(&tree, &head_fd);
 	}
 	free_env(&env);

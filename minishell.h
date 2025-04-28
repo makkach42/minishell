@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 15:30:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/28 10:09:57 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_tree
 	char			*command;
 	char			**command_arr;
 	char			*redirections;
+	int				ambiguous;
 }	t_tree;
 
 typedef struct s_extract
