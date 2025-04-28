@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 09:34:44 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/28 14:13:52 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,36 +199,61 @@ int	ft_redir_check(char *str)
 
 int	ft_exec_redir(t_tree *tree, t_env *h, t_list_fd *head_fd)
 {
-
-	if (ft_redir_check(head_fd->redir) == 1)
+	while (head_fd != NULL)
 	{
-			while (head_fd->next != NULL)
-			{
-				head_fd->fd = ft_file_check(head_fd->name);
-				if (head_fd ->fd == -1)
-				{
-					perror("minishell: ");
-					return (-1);
-				}
-				head_fd = head_fd->next;
-			}
-			head_fd->fd = ft_file_check(head_fd->name);
-			dup2(head_fd->fd, 0);
-			ft_exec(tree, h);
-	}
-	else if (ft_redir_check(head_fd->redir) == 2)
-	{
-		while (head_fd -> next != NULL)
+		if (ft_redir_check(head_fd->redir) == 1)
 		{
-			head_fd->fd = ft_file_create(head_fd->name);
-			head_fd = head_fd->next;
+			head_fd->fd = ft_file_check(head_fd->name);
+			if (head_fd ->fd == -1)
+			{
+				perror("minishell: ");
+				return (-1);
+			}
+			dup2(head_fd->fd, 0);
+		}
+		else if (ft_redir_check(head_fd->redir) == 2)
+		{
+			head_fd->fd = ft_file_create(head_fd->name, 1);
+			dup2(head_fd->fd, 1);
+		}
+		else if (ft_redir_check(head_fd->redir) == 4)
+		{
+			head_fd->fd = ft_file_create(head_fd->name, 2);
+			dup2(head_fd->fd, 1);
 		}
 		dprintf(2, "this is output fd %d\n", head_fd->fd);
-		head_fd->fd = ft_file_create(head_fd->name);
-		dup2(head_fd->fd, 1);
-		ft_exec(tree, h);
+		head_fd = head_fd->next;
 	}
-	dprintf(2,"this is redir type %s\n", head_fd->redir);
+	ft_exec(tree, h);
+	// if (ft_redir_check(head_fd->redir) == 1)
+	// {
+	// 		while (head_fd->next != NULL)
+	// 		{
+	// 			head_fd->fd = ft_file_check(head_fd->name);
+	// 			if (head_fd ->fd == -1)
+	// 			{
+	// 				perror("minishell: ");
+	// 				return (-1);
+	// 			}
+	// 			head_fd = head_fd->next;
+	// 		}
+	// 		head_fd->fd = ft_file_check(head_fd->name);
+	// 		dup2(head_fd->fd, 0);
+	// 		ft_exec(tree, h);
+	// }
+	// else if (ft_redir_check(head_fd->redir) == 2)
+	// {
+	// 	while (head_fd -> next != NULL)
+	// 	{
+	// 		head_fd->fd = ft_file_create(head_fd->name, 1);
+	// 		head_fd = head_fd->next;
+	// 	}
+	// 	head_fd->fd = ft_file_create(head_fd->name, 1);
+	// 	dprintf(2, "this is output fd %d\n", head_fd->fd);
+	// 	dup2(head_fd->fd, 1);
+	// 	ft_exec(tree, h);
+	// }
+	// dprintf(2,"this is redir type %s\n", head_fd->redir);
 	
 }
 
@@ -241,7 +266,11 @@ int	ft_execute(t_tree *tree, t_env *h, t_list_fd *head_fd)
 
 	status = 0;
 	check = 0;
-	if (ft_strcmp("WORD", tree->type) == 0)
+	if (ft_strcmp("COMMAND", tree->type) == 0)
+	{
+		ft_cmd_exec(tree, h);
+	}
+	else if (tree->redirections == NULL)
 	{
 		id = fork();
 		if (id == 0)
@@ -249,8 +278,9 @@ int	ft_execute(t_tree *tree, t_env *h, t_list_fd *head_fd)
 			ft_exec(tree, h);
 		}
 		waitpid(id, &status, 0);
+		status = WEXITSTATUS(status);
 	}
-	if (ft_strcmp("REDIRECTION", tree->type) == 0)
+	else if (tree->redirections != NULL)
 	{
 		id = fork();
 		if (id == 0)
@@ -258,15 +288,25 @@ int	ft_execute(t_tree *tree, t_env *h, t_list_fd *head_fd)
 			ft_exec_redir(tree, h, head_fd);
 		}
 		waitpid(id, &status, 0);
+		status = WEXITSTATUS(status);
 	}
-	if (ft_strcmp("COMMAND", tree->type) == 0)
-	{
-		ft_cmd_exec(tree, h);
-	}
-	if (ft_strcmp("PIPE", tree->type) == 0)
+	else if (ft_strcmp("PIPE", tree->type) == 0)
 	{
 		ft_pip(tree, h, head_fd);	
 	}
+	// printf("%s\n", tree->type); 
+	// if (ft_strcmp("OPERATION_&&", tree->type) == 0)
+	// {
+	// 	status = ft_execute(tree->left, h, head_fd);
+	// 	if (status == 0)
+	// 		status = ft_execute(tree->right, h, head_fd);
+	// }
+	// if (ft_strcmp("OPERATION_||", tree->type) == 0)
+	// {
+	// 	status = ft_execute(tree->left, h, head_fd);
+	// 	if (status != 0)
+	// 		status = ft_execute(tree->right, h, head_fd);
+	// }
 	return (status);
 }
 
@@ -325,3 +365,4 @@ int	main(int argc, char **argv, char **argev)// expand variable if herdoc and in
 
 //((ls)>file2) > file
 // "((ls)>file2) > file"
+//>file>file2>file3 ls>file4>file5>file6 -la>file7>file8>file9

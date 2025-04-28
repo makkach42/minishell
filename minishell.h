@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 10:35:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/27 15:28:35 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_env
 typedef struct s_tree
 {
 	char			*type;
+	char			*oper;
 	struct s_tree	*left;
 	struct s_tree	*right;
 	char			*command;
@@ -266,6 +267,6 @@ void    ft_export(char  **s, t_env *h);
 void    ft_pwd(void);
 t_env   *ft_unset(t_env *h, char **s);
 int	ft_file_check(char *str);
-int	ft_file_create(char *str);
+int	ft_file_create(char *str, int n);
 
 #endif

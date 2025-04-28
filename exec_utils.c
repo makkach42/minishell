@@ -333,10 +333,13 @@ int	ft_file_check(char *str)
 	return (fd);
 }
 
-int	ft_file_create(char *str)
+int	ft_file_create(char *str, int n)
 {
 	int	fd;
 
-	fd = open(str, O_RDWR | O_TRUNC | O_CREAT, 0644);
+	if (n == 1)
+		fd = open(str, O_RDWR | O_TRUNC | O_CREAT, 0644);
+	if (n == 2)
+		fd = open(str, O_RDWR | O_APPEND | O_CREAT, 0644);
 	return (fd);
 }
