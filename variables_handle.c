@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 14:14:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/28 13:33:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,11 @@ void	variable_expantion(t_list **head, t_env **env)
 	char	*variable_name;
 	char	*tmp_char;
 	char	*env_value;
+	char	*new_name;
 
 	tmp = *head;
 	variable_name = NULL;
+	new_name = NULL;
 	while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
 		tmp = tmp->next;
 	if (tmp && ((tmp->prev && (
@@ -62,16 +64,16 @@ void	variable_expantion(t_list **head, t_env **env)
 	{
 		variable_name = ft_substr(tmp->data, 1, ft_strlen(tmp->data) - 1);
 		env_value = get_env_value(variable_name, env);
+		if (countwords(env_value, 32) != 1)
+			(free(env_value), new_name = ft_strjoin(
+					"$", variable_name), env_value = ft_strdup(new_name));
 		if (env_value)
 		{
 			tmp_char = tmp->data;
 			tmp->data = env_value;
 			free(tmp_char);
-			tmp_char = tmp->data;
-			tmp->data = ft_strtrim(tmp->data, "=");
-			free(tmp_char);
 		}
-		free(variable_name);
+		(free(variable_name), free(new_name));
 	}
 }
 

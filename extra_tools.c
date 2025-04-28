@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:28:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 15:33:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/28 12:40:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ void	print_tree_visual(t_tree *tree, int level, int is_left)
 		printf(" (Command: %s)", tree->command);
 	else
 		printf(" (Command: NULL)");
+	if (tree->ambiguous)
+		printf(" (Ambiguous: %d)", tree->ambiguous);
+	else
+		printf(" (Ambiguous: 0)");
 	if (tree->command_arr)
 	{
 		for (int i = 0; tree->command_arr[i]; i++)

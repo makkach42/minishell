@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/28 09:14:36 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/28 13:31:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ int	main(int argc, char **argv, char **argev)
 			printf("%d\n", tmp->fd);
 			tmp = tmp->next;
 		}
-		
 		lasfree(&tree, &head_fd);
 	}
 	free_env(&env);

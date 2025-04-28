@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 16:10:12 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/28 13:28:44 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ char	*extract_variable(char *str)
 	char	*word;
 
 	i = 0;
-	while (str[i] != 32 && str[i] != '\0')
+	while (str[i] && str[i] != 32 && !is_operator(str[i]))
 		i++;
-	word = ft_substr(str, 0, i + 1);
+	word = ft_substr(str, 0, i);
 	return (word);
 }

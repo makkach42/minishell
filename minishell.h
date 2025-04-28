@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/28 10:09:57 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/28 14:09:08 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,5 +231,8 @@ void		append_new_redirection(t_list_fd **tmp, t_tree *tree,
 				char *redirections_copy, int *i);
 int			check_empty(char *str);
 void		quote_parse(char **str);
+int			countwords(char *s, char c);
+void		ambiguous_set(t_tree **tree);
+int			variable_search_instr(char *str);
 
 #endif
