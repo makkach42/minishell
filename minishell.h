@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 15:25:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 15:52:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ void		process_redirection_helper(char *cmd_str, int *i, char *redir_buf,
 				int *redir_pos);
 int			determine_redirection_flag(char *redirection, int i);
 void		skip_redirection_and_spaces(char *redirection, int *i);
-char		*extract_filename(char *redirection, int *i);
+void		extract_filename(char **old_redirs, char **target_name);
 void		set_command_for_node(t_tree *tree, t_list_fd *new_node);
 void		set_redirection_type(t_list_fd *new_node, int flag);
 t_list_fd	*process_single_redirection(t_tree *tree,
@@ -240,5 +240,7 @@ int			ambiguous_syntax_error(t_tree **tree);
 void		quote_set(t_tree **tree);
 void		tree_empty_error(t_tree **tree);
 void		redirections_list_maker(t_tree **tree);
+void		init_list_fd_node(t_list_fd *node);
+void		if_env_value(t_list *tmp, char **env_value);
 
 #endif
