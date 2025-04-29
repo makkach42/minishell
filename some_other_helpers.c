@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 09:04:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:30:23 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	countwords(char *s, char c)
 
 	count = 0;
 	in_word = 0;
-	while (*s)
+	while (s && *s)
 	{
 		if (*s == c)
 			in_word = 0;
@@ -94,7 +94,7 @@ int	new_syntax_error(t_list **head)
 			break ;
 		tmp = tmp->next;
 	}
-	if (tmp->next->next)
+	if (tmp && tmp->next && tmp->next->next)
 		return (1);
 	return (0);
 }
