@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/28 14:09:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:05:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,5 +234,6 @@ void		quote_parse(char **str);
 int			countwords(char *s, char c);
 void		ambiguous_set(t_tree **tree);
 int			variable_search_instr(char *str);
+int			new_syntax_error(t_list **head);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/28 13:31:40 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:07:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	lexer_to_tree(char *str, t_tree **tree, t_env **env)
 		printf("\n");
 		tmp = tmp->next;
 	}
+	if (new_syntax_error(&head))
+		(print_syntax_error("("), exit(1));
 	if (variable_search(&head))
 		variable_expantion(&head, env);
 	variable_in_word(&head, env);

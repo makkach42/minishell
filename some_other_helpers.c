@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/28 13:32:38 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:04:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,22 @@ void	ambiguous_set(t_tree **tree)
 		if (variable_search_instr((*tree)->redirections))
 			(*tree)->ambiguous = 1;
 	}
+}
+
+int	new_syntax_error(t_list **head)
+{
+	t_list	*tmp;
+
+	tmp = *head;
+	while (tmp && tmp->next && tmp->next->next)
+	{
+		if (!ft_strcmp(tmp->token, "REDIRECTION") && !ft_strcmp(
+				tmp->next->token, "WORD") && !ft_strcmp(
+				tmp->next->next->token, "PARENTHASIS"))
+			break ;
+		tmp = tmp->next;
+	}
+	if (tmp->next->next)
+		return (1);
+	return (0);
 }
