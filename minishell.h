@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/28 14:09:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 10:27:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/28 13:31:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 10:33:18 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,3 +149,4 @@ int	main(int argc, char **argv, char **argev)
 
 //((ls)>file2) > file
 // "((ls)>file2) > file"
+//>file>file2>file3 ls>file4>file5>file6 -la>file7>file8>file9
