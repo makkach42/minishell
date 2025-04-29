@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 15:27:57 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 15:32:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,29 @@ void	free_list(t_list **head)
 	*head = NULL;
 }
 
-void free_list_fd(t_list_fd **head)
+void	free_list_fd(t_list_fd **head)
 {
-    t_list_fd *current;
-    t_list_fd *next;
+	t_list_fd	*current;
+	t_list_fd	*next;
 
-    if (!head || !*head)
-        return;
-    current = *head;
-    while (current)
-    {
-        next = current->next; // Save next pointer before freeing
-        if (current->command)
-            (free(current->command), current->command = NULL);
-        if (current->name)
-            (free(current->name), current->name = NULL);
-        if (current->redir)
-            (free(current->redir), current->redir = NULL);
-        if (current->fd > 0)
-            (close(current->fd), current->fd = -1);
-        free(current);
-        current = next;
-    }
-    *head = NULL;
+	if (!head || !*head)
+		return ;
+	current = *head;
+	while (current)
+	{
+		next = current->next;
+		if (current->command)
+			(free(current->command), current->command = NULL);
+		if (current->name)
+			(free(current->name), current->name = NULL);
+		if (current->redir)
+			(free(current->redir), current->redir = NULL);
+		if (current->fd > 0)
+			(close(current->fd), current->fd = -1);
+		free(current);
+		current = next;
+	}
+	*head = NULL;
 }
 
 void	free_tree(t_tree *tree)
@@ -78,8 +78,7 @@ void	free_tree(t_tree *tree)
 		i = -1;
 		while (tree->command_arr[++i])
 			(free(tree->command_arr[i]), tree->command_arr[i] = NULL);
-		free(tree->command_arr);
-		tree->command_arr = NULL;
+		(free(tree->command_arr), tree->command_arr = NULL);
 	}
 	if (tree->fd_list)
 		free_list_fd(&(tree)->fd_list);
