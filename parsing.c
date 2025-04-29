@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 10:39:58 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 16:00:17 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,9 @@ int	main(int argc, char **argv, char **argev)
 	char		*str;
 	t_env		*env;
 	t_tree		*tree;
-	t_list_fd	*head_fd;
-	t_list_fd	*tmp;
 
 	atexit(f);
-	((void)argc, (void)argv, inits_main(&head_fd, &env, &tree, argev));
+	((void)argc, (void)argv, inits_main(&env, &tree, argev));
 	while (1)
 	{
 		str = readline("minishell$> ");
@@ -129,19 +127,11 @@ int	main(int argc, char **argv, char **argev)
 		add_history(str);
 		quote_parse(&str);
 		lexer_to_tree(str, &tree, &env);
-		//
 		tree_to_rediropen(tree);
-		redirections_opener(&tree, &head_fd);
-		tmp = head_fd;
-		while (tmp)
-		{
-			printf("%s\n", tmp->command);
-			printf("%s\n", tmp->name);
-			printf("%s\n", tmp->redir);
-			printf("%d\n", tmp->fd);
-			tmp = tmp->next;
-		}
-		lasfree(&tree, &head_fd);
+		redirections_list_maker(&tree);
+		print_tree_visual(tree, 1, 1);
+		tree_empty_error(&tree);
+		lasfree(&tree);
 	}
 	free_env(&env);
 }
@@ -150,4 +140,3 @@ int	main(int argc, char **argv, char **argev)
 
 //((ls)>file2) > file
 // "((ls)>file2) > file"
-//>file>file2>file3 ls>file4>file5>file6 -la>file7>file8>file9

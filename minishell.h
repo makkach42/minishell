@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 10:40:25 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 16:00:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_tree
 	char			*redirections;
 	int				ambiguous;
 	int				quotes;
+	t_list_fd		*fd_list;
 }	t_tree;
 
 typedef struct s_extract
@@ -91,13 +92,12 @@ void		process_all_redirections(t_tree **tree);
 void		extract_redirections(char *cmd_str,
 				char **cmd_part, char **redir_part);
 char		*extract_content_from_parentheses(char *command);
-void		redirections_opener(t_tree **tree, t_list_fd **head);
 void		syntax_error_two(t_tree **tree);
 void		syntax_error(t_list **head);
 int			even_more_ifs(char *prev_token, char *prev_data, t_list *tmp);
 void		lexer_to_tree(char *str, t_tree **tree, t_env **env);
 void		tree_to_rediropen(t_tree *tree);
-void		inits_main(t_list_fd **head_fd, t_env **env,
+void		inits_main(t_env **env,
 				t_tree **tree, char **argev);
 void		command_arr_fill(t_tree **tree);
 void		quote_remove_two(t_tree **tree);
@@ -106,7 +106,7 @@ void		free_list_fd(t_list_fd **head);
 int			redirection_recognizer(char *str);
 int			parenthasis_recognizer(char *str);
 void		free_list(t_list **head);
-void		lasfree(t_tree **tree, t_list_fd **head_fd);
+void		lasfree(t_tree **tree);
 void		free_env(t_env **env);
 int			variable_search(t_list **head);
 void		variable_expantion(t_list **head, t_env **env);
@@ -219,7 +219,7 @@ void		process_redirection_helper(char *cmd_str, int *i, char *redir_buf,
 				int *redir_pos);
 int			determine_redirection_flag(char *redirection, int i);
 void		skip_redirection_and_spaces(char *redirection, int *i);
-char		*extract_filename(char *redirection, int *i);
+void		extract_filename(char **old_redirs, char **target_name);
 void		set_command_for_node(t_tree *tree, t_list_fd *new_node);
 void		set_redirection_type(t_list_fd *new_node, int flag);
 t_list_fd	*process_single_redirection(t_tree *tree,
@@ -238,5 +238,10 @@ void		ambiguous_set(t_tree **tree);
 int			variable_search_instr(char *str);
 int			new_syntax_error(t_list **head);
 int			ambiguous_syntax_error(t_tree **tree);
+void		quote_set(t_tree **tree);
+void		tree_empty_error(t_tree **tree);
+void		redirections_list_maker(t_tree **tree);
+void		init_list_fd_node(t_list_fd *node);
+void		if_env_value(t_list *tmp, char **env_value);
 
 #endif
