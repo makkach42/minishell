@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/28 13:31:40 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:53:26 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void	lexer_to_tree(char *str, t_tree **tree, t_env **env)
 	head = list_init(str);
 	lexer(&head);
 	tmp = head;
+	if (new_syntax_error(&head))
+		(print_syntax_error("("));
+	if (variable_search(&head))
+		variable_expantion(&head, env);
 	while (tmp)
 	{
 		printf("%s\n", tmp->data);
@@ -43,12 +47,9 @@ void	lexer_to_tree(char *str, t_tree **tree, t_env **env)
 		printf("\n");
 		tmp = tmp->next;
 	}
-	if (variable_search(&head))
-		variable_expantion(&head, env);
 	variable_in_word(&head, env);
 	syntax_error(&head);
-	if (syntax_error_parentheses(&head) == 1)
-		exit(1);
+	syntax_error_parentheses(&head);
 	tree_maker(&head, tree);
 }
 
@@ -62,6 +63,8 @@ void	tree_to_rediropen(t_tree *tree)
 	ambiguous_set(&tree);
 	syntax_error_two(&tree);
 	print_tree_visual(tree, 1, 1);
+	if (ambiguous_syntax_error(&tree) == 1)
+		(write(2, "ambiguous redirect\n", 19));
 }
 
 void	inits_main(t_list_fd **head_fd, t_env **env,
@@ -80,6 +83,5 @@ void	quote_parse(char **str)
 	tmp_str = *str;
 	*str = ft_strtrim(*str, " ");
 	free(tmp_str);
-	if (check_quotes(*str) == 1)
-		exit(1);
+	check_quotes(*str);
 }

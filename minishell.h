@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 10:27:47 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 10:40:25 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_tree
 	char			**command_arr;
 	char			*redirections;
 	int				ambiguous;
+	int				quotes;
 }	t_tree;
 
 typedef struct s_extract
@@ -235,5 +236,7 @@ void		quote_parse(char **str);
 int			countwords(char *s, char c);
 void		ambiguous_set(t_tree **tree);
 int			variable_search_instr(char *str);
+int			new_syntax_error(t_list **head);
+int			ambiguous_syntax_error(t_tree **tree);
 
 #endif

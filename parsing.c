@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 10:33:18 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 10:39:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int	main(int argc, char **argv, char **argev)
 		add_history(str);
 		quote_parse(&str);
 		lexer_to_tree(str, &tree, &env);
+		//
 		tree_to_rediropen(tree);
 		redirections_opener(&tree, &head_fd);
 		tmp = head_fd;
