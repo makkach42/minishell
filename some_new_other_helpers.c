@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 15:26:45 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 15:35:36 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ambiguous_syntax_error(t_tree **tree)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if ((*tree)->ambiguous == 1 && (*tree)->quotes == 1)
@@ -52,19 +52,22 @@ void	quote_set(t_tree **tree)
 		quote_set(&(*tree)->right);
 	if ((*tree)->redirections)
 	{
-		if (variable_search_instr((*tree)->redirections) && quote_detect((*tree)->redirections))
+		if (variable_search_instr((*tree)->redirections
+			) && quote_detect((*tree)->redirections))
 			(*tree)->quotes = 1;
 	}
 }
 
 void	empty_string_error(t_list_fd **head_fd)
 {
-	t_list_fd *tmp;
+	t_list_fd	*tmp;
 
 	tmp = *head_fd;
 	while (tmp)
 	{
-		if ((tmp->name[0] == '"' && tmp->name[1] == '"' && !tmp->name[2]) || (tmp->name[0] == '\'' && tmp->name[1] == '\'' && !tmp->name[2]))
+		if ((tmp->name[0] == '"' && tmp->name[1] == '"' && !tmp->name[2]
+			) || (tmp->name[0] == '\'' && tmp->name[1
+				] == '\'' && !tmp->name[2]))
 		{
 			write(2, "No such file or directory\n", 26);
 			break ;

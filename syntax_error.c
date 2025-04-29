@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 15:28:10 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 15:37:10 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,12 @@ void	while_loop_syntax_error(t_list *tmp, char *prev_token, char *prev_data)
 		if (ft_strcmp("REDIRECTION", prev_token) == 0 && tmp == NULL)
 		{
 			if (ft_strcmp(prev_data, ">") == 0 && ft_strlen(prev_data) == 1)
-				(write(2, "syntax error near unexpected token `newline'\n", 45));
+				(write(2, "syntax error near unexpected token `newline'\n",
+						45));
 			else if (ft_strcmp(prev_data, "<") == 0 && ft_strlen(
 					prev_data) == 1)
-				(write(2, "syntax error near unexpected token `newline'\n", 45));
+				(write(2, "syntax error near unexpected token `newline'\n",
+						45));
 			else
 				(print_syntax_error(prev_data));
 		}
