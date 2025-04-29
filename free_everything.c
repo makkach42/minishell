@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 11:56:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 14:44:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,31 @@ void	free_list(t_list **head)
 		tmp = tmp2;
 	}
 	*head = NULL;
+}
+
+void free_list_fd(t_list_fd **head)
+{
+    t_list_fd *current;
+    t_list_fd *next;
+
+    if (!head || !*head)
+        return;
+    current = *head;
+    while (current)
+    {
+        next = current->next; // Save next pointer before freeing
+        if (current->command)
+            (free(current->command), current->command = NULL);
+        if (current->name)
+            (free(current->name), current->name = NULL);
+        if (current->redir)
+            (free(current->redir), current->redir = NULL);
+        if (current->fd > 0)
+            (close(current->fd), current->fd = -1);
+        free(current);
+        current = next;
+    }
+    *head = NULL;
 }
 
 void	free_tree(t_tree *tree)
@@ -56,34 +81,9 @@ void	free_tree(t_tree *tree)
 		free(tree->command_arr);
 		tree->command_arr = NULL;
 	}
+	if (tree->fd_list)
+		free_list_fd(&(tree)->fd_list);
 	free(tree);
-}
-
-void	free_list_fd(t_list_fd **head)
-{
-	t_list_fd	*current;
-	t_list_fd	*next;
-
-	if (!head || !*head)
-		return ;
-	current = *head;
-	next = NULL;
-	while (current)
-	{
-		next = current->next;
-		if (current->command)
-			(free(current->command),
-				current->command = NULL);
-		if (current->name)
-			(free(current->name), current->name = NULL);
-		if (current->redir)
-			(free(current->redir), current->redir = NULL);
-		if (current->fd > 0)
-			(close(current->fd), current->fd = -1);
-		free(current);
-		current = next;
-	}
-	*head = NULL;
 }
 
 void	free_env(t_env **env)
@@ -103,10 +103,11 @@ void	free_env(t_env **env)
 	*env = NULL;
 }
 
-void	lasfree(t_tree **tree, t_list_fd **head_fd)
+void	lasfree(t_tree **tree)
 {
+	printf("%s\n", (*tree)->redirections);
 	if (tree)
 		free_tree(*tree);
-	if (head_fd)
-		free_list_fd(head_fd);
+	// if (head_fd)
+	// 	free_list_fd(head_fd);
 }

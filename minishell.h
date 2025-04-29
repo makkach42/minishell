@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 13:36:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 14:21:07 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,12 @@ void		process_all_redirections(t_tree **tree);
 void		extract_redirections(char *cmd_str,
 				char **cmd_part, char **redir_part);
 char		*extract_content_from_parentheses(char *command);
-void		redirections_opener(t_tree **tree, t_list_fd **head);
 void		syntax_error_two(t_tree **tree);
 void		syntax_error(t_list **head);
 int			even_more_ifs(char *prev_token, char *prev_data, t_list *tmp);
 void		lexer_to_tree(char *str, t_tree **tree, t_env **env);
 void		tree_to_rediropen(t_tree *tree);
-void		inits_main(t_list_fd **head_fd, t_env **env,
+void		inits_main(t_env **env,
 				t_tree **tree, char **argev);
 void		command_arr_fill(t_tree **tree);
 void		quote_remove_two(t_tree **tree);
@@ -106,7 +105,7 @@ void		free_list_fd(t_list_fd **head);
 int			redirection_recognizer(char *str);
 int			parenthasis_recognizer(char *str);
 void		free_list(t_list **head);
-void		lasfree(t_tree **tree, t_list_fd **head_fd);
+void		lasfree(t_tree **tree);
 void		free_env(t_env **env);
 int			variable_search(t_list **head);
 void		variable_expantion(t_list **head, t_env **env);
@@ -240,5 +239,6 @@ int			new_syntax_error(t_list **head);
 int			ambiguous_syntax_error(t_tree **tree);
 void		quote_set(t_tree **tree);
 void		empty_string_error(t_list_fd **head_fd);
+void		redirections_list_maker(t_tree **tree);
 
 #endif
