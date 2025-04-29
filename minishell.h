@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 10:40:25 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 16:10:19 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <limits.h>
+# include <fcntl.h>
 
 typedef struct s_list
 {
@@ -54,6 +56,7 @@ typedef struct s_tree
 	char			*redirections;
 	int				ambiguous;
 	int				quotes;
+	t_list_fd		*fd_list;
 }	t_tree;
 
 typedef struct s_extract
@@ -67,6 +70,31 @@ typedef struct s_extract
 	char	*command_buf;
 	char	*redir_buf;
 }	t_extract;
+
+typedef struct s_pip
+{
+	char	*e;
+	int		input_fd;
+	int		output_fd;
+	int		fd[2];
+	int		id;
+	int		flag;
+	char	**cmd;
+	int		i;
+	int		prev_fd;
+	char	*temp;
+	char	*str;
+	int		j;
+}	t_pip;
+
+typedef struct s_cmd
+{
+	char	**p;
+	char	**t;
+	char	*str;
+	char	*cmd;
+	int		i;
+}	t_cmd;
 
 t_env		*env_fill(char **argev);
 t_list		*list_init(char *str);
@@ -91,13 +119,12 @@ void		process_all_redirections(t_tree **tree);
 void		extract_redirections(char *cmd_str,
 				char **cmd_part, char **redir_part);
 char		*extract_content_from_parentheses(char *command);
-void		redirections_opener(t_tree **tree, t_list_fd **head);
 void		syntax_error_two(t_tree **tree);
 void		syntax_error(t_list **head);
 int			even_more_ifs(char *prev_token, char *prev_data, t_list *tmp);
 void		lexer_to_tree(char *str, t_tree **tree, t_env **env);
 void		tree_to_rediropen(t_tree *tree);
-void		inits_main(t_list_fd **head_fd, t_env **env,
+void		inits_main(t_env **env,
 				t_tree **tree, char **argev);
 void		command_arr_fill(t_tree **tree);
 void		quote_remove_two(t_tree **tree);
@@ -106,7 +133,7 @@ void		free_list_fd(t_list_fd **head);
 int			redirection_recognizer(char *str);
 int			parenthasis_recognizer(char *str);
 void		free_list(t_list **head);
-void		lasfree(t_tree **tree, t_list_fd **head_fd);
+void		lasfree(t_tree **tree);
 void		free_env(t_env **env);
 int			variable_search(t_list **head);
 void		variable_expantion(t_list **head, t_env **env);
@@ -238,5 +265,32 @@ void		ambiguous_set(t_tree **tree);
 int			variable_search_instr(char *str);
 int			new_syntax_error(t_list **head);
 int			ambiguous_syntax_error(t_tree **tree);
+void		quote_set(t_tree **tree);
+void		tree_empty_error(t_tree **tree);
+void		redirections_list_maker(t_tree **tree);
+char	**ft_split(char	const	*s, char c);
+char	*ft_cmd_check(char *env, char *s);
+int		ft_parse(char *s);
+long	ft_atoi(const char *str);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+void    ft_empty_list(t_env *h, char **env);
+void	ft_lstadd_front(t_env **lst, t_env *new);
+t_env	*ft_check(t_env *h, char *str);
+t_env	*ft_lstnew(void *key, void *value);
+void	ft_lstadd_back(t_env **lst, t_env *new);
+void	ft_cmd_helper(t_cmd *com, int i, char *env, char *s);
+char	*ft_strmcpy(char *src);
+int		ft_is_spaces(char *s);
+void    ft_cd(char **s, t_env *h);
+void    ft_echo(char **s);
+void    ft_env(t_env *h);
+int ft_check_string(char *str);
+void    ft_exit(char **s);
+void    ft_export(char  **s, t_env *h);
+void    ft_pwd(void);
+t_env   *ft_unset(t_env *h, char **s);
+int	ft_file_check(char *str);
+int	ft_file_create(char *str, int n);
 
 #endif

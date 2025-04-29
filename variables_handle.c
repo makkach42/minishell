@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 09:32:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:11:02 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	variable_expantion(t_list **head, t_env **env)
 	{
 		variable_name = ft_substr(tmp->data, 1, ft_strlen(tmp->data) - 1);
 		env_value = get_env_value(variable_name, env);
-		printf("%s\n", env_value);
 		if (env_value && countwords(env_value, 32) != 1)
 			(free(env_value), new_name = ft_strjoin(
 					"$", variable_name), env_value = ft_strdup(new_name));

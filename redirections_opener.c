@@ -6,94 +6,98 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:47:08 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 11:48:48 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 15:31:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	process_remaining_redirections(t_tree *tree, t_list_fd **tmp,
-				char *redirections_copy, int *i)
+void	redirections_list_maker(t_tree **tree)
 {
+	char		*old_redirs;
+	char		*tmp_char;
+	int			i;
+	t_list_fd	*head;
 	t_list_fd	*new_node;
-
-	while (!check_empty(redirections_copy + *i))
-	{
-		while (redirections_copy[*i] == ' ')
-			(*i)++;
-		*i = skip_to_next_redirection(redirections_copy, *i);
-		if (!redirections_copy[*i])
-			break ;
-		new_node = process_single_redirection(tree, redirections_copy, i);
-		if (new_node)
-		{
-			(*tmp)->next = new_node;
-			*tmp = new_node;
-		}
-		else
-			break ;
-	}
-}
-
-static void	process_first_redirection_node(t_tree *tree, t_list_fd **head)
-{
-	char		*redirections_copy;
-	int			i;
 	t_list_fd	*tmp;
 
-	if (!initialize_redirection_processing(tree, &redirections_copy))
-		return ;
-	i = skip_to_next_redirection(redirections_copy, 0);
-	if (!redirections_copy[i])
-	{
-		free(redirections_copy);
-		return ;
-	}
-	if (!process_first_redirection(tree, head, redirections_copy, &i))
-		return ;
-	tmp = *head;
-	process_remaining_redirections(tree, &tmp, redirections_copy, &i);
-	free(redirections_copy);
-}
-
-static void	process_additional_redirection_node(t_tree *tree, t_list_fd **head)
-{
-	char		*redirections_copy;
-	int			i;
-	t_list_fd	*tmp;
-
-	if (!initialize_redirection_processing(tree, &redirections_copy))
-		return ;
-	i = skip_to_next_redirection(redirections_copy, 0);
-	if (!redirections_copy[i])
-	{
-		free(redirections_copy);
-		return ;
-	}
-	tmp = *head;
-	while (tmp->next)
-		tmp = tmp->next;
-	append_new_redirection(&tmp, tree, redirections_copy, &i);
-	process_remaining_redirections(tree, &tmp, redirections_copy, &i);
-	free(redirections_copy);
-}
-
-static void	process_node_redirections(t_tree *tree, t_list_fd **head)
-{
-	if (!*head)
-		process_first_redirection_node(tree, head);
-	else
-		process_additional_redirection_node(tree, head);
-}
-
-void	redirections_opener(t_tree **tree, t_list_fd **head)
-{
 	if (!tree || !*tree)
 		return ;
 	if ((*tree)->left)
-		redirections_opener(&(*tree)->left, head);
+		redirections_list_maker(&(*tree)->left);
 	if ((*tree)->right)
-		redirections_opener(&(*tree)->right, head);
+		redirections_list_maker(&(*tree)->right);
 	if ((*tree)->redirections)
-		process_node_redirections(*tree, head);
+	{
+		i = 0;
+		old_redirs = ft_strdup((*tree)->redirections);
+		head = malloc(sizeof(t_list_fd));
+		if (!head)
+			return ;
+		head->name = NULL;
+		head->command = NULL;
+		head->redir = NULL;
+		head->next = NULL;
+		head->fd = -1;
+		while (old_redirs[i] && (old_redirs[i] == '>' || old_redirs[
+					i] == '<' || old_redirs[i] == 32))
+			i++;
+		head->redir = ft_substr(old_redirs, 0, i);
+		tmp_char = head->redir;
+		head->redir = ft_strtrim(head->redir, " ");
+		free(tmp_char);
+		tmp_char = old_redirs;
+		old_redirs = ft_substr(old_redirs, i, (int)ft_strlen(old_redirs) - i);
+		free(tmp_char);
+		i = 0;
+		while (old_redirs[i] && old_redirs[i] == 32)
+			i++;
+		while (old_redirs[i] && old_redirs[i] != 32)
+			i++;
+		head->name = ft_substr(old_redirs, 0, i);
+		tmp_char = old_redirs;
+		old_redirs = ft_substr(old_redirs, i, (int)ft_strlen(old_redirs) - i);
+		free(tmp_char);
+		head->command = ft_strdup((*tree)->command);
+		tmp = head;
+		while (old_redirs && !check_empty(old_redirs))
+		{
+			i = 0;
+			new_node = malloc(sizeof(t_list_fd));
+			if (!new_node)
+				break ;
+			new_node->name = NULL;
+			new_node->command = NULL;
+			new_node->redir = NULL;
+			new_node->next = NULL;
+			new_node->fd = -1;
+			while (old_redirs[i] && (old_redirs[i] == '>' || old_redirs[
+						i] == '<' || old_redirs[i] == 32))
+				i++;
+			new_node->redir = ft_substr(old_redirs, 0, i);
+			tmp_char = new_node->redir;
+			new_node->redir = ft_strtrim(new_node->redir, " ");
+			free(tmp_char);
+			tmp_char = old_redirs;
+			old_redirs = ft_substr(old_redirs, i, (int)
+					ft_strlen(old_redirs) - i);
+			free(tmp_char);
+			i = 0;
+			while (old_redirs[i] && old_redirs[i] == 32)
+				i++;
+			while (old_redirs[i] && old_redirs[i] != 32)
+				i++;
+			new_node->name = ft_substr(old_redirs, 0, i);
+			tmp_char = old_redirs;
+			old_redirs = ft_substr(old_redirs, i, (int)
+					ft_strlen(old_redirs) - i);
+			free(tmp_char);
+			new_node->command = ft_strdup((*tree)->command);
+			tmp->next = new_node;
+			tmp = new_node;
+		}
+		if (old_redirs)
+			free(old_redirs);
+		(*tree)->fd_list = head;
+	}
 }
