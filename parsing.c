@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 09:44:57 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 12:08:39 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ int	main(int argc, char **argv, char **argev)
 	t_env		*env;
 	t_tree		*tree;
 	t_list_fd	*head_fd;
-	t_list_fd	*tmp;
 
 	atexit(f);
 	((void)argc, (void)argv, inits_main(&head_fd, &env, &tree, argev));
@@ -129,18 +128,9 @@ int	main(int argc, char **argv, char **argev)
 		add_history(str);
 		quote_parse(&str);
 		lexer_to_tree(str, &tree, &env);
-		//
 		tree_to_rediropen(tree);
 		redirections_opener(&tree, &head_fd);
-		tmp = head_fd;
-		while (tmp)
-		{
-			printf("%s\n", tmp->command);
-			printf("%s\n", tmp->name);
-			printf("%s\n", tmp->redir);
-			printf("%d\n", tmp->fd);
-			tmp = tmp->next;
-		}
+		empty_string_error(&head_fd);
 		lasfree(&tree, &head_fd);
 	}
 	free_env(&env);

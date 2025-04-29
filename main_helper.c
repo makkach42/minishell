@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 09:53:26 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:30:22 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,13 @@ void	tree_to_rediropen(t_tree *tree)
 	command_arr_fill(&tree);
 	quote_remove_two(&tree);
 	ambiguous_set(&tree);
+	quote_set(&tree);
 	syntax_error_two(&tree);
 	print_tree_visual(tree, 1, 1);
 	if (ambiguous_syntax_error(&tree) == 1)
 		(write(2, "ambiguous redirect\n", 19));
+	if (ambiguous_syntax_error(&tree) == 2)
+		(write(2, "No such file or directory\n", 26));
 }
 
 void	inits_main(t_list_fd **head_fd, t_env **env,
