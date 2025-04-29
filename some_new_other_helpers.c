@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 13:10:14 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 15:26:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,17 @@ void	empty_string_error(t_list_fd **head_fd)
 			break ;
 		}
 		tmp = tmp->next;
+	}
+}
+
+void	tree_empty_error(t_tree **tree)
+{
+	if ((*tree)->left)
+		tree_empty_error(&(*tree)->left);
+	if ((*tree)->right)
+		tree_empty_error(&(*tree)->right);
+	if ((*tree)->fd_list)
+	{
+		empty_string_error(&(*tree)->fd_list);
 	}
 }

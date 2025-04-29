@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 14:21:07 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 15:25:42 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ int			variable_search_instr(char *str);
 int			new_syntax_error(t_list **head);
 int			ambiguous_syntax_error(t_tree **tree);
 void		quote_set(t_tree **tree);
-void		empty_string_error(t_list_fd **head_fd);
+void		tree_empty_error(t_tree **tree);
 void		redirections_list_maker(t_tree **tree);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 14:44:55 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/29 15:27:57 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,6 @@ void	free_env(t_env **env)
 
 void	lasfree(t_tree **tree)
 {
-	printf("%s\n", (*tree)->redirections);
 	if (tree)
 		free_tree(*tree);
-	// if (head_fd)
-	// 	free_list_fd(head_fd);
 }
