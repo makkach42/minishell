@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 14:45:04 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/30 11:18:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,24 @@ int	check_if_in_string(char *cmd)
 	return (1);
 }
 
-void	extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
+void extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
 {
-	t_extract	v;
+    t_extract v;
 
-	*cmd_part = NULL;
-	*redir_part = NULL;
-	if (!cmd_str)
-		return ;
-	if (!initialize_buffers(&v, cmd_str))
-		return ;
-	init_extraction_vars(&v.i, &v.in_quotes, &v.quote_type, &v.paren_count);
-	v.cmd_pos = 0;
-	v.redir_pos = 0;
-	process_command_string_two(&v, cmd_str);
-	cleanup_and_assign(v.command_buf, v.redir_buf, cmd_part, redir_part);
+    *cmd_part = NULL;
+    *redir_part = NULL;
+    if (!cmd_str)
+        return;
+    if (!initialize_buffers(&v, cmd_str))
+        return;
+    init_extraction_vars(&v.i, &v.in_quotes, &v.quote_type, &v.paren_count);
+    if (!process_command_string_two(&v, cmd_str))
+    {
+        dyn_buf_free(&v.command_buf);
+        dyn_buf_free(&v.redir_buf);
+        return;
+    }
+    cleanup_and_assign(&v.command_buf, &v.redir_buf, cmd_part, redir_part);
 }
 
 void	process_all_redirections_helper(t_tree **tree, char **cmd)
