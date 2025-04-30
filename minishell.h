@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 15:52:45 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/30 11:28:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,22 @@ typedef struct s_tree
 	t_list_fd		*fd_list;
 }	t_tree;
 
+typedef struct s_dynbuf
+{
+    char	*data;
+    size_t	size;
+    size_t	pos;
+} t_dynbuf;
+
 typedef struct s_extract
 {
-	int		i;
-	int		in_quotes;
-	char	quote_type;
-	int		paren_count;
-	int		cmd_pos;
-	int		redir_pos;
-	char	*command_buf;
-	char	*redir_buf;
-}	t_extract;
+    t_dynbuf	command_buf;
+    t_dynbuf	redir_buf;
+    int			i;
+    int			in_quotes;
+    char		quote_type;
+    int			paren_count;
+} t_extract;
 
 t_env		*env_fill(char **argev);
 t_list		*list_init(char *str);
@@ -88,8 +93,7 @@ char		*extract_operator(char *str);
 void		process_pipe_trees(t_tree *tree);
 void		process_nested_parentheses(t_tree **tree);
 void		process_all_redirections(t_tree **tree);
-void		extract_redirections(char *cmd_str,
-				char **cmd_part, char **redir_part);
+void		extract_redirections(char *cmd_str, char **cmd_part, char **redir_part);
 char		*extract_content_from_parentheses(char *command);
 void		syntax_error_two(t_tree **tree);
 void		syntax_error(t_list **head);
@@ -205,17 +209,14 @@ void		init_extraction_vars(int *i, int *in_quotes, char *quote_type,
 				int *paren_count);
 void		handle_quotes_and_parens(char c, int *in_quotes, char *quote_type,
 				int *paren_count);
-void		process_redirection(char *cmd_str, int *i, char *redir_buf,
-				int *redir_pos);
-void		process_regular_char(char c, char *command_buf, int *cmd_pos,
-				int in_quotes_or_paren);
-void		cleanup_and_assign(char *command_buf, char *redir_buf,
-				char **cmd_part, char **redir_part);
+int			process_redirection(char *cmd_str, int *i, t_dynbuf *redir_buf);
+int			process_regular_char(char c, t_dynbuf *command_buf, int in_quotes_or_paren);
+void		cleanup_and_assign(t_dynbuf *command_buf, t_dynbuf *redir_buf,
+                char **cmd_part, char **redir_part);
 int			initialize_buffers(t_extract *v, char *cmd_str);
-void		process_command_char(t_extract *v, char *cmd_str);
-void		process_command_string_two(t_extract *v, char *cmd_str);
-void		process_redirection_helper(char *cmd_str, int *i, char *redir_buf,
-				int *redir_pos);
+int			process_command_char(t_extract *v, char *cmd_str);
+int			process_command_string_two(t_extract *v, char *cmd_str);
+int			process_redirection_helper(char *cmd_str, int *i, t_dynbuf *redir_buf);
 int			determine_redirection_flag(char *redirection, int i);
 void		skip_redirection_and_spaces(char *redirection, int *i);
 void		extract_filename(char **old_redirs, char **target_name);
@@ -242,5 +243,9 @@ void		tree_empty_error(t_tree **tree);
 void		redirections_list_maker(t_tree **tree);
 void		init_list_fd_node(t_list_fd *node);
 void		if_env_value(t_list *tmp, char **env_value);
+void		dyn_buf_free(t_dynbuf *buf);
+int			dyn_buf_add_char(t_dynbuf *buf, char c);
+void		dyn_buf_finalize(t_dynbuf *buf);
+int			dyn_buf_init(t_dynbuf *buf, size_t initial_capacity);
 
 #endif
