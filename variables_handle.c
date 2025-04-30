@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 15:51:09 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:44:37 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,26 @@ void	variable_expantion(t_list **head, t_env **env)
 	tmp = *head;
 	variable_name = NULL;
 	new_name = NULL;
-	while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
-		tmp = tmp->next;
-	if (tmp && ((tmp->prev && (
-					ft_strcmp(tmp->prev->data, "<<"))) || !tmp->prev))
+	// while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
+	// 	tmp = tmp->next;
+	while (tmp)
 	{
-		variable_name = ft_substr(tmp->data, 1, ft_strlen(tmp->data) - 1);
-		env_value = get_env_value(variable_name, env);
-		if (env_value && countwords(env_value, 32) != 1)
-			(free(env_value), new_name = ft_strjoin(
-					"$", variable_name), env_value = ft_strdup(new_name));
-		if (env_value)
-			if_env_value(tmp, &env_value);
-		(free(variable_name), free(new_name));
+		if (!ft_strcmp(tmp->token, "VARIABLE"))
+		{
+			if (tmp && ((tmp->prev && (
+							ft_strcmp(tmp->prev->data, "<<"))) || !tmp->prev))
+			{
+				variable_name = ft_substr(tmp->data, 1, ft_strlen(tmp->data) - 1);
+				env_value = get_env_value(variable_name, env);
+				if (env_value && countwords(env_value, 32) != 1)
+					(free(env_value), new_name = ft_strjoin(
+							"$", variable_name), env_value = ft_strdup(new_name));
+				if (env_value)
+					if_env_value(tmp, &env_value);
+				(free(variable_name), free(new_name));
+			}
+		}
+		tmp = tmp->next;
 	}
 }
 
