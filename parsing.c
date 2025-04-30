@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/30 11:40:47 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/30 13:52:04 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	main(int argc, char **argv, char **argev)
 		str = readline("minishell$> ");
 		if (!str)
 			break ;
-		else if (!*str)
+		else if (!*str || check_empty(str))
 		{
 			free(str);
 			continue ;
