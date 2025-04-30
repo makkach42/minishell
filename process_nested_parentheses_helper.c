@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:42:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/30 10:29:58 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/30 11:55:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,14 @@ void	redirections_in_par_handle(t_tree **tree, char **cmd_part,
 		*content = extract_content_from_parentheses((*tree)->command);
 	if (*cmd_part)
 		free(*cmd_part);
+}
+
+int	dyn_buf_init(t_dynbuf *buf, size_t initial_capacity)
+{
+	buf->data = malloc(initial_capacity);
+	if (!buf->data)
+		return (0);
+	buf->size = initial_capacity;
+	buf->pos = 0;
+	return (1);
 }

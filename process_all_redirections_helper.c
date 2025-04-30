@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:10:32 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/30 11:15:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/30 11:52:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,24 @@ void	handle_quotes_and_parens(char c, int *in_quotes, char *quote_type,
 	}
 }
 
-int process_redirection(char *cmd_str, int *i, t_dynbuf *redir_buf)
+int	process_redirection(char *cmd_str, int *i, t_dynbuf *redir_buf)
 {
-    if (!dyn_buf_add_char(redir_buf, cmd_str[*i]))
-        return (0);
-    if (cmd_str[*i + 1] && cmd_str[*i] == cmd_str[*i + 1])
-    {
-        if (!dyn_buf_add_char(redir_buf, cmd_str[++(*i)]))
-            return (0);
-    }
-    if (!dyn_buf_add_char(redir_buf, ' '))
-        return (0);
-    (*i)++;
-    while (cmd_str[*i] && cmd_str[*i] == ' ')
-        (*i)++;
-    if (!process_redirection_helper(cmd_str, i, redir_buf))
-        return (0);
-    if (!dyn_buf_add_char(redir_buf, ' '))
-        return (0);
-    (*i)--;
-    return (1);
+	if (!dyn_buf_add_char(redir_buf, cmd_str[*i]))
+		return (0);
+	if (cmd_str[*i + 1] && cmd_str[*i] == cmd_str[*i + 1])
+	{
+		if (!dyn_buf_add_char(redir_buf, cmd_str[++(*i)]))
+			return (0);
+	}
+	if (!dyn_buf_add_char(redir_buf, ' '))
+		return (0);
+	(*i)++;
+	while (cmd_str[*i] && cmd_str[*i] == ' ')
+		(*i)++;
+	if (!process_redirection_helper(cmd_str, i, redir_buf))
+		return (0);
+	if (!dyn_buf_add_char(redir_buf, ' '))
+		return (0);
+	(*i)--;
+	return (1);
 }
