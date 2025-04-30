@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:47:08 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 15:41:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/30 11:43:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ t_list_fd	*create_redir_node(char **old_redirs, char *command)
 	init_list_fd_node(node);
 	extract_redir_token(old_redirs, &node->redir);
 	extract_filename(old_redirs, &node->name);
-	node->command = ft_strdup(command);
+	if (command)
+		node->command = ft_strdup(command);
+	else
+		node->command = ft_strdup("");
 	return (node);
 }
 
