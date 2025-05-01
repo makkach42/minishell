@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/01 09:47:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:43:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,26 @@ char	*extract_variable(char *str)
 	return (word);
 }
 
+void	if_node_is_variable(t_list *tmp, t_list **head)
+{
+	if (tmp->data[0] == '$')
+	{
+		if (*head == tmp)
+			*head = tmp->next;
+		if (tmp->prev)
+			tmp->prev->next = tmp->next;
+		if (tmp->next)
+			tmp->next->prev = tmp->prev;
+		if (tmp->data)
+			free(tmp->data);
+		free(tmp);
+	}
+}
+
 void	if_variable_innode(t_list **head)
 {
-	t_list *tmp;
-	t_list *next;
+	t_list	*tmp;
+	t_list	*next;
 
 	if (!head || !*head)
 		return ;
@@ -86,18 +102,7 @@ void	if_variable_innode(t_list **head)
 		next = tmp->next;
 		if (!ft_strcmp(tmp->token, "VARIABLE"))
 		{
-			if (tmp->data[0] == '$')	
-			{
-				if (*head == tmp)
-					*head = tmp->next;
-				if (tmp->prev)
-					tmp->prev->next = tmp->next;
-				if (tmp->next)
-					tmp->next->prev = tmp->prev;
-				if (tmp->data)
-					free(tmp->data);
-				free(tmp);
-			}
+			if_node_is_variable(tmp, head);
 		}
 		tmp = next;
 	}

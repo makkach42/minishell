@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/01 09:47:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:10:03 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,5 +251,6 @@ int			dyn_buf_add_char(t_dynbuf *buf, char c);
 void		dyn_buf_finalize(t_dynbuf *buf);
 int			dyn_buf_init(t_dynbuf *buf, size_t initial_capacity);
 void		if_variable_innode(t_list **head);
+void		if_expandable(t_list *tmp, t_env **env);
 
 #endif

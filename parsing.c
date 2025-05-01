@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/30 14:07:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:46:59 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void	command_arr_fill(t_tree **tree)
 	char	*tmp;
 	char	**arr;
 
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		command_arr_fill(&(*tree)->left);
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		command_arr_fill(&(*tree)->right);
 	if ((tree) && (*tree) && (*tree)->command && !(*tree)->command_arr)
 	{

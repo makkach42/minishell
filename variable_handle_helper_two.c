@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:56:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 13:44:38 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:07:59 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,28 @@ int	process_word_variable(t_list *tmp, t_env **env)
 		i++;
 	}
 	return (0);
+}
+
+void	if_expandable(t_list *tmp, t_env **env)
+{
+	char	*variable_name;
+	char	*env_value;
+	char	*new_name;
+
+	variable_name = NULL;
+	new_name = NULL;
+	if (tmp && ((tmp->prev && (
+					ft_strcmp(tmp->prev->data, "<<"))) || !tmp->prev))
+	{
+		variable_name = ft_substr(tmp->data, 1,
+				ft_strlen(tmp->data) - 1);
+		env_value = get_env_value(variable_name, env);
+		if (env_value && countwords(env_value, 32) != 1)
+			(free(env_value), new_name = ft_strjoin(
+					"$", variable_name),
+				env_value = ft_strdup(new_name));
+		if (env_value)
+			if_env_value(tmp, &env_value);
+		(free(variable_name), free(new_name));
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/01 09:46:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:02:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ void	lexer_to_tree(char *str, t_tree **tree, t_env **env)
 	lexer(&head);
 	if (new_syntax_error(&head))
 		(print_syntax_error("("));
-	if_variable_innode(&head);
-	if (variable_search(&head))
-		variable_expantion(&head, env);
+	// if (variable_search(&head))
+	// 	variable_expantion(&head, env);
+	// if_variable_innode(&head);
+	// variable_in_word(&head, env);
 	tmp = head;
 	while (tmp)
 	{
@@ -48,7 +49,6 @@ void	lexer_to_tree(char *str, t_tree **tree, t_env **env)
 		printf("\n");
 		tmp = tmp->next;
 	}
-	variable_in_word(&head, env);
 	syntax_error(&head);
 	syntax_error_parentheses(&head);
 	tree_maker(&head, tree);

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 14:44:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:48:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ void	process_command_array(t_tree **tree)
 
 void	quote_remove_two(t_tree **tree)
 {
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		quote_remove_two(&(*tree)->left);
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		quote_remove_two(&(*tree)->right);
-	if ((*tree)->command_arr)
+	if ((*tree) && (*tree)->command_arr)
 		process_command_array(tree);
 }
