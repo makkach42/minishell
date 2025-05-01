@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/01 12:08:36 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/01 16:20:07 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	variable_search_instr(char *str)
 	return (0);
 }
 
-void	lexer_to_tree(char *str, t_tree **tree, t_env **env)
+void	lexer_to_tree(char *str, t_tree **tree)
 {
 	t_list	*head;
 	t_list	*tmp;
@@ -37,10 +37,6 @@ void	lexer_to_tree(char *str, t_tree **tree, t_env **env)
 	lexer(&head);
 	if (new_syntax_error(&head))
 		(print_syntax_error("("));
-	// if (variable_search(&head))
-		// variable_expantion(&head, env);
-	// if_variable_innode(&head);
-	// variable_in_word(&head, env);
 	tmp = head;
 	while (tmp)
 	{
@@ -54,7 +50,7 @@ void	lexer_to_tree(char *str, t_tree **tree, t_env **env)
 	tree_maker(&head, tree);
 }
 
-void	tree_to_rediropen(t_tree *tree)
+void	tree_to_rediropen(t_tree *tree, t_env *env)
 {
 	process_nested_parentheses(&tree);
 	process_pipe_trees(tree);
@@ -68,6 +64,8 @@ void	tree_to_rediropen(t_tree *tree)
 		(write(2, "ambiguous redirect\n", 19));
 	if (ambiguous_syntax_error(&tree) == 2)
 		(write(2, "No such file or directory\n", 26));
+	// if (variable_search(&tree) == 1)   //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
+	// 	variable_expantion(&tree, &env);
 }
 
 void	inits_main(t_env **env,

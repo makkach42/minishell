@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/01 12:07:31 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/01 16:06:56 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,5 @@ char	*extract_variable(char *str)
 // 		if (tmp->data)
 // 			free(tmp->data);
 // 		free(tmp);
-// 	}
-// }
-
-// void	if_variable_innode(t_list **head)
-// {
-// 	t_list	*tmp;
-// 	t_list	*next;
-
-// 	if (!head || !*head)
-// 		return ;
-// 	tmp = *head;
-// 	while (tmp)
-// 	{
-// 		next = tmp->next;
-// 		if (!ft_strcmp(tmp->token, "VARIABLE"))
-// 		{
-// 			if_node_is_variable(tmp, head);
-// 		}
-// 		tmp = next;
 // 	}
 // }
