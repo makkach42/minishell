@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 15:35:36 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:50:29 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	ambiguous_syntax_error(t_tree **tree)
 	int	i;
 
 	i = 0;
-	if ((*tree)->ambiguous == 1 && (*tree)->quotes == 1)
+	if ((*tree) && (*tree)->ambiguous == 1 && (*tree)->quotes == 1)
 		i = 2;
-	if ((*tree)->ambiguous == 1 && (*tree)->quotes == 0)
+	if ((*tree) && (*tree)->ambiguous == 1 && (*tree)->quotes == 0)
 		i = 1;
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		ambiguous_syntax_error(&(*tree)->left);
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		ambiguous_syntax_error(&(*tree)->right);
 	return (i);
 }
@@ -46,11 +46,11 @@ int	quote_detect(char *str)
 
 void	quote_set(t_tree **tree)
 {
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		quote_set(&(*tree)->left);
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		quote_set(&(*tree)->right);
-	if ((*tree)->redirections)
+	if ((*tree) && (*tree)->redirections)
 	{
 		if (variable_search_instr((*tree)->redirections
 			) && quote_detect((*tree)->redirections))
@@ -78,11 +78,11 @@ void	empty_string_error(t_list_fd **head_fd)
 
 void	tree_empty_error(t_tree **tree)
 {
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		tree_empty_error(&(*tree)->left);
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		tree_empty_error(&(*tree)->right);
-	if ((*tree)->fd_list)
+	if ((*tree) && (*tree)->fd_list)
 	{
 		empty_string_error(&(*tree)->fd_list);
 	}

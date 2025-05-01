@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/30 16:47:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/01 16:22:05 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void	command_arr_fill(t_tree **tree)
 	char	*tmp;
 	char	**arr;
 
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		command_arr_fill(&(*tree)->left);
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		command_arr_fill(&(*tree)->right);
 	if ((tree) && (*tree) && (*tree)->command && !(*tree)->command_arr)
 	{
@@ -126,8 +126,8 @@ int	main(int argc, char **argv, char **argev)
 		}
 		add_history(str);
 		quote_parse(&str);
-		lexer_to_tree(str, &tree, &env);
-		tree_to_rediropen(tree);
+		lexer_to_tree(str, &tree);
+		tree_to_rediropen(tree, env);
 		redirections_list_maker(&tree);
 		print_tree_visual(tree, 1, 1);
 		tree_empty_error(&tree);
