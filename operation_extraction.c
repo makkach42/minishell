@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/30 16:40:09 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/01 09:47:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,6 @@ char	*remove_operator(char *str, char *word)
 	return (str_word);
 }
 
-// char	*extract_variable(char *str)
-// {
-// 	int		i;
-// 	char	*word;
-
-// 	i = 0;
-// 	while (str[i] && str[i] != 32 && (!is_operator(str[i]) || str[i] != '$'))
-// 		i++;
-// 	word = ft_substr(str, 0, i);
-// 	return (word);
-// }
-
 char	*extract_variable(char *str)
 {
 	int		i;
@@ -85,83 +73,6 @@ char	*extract_variable(char *str)
 	return (word);
 }
 
-// char	*extract_variable(char *str)
-// {
-// 	int		i;
-// 	int		flag;
-// 	int		flag2;
-// 	int		flag3;
-// 	char	*word;
-
-// 	i = 0;
-// 	flag = 0;
-// 	flag2 = 0;
-// 	flag3 = 0;
-// 	while (str[i] && str[i] != 32 && !is_operator(str[i]))
-// 	{
-// 		if (str[i] == '$')
-// 		{
-// 			flag2 = 1;
-// 			flag3 = 1;
-// 		}
-// 		if (flag2 == 1 && !(str[i] >= '0' && str[i] <= '9') && !(str[i] == '$'))
-// 			flag2 = 0;
-// 		if (flag2 == 1 && str[i] >= '0' && str[i] <= '9')
-// 			flag = 1;
-// 		if (flag == 1)
-// 			break ;
-// 		i++;
-// 	}
-// 	word = ft_substr(str, 0, i + 1);
-// 	return (word);
-// }
-
-
-
-
-
-
-
-
-// void	if_variable_instr(t_tree **tree)
-// {
-// 	int		i;
-// 	char	*left_side;
-// 	char	*right_side;
-// 	char	*new_command;
-
-// 	i = 0;
-// 	while ((*tree)->command[i] && (*tree)->command[i] != '$')
-// 		i++;
-// 	left_side = ft_substr((*tree)->command, 0, i);
-// 	while ((*tree)->command[i] == '$')
-// 		i++;
-// 	while ((*tree)->command[i] == 32)
-// 		i++;
-// 	while ((*tree)->command[i] != 32)
-// 		i++;
-// 	while ((*tree)->command[i] == 32)
-// 		i++;
-// 	right_side = ft_substr((*tree)->command, i, ft_strlen((*tree)->command) - i);
-// 	new_command = ft_strjoin(left_side, right_side);
-// 	(free((*tree)->command), free(right_side), free(left_side));
-// 	(*tree)->command = new_command;
-// }
-
-// void	remove_variables_instr(t_tree **tree)
-// {
-// 	if ((*tree)->left)
-// 		remove_variables_instr(&(*tree)->left);
-// 	if ((*tree)->right)
-// 		remove_variables_instr(&(*tree)->right);
-// 	if ((*tree)->command)
-// 	{
-// 		if (variable_search_instr((*tree)->command))
-// 			if_variable_instr(tree);
-// 	}
-// }
-
-
 void	if_variable_innode(t_list **head)
 {
 	t_list *tmp;
@@ -175,7 +86,7 @@ void	if_variable_innode(t_list **head)
 		next = tmp->next;
 		if (!ft_strcmp(tmp->token, "VARIABLE"))
 		{
-			if (ft_strlen(tmp->data) > 1 && tmp->data[1] >= '0' && tmp->data[1] <= '9')	
+			if (tmp->data[0] == '$')	
 			{
 				if (*head == tmp)
 					*head = tmp->next;
