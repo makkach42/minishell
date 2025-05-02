@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/02 10:47:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/02 17:48:01 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,7 @@ void	syntax_error_two(t_tree **tree)
 	if ((*tree)->right)
 		syntax_error_two(&(*tree)->right);
 	if ((*tree)->command)
-	{
-		if (check_quotes((*tree)->command) == 1)
-			exit (1);
-	}
+		check_quotes((*tree)->command);
 }
 
 int	syntax_error_parentheses(t_list **head)
