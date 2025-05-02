@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/01 16:22:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/02 09:04:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,10 @@ int	process_array_variable(char **command_arr,
 
 void	variable_expantion(t_tree **tree, t_env **env)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	int		in_quote;
+	char	quote_type;
 
 	if ((*tree) && (*tree)->left)
 		variable_expantion(&(*tree)->left, env);
@@ -143,10 +145,31 @@ void	variable_expantion(t_tree **tree, t_env **env)
 		while ((*tree)->command_arr[i])
 		{
 			j = 0;
-			while ((*tree)->command_arr[i][j
-			] && (*tree)->command_arr[i][j] != '$')
+			in_quote = 0;
+			quote_type = '\0';
+			while ((*tree)->command_arr[i][j])
+			{
+				if (in_quote == 0 && ((*tree)->command_arr[i][j
+					] == '\'' || (*tree)->command_arr[i][j] == '\"'))
+				{
+					in_quote = 1;
+					quote_type = (*tree)->command_arr[i][j];
+				}
+				else if (in_quote && (*tree)->command_arr[i][j] == quote_type)
+				{
+					in_quote = 0;
+					quote_type = '\0';
+				}
+				if ((*tree)->command_arr[i][j] == '$' && (
+						in_quote == 0 || (in_quote && quote_type == '\"')))
+				{
+					if (process_array_variable((
+								*tree)->command_arr, i, j, env) == -1)
+						break ;
+					j = -1;
+				}
 				j++;
-			process_array_variable((*tree)->command_arr, i, j, env);
+			}
 			i++;
 		}
 	}
