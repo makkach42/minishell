@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/01 16:22:05 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/02 09:05:22 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	main(int argc, char **argv, char **argev)
 		add_history(str);
 		quote_parse(&str);
 		lexer_to_tree(str, &tree);
-		tree_to_rediropen(tree, env);
+		tree_to_rediropen(tree, NULL); //add env here instead of NULL
 		redirections_list_maker(&tree);
 		print_tree_visual(tree, 1, 1);
 		tree_empty_error(&tree);
