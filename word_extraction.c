@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/02 17:56:25 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/04 14:18:05 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	string_in_word_recognizer(char *str)
 	i = 0;
 	flag = 0;
 	quote_counter = 0;
-	while (str[i] && ((quote_counter % 2 != 0 && quote_counter != 0) || flag == 0))
+	while (str[i] && ((quote_counter % 2 != 0 && quote_counter != 0
+			) || flag == 0))
 	{
 		if (str[i] == '\"')
 			quote_counter++;

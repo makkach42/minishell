@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/30 13:23:43 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/04 14:16:11 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,23 @@ int	variable_search_instr(char *str)
 	return (0);
 }
 
-void	lexer_to_tree(char *str, t_tree **tree, t_env **env)
+void	lexer_to_tree(char *str, t_tree **tree)
 {
 	t_list	*head;
 	t_list	*tmp;
 
 	head = list_init(str);
 	lexer(&head);
-	tmp = head;
 	if (new_syntax_error(&head))
 		(print_syntax_error("("));
-	if (variable_search(&head))
-		variable_expantion(&head, env);
-	// while (tmp)
-	// {
-	// 	printf("%s\n", tmp->data);
-	// 	printf("%s\n", tmp->token);
-	// 	printf("\n");
-	// 	tmp = tmp->next;
-	// }
-	variable_in_word(&head, env);
+	tmp = head;
+	while (tmp)
+	{
+		printf("%s\n", tmp->data);
+		printf("%s\n", tmp->token);
+		printf("\n");
+		tmp = tmp->next;
+	}
 	syntax_error(&head);
 	syntax_error_parentheses(&head);
 	tree_maker(&head, tree);
@@ -60,13 +57,8 @@ void	tree_to_rediropen(t_tree *tree)
 	process_all_redirections(&tree);
 	command_arr_fill(&tree);
 	quote_remove_two(&tree);
-	ambiguous_set(&tree);
 	quote_set(&tree);
 	syntax_error_two(&tree);
-	if (ambiguous_syntax_error(&tree) == 1)
-		(write(2, "ambiguous redirect\n", 19));
-	if (ambiguous_syntax_error(&tree) == 2)
-		(write(2, "No such file or directory\n", 26));
 }
 
 void	inits_main(t_env **env,

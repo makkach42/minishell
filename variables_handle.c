@@ -6,26 +6,37 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 11:11:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/04 11:14:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	variable_search(t_list **head)
+int	variable_search(t_tree **tree)
 {
-	t_list	*tmp;
+	int	found_in_current;
+	int	found_in_left;
+	int	found_in_right;
+	int	j;
 
-	tmp = *head;
-	while (tmp)
+	found_in_current = 0;
+	found_in_left = 0;
+	found_in_right = 0;
+	j = 0;
+	if ((*tree) && (*tree)->command_arr)
 	{
-		if (!ft_strcmp(tmp->token, "VARIABLE"))
-			break ;
-		tmp = tmp->next;
+		while ((*tree)->command_arr[j])
+		{
+			if (variable_search_instr((*tree)->command_arr[j]))
+				found_in_current = 1;
+			j++;
+		}
 	}
-	if (tmp)
-		return (1);
-	return (0);
+	if ((*tree) && (*tree)->left)
+		found_in_left = variable_search(&(*tree)->left);
+	if ((*tree) && (*tree)->right)
+		found_in_right = variable_search(&(*tree)->right);
+	return (found_in_current || found_in_left || found_in_right);
 }
 
 int	check_for_variable(char *str)
@@ -46,66 +57,121 @@ int	check_for_variable(char *str)
 	return (1);
 }
 
-void	variable_expantion(t_list **head, t_env **env)
+char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 {
-	t_list	*tmp;
-	char	*variable_name;
-	char	*tmp_char;
-	char	*env_value;
-	char	*new_name;
+	char	*temp;
+	char	*result;
 
-	tmp = *head;
-	variable_name = NULL;
-	new_name = NULL;
-	while (tmp && ft_strcmp(tmp->token, "VARIABLE"))
-		tmp = tmp->next;
-	if (tmp && ((tmp->prev && (
-					ft_strcmp(tmp->prev->data, "<<"))) || !tmp->prev))
-	{
-		variable_name = ft_substr(tmp->data, 1, ft_strlen(tmp->data) - 1);
-		env_value = get_env_value(variable_name, env);
-		if (env_value && countwords(env_value, 32) != 1)
-			(free(env_value), new_name = ft_strjoin(
-					"$", variable_name), env_value = ft_strdup(new_name));
-		if (env_value)
-		{
-			tmp_char = tmp->data;
-			tmp->data = env_value;
-			free(tmp_char);
-		}
-		(free(variable_name), free(new_name));
-	}
+	temp = ft_strjoin(s1, s2);
+	if (!temp)
+		return (NULL);
+	result = ft_strjoin(temp, s3);
+	free(temp);
+	return (result);
 }
 
-void	update_quote_state(char c, int *in_quote, char *quote_type)
+int	process_array_variable(char **command_arr,
+		int arr_idx, int var_pos, t_env **env)
 {
-	if (*in_quote == 0 && (c == '"' || c == '\''))
+	int		var_end;
+	char	*var_name;
+	char	*var_value;
+	char	*before;
+	char	*after;
+	char	*new_str;
+	char	c;
+	t_env	*tmp_env;
+
+	if (!command_arr[arr_idx][var_pos])
+		return (-1);
+	var_end = var_pos + 1;
+	while (command_arr[arr_idx][var_end])
 	{
-		*quote_type = c;
-		*in_quote = 1;
+		c = command_arr[arr_idx][var_end];
+		if ((c >= 'a' && c <= 'z') || (
+				c >= 'A' && c <= 'Z') || (
+				c >= '0' && c <= '9') || c == '_')
+			var_end++;
+		else
+			break ;
 	}
-	else if (*in_quote && c == *quote_type)
+	var_name = ft_substr(command_arr[arr_idx
+		], var_pos + 1, var_end - var_pos - 1);
+	if (!var_name)
+		return (-1);
+	var_value = NULL;
+	tmp_env = *env;
+	while (tmp_env)
 	{
-		*in_quote = 0;
-		*quote_type = '\0';
+		if (ft_strcmp(tmp_env->key, var_name) == 0)
+		{
+			var_value = tmp_env->value;
+			break ;
+		}
+		tmp_env = tmp_env->next;
 	}
+	before = ft_substr(command_arr[arr_idx], 0, var_pos);
+	if (!before)
+		return ((free(var_name), -1));
+	after = ft_substr(command_arr[arr_idx], var_end,
+			ft_strlen(command_arr[arr_idx]) - var_end);
+	if (!after)
+		return ((free(var_name), free(before), -1));
+	if (var_value)
+		new_str = ft_strjoin_three(before, var_value, after);
+	else
+		new_str = ft_strjoin(before, after);
+	if (!new_str)
+		return ((free(var_name), free(before), free(after), -1));
+	free(command_arr[arr_idx]);
+	command_arr[arr_idx] = new_str;
+	return ((free(var_name), free(before), free(after)), 0);
 }
 
-int	variable_in_word(t_list **head, t_env **env)
+void	variable_expantion(t_tree **tree, t_env **env)
 {
-	t_list	*tmp;
-	int		result;
+	int		i;
+	int		j;
+	int		in_quote;
+	char	quote_type;
 
-	tmp = *head;
-	while (tmp)
+	if ((*tree) && (*tree)->left)
+		variable_expantion(&(*tree)->left, env);
+	if ((*tree) && (*tree)->right)
+		variable_expantion(&(*tree)->right, env);
+	if ((*tree) && (*tree)->command_arr)
 	{
-		if (!ft_strcmp(tmp->token, "WORD") && check_for_variable(tmp->data))
+		i = 0;
+		while ((*tree)->command_arr[i])
 		{
-			result = process_word_variable(tmp, env);
-			if (result == -1)
-				return (-1);
+			j = 0;
+			in_quote = 0;
+			quote_type = '\0';
+			while ((*tree)->command_arr[i][j])
+			{
+				if (in_quote == 0 && ((*tree)->command_arr[i][j
+					] == '\'' || (*tree)->command_arr[i][j] == '\"'))
+				{
+					in_quote = 1;
+					quote_type = (*tree)->command_arr[i][j];
+				}
+				else if (in_quote && (*tree)->command_arr[i][j] == quote_type)
+				{
+					in_quote = 0;
+					quote_type = '\0';
+				}
+				if ((*tree)->command_arr[i][j] == '$' && (
+						in_quote == 0 || (in_quote && quote_type == '\"')))
+				{
+					if (process_array_variable((
+								*tree)->command_arr, i, j, env) == -1)
+						break ;
+					if (!variable_search(tree))
+						j = -1;
+				}
+				j++;
+			}
+			i++;
 		}
-		tmp = tmp->next;
 	}
-	return (0);
 }

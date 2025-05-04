@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/02 17:32:06 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/04 14:15:37 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void	command_arr_fill(t_tree **tree)
 	char	*tmp;
 	char	**arr;
 
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		command_arr_fill(&(*tree)->left);
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		command_arr_fill(&(*tree)->right);
 	if ((tree) && (*tree) && (*tree)->command && !(*tree)->command_arr)
 	{
@@ -531,15 +531,25 @@ int	main(int argc, char **argv, char **argev)
 		}
 		add_history(str);
 		quote_parse(&str);
-		lexer_to_tree(str, &tree, &env);
+		lexer_to_tree(str, &tree);
 		tree_to_rediropen(tree);
 		redirections_list_maker(&tree);
 		// print_tree_visual(tree, 1, 1);
+		// dprintf(2, "this is limiter: %s\n", tree->fd_list->name);
+		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
+			variable_expantion(&tree, &env);
+		if (variable_search_inlnkedlst(&tree) == 1)
+			variable_expantion_inlnkedlst(&tree, &env);
+		ambiguous_set(&tree);
+		if (ambiguous_syntax_error(&tree) == 1)
+			(write(2, "ambiguous redirect\n", 19));
+		if (ambiguous_syntax_error(&tree) == 2)
+			(write(2, "No such file or directory\n", 26));
+		print_tree_visual(tree, 1, 1);
+		tree_empty_error(&tree);
 		e = ft_env_str(env);
 		ft_hdoc_handle(tree);
 		ft_execute(tree, env, e);
-		// dprintf(2, "this is limiter: %s\n", tree->fd_list->name);
-		tree_empty_error(&tree);
 		lasfree(&tree);
 	}
 	free_env(&env);
@@ -549,4 +559,5 @@ int	main(int argc, char **argv, char **argev)
 
 //((ls)>file2) > file
 // "((ls)>file2) > file"
-//>file>file2>file3 ls>file4>file5>file6 -la>file7>file8>file9
+// >file4(>file5 ls>file>file2>file3 -la>file6)>file7>file8
+//> file4 (>file5 ls>file>file2>file3 -la>file6)>file7>file8
