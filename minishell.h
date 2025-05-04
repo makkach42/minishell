@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/02 08:48:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/04 09:21:44 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,5 +247,8 @@ int			dyn_buf_add_char(t_dynbuf *buf, char c);
 void		dyn_buf_finalize(t_dynbuf *buf);
 int			dyn_buf_init(t_dynbuf *buf, size_t initial_capacity);
 void		if_expandable(t_list *tmp, t_env **env);
+int			variable_search_inlnkedlst(t_tree **tree);
+char		*ft_strjoin_three(char *s1, char *s2, char *s3);
+void		variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
 
 #endif
