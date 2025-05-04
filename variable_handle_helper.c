@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 10:43:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/04 11:11:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	variable_search_inlnkedlst(t_tree **tree)
 		tmplst = (*tree)->fd_list;
 		while (tmplst)
 		{
-			if (variable_search_instr(tmplst->name) && ft_strcmp(tmplst->redir, "<<"))
+			if (variable_search_instr(tmplst->name
+				) && ft_strcmp(tmplst->redir, "<<"))
 				i = 1;
 			tmplst = tmplst->next;
 		}
@@ -35,7 +36,8 @@ int	variable_search_inlnkedlst(t_tree **tree)
 	return (i);
 }
 
-int	variable_expantion_two(char **redirname, int var_pos, t_env **env, int *flag)
+int	variable_expantion_two(char **redirname,
+	int var_pos, t_env **env, int *flag)
 {
 	int		name_end;
 	char	*var_name;
@@ -50,7 +52,10 @@ int	variable_expantion_two(char **redirname, int var_pos, t_env **env, int *flag
 	name_end = var_pos + 1;
 	while ((*redirname)[name_end])
 	{
-		if (((*redirname)[name_end] >= 'a' && (*redirname)[name_end] <= 'z') || ((*redirname)[name_end] >= 'A' && (*redirname)[name_end] <= 'Z') || ((*redirname)[name_end] >= '0' && (*redirname)[name_end] <= '9'))
+		if (((*redirname)[name_end] >= 'a' && (*redirname)[name_end] <= 'z'
+			) || ((*redirname)[name_end] >= 'A' && (*redirname)[name_end] <= 'Z'
+			) || ((*redirname)[name_end] >= '0' && (*redirname)[name_end] <= '9'
+			))
 			name_end++;
 		else
 			break ;
@@ -75,7 +80,8 @@ int	variable_expantion_two(char **redirname, int var_pos, t_env **env, int *flag
 	before = ft_substr((*redirname), 0, var_pos);
 	if (!before)
 		return (free(value), -1);
-	after = ft_substr((*redirname), name_end, ft_strlen((*redirname)) - name_end);
+	after = ft_substr((*redirname), name_end,
+			ft_strlen((*redirname)) - name_end);
 	if (!after)
 		return (free(value), free(before), -1);
 	if (value)
@@ -124,7 +130,8 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 				}
 				else if (tmp->name[i] == quote_type)
 					in_quotes = 0;
-				if (tmp->name[i] == '$' && (!in_quotes || (in_quotes && quote_type == '"')))
+				if (tmp->name[i] == '$' && (
+						!in_quotes || (in_quotes && quote_type == '"')))
 				{
 					if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
 						break ;
