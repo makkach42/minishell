@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/02 09:03:48 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/04 11:14:02 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void		syntax_error_two(t_tree **tree);
 void		syntax_error(t_list **head);
 int			even_more_ifs(char *prev_token, char *prev_data, t_list *tmp);
 void		lexer_to_tree(char *str, t_tree **tree);
-void		tree_to_rediropen(t_tree *tree, t_env *env);
+void		tree_to_rediropen(t_tree *tree);
 void		inits_main(t_env **env,
 				t_tree **tree, char **argev);
 void		command_arr_fill(t_tree **tree);
@@ -248,5 +248,8 @@ int			dyn_buf_add_char(t_dynbuf *buf, char c);
 void		dyn_buf_finalize(t_dynbuf *buf);
 int			dyn_buf_init(t_dynbuf *buf, size_t initial_capacity);
 void		if_expandable(t_list *tmp, t_env **env);
+int			variable_search_inlnkedlst(t_tree **tree);
+char		*ft_strjoin_three(char *s1, char *s2, char *s3);
+void		variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
 
 #endif
