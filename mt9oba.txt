@@ -1,0 +1,5 @@
+//3lach katktbo echo
+//echo khsha tktb flfile liredirectit lih osff 
+// ft_cmd_check segfault when there is no command and only multiple here docs
+//dont exit in builtin
+//what does unset return

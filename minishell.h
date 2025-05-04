@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 11:14:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/04 14:19:13 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <limits.h>
+# include <string.h>
 
 typedef struct s_list
 {
@@ -73,6 +75,31 @@ typedef struct s_extract
 	char		quote_type;
 	int			paren_count;
 }	t_extract;
+
+typedef struct s_pip
+{
+	char	*e;
+	int		input_fd;
+	int		output_fd;
+	int		fd[2];
+	int		id;
+	int		flag;
+	char	**cmd;
+	int		i;
+	int		prev_fd;
+	char	*temp;
+	char	*str;
+	int		j;
+}	t_pip;
+
+typedef struct s_cmd
+{
+	char	**p;
+	char	**t;
+	char	*str;
+	char	*cmd;
+	int		i;
+}	t_cmd;
 
 t_env		*env_fill(char **argev);
 t_list		*list_init(char *str);
@@ -241,6 +268,32 @@ int			ambiguous_syntax_error(t_tree **tree);
 void		quote_set(t_tree **tree);
 void		tree_empty_error(t_tree **tree);
 void		redirections_list_maker(t_tree **tree);
+char	**ft_split(char	const	*s, char c);
+char	*ft_cmd_check(char *env, char *s);
+int		ft_parse(char *s);
+long	ft_atoi(const char *str);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+void    ft_empty_list(t_env *h, char **env);
+void	ft_lstadd_front(t_env **lst, t_env *new);
+t_env	*ft_check(t_env *h, char *str);
+t_env	*ft_lstnew(void *key, void *value);
+void	ft_lstadd_back(t_env **lst, t_env *new);
+void	ft_cmd_helper(t_cmd *com, int i, char *env, char *s);
+char	*ft_strmcpy(char *src);
+int		ft_is_spaces(char *s);
+int		ft_cd(char **s, t_env *h);
+int		ft_echo(char **s);
+int		ft_env(t_env *h);
+int		ft_check_string(char *str);
+void	ft_exit(char **s);
+int		ft_export(char  **s, t_env *h);
+int		ft_pwd(void);
+t_env   *ft_unset(t_env *h, char **s);
+int	ft_file_check(char *str);
+int	ft_file_create(char *str, int n);
+void	ft_putstr_fd(int fd, char *s);
+int	ft_lstsize(t_env *lst);
 void		init_list_fd_node(t_list_fd *node);
 void		if_env_value(t_list *tmp, char **env_value);
 void		dyn_buf_free(t_dynbuf *buf);
