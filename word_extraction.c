@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_extraction.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/26 14:29:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/02 17:56:25 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	string_in_word_recognizer(char *str)
 	i = 0;
 	flag = 0;
 	quote_counter = 0;
-	while ((quote_counter % 2 != 0 && quote_counter != 0) || flag == 0)
+	while (str[i] && ((quote_counter % 2 != 0 && quote_counter != 0) || flag == 0))
 	{
 		if (str[i] == '\"')
 			quote_counter++;

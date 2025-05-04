@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 16:10:19 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/02 12:47:42 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,15 +282,17 @@ void	ft_lstadd_back(t_env **lst, t_env *new);
 void	ft_cmd_helper(t_cmd *com, int i, char *env, char *s);
 char	*ft_strmcpy(char *src);
 int		ft_is_spaces(char *s);
-void    ft_cd(char **s, t_env *h);
-void    ft_echo(char **s);
-void    ft_env(t_env *h);
-int ft_check_string(char *str);
-void    ft_exit(char **s);
-void    ft_export(char  **s, t_env *h);
-void    ft_pwd(void);
+int		ft_cd(char **s, t_env *h);
+int		ft_echo(char **s);
+int		ft_env(t_env *h);
+int		ft_check_string(char *str);
+void	ft_exit(char **s);
+int		ft_export(char  **s, t_env *h);
+int		ft_pwd(void);
 t_env   *ft_unset(t_env *h, char **s);
 int	ft_file_check(char *str);
 int	ft_file_create(char *str, int n);
+void	ft_putstr_fd(int fd, char *s);
+int	ft_lstsize(t_env *lst);
 
 #endif

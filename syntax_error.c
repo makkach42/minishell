@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 15:37:10 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/02 17:57:21 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	more_ifs(char *prev_token, char *prev_data, t_list *tmp)
 {
+	if (!tmp)
+		return (0);
 	if (ft_strcmp("PIPE", prev_token) == 0 && ft_strcmp(
 			prev_token, tmp->token) == 0)
 		return (write(2, "syntax error near unexpected token `|'\n", 40), 1);
@@ -92,10 +94,7 @@ void	syntax_error_two(t_tree **tree)
 	if ((*tree)->right)
 		syntax_error_two(&(*tree)->right);
 	if ((*tree)->command)
-	{
-		if (check_quotes((*tree)->command) == 1)
-			exit (1);
-	}
+		check_quotes((*tree)->command);
 }
 
 int	syntax_error_parentheses(t_list **head)

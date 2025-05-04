@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 14:41:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/04/30 13:23:43 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ void	lexer_to_tree(char *str, t_tree **tree, t_env **env)
 		(print_syntax_error("("));
 	if (variable_search(&head))
 		variable_expantion(&head, env);
-	while (tmp)
-	{
-		printf("%s\n", tmp->data);
-		printf("%s\n", tmp->token);
-		printf("\n");
-		tmp = tmp->next;
-	}
+	// while (tmp)
+	// {
+	// 	printf("%s\n", tmp->data);
+	// 	printf("%s\n", tmp->token);
+	// 	printf("\n");
+	// 	tmp = tmp->next;
+	// }
 	variable_in_word(&head, env);
 	syntax_error(&head);
 	syntax_error_parentheses(&head);

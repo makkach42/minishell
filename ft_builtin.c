@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    ft_cd(char **s, t_env *h)
+int    ft_cd(char **s, t_env *h)
 {
     t_env   *PWD;
     t_env   *OLD_PWD;
@@ -8,20 +8,20 @@ void    ft_cd(char **s, t_env *h)
 
     PWD = ft_check(h, "PWD");
     OLD_PWD = ft_lstnew("OLDPWD", NULL);
-    if (s[1] == NULL)
+    if (s[1] == NULL || ft_strcmp("~", s[1]) == 0)
     {
+        // dprintf(2, "entered here\n");
         home = ft_check(h, "HOME");
         if (home == NULL || home ->value == NULL)
         {
-            write(2, "minishell: cd: HOME not set", 28);
-            exit (1); 
+            ft_putstr_fd(2, "minishell: cd: HOME not set");
+            return (1); 
         }
         if (chdir(home->value) == -1)
         {
-            write(2, "minishell: cd: ", 16);
-            write(2, home->value, ft_strlen(home->value));
-            write(2, ": No such file or directory", 28);
-            exit (1);
+            ft_putstr_fd(2, "minishell: cd: ");
+            perror("");
+            return (1);
         }
         OLD_PWD->value = PWD->value;
         PWD->value = home->value;
@@ -33,11 +33,12 @@ void    ft_cd(char **s, t_env *h)
             write(2, "minishell: cd: ", 16);
             write(2, s[1], ft_strlen(s[1]));
             write(2, ": No such file or directory", 28);
-            exit (1);
+            return (1);
         }
         OLD_PWD->value = PWD->value;
         PWD->value = getcwd(NULL, 0);
     }
+    return (0);
 }
 
 int ft_nline_check(char *str)
@@ -55,12 +56,12 @@ int ft_nline_check(char *str)
     return (1);
 }
 
-void    ft_echo(char **s)
+int    ft_echo(char **s)
 {
     int     flag;
     int     i;
 
-    i = 0;
+    i = 1;
 	flag = 0;
 	while (s[i] != NULL)
 	{
@@ -74,9 +75,9 @@ void    ft_echo(char **s)
 			flag = 1;
 		while (s[i] != NULL)
 		{
-			printf("%s", s[i]);
+            ft_putstr_fd(1, s[i]);
 			if (s[i + 1] != NULL)
-				printf(" ");
+				ft_putstr_fd(1, " ");
 			i++;
 		}
 		if (s[i] == NULL)
@@ -84,16 +85,18 @@ void    ft_echo(char **s)
 		i++;
 	}
 	if (flag == 1)
-		printf("\n");
+		ft_putstr_fd(1, "\n");
+    return (0);
 }
 
-void    ft_env(t_env *h)
+int ft_env(t_env *h)
 {
     while (h != NULL)
     {
         printf("%s=%s\n", h->key, h->value);
         h = h->next;
     }
+    return (0);
 }
 
 int ft_check_string(char *str)
@@ -141,7 +144,6 @@ void    ft_exit(char **s)
             write(2, "minishell: exit: ", 18);
             write(2, s[1], ft_strlen(s[1]));
             write(2, ": numeric argument required\n", 29);
-            write(2, "255\n", 5);
             exit (255);
         }
         else if (s[2] != NULL)
@@ -150,16 +152,9 @@ void    ft_exit(char **s)
         {
             m = ft_modulo(s[1]);
             if (m < 0)
-            {
-                printf("%d\n", m+ 256);
                 exit (m + 256);
-            }
             else
-            {
-
-                printf("%d\n", m);
                 exit (m);
-            }
         }
     }
 }
@@ -231,40 +226,7 @@ void    ft_remove_sign(char *str)
     }
 }
 
-void    ft_empty_list(t_env *h, char **env)
-{
-    // int     i;
-    t_env   *new;
-    // char    **p;
-
-    // i = 0;
-    // while (env[i])
-    // {
-    //     p = ft_split(env[i], '=');
-    //     if (p == NULL)
-    //         exit (1);
-    //     new = ft_lstnew(p[0], p[1]);
-    //     if (new == NULL)
-    //     {
-    //         //ft_free_struct
-    //         exit (1);
-    //     }
-    //     ft_lstadd_back(&h, new);
-    //     free (new);
-    //     i++;
-    // }
-    if (ft_check(h, "OLDPWD") == NULL)
-    {
-        printf("check\n");
-        new = ft_lstnew("OLDPWD", NULL);
-        if (new == NULL)
-            exit (1);
-        ft_lstadd_front(&h, new);
-        free (new);
-    }
-}
-
-void    ft_export(char  **s, t_env *h)
+int    ft_export(char  **s, t_env *h)
 {
     char    **v;
     t_env   *f;
@@ -272,8 +234,10 @@ void    ft_export(char  **s, t_env *h)
     char    *tmp;
     int     i;
     int     act;
+    int     status;
     
     i = 1;
+    status = 0;
     if (s[1] == NULL)
     {
         h = ft_sort_list(h);
@@ -283,34 +247,34 @@ void    ft_export(char  **s, t_env *h)
             h = h->next;
         }
     }
-        else if (s[i] != NULL)
+    else if (s[i] != NULL)
+    {
+        while (s[i] != NULL)
         {
-            while (s[i] != NULL)
-            {
-                act = 1;
-                if (ft_equal_check(s[i]) == 0)
+            act = 1;
+            if (ft_equal_check(s[i]) == 0)
                 act = 0;
-                if (s[i][0] == '=')
+            if (s[i][0] == '=')
+            {
+                write(2, "bash: export: ", 15);
+                write(2, s[i], ft_strlen(s[i]));
+                write(2, ": not a valid identifier\n", 26);
+                status = 1;
+            }
+            else if (ft_strchr(s[i], '+') == NULL)
+            {
+                v = ft_split(s[i], '=');
+                if (v == NULL)
+                    return (1);
+                f = ft_check(h, v[0]);
+                if (f != NULL)
                 {
-                    write(2, "bash: export: ", 15);
-                    write(2, s[i], ft_strlen(s[i]));
-                    write(2, ": not a valid identifier", 25);
-                    
-                }
-                else if (ft_strchr(s[i], '+') == NULL)
-                {
-                    v = ft_split(s[i], '=');
-                    if (v == NULL)
-                    return ;
-                    f = ft_check(h, v[0]);
-                    if (f != NULL)
-                    {
-                        if (v[1] == NULL && act == 0)
+                    if (v[1] == NULL && act == 0)
                         f->value = ft_strdup("");
-                        else if (v[1] != NULL)
-                        {
-                            tmp = f->value;
-                            f->value = v[1];
+                    else if (v[1] != NULL)
+                    {
+                        tmp = f->value;
+                        f->value = v[1];
                         free (tmp);
                     }    
                 }
@@ -322,6 +286,8 @@ void    ft_export(char  **s, t_env *h)
                         {
                             write(2, "minishell: export: not an identifier: ", 39);
                             write(2, s[i], ft_strlen(s[i]));
+                            write(2, "\n", 1);
+                            status = 1;
                         }
                     }
                     else
@@ -345,12 +311,14 @@ void    ft_export(char  **s, t_env *h)
                 {
                     write(2, "export: not valid in this context: ", 36);
                     write(2, s[i], ft_strlen(s[i]));
+                    write(2, "\n", 1);
+                    status = 1;
                 }
                 else
                 {
                     v = ft_split(s[i], '=');
                     if (v == NULL)
-                        return ;
+                        return (1);
                     ft_remove_sign(v[0]);
                     f = ft_check(h, v[0]);
                     if (f != NULL)
@@ -367,6 +335,8 @@ void    ft_export(char  **s, t_env *h)
                             {
                                 write(2, "minishell: export: not an identifier: ", 39);
                                 write(2, s[i], ft_strlen(s[i]));
+                                write(2, "\n", 1);
+                                status = 1;
                             }
                         }
                         else
@@ -387,10 +357,11 @@ void    ft_export(char  **s, t_env *h)
             }
             i++;
         }
-        }
+    }
+    return (status);
 }
 
-void    ft_pwd(void)
+int    ft_pwd(void)
 {
     char *path;
 
@@ -398,10 +369,11 @@ void    ft_pwd(void)
     if (path == NULL)
     {
         perror("pwd: ");
-        exit (1);
+        return (1);
     }
     printf("%s\n", path);
     free (path);
+    return (0);
 }
 
 
@@ -453,20 +425,4 @@ t_env   *ft_unset(t_env *h, char **s)
     }
     return (start);
 }
-
-// int	ft_file_check(char *str)
-// {
-// 	int	fd;
-
-// 	fd = open(str, O_RDONLY);
-// 	return (fd);
-// }
-
-// int	ft_file_create(char *str)
-// {
-// 	int	fd;
-
-// 	fd = open(str, O_RDWR | O_TRUNC | O_CREAT, 0644);
-// 	return (fd);
-// }
 

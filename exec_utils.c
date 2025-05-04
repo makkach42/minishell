@@ -343,3 +343,30 @@ int	ft_file_create(char *str, int n)
 		fd = open(str, O_RDWR | O_APPEND | O_CREAT, 0644);
 	return (fd);
 }
+
+void	ft_putstr_fd(int fd, char *s)
+{
+	int	i;
+
+	i = 0;
+	if (s == NULL || fd < 0)
+		return ;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+}
+
+int	ft_lstsize(t_env *lst)
+{
+	int	count;
+
+	count = 0;
+	while (lst != NULL)
+	{
+		count++;
+		lst = lst -> next;
+	}
+	return (count);
+}
