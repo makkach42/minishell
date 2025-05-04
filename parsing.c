@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/01 16:04:58 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/04 09:38:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,17 @@ int	main(int argc, char **argv, char **argev)
 		add_history(str);
 		quote_parse(&str);
 		lexer_to_tree(str, &tree);
-		tree_to_rediropen(tree, env);
+		tree_to_rediropen(tree);
 		redirections_list_maker(&tree);
+		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
+			variable_expantion(&tree, &env);
+		if (variable_search_inlnkedlst(&tree) == 1)
+			variable_expantion_inlnkedlst(&tree, &env);
+		ambiguous_set(&tree);
+		if (ambiguous_syntax_error(&tree) == 1)
+			(write(2, "ambiguous redirect\n", 19));
+		if (ambiguous_syntax_error(&tree) == 2)
+			(write(2, "No such file or directory\n", 26));
 		print_tree_visual(tree, 1, 1);
 		tree_empty_error(&tree);
 		lasfree(&tree);

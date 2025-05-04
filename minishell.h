@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 09:21:44 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/04 09:38:23 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void		syntax_error_two(t_tree **tree);
 void		syntax_error(t_list **head);
 int			even_more_ifs(char *prev_token, char *prev_data, t_list *tmp);
 void		lexer_to_tree(char *str, t_tree **tree);
-void		tree_to_rediropen(t_tree *tree, t_env *env);
+void		tree_to_rediropen(t_tree *tree);
 void		inits_main(t_env **env,
 				t_tree **tree, char **argev);
 void		command_arr_fill(t_tree **tree);
