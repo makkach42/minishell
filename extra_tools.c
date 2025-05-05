@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:28:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/05 14:31:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/05 15:34:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	print_tree_visual(t_tree *tree, int level, int is_left)
 		for (t_list_fd *tmp = tree->fd_list; tmp; tmp = tmp->next)
 		{
 			printf(" (fd_list_redirs: %s)", tmp->name);
-			printf(" (fd_list_redirs split: %s)", tmp->name_split[0]);
+			if (tmp->name_split)
+				printf(" (fd_list_redirs split: %s)", tmp->name_split[0]);
 		}
 	}
 	else
