@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 16:12:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/05 12:43:16 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -358,6 +358,8 @@ int	ft_execute(t_tree *tree, t_env *h, char **e)
 
 	status = 0;
 	check = 0;
+	if (!tree)
+		return (1);
 	if (ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections == NULL)
 	{
 		status = ft_cmd_exec(tree, h);
