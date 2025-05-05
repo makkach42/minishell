@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 09:38:23 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/05 14:31:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_list_fd
 {
 	int					fd;
 	char				*name;
+	char				**name_split; //
 	char				*command;
 	char				*redir;
 	struct s_list_fd	*next;
@@ -250,5 +251,6 @@ void		if_expandable(t_list *tmp, t_env **env);
 int			variable_search_inlnkedlst(t_tree **tree);
 char		*ft_strjoin_three(char *s1, char *s2, char *s3);
 void		variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
+char		**ft_split(char *s, char c);
 
 #endif
