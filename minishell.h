@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 14:19:13 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/05 16:03:32 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <signal.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
-# include <string.h>
 
 typedef struct s_list
 {
@@ -34,6 +35,7 @@ typedef struct s_list_fd
 {
 	int					fd;
 	char				*name;
+	char				**name_split; //
 	char				*command;
 	char				*redir;
 	struct s_list_fd	*next;
@@ -268,7 +270,6 @@ int			ambiguous_syntax_error(t_tree **tree);
 void		quote_set(t_tree **tree);
 void		tree_empty_error(t_tree **tree);
 void		redirections_list_maker(t_tree **tree);
-char	**ft_split(char	const	*s, char c);
 char	*ft_cmd_check(char *env, char *s);
 int		ft_parse(char *s);
 long	ft_atoi(const char *str);
@@ -304,5 +305,7 @@ void		if_expandable(t_list *tmp, t_env **env);
 int			variable_search_inlnkedlst(t_tree **tree);
 char		*ft_strjoin_three(char *s1, char *s2, char *s3);
 void		variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
+char		**ft_split(char	const	*s, char c);
+void		handle_signal(int sig);
 
 #endif

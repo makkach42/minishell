@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/05 12:42:48 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/05 16:01:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 				{
 					if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
 						break ;
+					if (tmp->name && countwords(tmp->name, 32) != 1)
+						tmp->name_split = ft_split(tmp->name, 32);
 					if (flag == 1)
 						(*tree)->ambiguous = 1;
 					if (!variable_search_inlnkedlst(tree))

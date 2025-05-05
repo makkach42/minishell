@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/05 12:44:05 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/05 16:01:37 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -520,7 +520,8 @@ int	main(int argc, char **argv, char **argev)
 
 	// atexit(f);
 	((void)argc, (void)argv, inits_main(&env, &tree, argev));
-	// dprintf(2, "here\n");
+	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, handle_signal);
 	while (1)
 	{
 		str = readline("minishell$> ");
