@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/05 15:55:40 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/06 10:32:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <termios.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -33,7 +34,7 @@ typedef struct s_list_fd
 {
 	int					fd;
 	char				*name;
-	char				**name_split; //
+	char				**name_split;
 	char				*command;
 	char				*redir;
 	struct s_list_fd	*next;
