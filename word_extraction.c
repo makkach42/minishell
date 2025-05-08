@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 11:12:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/08 12:48:25 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	operation_or_pipe_before_condition(char *str, int flag)
 	}
 	else if (flag == 2)
 	{
-		while (str[i] && (str[i] != '"' || str[i] != '\''))
+		while ((str[i] != '"' && str[i] != '\'') && str[i])
 		{
 			if (is_operator(str[i]))
 				break ;
