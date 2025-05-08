@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 14:19:13 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/07 14:06:56 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,7 @@ int		ft_check_string(char *str);
 void	ft_exit(char **s);
 int		ft_export(char  **s, t_env *h);
 int		ft_pwd(void);
-t_env   *ft_unset(t_env *h, char **s);
+void	ft_unset(t_env **h, char **s);
 int	ft_file_check(char *str);
 int	ft_file_create(char *str, int n);
 void	ft_putstr_fd(int fd, char *s);
@@ -304,5 +304,6 @@ void		if_expandable(t_list *tmp, t_env **env);
 int			variable_search_inlnkedlst(t_tree **tree);
 char		*ft_strjoin_three(char *s1, char *s2, char *s3);
 void		variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
+int    check_empty(char *str);
 
 #endif

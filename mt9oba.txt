@@ -3,3 +3,43 @@
 // ft_cmd_check segfault when there is no command and only multiple here docs
 //dont exit in builtin
 //what does unset return
+//7l dossier 7l dossier fosto ms7 dossier lwl onta fost dossier tane, odir pwd odir cd . odir pwd hatfrbl 
+//ila unsetit lpath minishell hatkhdm
+//mt9oba
+➜  mini2 git:(executor) ✗ env -i ./minishell
+minishell$> mini
+[1]    49583 segmentation fault  env -i ./minishell
+➜  mini2 git:(executor) ✗ env -i ./minishell
+minishell$> MINISHELL
+[1]    49750 segmentation fault  env -i ./minishell
+➜  mini2 git:(executor) ✗ env -i ./minishell
+minishell$> minishell
+[1]    49780 segmentation fault  env -i ./minishell
+➜  mini2 git:(executor) ✗ ls
+expand in execution
+//env ila unsetit kolchi 
+//export khsni nktbha bhal lbash
+
+minishell$> $1
+minishell$> $12
+
+minishell$> $""
+
+minishell$> $"USER"
+
+where is expand 
+
+minishell$> unset PATH
+this is the string: PATH
+minishell$> ls
+minishell$> 
+
+minishell$> unset PATH
+this is the string: PATH
+minishell$> /bin/ls
+minishell$> 
+
+env a 
+$$$user SEGFAUlT
+$US$ER SEGFAUlT
+

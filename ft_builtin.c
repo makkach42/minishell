@@ -81,7 +81,7 @@ int    ft_echo(char **s)
 			i++;
 		}
 		if (s[i] == NULL)
-			break;
+			break ;
 		i++;
 	}
 	if (flag == 1)
@@ -91,6 +91,11 @@ int    ft_echo(char **s)
 
 int ft_env(t_env *h)
 {
+    if (h == NULL)
+    {
+        ft_putstr_fd(2, "minishell: env: No such file or directory");
+        return (127);
+    }
     while (h != NULL)
     {
         printf("%s=%s\n", h->key, h->value);
@@ -104,6 +109,8 @@ int ft_check_string(char *str)
     int i;
 
     i = 0;
+    if (str[i] != '\0' && str[i] == '+')
+        i++;
     while (str[i] != '\0')
     {
         if (ft_isdigit(str[i]) != 0 && str[0] != '-')
@@ -256,7 +263,7 @@ int    ft_export(char  **s, t_env *h)
                 act = 0;
             if (s[i][0] == '=')
             {
-                write(2, "bash: export: ", 15);
+                write(2, "minishell: export: ", 15);
                 write(2, s[i], ft_strlen(s[i]));
                 write(2, ": not a valid identifier\n", 26);
                 status = 1;
@@ -376,8 +383,18 @@ int    ft_pwd(void)
     return (0);
 }
 
+void    ft_f_node(t_env *node)
+{
+    free (node->key);
+    free (node->value);
+    // free (node->key);
+    // free (node->value);
+    free (node);
+    node = NULL;
+}
 
-t_env   *ft_unset(t_env *h, char **s)
+
+void    ft_unset(t_env **h, char **s)
 {
     t_env   *node;
     int     flag;
@@ -388,11 +405,10 @@ t_env   *ft_unset(t_env *h, char **s)
     i = 1;
     start = NULL;
     if (s == NULL)
-        return (NULL);
-    start = h;
+        return ;
     while (s[i] != NULL)
     {
-        h = start;
+        dprintf(2, "this is the string: %s\n", s[i]);
         if (ft_parse(s[i]) == 1)
         {
             write(2, "unset: ", 8);
@@ -401,28 +417,39 @@ t_env   *ft_unset(t_env *h, char **s)
         }
         else
         {
-            node = ft_check(h, s[i]);
+            node = NULL;
+            node = ft_check(*h, s[i]);
             if (node != NULL)
             {
-                while (h != NULL && h->next != NULL)
+                if (*h == node)
                 {
-                    if (flag == 0 && h == node)
+                    dprintf(2, "entered in first\n");
+                    *h = (*h)->next;
+                    if (*h == NULL)
+                        dprintf(2, "head is null\n");
+                    node->next = NULL;
+                    ft_f_node(node);
+                    // return ;
+                }
+                else 
+                {
+                    start = *h;
+                    while (start != NULL)
                     {
-                        h = h->next;
-                        return (h);
+                        if (start->next == node)
+                        {
+                            start->next = node->next;
+                            node->next = NULL;
+                            ft_f_node(node);
+                            break ;
+                        }
+                        start = start->next;
                     }
-                    if (h->next == node)
-                    {
-                        h->next = node->next;
-                        node->next = NULL;
-                    }
-                    flag = 1;
-                    h = h->next;
                 }
             }
+            // }
         }
         i++;
     }
-    return (start);
 }
 

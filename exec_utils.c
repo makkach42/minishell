@@ -351,11 +351,12 @@ void	ft_putstr_fd(int fd, char *s)
 	i = 0;
 	if (s == NULL || fd < 0)
 		return ;
-	while (s[i] != '\0')
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
+	// while (s[i] != '\0')
+	// {
+	// 	write(fd, &s[i], 1);// tktb write mra w7da bstrlen
+	// 	i++;
+	// }
+	write(fd, s, ft_strlen(s));
 }
 
 int	ft_lstsize(t_env *lst)

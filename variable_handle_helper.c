@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_handle_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 11:11:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/05 12:28:42 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	variable_search_inlnkedlst(t_tree **tree)
 	int			i;
 
 	i = 0;
-	if ((*tree)->fd_list)
+	if ((*tree) && (*tree)->fd_list)
 	{
 		tmplst = (*tree)->fd_list;
 		while (tmplst)
@@ -29,9 +29,9 @@ int	variable_search_inlnkedlst(t_tree **tree)
 			tmplst = tmplst->next;
 		}
 	}
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		i += variable_search_inlnkedlst(&(*tree)->left);
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		i += variable_search_inlnkedlst(&(*tree)->right);
 	return (i);
 }

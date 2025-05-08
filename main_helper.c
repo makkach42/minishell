@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 14:16:11 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/04 14:25:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ void	lexer_to_tree(char *str, t_tree **tree)
 	if (new_syntax_error(&head))
 		(print_syntax_error("("));
 	tmp = head;
-	while (tmp)
-	{
-		printf("%s\n", tmp->data);
-		printf("%s\n", tmp->token);
-		printf("\n");
-		tmp = tmp->next;
-	}
+	// while (tmp)
+	// {
+	// 	printf("%s\n", tmp->data);
+	// 	printf("%s\n", tmp->token);
+	// 	printf("\n");
+	// 	tmp = tmp->next;
+	// }
 	syntax_error(&head);
 	syntax_error_parentheses(&head);
 	tree_maker(&head, tree);

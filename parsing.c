@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 14:15:37 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/08 10:18:22 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,20 +128,35 @@ void	ft_exec(t_tree *tree, t_env *h, char **e)
 	// t_pip *value;
 
 	path = ft_check(h, "PATH");
-	if (path == NULL)
-		exit (1);
-	env = path->value; 
+	// dprintf(2, "this is path: %s\n", path->value);
+	if (path == NULL || path->value == NULL || check_empty(path->value) == 1)
+		env = NULL;
+	else
+		env = path->value; 
 	temp = tree->command_arr[0];
 	tree->command_arr[0] =  ft_cmd_check(env, tree->command_arr[0]);
-	//env transforming the linked list to array of pointers
+	if (tree->command_arr[0] == NULL && env == NULL)
+	{
+		tree->command_arr[0] = temp;
+		ft_putstr_fd(2, "minishell: ");
+		ft_putstr_fd(2, tree->command_arr[0]);
+		ft_putstr_fd(2, ": No such file or directory\n");
+	}
+	else if (tree->command_arr[0] == NULL)
+	{
+		tree->command_arr[0] = temp;
+		ft_putstr_fd(2, "minishell: ");
+		ft_putstr_fd(2, tree->command_arr[0]);
+		ft_putstr_fd(2, ": command not found\n");
+		exit (1);
+	}
 	execve(tree->command_arr[0], tree->command_arr, e);
-	// printf("execve failed\n");
 	exit (1);
 }
 
-int	ft_execute(t_tree *tree, t_env *h, char **e);
+int	ft_execute(t_tree *tree, t_env **h, char **e);
 
-int	ft_pip(t_tree *tree, t_env *h, char **e)
+int	ft_pip(t_tree *tree, t_env **h, char **e)
 {
 	int	fd[2];
 	int	id = 0;
@@ -184,21 +199,21 @@ int	ft_pip(t_tree *tree, t_env *h, char **e)
 	return (status);
 }
 
-int	ft_cmd_exec(t_tree *tree, t_env *h)
+int	ft_cmd_exec(t_tree *tree, t_env **h)
 {
 	int status;
 
 	status = 0;
 	if (ft_strcmp(tree->command_arr[0], "cd") == 0)
-		status = ft_cd(tree->command_arr, h);
+		status = ft_cd(tree->command_arr, *h);
 	if (ft_strcmp(tree->command_arr[0], "echo") == 0)
 		status = ft_echo(tree->command_arr);
 	if (ft_strcmp(tree->command_arr[0], "env") == 0)
-		status = ft_env(h);
+		status = ft_env(*h);
 	if (ft_strcmp(tree->command_arr[0], "exit") == 0)
 		ft_exit(tree->command_arr);
 	if (ft_strcmp(tree->command_arr[0], "export") == 0)
-		status = ft_export(tree->command_arr, h);
+		status = ft_export(tree->command_arr, *h);
 	if (ft_strcmp(tree->command_arr[0], "pwd") == 0)
 		status = ft_pwd();
 	if (ft_strcmp(tree->command_arr[0], "unset") == 0)
@@ -252,14 +267,12 @@ int	ft_hdoc(char *limiter, char *name)
 	return (unlink (name), fd);
 }
 
-int	ft_exec_redir(t_tree *tree, t_env *h, char **env)
+int	ft_exec_redir(t_tree *tree, t_env **h, char **env)
 {
 	while (tree->fd_list != NULL)
 	{
-		dprintf(2, "entered here\n");
 		if (ft_redir_check(tree->fd_list->redir) == 3)
 		{
-			dprintf(2, "tree fd: %d\n", tree->fd_list->fd);
 			dup2(tree->fd_list->fd, 0);
 		}
 		else if (ft_redir_check(tree->fd_list->redir) == 2)
@@ -295,10 +308,11 @@ int	ft_exec_redir(t_tree *tree, t_env *h, char **env)
 		}
 		tree->fd_list = tree->fd_list->next;
 	}
-	ft_exec(tree, h, env);
+	if (tree->command_arr[0])
+		ft_exec(tree, *h, env);
 }
 
-ft_cmd_redir(t_tree *tree, t_env *h)
+ft_cmd_redir(t_tree *tree, t_env **h)
 {
 	int	org_stdout;
 	int	org_stdin;
@@ -348,8 +362,15 @@ ft_cmd_redir(t_tree *tree, t_env *h)
 	return (status);
 }
 
+int	ft_variable(t_tree *tree)
+{
+	ft_putstr_fd(2, "minishell: ");
+	ft_putstr_fd(2, tree->command_arr[0]);
+	ft_putstr_fd(2, ": command not found\n");
+}
 
-int	ft_execute(t_tree *tree, t_env *h, char **e)
+
+int	ft_execute(t_tree *tree, t_env **h, char **e)
 {
 	int id;
 	int	status;
@@ -358,21 +379,27 @@ int	ft_execute(t_tree *tree, t_env *h, char **e)
 
 	status = 0;
 	check = 0;
+	if (!tree)
+		return (1);
 	if (ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections == NULL)
 	{
+		dprintf(2, "%d\n", variable_search(&tree));
+		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
+		{
+			dprintf(2, "enterd here\n");
+			variable_expantion(&tree, h);
+		}
 		status = ft_cmd_exec(tree, h);
+		// dprintf(2, "this is the address:%p\n", h);
 	}
 	if (ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections != NULL)
 	{
-		// dprintf(2, "entered here\n");
 		status = ft_cmd_redir(tree, h);
 	}
 	if (ft_strcmp("OPERATION_&&", tree->type) == 0)
 	{
 		status = ft_execute(tree->left, h, e);
-		if (status != 0)
-			write(2, "error\n", 6);
-		else
+		if (status == 0)
 			status = ft_execute(tree->right, h, e);
 	}
 	if (ft_strcmp("OPERATION_||", tree->type) == 0)
@@ -381,19 +408,22 @@ int	ft_execute(t_tree *tree, t_env *h, char **e)
 		if (status != 0)
 			status = ft_execute(tree->right, h, e);
 	}
+	if (ft_strcmp("VARIABLE", tree->type) == 0)
+	{
+		status = ft_variable(tree);
+	}
 	if (tree->redirections == NULL && ft_strcmp("WORD", tree->type) == 0)
 	{
 		id = fork();
 		if (id == 0)
 		{
-			ft_exec(tree, h, e);
+			ft_exec(tree, *h, e);
 		}
 		waitpid(id, &status, 0);
 		status = WEXITSTATUS(status);
 	}
 	if ((tree->redirections != NULL && ft_strcmp("WORD", tree->type) == 0) || ft_strcmp("REDIRECTION", tree->type) == 0)
 	{
-		// dprintf(2, "enterd here\n");
 		id = fork();
 		if (id == 0)
 		{
@@ -455,11 +485,11 @@ int	ft_node_lent(t_env *h)
 	
 	i = 0;
 	count = 0;
-	while (h->key[i])
+	while (h && h->key && h->key[i])
 		i++;
 	count += i;
 	i = 0;
-	while (h->value[i])
+	while (h && h->value && h->value[i])
 		i++;
 	// dprintf(2, "entered here\n");
 	i += 2;
@@ -473,6 +503,8 @@ char	*ft_node_joint(t_env *h)
 	int node_lent;
 	char *temp;
 	
+	if (h == NULL)
+		dprintf(2, "entered here\n");
 	node_lent = ft_node_lent(h);
 	str = malloc(node_lent);
 	if (!str)
@@ -495,6 +527,8 @@ char **ft_env_str(t_env *h)
 	int		lst_lent;
 
 	i = 0;
+	if (h == NULL)
+		return (dprintf(2, "got you you damn mouse\n"), NULL);
 	lst_lent = ft_lstsize(h);
 	p = malloc(sizeof(char *) * (lst_lent + 1));
 	if (p == NULL)
@@ -536,8 +570,8 @@ int	main(int argc, char **argv, char **argev)
 		redirections_list_maker(&tree);
 		// print_tree_visual(tree, 1, 1);
 		// dprintf(2, "this is limiter: %s\n", tree->fd_list->name);
-		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
-			variable_expantion(&tree, &env);
+		// if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
+		// 	variable_expantion(&tree, &env);
 		if (variable_search_inlnkedlst(&tree) == 1)
 			variable_expantion_inlnkedlst(&tree, &env);
 		ambiguous_set(&tree);
@@ -545,12 +579,14 @@ int	main(int argc, char **argv, char **argev)
 			(write(2, "ambiguous redirect\n", 19));
 		if (ambiguous_syntax_error(&tree) == 2)
 			(write(2, "No such file or directory\n", 26));
-		print_tree_visual(tree, 1, 1);
+		// printf("***************************\n");
+		// print_tree_visual(tree, 1, 1);
+		// printf("***************************\n");
 		tree_empty_error(&tree);
 		e = ft_env_str(env);
 		ft_hdoc_handle(tree);
-		ft_execute(tree, env, e);
-		lasfree(&tree);
+		ft_execute(tree, &env, e);
+		// lasfree(&tree);
 	}
 	free_env(&env);
 }
