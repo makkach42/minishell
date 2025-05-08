@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/08 09:34:30 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/08 11:17:35 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,5 +312,6 @@ int			has_wild_cards_comarr(t_tree **tree);
 int			has_wild_cards_fdlst(t_tree **tree);
 void		handle_wildcards_in_cmdarr(t_tree **tree);
 void		handle_wildcards_in_fdlst(t_tree **tree);
+void		quote_remove_lst(t_tree **tree);
 
 #endif
