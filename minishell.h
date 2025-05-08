@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/06 10:32:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/08 09:28:22 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,5 +256,9 @@ char		*ft_strjoin_three(char *s1, char *s2, char *s3);
 void		variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
 char		**ft_split(char *s, char c);
 void		handle_signal(int sig);
+int			has_wild_cards_comarr(t_tree **tree);
+int			has_wild_cards_fdlst(t_tree **tree);
+void		handle_wildcards_in_cmdarr(t_tree **tree);
+void		handle_wildcards_in_fdlst(t_tree **tree);
 
 #endif
