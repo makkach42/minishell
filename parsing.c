@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/05 16:01:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/08 09:34:40 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -543,6 +543,10 @@ int	main(int argc, char **argv, char **argev)
 			variable_expantion(&tree, &env);
 		if (variable_search_inlnkedlst(&tree) == 1)
 			variable_expantion_inlnkedlst(&tree, &env);
+		if (has_wild_cards_comarr(&tree) == 1)
+			handle_wildcards_in_cmdarr(&tree);
+		if (has_wild_cards_fdlst(&tree) == 1)
+			handle_wildcards_in_fdlst(&tree);
 		ambiguous_set(&tree);
 		if (ambiguous_syntax_error(&tree) == 1)
 			(write(2, "ambiguous redirect\n", 19));
@@ -563,4 +567,4 @@ int	main(int argc, char **argv, char **argev)
 //((ls)>file2) > file
 // "((ls)>file2) > file"
 // >file4(>file5 ls>file>file2>file3 -la>file6)>file7>file8
-//> file4 (>file5 ls>file>file2>file3 -la>file6)>file7>file8
+//> file4 (>file5 ls>file>file2>file3 -la>file6)>file7>file8make

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/05 16:03:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/08 09:34:30 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <termios.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
@@ -35,7 +36,7 @@ typedef struct s_list_fd
 {
 	int					fd;
 	char				*name;
-	char				**name_split; //
+	char				**name_split;
 	char				*command;
 	char				*redir;
 	struct s_list_fd	*next;
@@ -307,5 +308,9 @@ char		*ft_strjoin_three(char *s1, char *s2, char *s3);
 void		variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
 char		**ft_split(char	const	*s, char c);
 void		handle_signal(int sig);
+int			has_wild_cards_comarr(t_tree **tree);
+int			has_wild_cards_fdlst(t_tree **tree);
+void		handle_wildcards_in_cmdarr(t_tree **tree);
+void		handle_wildcards_in_fdlst(t_tree **tree);
 
 #endif
