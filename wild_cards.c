@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/08 09:31:05 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/08 09:43:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -508,23 +508,6 @@ void	wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path)
 	*cmd_arr = new_cmd_arr;
 }
 
-void	wild_cards_handle_tree_node(t_tree *node)
-{
-	char *dir_name;
-
-	if (!node)
-		return ;
-	dir_name = getcwd(NULL, 0);
-	if (!dir_name)
-		return ;
-	if (node->command_arr)
-		wild_cards_handle_cmdarr(&node->command_arr, dir_name);
-	if (node->fd_list)
-		wild_cards_handle_fd_list(&node->fd_list, dir_name);
-	
-	free(dir_name);
-}
-
 void	handle_wildcards_in_cmdarr(t_tree **tree)
 {
 	char	*dir_name;
@@ -577,15 +560,4 @@ void	handle_wildcards_in_fdlst(t_tree **tree)
 		has_wild_cards_fdlst(&(*tree)->left);
 	if ((*tree)->right)
 		has_wild_cards_fdlst(&(*tree)->right);
-}
-
-void	wild_cards_handle_tree(t_tree *root)
-{
-	if (!root)
-		return;
-	wild_cards_handle_tree_node(root);
-	if (root->left)
-		wild_cards_handle_tree(root->left);
-	if (root->right)
-		wild_cards_handle_tree(root->right);
 }
