@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 15:32:58 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/05 14:00:41 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	free_list_fd(t_list_fd **head)
 {
 	t_list_fd	*current;
 	t_list_fd	*next;
+	int			i;
 
 	if (!head || !*head)
 		return ;
@@ -48,6 +49,13 @@ void	free_list_fd(t_list_fd **head)
 			(free(current->name), current->name = NULL);
 		if (current->redir)
 			(free(current->redir), current->redir = NULL);
+		if (current->name_split)
+		{
+			i = -1;
+			while (current->name_split[++i])
+				free(current->name_split[i]);
+			(free(current->name_split), current->name_split = NULL);
+		}
 		if (current->fd > 0)
 			(close(current->fd), current->fd = -1);
 		free(current);

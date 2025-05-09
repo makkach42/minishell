@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/07 14:06:56 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/09 12:12:17 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include <signal.h>
+# include <termios.h>
+# include <dirent.h>
 # include <limits.h>
-# include <string.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 typedef struct s_list
 {
@@ -34,6 +36,7 @@ typedef struct s_list_fd
 {
 	int					fd;
 	char				*name;
+	char				**name_split;
 	char				*command;
 	char				*redir;
 	struct s_list_fd	*next;
@@ -56,6 +59,7 @@ typedef struct s_tree
 	char			*redirections;
 	int				ambiguous;
 	int				quotes;
+	int				var;
 	t_list_fd		*fd_list;
 }	t_tree;
 
@@ -268,7 +272,6 @@ int			ambiguous_syntax_error(t_tree **tree);
 void		quote_set(t_tree **tree);
 void		tree_empty_error(t_tree **tree);
 void		redirections_list_maker(t_tree **tree);
-char	**ft_split(char	const	*s, char c);
 char	*ft_cmd_check(char *env, char *s);
 int		ft_parse(char *s);
 long	ft_atoi(const char *str);
@@ -305,5 +308,12 @@ int			variable_search_inlnkedlst(t_tree **tree);
 char		*ft_strjoin_three(char *s1, char *s2, char *s3);
 void		variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
 int    check_empty(char *str);
+char		**ft_split(char	const	*s, char c);
+void		handle_signal(int sig);
+int			has_wild_cards_comarr(t_tree **tree);
+int			has_wild_cards_fdlst(t_tree **tree);
+void		handle_wildcards_in_cmdarr(t_tree **tree);
+void		handle_wildcards_in_fdlst(t_tree **tree);
+void		quote_remove_lst(t_tree **tree);
 
 #endif

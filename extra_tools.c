@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:28:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/07 10:49:09 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/09 12:05:53 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,18 @@ void	print_tree_visual(t_tree *tree, int level, int is_left)
 		printf(" (Quotes: %d)", tree->quotes);
 	else
 		printf(" (Quotes: 0)");
+	if (tree->var)
+		printf(" (Var: %d)", tree->var);
+	else
+		printf(" (Var: 0)");
 	if (tree->fd_list)
 	{
 		printf(" (Fd_list: %p)", tree->fd_list);
 		for (t_list_fd *tmp = tree->fd_list; tmp; tmp = tmp->next)
 		{
 			printf(" (fd_list_redirs: %s)", tmp->name);
+			if (tmp->name_split)
+				printf(" (fd_list_redirs split: %s)", tmp->name_split[0]);
 		}
 	}
 	else

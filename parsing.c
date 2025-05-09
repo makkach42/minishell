@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 11:55:39 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/09 12:18:33 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,6 +390,7 @@ int	ft_execute(t_tree *tree, t_env **h, char **e)
 	}
 	if (ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections != NULL)
 	{
+		// dprintf(2, "entered here\n"); 
 		status = ft_cmd_redir(tree, h);
 	}
 	if (ft_strcmp("OPERATION_&&", tree->type) == 0)
@@ -548,7 +549,8 @@ int	main(int argc, char **argv, char **argev)
 
 	// atexit(f);
 	((void)argc, (void)argv, inits_main(&env, &tree, argev));
-	// dprintf(2, "here\n");
+	// signal(SIGINT, handle_signal);
+	// signal(SIGQUIT, handle_signal);
 	while (1)
 	{
 		str = readline("minishell$> ");
@@ -566,10 +568,15 @@ int	main(int argc, char **argv, char **argev)
 		redirections_list_maker(&tree);
 		// print_tree_visual(tree, 1, 1);
 		// dprintf(2, "this is limiter: %s\n", tree->fd_list->name);
-		// if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
-		// 	variable_expantion(&tree, &env);
+		quote_remove_lst(&tree);
+		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
+			variable_expantion(&tree, &env);
 		if (variable_search_inlnkedlst(&tree) == 1)
 			variable_expantion_inlnkedlst(&tree, &env);
+		if (has_wild_cards_comarr(&tree) == 1)
+			handle_wildcards_in_cmdarr(&tree);
+		if (has_wild_cards_fdlst(&tree) == 1)
+			handle_wildcards_in_fdlst(&tree);
 		ambiguous_set(&tree);
 		if (ambiguous_syntax_error(&tree) == 1)
 			(write(2, "ambiguous redirect\n", 19));
@@ -592,4 +599,4 @@ int	main(int argc, char **argv, char **argev)
 //((ls)>file2) > file
 // "((ls)>file2) > file"
 // >file4(>file5 ls>file>file2>file3 -la>file6)>file7>file8
-//> file4 (>file5 ls>file>file2>file3 -la>file6)>file7>file8
+//> file4 (>file5 ls>file>file2>file3 -la>file6)>file7>file8make

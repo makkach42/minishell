@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/08 16:42:26 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/09 12:07:40 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	countwords(char *s, char c)
 void	ambiguous_set(t_tree **tree)
 {
 	t_list_fd	*tmp;
+	t_list_fd	*tmpprev;
 
 	if ((*tree) && (*tree)->left)
 		ambiguous_set(&(*tree)->left);
@@ -83,10 +84,12 @@ void	ambiguous_set(t_tree **tree)
 	if ((*tree) && (*tree)->redirections)
 	{
 		tmp = (*tree)->fd_list;
+		tmpprev = NULL;
 		while (tmp)
 		{
-			if (variable_search_instr(tmp->name))
+			if (variable_search_instr(tmp->name) && tmpprev && ft_strcmp(tmpprev->redir, "<<"))
 				(*tree)->ambiguous = 1;
+			tmpprev = tmp;
 			tmp = tmp->next;
 		}
 	}
