@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:00:03 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 13:36:45 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/09 11:20:01 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	init_tree_node(t_tree **node, char *type)
 	(*node)->fd_list = NULL;
 	(*node)->ambiguous = 0;
 	(*node)->quotes = 0;
+	(*node)->var = 0;
 }
 
 void	free_node_data(t_list *node)
