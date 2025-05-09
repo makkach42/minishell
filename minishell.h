@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 12:12:17 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/09 17:56:30 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void		tree_to_rediropen(t_tree *tree);
 void		inits_main(t_env **env,
 				t_tree **tree, char **argev);
 void		command_arr_fill(t_tree **tree);
+void		quote_remove(t_tree **tree);
 void		quote_remove_two(t_tree **tree);
 void		free_tree(t_tree *tree);
 void		free_list_fd(t_list_fd **head);
@@ -315,5 +316,6 @@ int			has_wild_cards_fdlst(t_tree **tree);
 void		handle_wildcards_in_cmdarr(t_tree **tree);
 void		handle_wildcards_in_fdlst(t_tree **tree);
 void		quote_remove_lst(t_tree **tree);
+void		quote_remove_lst_two(t_tree **tree);
 
 #endif
