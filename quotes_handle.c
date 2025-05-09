@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 17:49:03 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/09 17:55:32 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,25 @@ void	process_lnked_lst(t_tree **tree)
 	tmp = (*tree)->fd_list;
 	while (tmp)
 	{
+		if (variable_search_instr(tmp->name))
+		{
+			tmp = tmp->next;
+			continue ;
+		}
 		process_lst(&tmp);
+		tmp = tmp->next;
+	}
+}
+
+void	process_lnked_lst_two(t_tree **tree)
+{
+	t_list_fd	*tmp;
+
+	tmp = (*tree)->fd_list;
+	while (tmp)
+	{
+		if (variable_search_instr(tmp->name))
+			process_lst(&tmp);
 		tmp = tmp->next;
 	}
 }
@@ -149,4 +167,14 @@ void	quote_remove_lst(t_tree **tree)
 		quote_remove_lst(&(*tree)->right);
 	if ((*tree)->fd_list)
 		process_lnked_lst(tree);
+}
+
+void	quote_remove_lst_two(t_tree **tree)
+{
+	if ((*tree)->left)
+		quote_remove_lst(&(*tree)->left);
+	if ((*tree)->right)
+		quote_remove_lst(&(*tree)->right);
+	if ((*tree)->fd_list)
+		process_lnked_lst_two(tree);
 }

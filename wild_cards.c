@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 17:47:43 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/09 17:54:32 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -399,7 +399,7 @@ char	**get_matches(const char *pattern, char *dir_path, int *match_count)
 			if (*match_count >= capacity)
 			{
 				new_capacity = capacity * 2;
-				**new_matches = malloc(sizeof(char *) * new_capacity);
+				new_matches = malloc(sizeof(char *) * new_capacity);
 				if (!new_matches)
 				{
 					i = 0;
