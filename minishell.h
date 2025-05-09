@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/08 11:17:35 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/09 11:24:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_tree
 	char			*redirections;
 	int				ambiguous;
 	int				quotes;
+	int				var;
 	t_list_fd		*fd_list;
 }	t_tree;
 
