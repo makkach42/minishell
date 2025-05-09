@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 17:53:36 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/09 18:13:32 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,5 +264,6 @@ void		handle_wildcards_in_cmdarr(t_tree **tree);
 void		handle_wildcards_in_fdlst(t_tree **tree);
 void		quote_remove_lst(t_tree **tree);
 void		quote_remove_lst_two(t_tree **tree);
+int			expandableornot(char *str);
 
 #endif
