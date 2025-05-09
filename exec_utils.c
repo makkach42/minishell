@@ -282,8 +282,8 @@ t_env	*ft_lstnew(void *key, void *value)
 	newnode = (t_env *)malloc(sizeof(t_env));
 	if (newnode == NULL)
 		return (NULL);
-	newnode -> key = key;
-    newnode -> value = value;
+	newnode -> key = ft_strdup((char *)key);
+    newnode -> value = ft_strdup((char *)value);
 	newnode -> next = NULL;
 	return (newnode);
 }

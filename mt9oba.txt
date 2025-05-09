@@ -25,6 +25,8 @@ minishell$> $12
 
 minishell$> $""
 
+minishell$> /./
+
 minishell$> $"USER"
 
 where is expand 
@@ -43,3 +45,19 @@ env a
 $$$user SEGFAUlT
 $US$ER SEGFAUlT
 
+
+minishell$> rm -rf ../../../../1
+minishell$> pwd
+0
+pwd: : No such file or directory
+minishell$> unset PWD OLDPWD
+0
+this is the string: PWD
+this is the string: OLDPWD
+minishell$> cd ..
+0
+
+export v="a b c"
+
+export $NOTHERE
+export $NOTHERE $HOME

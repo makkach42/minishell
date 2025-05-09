@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   some_other_helpers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 10:10:10 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/08 16:42:26 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	check_empty(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] == 32)
+	while (str[i] == 32 || str[i] == 9)
 		i++;
 	if (str[i] == '\0')
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/08 10:18:22 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/09 11:55:39 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,44 +159,38 @@ int	ft_execute(t_tree *tree, t_env **h, char **e);
 int	ft_pip(t_tree *tree, t_env **h, char **e)
 {
 	int	fd[2];
-	int	id = 0;
+	int id1 = 0;
 	int id2 = 0;
 	int	status;
 	
 	status = 0;
 	if (pipe(fd) == -1)
 		perror("minishell: pipe: ");
-	if (tree->left)
+	id1 = fork();
+	if (id1 == -1)
+		perror("minishell: fork: ");
+	if (id1 == 0)
 	{
-		id = fork();
-		if (id == -1)
-			perror("minishell: fork: ");
-		if (id == 0)
-		{
-			close (fd[0]);
-			dup2(fd[1], 1);
-			close (fd[1]);
-			exit (ft_execute(tree->left, h, e));
-		}
+		close (fd[0]);
+		dup2(fd[1], 1);
+		close (fd[1]);
+		exit (ft_execute(tree->left, h, e));
 	}
-	if (tree->right)
+	id2 = fork();
+	if (id2 == -1)
+		perror("minishell: fork: ");
+	if (id2 == 0)
 	{
-		id2 = fork();
-		if (id2 == -1)
-			perror("minishell: fork: ");
-		if (id2 == 0)
-		{
-			close (fd[1]);
-			dup2(fd[0], 0);
-			close (fd[0]);
-			exit(ft_execute(tree->right, h, e));
-		}
+		close (fd[1]);
+		dup2(fd[0], 0);
+		close (fd[0]);
+		exit(ft_execute(tree->right, h, e));
 	}
 	close (fd[0]);
 	close (fd[1]);
-	waitpid(id, NULL, 0);
 	waitpid(id2, &status, 0);
-	return (status);
+	while (wait(NULL) != -1) ;
+	return (WEXITSTATUS(status));
 }
 
 int	ft_cmd_exec(t_tree *tree, t_env **h)
@@ -217,7 +211,10 @@ int	ft_cmd_exec(t_tree *tree, t_env **h)
 	if (ft_strcmp(tree->command_arr[0], "pwd") == 0)
 		status = ft_pwd();
 	if (ft_strcmp(tree->command_arr[0], "unset") == 0)
+	{
+		dprintf(2, "enterd in parsing unset\n");
 		ft_unset(h, tree->command_arr);
+	}
 	return (status);
 }
 
@@ -383,10 +380,9 @@ int	ft_execute(t_tree *tree, t_env **h, char **e)
 		return (1);
 	if (ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections == NULL)
 	{
-		dprintf(2, "%d\n", variable_search(&tree));
+		// dprintf(2, "%d\n", variable_search(&tree));
 		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
 		{
-			dprintf(2, "enterd here\n");
 			variable_expantion(&tree, h);
 		}
 		status = ft_cmd_exec(tree, h);
@@ -528,7 +524,7 @@ char **ft_env_str(t_env *h)
 
 	i = 0;
 	if (h == NULL)
-		return (dprintf(2, "got you you damn mouse\n"), NULL);
+		return (NULL);
 	lst_lent = ft_lstsize(h);
 	p = malloc(sizeof(char *) * (lst_lent + 1));
 	if (p == NULL)
@@ -579,9 +575,9 @@ int	main(int argc, char **argv, char **argev)
 			(write(2, "ambiguous redirect\n", 19));
 		if (ambiguous_syntax_error(&tree) == 2)
 			(write(2, "No such file or directory\n", 26));
-		// printf("***************************\n");
-		// print_tree_visual(tree, 1, 1);
-		// printf("***************************\n");
+		printf("***************************\n");
+		print_tree_visual(tree, 1, 1);
+		printf("***************************\n");
 		tree_empty_error(&tree);
 		e = ft_env_str(env);
 		ft_hdoc_handle(tree);

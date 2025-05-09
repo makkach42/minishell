@@ -8,13 +8,13 @@ int    ft_cd(char **s, t_env *h)
 
     PWD = ft_check(h, "PWD");
     OLD_PWD = ft_lstnew("OLDPWD", NULL);
-    if (s[1] == NULL || ft_strcmp("~", s[1]) == 0)
+    if (s[1] == NULL)
     {
         // dprintf(2, "entered here\n");
         home = ft_check(h, "HOME");
         if (home == NULL || home ->value == NULL)
         {
-            ft_putstr_fd(2, "minishell: cd: HOME not set");
+            ft_putstr_fd(2, "minishell: cd: HOME not set\n");
             return (1); 
         }
         if (chdir(home->value) == -1)
@@ -23,8 +23,15 @@ int    ft_cd(char **s, t_env *h)
             perror("");
             return (1);
         }
-        OLD_PWD->value = PWD->value;
-        PWD->value = home->value;
+        if (!PWD || !PWD->value || !OLD_PWD || !OLD_PWD->value)
+        {
+            return (0);
+        }
+        else
+        {
+            OLD_PWD->value = PWD->value;
+            PWD->value = home->value;
+        }
     }
     else
     {
@@ -32,11 +39,18 @@ int    ft_cd(char **s, t_env *h)
         {
             write(2, "minishell: cd: ", 16);
             write(2, s[1], ft_strlen(s[1]));
-            write(2, ": No such file or directory", 28);
+            write(2, ": No such file or directory\n", 29);
             return (1);
         }
-        OLD_PWD->value = PWD->value;
-        PWD->value = getcwd(NULL, 0);
+        if (!PWD || !PWD->value || !OLD_PWD || !OLD_PWD->value)
+        {
+            return (0);
+        }
+        else
+        {
+            OLD_PWD->value = PWD->value;
+            PWD->value = getcwd(NULL, 0);
+        }
     }
     return (0);
 }
@@ -45,6 +59,8 @@ int ft_nline_check(char *str)
 {
     int i;
 
+    if (str == NULL)
+        return (1);
     if (str[0] == '-' && str[1] == 'n')
     {
         i = 1;
@@ -93,7 +109,7 @@ int ft_env(t_env *h)
 {
     if (h == NULL)
     {
-        ft_putstr_fd(2, "minishell: env: No such file or directory");
+        ft_putstr_fd(2, "minishell: env: No such file or directory\n");
         return (127);
     }
     while (h != NULL)
@@ -109,11 +125,11 @@ int ft_check_string(char *str)
     int i;
 
     i = 0;
-    if (str[i] != '\0' && str[i] == '+')
+    if (str[i] != '\0' && (str[i] == '+' || str[i] == '-'))
         i++;
     while (str[i] != '\0')
     {
-        if (ft_isdigit(str[i]) != 0 && str[0] != '-')
+        if (ft_isdigit(str[i]) != 0)
             return (1);
         i++;
     }
@@ -259,80 +275,40 @@ int    ft_export(char  **s, t_env *h)
         while (s[i] != NULL)
         {
             act = 1;
-            if (ft_equal_check(s[i]) == 0)
-                act = 0;
-            if (s[i][0] == '=')
+            if (check_empty(s[i]) == 1)
             {
-                write(2, "minishell: export: ", 15);
+                write(2, "minishell: export: ", 20);
                 write(2, s[i], ft_strlen(s[i]));
                 write(2, ": not a valid identifier\n", 26);
                 status = 1;
             }
-            else if (ft_strchr(s[i], '+') == NULL)
-            {
-                v = ft_split(s[i], '=');
-                if (v == NULL)
-                    return (1);
-                f = ft_check(h, v[0]);
-                if (f != NULL)
-                {
-                    if (v[1] == NULL && act == 0)
-                        f->value = ft_strdup("");
-                    else if (v[1] != NULL)
-                    {
-                        tmp = f->value;
-                        f->value = v[1];
-                        free (tmp);
-                    }    
-                }
-                else
-                {
-                    if (ft_parse(v[0]) == 1)
-                    {
-                        if (i == 1)
-                        {
-                            write(2, "minishell: export: not an identifier: ", 39);
-                            write(2, s[i], ft_strlen(s[i]));
-                            write(2, "\n", 1);
-                            status = 1;
-                        }
-                    }
-                    else
-                    {
-                        if (act == 0)
-                        {
-                            if (v[1] == NULL)
-                                new = ft_lstnew(v[0], ft_strdup(""));
-                            else
-                                new = ft_lstnew(v[0], v[1]);
-                        }
-                        else
-                            new = ft_lstnew(v[0], NULL);
-                        ft_lstadd_back(&h, new);
-                    }
-                }
-            }
             else
             {
-                if (ft_equal_check(s[i]) == 1)
+                if (ft_equal_check(s[i]) == 0)
+                    act = 0;
+                if (s[i][0] == '=')
                 {
-                    write(2, "export: not valid in this context: ", 36);
+                    write(2, "minishell: export: ", 15);
                     write(2, s[i], ft_strlen(s[i]));
-                    write(2, "\n", 1);
+                    write(2, ": not a valid identifier\n", 26);
                     status = 1;
                 }
-                else
+                else if (ft_strchr(s[i], '+') == NULL)
                 {
                     v = ft_split(s[i], '=');
                     if (v == NULL)
                         return (1);
-                    ft_remove_sign(v[0]);
                     f = ft_check(h, v[0]);
                     if (f != NULL)
                     {
-                        tmp = f->value;
-                        f->value = ft_strjoin(f->value, v[1]);
-                        free (tmp);
+                        if (v[1] == NULL && act == 0)
+                            f->value = ft_strdup("");
+                        else if (v[1] != NULL)
+                        {
+                            tmp = f->value;
+                            f->value = v[1];
+                            free (tmp);
+                        }    
                     }
                     else
                     {
@@ -351,13 +327,63 @@ int    ft_export(char  **s, t_env *h)
                             if (act == 0)
                             {
                                 if (v[1] == NULL)
-                                     new = ft_lstnew(v[0], ft_strdup(""));
+                                    new = ft_lstnew(v[0], ft_strdup(""));
                                 else
                                     new = ft_lstnew(v[0], v[1]);
                             }
                             else
                                 new = ft_lstnew(v[0], NULL);
                             ft_lstadd_back(&h, new);
+                        }
+                    }
+                }
+                else
+                {
+                    if (ft_equal_check(s[i]) == 1)
+                    {
+                        write(2, "export: not valid in this context: ", 36);
+                        write(2, s[i], ft_strlen(s[i]));
+                        write(2, "\n", 1);
+                        status = 1;
+                    }
+                    else
+                    {
+                        v = ft_split(s[i], '=');
+                        if (v == NULL)
+                            return (1);
+                        ft_remove_sign(v[0]);
+                        f = ft_check(h, v[0]);
+                        if (f != NULL)
+                        {
+                            tmp = f->value;
+                            f->value = ft_strjoin(f->value, v[1]);
+                            free (tmp);
+                        }
+                        else
+                        {
+                            if (ft_parse(v[0]) == 1)
+                            {
+                                if (i == 1)
+                                {
+                                    write(2, "minishell: export: not an identifier: ", 39);
+                                    write(2, s[i], ft_strlen(s[i]));
+                                    write(2, "\n", 1);
+                                    status = 1;
+                                }
+                            }
+                            else
+                            {
+                                if (act == 0)
+                                {
+                                    if (v[1] == NULL)
+                                        new = ft_lstnew(v[0], ft_strdup(""));
+                                    else
+                                        new = ft_lstnew(v[0], v[1]);
+                                }
+                                else
+                                    new = ft_lstnew(v[0], NULL);
+                                ft_lstadd_back(&h, new);
+                            }
                         }
                     }
                 }
@@ -387,8 +413,6 @@ void    ft_f_node(t_env *node)
 {
     free (node->key);
     free (node->value);
-    // free (node->key);
-    // free (node->value);
     free (node);
     node = NULL;
 }
@@ -408,7 +432,7 @@ void    ft_unset(t_env **h, char **s)
         return ;
     while (s[i] != NULL)
     {
-        dprintf(2, "this is the string: %s\n", s[i]);
+        // dprintf(2, "this is the string: %s\n", s[i]);
         if (ft_parse(s[i]) == 1)
         {
             write(2, "unset: ", 8);
@@ -423,10 +447,7 @@ void    ft_unset(t_env **h, char **s)
             {
                 if (*h == node)
                 {
-                    dprintf(2, "entered in first\n");
                     *h = (*h)->next;
-                    if (*h == NULL)
-                        dprintf(2, "head is null\n");
                     node->next = NULL;
                     ft_f_node(node);
                     // return ;
