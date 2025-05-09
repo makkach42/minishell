@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_handle_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 12:08:41 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/09 18:15:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 						tmp->name_split = ft_split(tmp->name, 32);
 					if (flag == 1)
 						(*tree)->ambiguous = 1;
-					if (!variable_search_inlnkedlst(tree))
+					if (!variable_search_inlnkedlst(tree) || !variable_search_instr((*tree)->command_arr[i]))
 						i = -1;
 				}
 				i++;

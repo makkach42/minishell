@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 17:56:35 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/09 18:14:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -569,12 +569,14 @@ int	main(int argc, char **argv, char **argev)
 		// dprintf(2, "this is limiter: %s\n", tree->fd_list->name);
 		quote_remove_lst(&tree);
 		quote_remove(&tree);
+		print_tree_visual(tree, 1, 1);
 		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
 			variable_expantion(&tree, &env);
 		if (variable_search_inlnkedlst(&tree) == 1)
 			variable_expantion_inlnkedlst(&tree, &env);
 		quote_remove_two(&tree);
 		quote_remove_lst_two(&tree);
+		print_tree_visual(tree, 1, 1);
 		if (has_wild_cards_comarr(&tree) == 1)
 			handle_wildcards_in_cmdarr(&tree);
 		if (has_wild_cards_fdlst(&tree) == 1)
