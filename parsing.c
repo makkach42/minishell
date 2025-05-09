@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 11:23:44 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/09 17:40:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,10 +132,12 @@ int	main(int argc, char **argv, char **argev)
 		tree_to_rediropen(tree);
 		redirections_list_maker(&tree);
 		quote_remove_lst(&tree);
+		quote_remove(&tree);
 		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
 			variable_expantion(&tree, &env);
 		if (variable_search_inlnkedlst(&tree) == 1)
 			variable_expantion_inlnkedlst(&tree, &env);
+		quote_remove_two(&tree);
 		if (has_wild_cards_comarr(&tree) == 1)
 			handle_wildcards_in_cmdarr(&tree);
 		if (has_wild_cards_fdlst(&tree) == 1)

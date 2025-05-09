@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/08 11:14:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/09 17:49:03 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	process_command_string(t_tree **tree, int k)
 	new_str = create_filtered_string(old_str, final_len);
 	if (!new_str)
 		return ;
+	printf("*************%s\n", new_str);
 	free((*tree)->command_arr[k]);
 	(*tree)->command_arr[k] = new_str;
 }
@@ -70,9 +71,37 @@ void	process_command_array(t_tree **tree)
 	k = 0;
 	while ((*tree)->command_arr[k])
 	{
+		if (variable_search_instr((*tree)->command_arr[k]))
+		{
+			k++;
+			continue ;
+		}
 		process_command_string(tree, k);
 		k++;
 	}
+}
+
+void	process_command_array_two(t_tree **tree)
+{
+	int	k;
+
+	k = 0;
+	while ((*tree)->command_arr[k])
+	{
+		if (variable_search_instr((*tree)->command_arr[k]))
+			process_command_string(tree, k);
+		k++;
+	}
+}
+
+void	quote_remove(t_tree **tree)
+{
+	if ((*tree) && (*tree)->left)
+		quote_remove_two(&(*tree)->left);
+	if ((*tree) && (*tree)->right)
+		quote_remove_two(&(*tree)->right);
+	if ((*tree) && (*tree)->command_arr)
+		process_command_array(tree);
 }
 
 void	quote_remove_two(t_tree **tree)
@@ -82,7 +111,7 @@ void	quote_remove_two(t_tree **tree)
 	if ((*tree) && (*tree)->right)
 		quote_remove_two(&(*tree)->right);
 	if ((*tree) && (*tree)->command_arr)
-		process_command_array(tree);
+		process_command_array_two(tree);
 }
 
 void	process_lst(t_list_fd **node)
