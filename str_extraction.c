@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:39:46 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 16:10:38 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/12 14:25:57 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*str_extractor(char *str)
 	flag = 0;
 	if (!str || !*str)
 		return (NULL);
-	while ((str[i] != '\"' || str[i] != '\'') && str[i] != '\0')
+	while ((str[i] != '\"' && str[i] != '\'') && str[i] != '\0')
 		i++;
 	if (str[i] != '\0' && str[i + 1] && (
 			str[i + 1] == 32 || str[i + 1
