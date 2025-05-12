@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 17:54:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/12 10:57:37 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -490,6 +490,8 @@ void	wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path)
 			}
 			else
 			{
+				if (!*expanded_matches)
+					free(expanded_matches);
 				new_cmd_arr[j] = ft_strdup((*cmd_arr)[i]);
 				j++;
 			}
