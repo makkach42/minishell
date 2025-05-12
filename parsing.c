@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/10 09:38:35 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/12 08:50:40 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -566,7 +566,10 @@ int	main(int argc, char **argv, char **argev)
 		lexer_to_tree(str, &tree);
 		tree_to_rediropen(tree);
 		redirections_list_maker(&tree);
-		// dprintf(2, "this is limiter: %s\n", tree->fd_list->name);
+		if (has_wild_cards_comarr(&tree) == 1)
+			handle_wildcards_in_cmdarr(&tree);
+		if (has_wild_cards_fdlst(&tree) == 1)
+			handle_wildcards_in_fdlst(&tree);
 		quote_remove_lst(&tree);
 		quote_remove(&tree);
 		print_tree_visual(tree, 1, 1);
@@ -577,10 +580,6 @@ int	main(int argc, char **argv, char **argev)
 		quote_remove_two(&tree);
 		quote_remove_lst_two(&tree);
 		print_tree_visual(tree, 1, 1);
-		if (has_wild_cards_comarr(&tree) == 1)
-			handle_wildcards_in_cmdarr(&tree);
-		if (has_wild_cards_fdlst(&tree) == 1)
-			handle_wildcards_in_fdlst(&tree);
 		ambiguous_set(&tree);
 		if (ambiguous_syntax_error(&tree) == 1)
 			(write(2, "ambiguous redirect\n", 19));
@@ -604,3 +603,6 @@ int	main(int argc, char **argv, char **argev)
 // "((ls)>file2) > file"
 // >file4(>file5 ls>file>file2>file3 -la>file6)>file7>file8
 //> file4 (>file5 ls>file>file2>file3 -la>file6)>file7>file8make
+
+
+//"*"
