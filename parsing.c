@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/14 10:00:09 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:53:54 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -614,6 +614,7 @@ void	command_arr_readjustments(t_tree **tree)
 int	main(int argc, char **argv, char **argev)
 {
 	char		*str;
+	int			flag;
 	t_env		*env;
 	t_tree		*tree;
 
@@ -623,6 +624,7 @@ int	main(int argc, char **argv, char **argev)
 	signal(SIGQUIT, handle_signal);
 	while (1)
 	{
+		flag = 0;
 		str = readline("minishell$> ");
 		if (!str)
 			break ;
@@ -632,11 +634,12 @@ int	main(int argc, char **argv, char **argev)
 			continue ;
 		}
 		add_history(str);
-		quote_parse(&str);
-		lexer_to_tree(str, &tree);
-		tree_to_rediropen(tree);
+		quote_parse(&str, &flag);
+		lexer_to_tree(str, &tree, &flag); /////////
+		tree_to_rediropen(tree, &flag);
 		var_set(&tree);
-		reset_command_arr(&tree);
+		if (!flag)
+			reset_command_arr(&tree);
 		redirections_list_maker(&tree);
 		if (has_wild_cards_comarr(&tree) == 1)
 			handle_wildcards_in_cmdarr(&tree);
@@ -646,20 +649,24 @@ int	main(int argc, char **argv, char **argev)
 		quote_remove(&tree);
 		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
 			variable_expantion(&tree, &env);
+			printf("----------------%d\n", variable_search_inlnkedlst(&tree));
 		if (variable_search_inlnkedlst(&tree) == 1)
 			variable_expantion_inlnkedlst(&tree, &env);
-		split_adjustments(&tree);
-		command_arr_readjustments(&tree);
+		if (!flag)
+			split_adjustments(&tree);
+		if (!flag)
+			command_arr_readjustments(&tree);
 		quote_remove_two(&tree);
 		quote_remove_lst_two(&tree);
-		// ambiguous_set(&tree);
+		ambiguous_set(&tree);
 		if (ambiguous_syntax_error(&tree, &env) == 1)
-			(write(2, "ambiguous redirect\n", 19));
+			(write(2, "ambiguous redirect\n", 19), flag = 1);
 		if (ambiguous_syntax_error(&tree, &env) == 2)
-			(write(2, "No such file or directory\n", 26));
+			(write(2, "No such file or directory\n", 26), flag = 1);
 		print_tree_visual(tree, 1, 1);
-		if (ambiguous_syntax_error(&tree, &env) != 2)
-			tree_empty_error(&tree);
+		// if (ambiguous_syntax_error(&tree, &env) != 2)
+		// 	tree_empty_error(&tree, &flag);
+		printf("*******************%d\n", flag);
 		lasfree(&tree);
 	}
 	free_env(&env);

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/13 15:53:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:28:06 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	variable_search_instr(char *str)
 	return (0);
 }
 
-void	lexer_to_tree(char *str, t_tree **tree)
+void	lexer_to_tree(char *str, t_tree **tree, int *flag)
 {
 	t_list	*head;
 	t_list	*tmp;
@@ -36,7 +36,7 @@ void	lexer_to_tree(char *str, t_tree **tree)
 	head = list_init(str);
 	lexer(&head);
 	if (new_syntax_error(&head))
-		(print_syntax_error("("));
+		(print_syntax_error("("), *flag = 1);
 	tmp = head;
 	while (tmp)
 	{
@@ -45,19 +45,20 @@ void	lexer_to_tree(char *str, t_tree **tree)
 		printf("\n");
 		tmp = tmp->next;
 	}
-	syntax_error(&head);
-	syntax_error_parentheses(&head);
+	syntax_error(&head, flag);////////////////////////
+	if (syntax_error_parentheses(&head))
+		*flag = 1;
 	tree_maker(&head, tree);
 }
 
-void	tree_to_rediropen(t_tree *tree)
+void	tree_to_rediropen(t_tree *tree, int *flag)
 {
 	process_nested_parentheses(&tree);
 	process_pipe_trees(tree);
 	process_all_redirections(&tree);
 	command_arr_fill(&tree);
 	quote_set(&tree);
-	syntax_error_two(&tree);
+	syntax_error_two(&tree, flag);
 }
 
 void	inits_main(t_env **env,
@@ -67,7 +68,7 @@ void	inits_main(t_env **env,
 	*tree = NULL;
 }
 
-void	quote_parse(char **str)
+void	quote_parse(char **str, int *flag)
 {
 	char	*tmp_str;
 
@@ -75,5 +76,5 @@ void	quote_parse(char **str)
 	tmp_str = *str;
 	*str = ft_strtrim(*str, " ");
 	free(tmp_str);
-	check_quotes(*str);
+	check_quotes(*str, flag);
 }
