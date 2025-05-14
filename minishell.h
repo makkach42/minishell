@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 12:12:17 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:37:51 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ int		ft_echo(char **s);
 int		ft_env(t_env *h);
 int		ft_check_string(char *str);
 void	ft_exit(char **s);
-int		ft_export(char  **s, t_env *h);
+int		ft_export(char  **s, t_env *h, t_tree *tree);
 int		ft_pwd(void);
 void	ft_unset(t_env **h, char **s);
 int	ft_file_check(char *str);
@@ -315,5 +315,7 @@ int			has_wild_cards_fdlst(t_tree **tree);
 void		handle_wildcards_in_cmdarr(t_tree **tree);
 void		handle_wildcards_in_fdlst(t_tree **tree);
 void		quote_remove_lst(t_tree **tree);
+void	variable_expantion_para(t_tree **tree, t_env **env);
+char	*ft_itoa(int n);
 
 #endif

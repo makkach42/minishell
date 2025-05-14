@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_everything.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/05 14:00:41 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/13 19:33:32 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ void	free_env(t_env **env)
 	{
 		tmp2 = tmp->next;
 		free(tmp->key);
-		free(tmp->value);
+		if (tmp->value)
+			free(tmp->value);
 		free(tmp);
 		tmp = tmp2;
 	}

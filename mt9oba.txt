@@ -61,3 +61,660 @@ export v="a b c"
 
 export $NOTHERE
 export $NOTHERE $HOME
+
+tcsetattr, tcgetattr function used for ctrl and \
+bash-3.2$ exit
+exit khs exit tktb
+a============l export
+
+export kakar+=========lokp
+
+{export a="ls la"
+export kakarot='$a'}
+bash-3.2$ export a=$a=$a=$a
+
+> ls
+> $USER
+> "$SE
+> k
+minishell: : No such file or directory
+minishell: : No such file or directory
+minishell: : No such file or directory
+minishell: : No such file or directory
+minishell$> << $USER
+***************************
+----REDIRECTION (Command: ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0x604000002390) (fd_list_redirs: $USER) [Redirections: << $USER]
+***************************
+> $USER
+minishell$> minishell$> << $"USER"
+***************************
+----REDIRECTION (Command: ) (Ambiguous: 0) (Quotes: 1) (Var: 0) (Fd_list: 0x604000002610) (fd_list_redirs: $USER) [Redirections: << $"USER"]
+***************************
+> $USER
+minishell$> minishell$> << $"USER"
+***************************
+----REDIRECTION (Command: ) (Ambiguous: 0) (Quotes: 1) (Var: 0) (Fd_list: 0x604000002890) (fd_list_redirs: $USER) [Redirections: << $"USER"]
+***************************
+> $USER
+minishell$> minishell$> << $$"USER"
+***************************
+----REDIRECTION (Command: $"USER") (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0x604000002b10) (fd_list_redirs: $) (Command_arr: $USER) [Redirections: << $]
+***************************
+> $$USER
+> $USER
+> USER
+> $$USER
+> $"USER"
+> 
+➜  mini2 git:(executor) ✗ ./minishell
+minishell$> ls > $ljljk
+***************************
+----WORD (Command: ls) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0x604000000650) (fd_list_redirs: $ljljk) (Command_arr: ls) [Redirections: > $ljljk]
+***************************
+minishell$> minishell$> ls > "$ljljk"
+***************************
+----WORD (Command: ls) (Ambiguous: 0) (Quotes: 1) (Var: 0) (Fd_list: 0x6040000008d0) (fd_list_redirs: $ljljk) (Command_arr: ls) [Redirections: > "$ljljk"]
+***************************
+minishell$> ls > "$ljljk"
+➜  mini2 git:(executor) ✗ ./minishell
+minishell$> '$USER
+Syntax error: open quotes.
+Syntax error: open quotes.
+***************************
+----WORD (Command: '$USER ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: $USER)
+***************************
+minishell: aakroud: command not found
+minishell$> '$USER'
+***************************
+----WORD (Command: '$USER' ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: $USER)
+***************************
+minishell: aakroud: command not found
+minishell$> $"USER"
+***************************
+----VARIABLE (Command: $"USER" ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: $USER)
+***************************
+minishell: $USER: command not found
+minishell$> export a="ls -l"
+***************************
+----COMMAND (Command: export a="ls -l" ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: export) (Command_arr: a=ls -l)
+***************************
+minishell$> $a
+***************************
+----VARIABLE (Command: $a ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: $a)
+***************************
+minishell: $a: command not found
+minishell$> "echo " $USER
+***************************
+----WORD (Command: "echo " $USER ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: echo ) (Command_arr: $USER)
+***************************
+aakroud
+minishell$> $USER-
+***************************
+----VARIABLE (Command: $USER- ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: $USER-)
+***************************
+minishell: $USER-: command not found
+minishell$> $USER?
+***************************
+----VARIABLE (Command: $USER? ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: $USER?)
+***************************
+minishell: $USER?: command not found
+minishell$> ls | echo $?
+***************************
+----PIPE (Command: NULL) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: NULL)
+    ---left;
+    ----WORD (Command: ls ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: ls)
+    ---right;
+        COMMAND (Command: echo $? ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: echo) (Command_arr: $?)
+***************************
+?
+
+-------------------------------------------------
+====bash
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+bash-3.2$ ls
+0                                       process_all_redirections.o
+1                                       process_all_redirections_helper.c
+2                                       process_all_redirections_helper.o
+a                                       process_all_redirections_helper_two.c
+dynamic_allocations_buffers.c           process_all_redirections_helper_two.o
+dynamic_allocations_buffers.o           process_nested_parentheses.c
+echo                                    process_nested_parentheses.o
+even_more_libft_funcs.c                 process_nested_parentheses_helper.c
+even_more_libft_funcs.o                 process_nested_parentheses_helper.o
+exec_utils.c                            process_pipe_tree.c
+exec_utils.o                            process_pipe_tree.o
+extra_tools.c                           process_pipe_tree_helper.c
+extra_tools.o                           process_pipe_tree_helper.o
+free_everything.c                       process_pipe_tree_helper_two.c
+free_everything.o                       process_pipe_tree_helper_two.o
+ft_builtin.c                            quotes_handle.c
+ft_builtin.o                            quotes_handle.o
+ft_strtrim.c                            redirections_opener.c
+ft_strtrim.o                            redirections_opener.o
+h j k                                   redirections_opener_helper.c
+helpers.c                               redirections_opener_helper.o
+helpers.o                               s ls
+j                                       sgsgsg
+jj                                      signals.c
+lexer.c                                 some_new_other_helpers.c
+lexer.o                                 some_new_other_helpers.o
+lexer_helper.c                          some_other_helpers.c
+lexer_helper.o                          some_other_helpers.o
+lexer_helper_three.c                    str_extraction.c
+lexer_helper_three.o                    str_extraction.o
+lexer_helper_two.c                      syntax_error.c
+lexer_helper_two.o                      syntax_error.o
+libft_funcs.c                           syntax_error_helper.c
+libft_funcs.o                           syntax_error_helper.o
+list_init.c                             text.txt
+list_init.o                             tree_maker.c
+list_init_handlers.c                    tree_maker.o
+list_init_handlers.o                    tree_maker_helper.c
+ls -la                                  tree_maker_helper.o
+lsok lssls                              tree_maker_helper_three.c
+main_helper.c                           tree_maker_helper_three.o
+main_helper.o                           tree_maker_helper_two.c
+makefile                                tree_maker_helper_two.o
+minishell                               variable_handle_helper.c
+minishell.h                             variable_handle_helper.o
+more_libft_funcs.c                      variable_handle_helper_two.c
+more_libft_funcs.o                      variable_handle_helper_two.o
+mt9oba.txt                              variables_handle.c
+operation_extraction.c                  variables_handle.o
+operation_extraction.o                  wild_cards.c
+p                                       wild_cards.o
+parentheses_extraction.c                word_extraction.c
+parentheses_extraction.o                word_extraction.o
+parsing.c                               word_extraction_helper.c
+parsing.o                               word_extraction_helper.o
+process_all_redirections.c
+bash-3.2$ << $"USER"
+> $USER
+> USER
+bash-3.2$ << $$"USER"
+> USER
+> $$USER
+bash-3.2$ ls > "$klkl"
+bash: : No such file or directory
+bash-3.2$ ls > "$klkl "
+bash-3.2$ ls > '$klkl '
+bash-3.2$ $"USER"
+bash: USER: command not found
+bash-3.2$ $$$"USER"
+bash: 6601USER: command not found
+bash-3.2$ "echo " $USER
+bash: echo : command not found
+bash-3.2$ $USER-
+bash: aakroud-: command not found
+bash-3.2$ $USER?
+bash: aakroud?: command not found
+bash-3.2$ ls | echo $?
+0
+bash-3.2$ lsss | echo $?
+0
+bash: lsss: command not found
+bash-3.2$ lss
+\bash: lss: command not found
+bash-3.2$ echo $?
+127
+bash-3.2$ lss
+bash: lss: command not found
+bash-3.2$ ls | echo $?
+0
+bash-3.2$ ls | echo $_
+
+bash-3.2$ 
+bash-3.2$ echo $_
+
+bash-3.2$ jhkjg
+bash: jhkjg: command not found
+bash-3.2$ echo $_
+jhkjg
+bash-3.2$ export a=ls
+bash-3.2$ export a="a b c"
+bash-3.2$ export a=$a
+bash-3.2$ export
+declare -x COLORTERM="truecolor"
+declare -x COMMAND_MODE="unix2003"
+declare -x GIT_ASKPASS="/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh"
+declare -x HOME="/mnt/homes/aakroud"
+declare -x LANG="en_US.UTF-8"
+declare -x LESS="-R"
+declare -x LOGNAME="aakroud"
+declare -x LSCOLORS="Gxfxcxdxbxegedabagacad"
+declare -x LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+declare -x LaunchInstanceID="83C02B8F-D67A-473B-8817-4208803650EE"
+declare -x MAIL="aakroud@student.1337.ma"
+declare -x MallocNanoZone="0"
+declare -x OLDPWD
+declare -x ORIGINAL_XDG_CURRENT_DESKTOP="undefined"
+declare -x PAGER="less"
+declare -x PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands"
+declare -x PWD="/mnt/homes/aakroud/Desktop/mini2"
+declare -x SECURITYSESSIONID="186a8"
+declare -x SHELL="/bin/zsh"
+declare -x SHLVL="2"
+declare -x SSH_AUTH_SOCK="/private/tmp/com.apple.launchd.pEDcY78nQg/Listeners"
+declare -x TERM="xterm-256color"
+declare -x TERM_PROGRAM="vscode"
+declare -x TERM_PROGRAM_VERSION="1.89.1"
+declare -x TMPDIR="/var/folders/zz/zyxvpxvq6csfxvn_n000cq940035t9/T/"
+declare -x USER="aakroud"
+declare -x USER_ZDOTDIR="/mnt/homes/aakroud"
+declare -x VSCODE_GIT_ASKPASS_EXTRA_ARGS=""
+declare -x VSCODE_GIT_ASKPASS_MAIN="/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js"
+declare -x VSCODE_GIT_ASKPASS_NODE="/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin)"
+declare -x VSCODE_GIT_IPC_HANDLE="/var/folders/zz/zyxvpxvq6csfxvn_n000cq940035t9/T/vscode-git-a689e73a15.sock"
+declare -x VSCODE_INJECTION="1"
+declare -x XPC_FLAGS="0x0"
+declare -x XPC_SERVICE_NAME="0"
+declare -x ZDOTDIR="/mnt/homes/aakroud"
+declare -x ZSH="/mnt/homes/aakroud/.oh-my-zsh"
+declare -x __CF_USER_TEXT_ENCODING="0x19749:0x0:0x0"
+declare -x a="a b c"
+bash-3.2$ export $a=$a
+bash-3.2$ export
+declare -x COLORTERM="truecolor"
+declare -x COMMAND_MODE="unix2003"
+declare -x GIT_ASKPASS="/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh"
+declare -x HOME="/mnt/homes/aakroud"
+declare -x LANG="en_US.UTF-8"
+declare -x LESS="-R"
+declare -x LOGNAME="aakroud"
+declare -x LSCOLORS="Gxfxcxdxbxegedabagacad"
+declare -x LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+declare -x LaunchInstanceID="83C02B8F-D67A-473B-8817-4208803650EE"
+declare -x MAIL="aakroud@student.1337.ma"
+declare -x MallocNanoZone="0"
+declare -x OLDPWD
+declare -x ORIGINAL_XDG_CURRENT_DESKTOP="undefined"
+declare -x PAGER="less"
+declare -x PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands"
+declare -x PWD="/mnt/homes/aakroud/Desktop/mini2"
+declare -x SECURITYSESSIONID="186a8"
+declare -x SHELL="/bin/zsh"
+declare -x SHLVL="2"
+declare -x SSH_AUTH_SOCK="/private/tmp/com.apple.launchd.pEDcY78nQg/Listeners"
+declare -x TERM="xterm-256color"
+declare -x TERM_PROGRAM="vscode"
+declare -x TERM_PROGRAM_VERSION="1.89.1"
+declare -x TMPDIR="/var/folders/zz/zyxvpxvq6csfxvn_n000cq940035t9/T/"
+declare -x USER="aakroud"
+declare -x USER_ZDOTDIR="/mnt/homes/aakroud"
+declare -x VSCODE_GIT_ASKPASS_EXTRA_ARGS=""
+declare -x VSCODE_GIT_ASKPASS_MAIN="/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js"
+declare -x VSCODE_GIT_ASKPASS_NODE="/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin)"
+declare -x VSCODE_GIT_IPC_HANDLE="/var/folders/zz/zyxvpxvq6csfxvn_n000cq940035t9/T/vscode-git-a689e73a15.sock"
+declare -x VSCODE_INJECTION="1"
+declare -x XPC_FLAGS="0x0"
+declare -x XPC_SERVICE_NAME="0"
+declare -x ZDOTDIR="/mnt/homes/aakroud"
+declare -x ZSH="/mnt/homes/aakroud/.oh-my-zsh"
+declare -x __CF_USER_TEXT_ENCODING="0x19749:0x0:0x0"
+declare -x a="a b c"
+declare -x b
+declare -x c="a"
+bash-3.2$ export $a="$a"
+bash-3.2$ export
+declare -x COLORTERM="truecolor"
+declare -x COMMAND_MODE="unix2003"
+declare -x GIT_ASKPASS="/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh"
+declare -x HOME="/mnt/homes/aakroud"
+declare -x LANG="en_US.UTF-8"
+declare -x LESS="-R"
+declare -x LOGNAME="aakroud"
+declare -x LSCOLORS="Gxfxcxdxbxegedabagacad"
+declare -x LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+declare -x LaunchInstanceID="83C02B8F-D67A-473B-8817-4208803650EE"
+declare -x MAIL="aakroud@student.1337.ma"
+declare -x MallocNanoZone="0"
+declare -x OLDPWD
+declare -x ORIGINAL_XDG_CURRENT_DESKTOP="undefined"
+declare -x PAGER="less"
+declare -x PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands"
+declare -x PWD="/mnt/homes/aakroud/Desktop/mini2"
+declare -x SECURITYSESSIONID="186a8"
+declare -x SHELL="/bin/zsh"
+declare -x SHLVL="2"
+declare -x SSH_AUTH_SOCK="/private/tmp/com.apple.launchd.pEDcY78nQg/Listeners"
+declare -x TERM="xterm-256color"
+declare -x TERM_PROGRAM="vscode"
+declare -x TERM_PROGRAM_VERSION="1.89.1"
+declare -x TMPDIR="/var/folders/zz/zyxvpxvq6csfxvn_n000cq940035t9/T/"
+declare -x USER="aakroud"
+declare -x USER_ZDOTDIR="/mnt/homes/aakroud"
+declare -x VSCODE_GIT_ASKPASS_EXTRA_ARGS=""
+declare -x VSCODE_GIT_ASKPASS_MAIN="/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js"
+declare -x VSCODE_GIT_ASKPASS_NODE="/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin)"
+declare -x VSCODE_GIT_IPC_HANDLE="/var/folders/zz/zyxvpxvq6csfxvn_n000cq940035t9/T/vscode-git-a689e73a15.sock"
+declare -x VSCODE_INJECTION="1"
+declare -x XPC_FLAGS="0x0"
+declare -x XPC_SERVICE_NAME="0"
+declare -x ZDOTDIR="/mnt/homes/aakroud"
+declare -x ZSH="/mnt/homes/aakroud/.oh-my-zsh"
+declare -x __CF_USER_TEXT_ENCODING="0x19749:0x0:0x0"
+declare -x a="a b c"
+declare -x b
+declare -x c="a b c"
+bash-3.2$ export k+"ls -l"
+bash: export: `k+ls -l': not a valid identifier
+bash-3.2$ export k="ls -l"
+bash-3.2$ $k
+total 2832
+-rw-r--r--  1 aakroud  2024_khouribga    2040 May 13 19:43  
+-rw-r--r--  1 aakroud  2024_khouribga    2047 May 13 19:43 $klkl 
+-rw-r--r--  1 aakroud  2024_khouribga    2038 May 13 19:42 $ljljk
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 18:14 0
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 18:14 1
+-rw-r--r--  1 aakroud  2024_khouribga    2022 May 13 18:14 2
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 19:39 a
+-rw-r--r--  1 aakroud  2024_khouribga    2044 May  9 12:20 dynamic_allocations_buffers.c
+-rw-r--r--  1 aakroud  2024_khouribga    7740 May 13 18:04 dynamic_allocations_buffers.o
+-rw-r--r--  1 aakroud  2024_khouribga       0 May  9 14:35 echo
+-rw-r--r--@ 1 aakroud  2024_khouribga    2189 May 10 12:29 even_more_libft_funcs.c
+-rw-r--r--  1 aakroud  2024_khouribga    7176 May 13 18:04 even_more_libft_funcs.o
+-rw-r--r--  1 aakroud  2024_khouribga    5634 May  9 18:18 exec_utils.c
+-rw-r--r--  1 aakroud  2024_khouribga   27976 May 13 18:04 exec_utils.o
+-rw-r--r--  1 aakroud  2024_khouribga    2482 May  9 12:20 extra_tools.c
+-rw-r--r--  1 aakroud  2024_khouribga   17320 May 13 18:04 extra_tools.o
+-rw-r--r--  1 aakroud  2024_khouribga    2683 May 13 19:33 free_everything.c
+-rw-r--r--  1 aakroud  2024_khouribga   10884 May 13 19:33 free_everything.o
+-rw-r--r--  1 aakroud  2024_khouribga   14003 May 12 17:40 ft_builtin.c
+-rw-r--r--  1 aakroud  2024_khouribga   43084 May 13 18:04 ft_builtin.o
+-rw-r--r--@ 1 aakroud  2024_khouribga    1873 Apr 25 15:48 ft_strtrim.c
+-rw-r--r--  1 aakroud  2024_khouribga    5268 May 13 18:04 ft_strtrim.o
+-rw-r--r--  1 aakroud  2024_khouribga    2027 May 13 16:48 h j k
+-rw-r--r--@ 1 aakroud  2024_khouribga    2245 Apr 25 16:12 helpers.c
+-rw-r--r--  1 aakroud  2024_khouribga   11372 May 13 18:04 helpers.o
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 19:39 j
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 19:39 jj
+-rw-r--r--  1 aakroud  2024_khouribga    1679 Apr 29 16:09 lexer.c
+-rw-r--r--  1 aakroud  2024_khouribga    9164 May 13 18:04 lexer.o
+-rw-r--r--@ 1 aakroud  2024_khouribga    2425 Apr 20 10:03 lexer_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   12268 May 13 18:04 lexer_helper.o
+-rw-r--r--@ 1 aakroud  2024_khouribga    1205 Apr 24 11:07 lexer_helper_three.c
+-rw-r--r--  1 aakroud  2024_khouribga    4348 May 13 18:04 lexer_helper_three.o
+-rw-r--r--@ 1 aakroud  2024_khouribga    2588 Apr 24 16:12 lexer_helper_two.c
+-rw-r--r--  1 aakroud  2024_khouribga   15160 May 13 18:04 lexer_helper_two.o
+-rw-r--r--  1 aakroud  2024_khouribga    2122 May  9 12:05 libft_funcs.c
+-rw-r--r--  1 aakroud  2024_khouribga    7584 May 13 18:04 libft_funcs.o
+-rw-r--r--  1 aakroud  2024_khouribga    2106 May  9 12:20 list_init.c
+-rw-r--r--  1 aakroud  2024_khouribga    9308 May 13 18:04 list_init.o
+-rw-r--r--@ 1 aakroud  2024_khouribga    2803 Apr 25 16:21 list_init_handlers.c
+-rw-r--r--  1 aakroud  2024_khouribga   13308 May 13 18:04 list_init_handlers.o
+-rw-r--r--  1 aakroud  2024_khouribga    2038 May 13 15:14 ls -la
+-rw-r--r--  1 aakroud  2024_khouribga    2021 May 13 16:47 lsok lssls
+-rw-r--r--  1 aakroud  2024_khouribga    1996 May  9 12:20 main_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga    9616 May 13 18:04 main_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga    1260 May 12 15:45 makefile
+-rwxr-xr-x  1 aakroud  2024_khouribga  388872 May 13 19:33 minishell
+-rw-r--r--  1 aakroud  2024_khouribga   11655 May 13 15:08 minishell.h
+-rw-r--r--@ 1 aakroud  2024_khouribga    1964 Apr 20 10:11 more_libft_funcs.c
+-rw-r--r--  1 aakroud  2024_khouribga    7036 May 13 18:04 more_libft_funcs.o
+-rw-r--r--  1 aakroud  2024_khouribga    1578 May 12 17:09 mt9oba.txt
+-rw-r--r--  1 aakroud  2024_khouribga    2782 May  4 14:22 operation_extraction.c
+-rw-r--r--  1 aakroud  2024_khouribga   10004 May 13 18:04 operation_extraction.o
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 19:39 p
+-rw-r--r--  1 aakroud  2024_khouribga    2545 May  4 14:13 parentheses_extraction.c
+-rw-r--r--  1 aakroud  2024_khouribga   13356 May 13 18:04 parentheses_extraction.o
+-rw-r--r--  1 aakroud  2024_khouribga   16283 May 13 18:04 parsing.c
+-rw-r--r--  1 aakroud  2024_khouribga   80324 May 13 18:04 parsing.o
+-rw-r--r--  1 aakroud  2024_khouribga    3250 May  4 14:22 process_all_redirections.c
+-rw-r--r--  1 aakroud  2024_khouribga   12856 May 13 18:04 process_all_redirections.o
+-rw-r--r--  1 aakroud  2024_khouribga    2167 May  4 14:22 process_all_redirections_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga    9648 May 13 18:04 process_all_redirections_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga    2470 May  4 14:22 process_all_redirections_helper_two.c
+-rw-r--r--  1 aakroud  2024_khouribga   10328 May 13 18:04 process_all_redirections_helper_two.o
+-rw-r--r--  1 aakroud  2024_khouribga    2914 May  4 14:22 process_nested_parentheses.c
+-rw-r--r--  1 aakroud  2024_khouribga   14132 May 13 18:04 process_nested_parentheses.o
+-rw-r--r--  1 aakroud  2024_khouribga    2291 May  4 14:22 process_nested_parentheses_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   10924 May 13 18:04 process_nested_parentheses_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga    3366 Apr 29 16:09 process_pipe_tree.c
+-rw-r--r--  1 aakroud  2024_khouribga   16568 May 13 18:04 process_pipe_tree.o
+-rw-r--r--  1 aakroud  2024_khouribga    3105 May  4 14:13 process_pipe_tree_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   12924 May 13 18:04 process_pipe_tree_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga    2396 Apr 29 16:09 process_pipe_tree_helper_two.c
+-rw-r--r--  1 aakroud  2024_khouribga    9996 May 13 18:04 process_pipe_tree_helper_two.o
+-rw-r--r--  1 aakroud  2024_khouribga    3081 May  9 12:20 quotes_handle.c
+-rw-r--r--  1 aakroud  2024_khouribga   14240 May 13 18:04 quotes_handle.o
+-rw-r--r--  1 aakroud  2024_khouribga    2976 May  9 12:20 redirections_opener.c
+-rw-r--r--  1 aakroud  2024_khouribga   13420 May 13 18:04 redirections_opener.o
+-rw-r--r--  1 aakroud  2024_khouribga    1223 May  9 12:20 redirections_opener_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga    4140 May 13 18:04 redirections_opener_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga      19 May 13 15:12 s ls
+-rw-r--r--  1 aakroud  2024_khouribga    2034 May 13 17:06 sgsgsg
+-rw-r--r--  1 aakroud  2024_khouribga    1433 May  9 12:20 signals.c
+-rw-r--r--  1 aakroud  2024_khouribga    2379 May  4 14:22 some_new_other_helpers.c
+-rw-r--r--  1 aakroud  2024_khouribga   12724 May 13 18:04 some_new_other_helpers.o
+-rw-r--r--  1 aakroud  2024_khouribga    2781 May 13 16:45 some_other_helpers.c
+-rw-r--r--  1 aakroud  2024_khouribga   16636 May 13 18:04 some_other_helpers.o
+-rw-r--r--  1 aakroud  2024_khouribga    1946 May 12 14:30 str_extraction.c
+-rw-r--r--  1 aakroud  2024_khouribga   10040 May 13 18:04 str_extraction.o
+-rw-r--r--  1 aakroud  2024_khouribga    4013 May  4 14:22 syntax_error.c
+-rw-r--r--  1 aakroud  2024_khouribga   16732 May 13 18:04 syntax_error.o
+-rw-r--r--  1 aakroud  2024_khouribga    2710 May  4 14:22 syntax_error_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   14736 May 13 18:04 syntax_error_helper.o
+-rwxr-xr-x  1 aakroud  2024_khouribga      33 May 13 19:41 text.txt
+-rw-r--r--  1 aakroud  2024_khouribga    2952 Apr 29 16:09 tree_maker.c
+-rw-r--r--  1 aakroud  2024_khouribga   13976 May 13 18:04 tree_maker.o
+-rw-r--r--  1 aakroud  2024_khouribga    2231 May 13 15:08 tree_maker_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga    9192 May 13 18:04 tree_maker_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga    1559 Apr 29 16:09 tree_maker_helper_three.c
+-rw-r--r--  1 aakroud  2024_khouribga    7792 May 13 18:04 tree_maker_helper_three.o
+-rw-r--r--  1 aakroud  2024_khouribga    2586 May 13 15:08 tree_maker_helper_two.c
+-rw-r--r--  1 aakroud  2024_khouribga   10340 May 13 18:04 tree_maker_helper_two.o
+-rw-r--r--  1 aakroud  2024_khouribga    3939 May 13 17:26 variable_handle_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   16760 May 13 18:04 variable_handle_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga     915 May  4 14:22 variable_handle_helper_two.c
+-rw-r--r--  1 aakroud  2024_khouribga    1296 May 13 18:04 variable_handle_helper_two.o
+-rw-r--r--  1 aakroud  2024_khouribga    4380 May  9 17:34 variables_handle.c
+-rw-r--r--  1 aakroud  2024_khouribga   15508 May 13 18:04 variables_handle.o
+-rw-r--r--  1 aakroud  2024_khouribga   10201 May  9 12:20 wild_cards.c
+-rw-r--r--  1 aakroud  2024_khouribga   36052 May 13 18:04 wild_cards.o
+-rw-r--r--  1 aakroud  2024_khouribga    3041 May  9 12:20 word_extraction.c
+-rw-r--r--  1 aakroud  2024_khouribga   11356 May 13 18:04 word_extraction.o
+-rw-r--r--  1 aakroud  2024_khouribga    2596 May  9 12:20 word_extraction_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   16468 May 13 18:04 word_extraction_helper.o
+bash-3.2$ "$k"
+bash: ls -l: command not found
+bash-3.2$ ""$k""
+total 2832
+-rw-r--r--  1 aakroud  2024_khouribga    2040 May 13 19:43  
+-rw-r--r--  1 aakroud  2024_khouribga    2047 May 13 19:43 $klkl 
+-rw-r--r--  1 aakroud  2024_khouribga    2038 May 13 19:42 $ljljk
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 18:14 0
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 18:14 1
+-rw-r--r--  1 aakroud  2024_khouribga    2022 May 13 18:14 2
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 19:39 a
+-rw-r--r--  1 aakroud  2024_khouribga    2044 May  9 12:20 dynamic_allocations_buffers.c
+-rw-r--r--  1 aakroud  2024_khouribga    7740 May 13 18:04 dynamic_allocations_buffers.o
+-rw-r--r--  1 aakroud  2024_khouribga       0 May  9 14:35 echo
+-rw-r--r--@ 1 aakroud  2024_khouribga    2189 May 10 12:29 even_more_libft_funcs.c
+-rw-r--r--  1 aakroud  2024_khouribga    7176 May 13 18:04 even_more_libft_funcs.o
+-rw-r--r--  1 aakroud  2024_khouribga    5634 May  9 18:18 exec_utils.c
+-rw-r--r--  1 aakroud  2024_khouribga   27976 May 13 18:04 exec_utils.o
+-rw-r--r--  1 aakroud  2024_khouribga    2482 May  9 12:20 extra_tools.c
+-rw-r--r--  1 aakroud  2024_khouribga   17320 May 13 18:04 extra_tools.o
+-rw-r--r--  1 aakroud  2024_khouribga    2683 May 13 19:33 free_everything.c
+-rw-r--r--  1 aakroud  2024_khouribga   10884 May 13 19:33 free_everything.o
+-rw-r--r--  1 aakroud  2024_khouribga   14003 May 12 17:40 ft_builtin.c
+-rw-r--r--  1 aakroud  2024_khouribga   43084 May 13 18:04 ft_builtin.o
+-rw-r--r--@ 1 aakroud  2024_khouribga    1873 Apr 25 15:48 ft_strtrim.c
+-rw-r--r--  1 aakroud  2024_khouribga    5268 May 13 18:04 ft_strtrim.o
+-rw-r--r--  1 aakroud  2024_khouribga    2027 May 13 16:48 h j k
+-rw-r--r--@ 1 aakroud  2024_khouribga    2245 Apr 25 16:12 helpers.c
+-rw-r--r--  1 aakroud  2024_khouribga   11372 May 13 18:04 helpers.o
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 19:39 j
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 19:39 jj
+-rw-r--r--  1 aakroud  2024_khouribga    1679 Apr 29 16:09 lexer.c
+-rw-r--r--  1 aakroud  2024_khouribga    9164 May 13 18:04 lexer.o
+-rw-r--r--@ 1 aakroud  2024_khouribga    2425 Apr 20 10:03 lexer_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   12268 May 13 18:04 lexer_helper.o
+-rw-r--r--@ 1 aakroud  2024_khouribga    1205 Apr 24 11:07 lexer_helper_three.c
+-rw-r--r--  1 aakroud  2024_khouribga    4348 May 13 18:04 lexer_helper_three.o
+-rw-r--r--@ 1 aakroud  2024_khouribga    2588 Apr 24 16:12 lexer_helper_two.c
+-rw-r--r--  1 aakroud  2024_khouribga   15160 May 13 18:04 lexer_helper_two.o
+-rw-r--r--  1 aakroud  2024_khouribga    2122 May  9 12:05 libft_funcs.c
+-rw-r--r--  1 aakroud  2024_khouribga    7584 May 13 18:04 libft_funcs.o
+-rw-r--r--  1 aakroud  2024_khouribga    2106 May  9 12:20 list_init.c
+-rw-r--r--  1 aakroud  2024_khouribga    9308 May 13 18:04 list_init.o
+-rw-r--r--@ 1 aakroud  2024_khouribga    2803 Apr 25 16:21 list_init_handlers.c
+-rw-r--r--  1 aakroud  2024_khouribga   13308 May 13 18:04 list_init_handlers.o
+-rw-r--r--  1 aakroud  2024_khouribga    2038 May 13 15:14 ls -la
+-rw-r--r--  1 aakroud  2024_khouribga    2021 May 13 16:47 lsok lssls
+-rw-r--r--  1 aakroud  2024_khouribga    1996 May  9 12:20 main_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga    9616 May 13 18:04 main_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga    1260 May 12 15:45 makefile
+-rwxr-xr-x  1 aakroud  2024_khouribga  388872 May 13 19:33 minishell
+-rw-r--r--  1 aakroud  2024_khouribga   11655 May 13 15:08 minishell.h
+-rw-r--r--@ 1 aakroud  2024_khouribga    1964 Apr 20 10:11 more_libft_funcs.c
+-rw-r--r--  1 aakroud  2024_khouribga    7036 May 13 18:04 more_libft_funcs.o
+-rw-r--r--  1 aakroud  2024_khouribga    1578 May 12 17:09 mt9oba.txt
+-rw-r--r--  1 aakroud  2024_khouribga    2782 May  4 14:22 operation_extraction.c
+-rw-r--r--  1 aakroud  2024_khouribga   10004 May 13 18:04 operation_extraction.o
+-rw-r--r--  1 aakroud  2024_khouribga       0 May 13 19:39 p
+-rw-r--r--  1 aakroud  2024_khouribga    2545 May  4 14:13 parentheses_extraction.c
+-rw-r--r--  1 aakroud  2024_khouribga   13356 May 13 18:04 parentheses_extraction.o
+-rw-r--r--  1 aakroud  2024_khouribga   16283 May 13 18:04 parsing.c
+-rw-r--r--  1 aakroud  2024_khouribga   80324 May 13 18:04 parsing.o
+-rw-r--r--  1 aakroud  2024_khouribga    3250 May  4 14:22 process_all_redirections.c
+-rw-r--r--  1 aakroud  2024_khouribga   12856 May 13 18:04 process_all_redirections.o
+-rw-r--r--  1 aakroud  2024_khouribga    2167 May  4 14:22 process_all_redirections_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga    9648 May 13 18:04 process_all_redirections_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga    2470 May  4 14:22 process_all_redirections_helper_two.c
+-rw-r--r--  1 aakroud  2024_khouribga   10328 May 13 18:04 process_all_redirections_helper_two.o
+-rw-r--r--  1 aakroud  2024_khouribga    2914 May  4 14:22 process_nested_parentheses.c
+-rw-r--r--  1 aakroud  2024_khouribga   14132 May 13 18:04 process_nested_parentheses.o
+-rw-r--r--  1 aakroud  2024_khouribga    2291 May  4 14:22 process_nested_parentheses_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   10924 May 13 18:04 process_nested_parentheses_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga    3366 Apr 29 16:09 process_pipe_tree.c
+-rw-r--r--  1 aakroud  2024_khouribga   16568 May 13 18:04 process_pipe_tree.o
+-rw-r--r--  1 aakroud  2024_khouribga    3105 May  4 14:13 process_pipe_tree_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   12924 May 13 18:04 process_pipe_tree_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga    2396 Apr 29 16:09 process_pipe_tree_helper_two.c
+-rw-r--r--  1 aakroud  2024_khouribga    9996 May 13 18:04 process_pipe_tree_helper_two.o
+-rw-r--r--  1 aakroud  2024_khouribga    3081 May  9 12:20 quotes_handle.c
+-rw-r--r--  1 aakroud  2024_khouribga   14240 May 13 18:04 quotes_handle.o
+-rw-r--r--  1 aakroud  2024_khouribga    2976 May  9 12:20 redirections_opener.c
+-rw-r--r--  1 aakroud  2024_khouribga   13420 May 13 18:04 redirections_opener.o
+-rw-r--r--  1 aakroud  2024_khouribga    1223 May  9 12:20 redirections_opener_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga    4140 May 13 18:04 redirections_opener_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga      19 May 13 15:12 s ls
+-rw-r--r--  1 aakroud  2024_khouribga    2034 May 13 17:06 sgsgsg
+-rw-r--r--  1 aakroud  2024_khouribga    1433 May  9 12:20 signals.c
+-rw-r--r--  1 aakroud  2024_khouribga    2379 May  4 14:22 some_new_other_helpers.c
+-rw-r--r--  1 aakroud  2024_khouribga   12724 May 13 18:04 some_new_other_helpers.o
+-rw-r--r--  1 aakroud  2024_khouribga    2781 May 13 16:45 some_other_helpers.c
+-rw-r--r--  1 aakroud  2024_khouribga   16636 May 13 18:04 some_other_helpers.o
+-rw-r--r--  1 aakroud  2024_khouribga    1946 May 12 14:30 str_extraction.c
+-rw-r--r--  1 aakroud  2024_khouribga   10040 May 13 18:04 str_extraction.o
+-rw-r--r--  1 aakroud  2024_khouribga    4013 May  4 14:22 syntax_error.c
+-rw-r--r--  1 aakroud  2024_khouribga   16732 May 13 18:04 syntax_error.o
+-rw-r--r--  1 aakroud  2024_khouribga    2710 May  4 14:22 syntax_error_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   14736 May 13 18:04 syntax_error_helper.o
+-rwxr-xr-x  1 aakroud  2024_khouribga      33 May 13 19:41 text.txt
+-rw-r--r--  1 aakroud  2024_khouribga    2952 Apr 29 16:09 tree_maker.c
+-rw-r--r--  1 aakroud  2024_khouribga   13976 May 13 18:04 tree_maker.o
+-rw-r--r--  1 aakroud  2024_khouribga    2231 May 13 15:08 tree_maker_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga    9192 May 13 18:04 tree_maker_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga    1559 Apr 29 16:09 tree_maker_helper_three.c
+-rw-r--r--  1 aakroud  2024_khouribga    7792 May 13 18:04 tree_maker_helper_three.o
+-rw-r--r--  1 aakroud  2024_khouribga    2586 May 13 15:08 tree_maker_helper_two.c
+-rw-r--r--  1 aakroud  2024_khouribga   10340 May 13 18:04 tree_maker_helper_two.o
+-rw-r--r--  1 aakroud  2024_khouribga    3939 May 13 17:26 variable_handle_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   16760 May 13 18:04 variable_handle_helper.o
+-rw-r--r--  1 aakroud  2024_khouribga     915 May  4 14:22 variable_handle_helper_two.c
+-rw-r--r--  1 aakroud  2024_khouribga    1296 May 13 18:04 variable_handle_helper_two.o
+-rw-r--r--  1 aakroud  2024_khouribga    4380 May  9 17:34 variables_handle.c
+-rw-r--r--  1 aakroud  2024_khouribga   15508 May 13 18:04 variables_handle.o
+-rw-r--r--  1 aakroud  2024_khouribga   10201 May  9 12:20 wild_cards.c
+-rw-r--r--  1 aakroud  2024_khouribga   36052 May 13 18:04 wild_cards.o
+-rw-r--r--  1 aakroud  2024_khouribga    3041 May  9 12:20 word_extraction.c
+-rw-r--r--  1 aakroud  2024_khouribga   11356 May 13 18:04 word_extraction.o
+-rw-r--r--  1 aakroud  2024_khouribga    2596 May  9 12:20 word_extraction_helper.c
+-rw-r--r--  1 aakroud  2024_khouribga   16468 May 13 18:04 word_extraction_helper.o
+bash-3.2$ """$k"""
+bash: ls -l: command not found
+bash-3.2$ export k="ls"
+bash-3.2$ $K
+bash-3.2$ $k
+                                        parsing.o
+$klkl                                   process_all_redirections.c
+$ljljk                                  process_all_redirections.o
+0                                       process_all_redirections_helper.c
+1                                       process_all_redirections_helper.o
+2                                       process_all_redirections_helper_two.c
+a                                       process_all_redirections_helper_two.o
+dynamic_allocations_buffers.c           process_nested_parentheses.c
+dynamic_allocations_buffers.o           process_nested_parentheses.o
+echo                                    process_nested_parentheses_helper.c
+even_more_libft_funcs.c                 process_nested_parentheses_helper.o
+even_more_libft_funcs.o                 process_pipe_tree.c
+exec_utils.c                            process_pipe_tree.o
+exec_utils.o                            process_pipe_tree_helper.c
+extra_tools.c                           process_pipe_tree_helper.o
+extra_tools.o                           process_pipe_tree_helper_two.c
+free_everything.c                       process_pipe_tree_helper_two.o
+free_everything.o                       quotes_handle.c
+ft_builtin.c                            quotes_handle.o
+ft_builtin.o                            redirections_opener.c
+ft_strtrim.c                            redirections_opener.o
+ft_strtrim.o                            redirections_opener_helper.c
+h j k                                   redirections_opener_helper.o
+helpers.c                               s ls
+helpers.o                               sgsgsg
+j                                       signals.c
+jj                                      some_new_other_helpers.c
+lexer.c                                 some_new_other_helpers.o
+lexer.o                                 some_other_helpers.c
+lexer_helper.c                          some_other_helpers.o
+lexer_helper.o                          str_extraction.c
+lexer_helper_three.c                    str_extraction.o
+lexer_helper_three.o                    syntax_error.c
+lexer_helper_two.c                      syntax_error.o
+lexer_helper_two.o                      syntax_error_helper.c
+libft_funcs.c                           syntax_error_helper.o
+libft_funcs.o                           text.txt
+list_init.c                             tree_maker.c
+list_init.o                             tree_maker.o
+list_init_handlers.c                    tree_maker_helper.c
+list_init_handlers.o                    tree_maker_helper.o
+ls -la                                  tree_maker_helper_three.c
+lsok lssls                              tree_maker_helper_three.o
+main_helper.c                           tree_maker_helper_two.c
+main_helper.o                           tree_maker_helper_two.o
+makefile                                variable_handle_helper.c
+minishell                               variable_handle_helper.o
+minishell.h                             variable_handle_helper_two.c
+more_libft_funcs.c                      variable_handle_helper_two.o
+more_libft_funcs.o                      variables_handle.c
+mt9oba.txt                              variables_handle.o
+operation_extraction.c                  wild_cards.c
+operation_extraction.o                  wild_cards.o
+p                                       word_extraction.c
+parentheses_extraction.c                word_extraction.o
+parentheses_extraction.o                word_extraction_helper.c
+parsing.c                               word_extraction_helper.o
+bash-3.2$ export k="l's"
+bash-3.2$ $k
+bash: l's: command not found
+bash-3.2$ export k='l"s'
+bash-3.2$ $k
+bash: l"s: command not found
+bash-3.2$ export k='l"s -l'
+bash-3.2$ $k
+bash: l"s: command not found
+
+(((ls | cat > ) > 0) > )
+bash: syntax error near unexpected token `)'
+
+((ls | cat > ) > 0))
+bash: ((: (ls | cat > ) > 0: syntax error: operand expected (error token is ") > 0")
+
+((ls | cat > ) > 0)
+bash: syntax error near unexpected token `)'
+
+minishell$> > oyt
