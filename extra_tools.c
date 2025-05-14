@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:28:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 12:05:53 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:22:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	print_tree_visual(t_tree *tree, int level, int is_left)
 		printf(" (Ambiguous: %d)", tree->ambiguous);
 	else
 		printf(" (Ambiguous: 0)");
-	if (tree->quotes)
-		printf(" (Quotes: %d)", tree->quotes);
-	else
-		printf(" (Quotes: 0)");
+	// if (tree->quotes)
+	// 	printf(" (Quotes: %d)", tree->quotes);
+	// else
+	// 	printf(" (Quotes: 0)");
 	if (tree->var)
 		printf(" (Var: %d)", tree->var);
 	else
@@ -56,11 +56,38 @@ void	print_tree_visual(t_tree *tree, int level, int is_left)
 	{
 		for (int i = 0; tree->command_arr[i]; i++)
 		{
-			printf(" (Command_arr: %s)", tree->command_arr[i]);
+			// Handle special case for dollar sign
+			if (tree->command_arr[i] && tree->command_arr[i][0] == '$')
+				printf(" (Command_arr: \\$%s)", &(tree->command_arr[i][1]));
+			else
+				printf(" (Command_arr: %s)", tree->command_arr[i]);
 		}
 	}
 	else
 		printf(" (Command_arr: NULL)");
+	if (tree->split)
+	{
+		for (int i = 0; tree->command_arr[i]; i++)
+		{
+			printf(" (Split idx: %d)", tree->split[i]->arr_index); // Always print the index
+			printf(" (Split flg: %d)", tree->split[i]->split_flag); // Always print the flag
+		}
+	}
+	else
+		printf(" (Split: NULL)");
+	// if (tree->command_arr_expanded)
+	// {
+	// 	for (int i = 0; tree->command_arr_expanded[i]; i++)
+	// 	{
+	// 		if (tree->command_arr_expanded[i])
+	// 		{
+	// 			for (int j = 0; tree->command_arr_expanded[i][j]; j++)
+	// 				printf(" (Command_arr_expanded: %s i = %d j = %d)", tree->command_arr_expanded[i][j], i, j);
+	// 		}
+	// 	}
+	// }
+	// else
+	// 	printf(" (Command_arr_expanded: NULL)");
 	if (tree->redirections)
 		printf(" [Redirections: %s]", tree->redirections);
 	printf("\n");

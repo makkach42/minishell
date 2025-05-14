@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 18:15:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:23:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,6 @@ void	variable_expantion(t_tree **tree, t_env **env)
 						break ;
 					if (!variable_search(tree) || !variable_search_instr((*tree)->command_arr[i]))
 						j = -1;
-					(*tree)->var = 1;
 				}
 				j++;
 			}
