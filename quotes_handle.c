@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 18:13:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:41:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	process_command_string(t_tree **tree, int k)
 	new_str = create_filtered_string(old_str, final_len);
 	if (!new_str)
 		return ;
-	printf("*************%s\n", new_str);
 	free((*tree)->command_arr[k]);
 	(*tree)->command_arr[k] = new_str;
 }

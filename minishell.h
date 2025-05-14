@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 18:13:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:57:23 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_split
+{
+	int	arr_index;
+	int	split_flag;
+}	t_split;
+
 typedef struct s_tree
 {
 	char			*type;
@@ -54,11 +60,13 @@ typedef struct s_tree
 	struct s_tree	*right;
 	char			*command;
 	char			**command_arr;
+	char			***command_arr_expanded;
 	char			*redirections;
 	int				ambiguous;
 	int				quotes;
 	int				var;
 	t_list_fd		*fd_list;
+	t_split			**split;
 }	t_tree;
 
 typedef struct s_dynbuf
@@ -242,7 +250,7 @@ int			countwords(char *s, char c);
 void		ambiguous_set(t_tree **tree);
 int			variable_search_instr(char *str);
 int			new_syntax_error(t_list **head);
-int			ambiguous_syntax_error(t_tree **tree);
+int			ambiguous_syntax_error(t_tree **tree, t_env **env);
 void		quote_set(t_tree **tree);
 void		tree_empty_error(t_tree **tree);
 void		redirections_list_maker(t_tree **tree);

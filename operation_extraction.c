@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/01 16:06:56 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/12 17:28:01 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*extract_variable(char *str)
 	char	*word;
 
 	i = 1;
-	while (str[i] && str[i] != 32 && !is_operator(str[i]) && str[i] != '$')
+	while (str[i] && str[i] != 32 && !is_operator(str[i]))// && ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= '0' && str[i] <= '9'))
 	{
 		if (str[i] >= '0' && str[i] <= '9' && str[i - 1] == '$')
 		{
@@ -72,19 +72,3 @@ char	*extract_variable(char *str)
 	word = ft_substr(str, 0, i);
 	return (word);
 }
-
-// void	if_node_is_variable(t_list *tmp, t_list **head)
-// {
-// 	if (tmp->data[0] == '$')
-// 	{
-// 		if (*head == tmp)
-// 			*head = tmp->next;
-// 		if (tmp->prev)
-// 			tmp->prev->next = tmp->next;
-// 		if (tmp->next)
-// 			tmp->next->prev = tmp->prev;
-// 		if (tmp->data)
-// 			free(tmp->data);
-// 		free(tmp);
-// 	}
-// }
