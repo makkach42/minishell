@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 17:34:17 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:19:58 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,6 @@ void	variable_expantion(t_tree **tree, t_env **env)
 						break ;
 					if (!variable_search(tree) || !variable_search_instr((*tree)->command_arr[i]))
 						j = -1;
-					(*tree)->var = 1;
 				}
 				j++;
 			}

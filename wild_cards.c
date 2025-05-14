@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/08 09:43:45 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/12 10:57:37 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	if_has_wildcards(char *str)
 
 int	has_wild_cards_comarr(t_tree **tree)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	if ((*tree)->command_arr)
@@ -55,7 +55,7 @@ int	has_wild_cards_comarr(t_tree **tree)
 
 int	has_wild_cards_fdlst(t_tree **tree)
 {
-	int 		i;
+	int			i;
 	t_list_fd	*tmp;
 
 	i = 0;
@@ -215,7 +215,6 @@ char	*join_matches(char **matches, int match_count)
 		temp += ft_strlen(matches[i]);
 		i++;
 	}
-	
 	*temp = '\0';
 	return (result);
 }
@@ -228,6 +227,8 @@ void	process_wildcard_node_fd(t_list_fd *node, char *dir_path)
 	char			**matches;
 	int				match_count;
 	int				capacity;
+	int				i;
+	int				old_capacity;
 	char			*joined_result;
 
 	pattern = node->name;
@@ -254,11 +255,12 @@ void	process_wildcard_node_fd(t_list_fd *node, char *dir_path)
 		{
 			if (match_count >= capacity)
 			{
-				int old_capacity = capacity;
-				if (!copy_and_resize_matches(&matches, match_count, capacity * 2))
+				old_capacity = capacity;
+				if (!copy_and_resize_matches(&matches,
+						match_count, capacity * 2))
 				{
 					entry = readdir(dir);
-					continue;
+					continue ;
 				}
 				capacity = old_capacity * 2;
 			}
@@ -271,7 +273,7 @@ void	process_wildcard_node_fd(t_list_fd *node, char *dir_path)
 			match_count++;
 		}
 		entry = readdir(dir);
-	}	
+	}
 	closedir(dir);
 	if (match_count > 0)
 	{
@@ -281,7 +283,7 @@ void	process_wildcard_node_fd(t_list_fd *node, char *dir_path)
 		{
 			free(node->name);
 			node->name = joined_result;
-			int i = 0;
+			i = 0;
 			while (i < match_count)
 			{
 				free(matches[i]);
@@ -368,7 +370,9 @@ char	**get_matches(const char *pattern, char *dir_path, int *match_count)
 	DIR				*dir;
 	struct dirent	*entry;
 	char			**matches;
+	char			**new_matches;
 	int				capacity;
+	int				new_capacity;
 	int				i;
 
 	*match_count = 0;
@@ -394,8 +398,8 @@ char	**get_matches(const char *pattern, char *dir_path, int *match_count)
 		{
 			if (*match_count >= capacity)
 			{
-				int new_capacity = capacity * 2;
-				char **new_matches = malloc(sizeof(char *) * new_capacity);
+				new_capacity = capacity * 2;
+				new_matches = malloc(sizeof(char *) * new_capacity);
 				if (!new_matches)
 				{
 					i = 0;
@@ -427,8 +431,7 @@ char	**get_matches(const char *pattern, char *dir_path, int *match_count)
 	closedir(dir);
 	if (*match_count > 0)
 		sort_matches(matches, *match_count);
-	
-	return matches;
+	return (matches);
 }
 
 void	wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path)
@@ -472,7 +475,8 @@ void	wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path)
 	{
 		if (if_has_wildcards((*cmd_arr)[i]))
 		{
-			expanded_matches = get_matches((*cmd_arr)[i], dir_path, &match_count);
+			expanded_matches = get_matches((*cmd_arr)[i],
+					dir_path, &match_count);
 			if (expanded_matches && match_count > 0)
 			{
 				k = 0;
@@ -486,6 +490,8 @@ void	wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path)
 			}
 			else
 			{
+				if (!*expanded_matches)
+					free(expanded_matches);
 				new_cmd_arr[j] = ft_strdup((*cmd_arr)[i]);
 				j++;
 			}

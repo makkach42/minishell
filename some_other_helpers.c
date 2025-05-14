@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/13 16:45:07 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:19:27 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ void	ambiguous_set(t_tree **tree)
 		tmpprev = NULL;
 		while (tmp)
 		{
-			if (variable_search_instr(tmp->name) && tmpprev && ft_strcmp(tmpprev->redir, "<<"))
+			if (variable_search_instr(tmp->name
+				) && tmpprev && ft_strcmp(tmpprev->redir, "<<"))
 				(*tree)->ambiguous = 1;
 			tmpprev = tmp;
 			tmp = tmp->next;

@@ -6,25 +6,38 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/01 10:50:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:01:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ambiguous_syntax_error(t_tree **tree)
+int	ambiguous_syntax_error(t_tree **tree, t_env **env)
 {
 	int	i;
+	t_env *tmp;
+	t_list_fd *tmplst;
 
+	tmp = *env;
 	i = 0;
+	if ((*tree) && (*tree)->quotes)
+	{
+		tmplst = (*tree)->fd_list;
+		while (tmplst)
+		{
+			if (countwords(tmplst->name, 32) > 1)
+				(*tree)->quotes = 0;
+			tmplst = tmplst->next;
+		}
+	}
 	if ((*tree) && (*tree)->ambiguous == 1 && (*tree)->quotes == 1)
 		i = 2;
 	if ((*tree) && (*tree)->ambiguous == 1 && (*tree)->quotes == 0)
 		i = 1;
 	if ((*tree) && (*tree)->left)
-		ambiguous_syntax_error(&(*tree)->left);
+		ambiguous_syntax_error(&(*tree)->left, env);
 	if ((*tree) && (*tree)->right)
-		ambiguous_syntax_error(&(*tree)->right);
+		ambiguous_syntax_error(&(*tree)->right, env);
 	return (i);
 }
 

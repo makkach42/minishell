@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:03:26 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/13 15:08:44 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:19:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_tree	*create_command_node(t_list **node_list, int offset)
 	command->fd_list = NULL;
 	command->ambiguous = 0;
 	command->var = 0;
+	command->split = NULL;
+	command->command_arr_expanded = NULL;
 	command->quotes = 0;
 	return (command);
 }

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/08 11:14:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:41:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,32 @@ void	process_command_string(t_tree **tree, int k)
 	(*tree)->command_arr[k] = new_str;
 }
 
+int	expandableornot(char *str)
+{
+	int		i;
+	int		in_quotes;
+	char	quotetype;
+
+	i = 0;
+	in_quotes = 0;
+	while (str[i])
+	{
+		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
+		{
+			in_quotes = 1;
+			quotetype = str[i];
+		}
+		else if (in_quotes && str[i] == quotetype)
+			in_quotes = 0;
+		if (str[i] == '$')
+			break ;
+		i++;
+	}
+	if (quotetype == '"')
+		return (1);
+	return (0);
+}
+
 void	process_command_array(t_tree **tree)
 {
 	int	k;
@@ -70,9 +96,37 @@ void	process_command_array(t_tree **tree)
 	k = 0;
 	while ((*tree)->command_arr[k])
 	{
+		if (variable_search_instr((*tree)->command_arr[k]) && !expandableornot((*tree)->command_arr[k]))
+		{
+			k++;
+			continue ;
+		}
 		process_command_string(tree, k);
 		k++;
 	}
+}
+
+void	process_command_array_two(t_tree **tree)
+{
+	int	k;
+
+	k = 0;
+	while ((*tree)->command_arr[k])
+	{
+		if (variable_search_instr((*tree)->command_arr[k]))
+			process_command_string(tree, k);
+		k++;
+	}
+}
+
+void	quote_remove(t_tree **tree)
+{
+	if ((*tree) && (*tree)->left)
+		quote_remove_two(&(*tree)->left);
+	if ((*tree) && (*tree)->right)
+		quote_remove_two(&(*tree)->right);
+	if ((*tree) && (*tree)->command_arr)
+		process_command_array(tree);
 }
 
 void	quote_remove_two(t_tree **tree)
@@ -82,7 +136,7 @@ void	quote_remove_two(t_tree **tree)
 	if ((*tree) && (*tree)->right)
 		quote_remove_two(&(*tree)->right);
 	if ((*tree) && (*tree)->command_arr)
-		process_command_array(tree);
+		process_command_array_two(tree);
 }
 
 void	process_lst(t_list_fd **node)
@@ -107,7 +161,25 @@ void	process_lnked_lst(t_tree **tree)
 	tmp = (*tree)->fd_list;
 	while (tmp)
 	{
+		if (variable_search_instr(tmp->name) && !expandableornot(tmp->name))
+		{
+			tmp = tmp->next;
+			continue ;
+		}
 		process_lst(&tmp);
+		tmp = tmp->next;
+	}
+}
+
+void	process_lnked_lst_two(t_tree **tree)
+{
+	t_list_fd	*tmp;
+
+	tmp = (*tree)->fd_list;
+	while (tmp)
+	{
+		if (variable_search_instr(tmp->name))
+			process_lst(&tmp);
 		tmp = tmp->next;
 	}
 }
@@ -120,4 +192,14 @@ void	quote_remove_lst(t_tree **tree)
 		quote_remove_lst(&(*tree)->right);
 	if ((*tree)->fd_list)
 		process_lnked_lst(tree);
+}
+
+void	quote_remove_lst_two(t_tree **tree)
+{
+	if ((*tree)->left)
+		quote_remove_lst(&(*tree)->left);
+	if ((*tree)->right)
+		quote_remove_lst(&(*tree)->right);
+	if ((*tree)->fd_list)
+		process_lnked_lst_two(tree);
 }

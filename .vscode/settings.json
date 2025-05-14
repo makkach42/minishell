@@ -63,6 +63,7 @@
     "string": "c",
     "string_view": "c",
     "vector": "c",
+<<<<<<< HEAD
     "__hash_table": "c",
     "algorithm": "c",
     "chrono": "c",
@@ -70,5 +71,8 @@
     "locale": "c",
     "memory": "c",
     "type_traits": "c"
+=======
+    "typeinfo": "c"
+>>>>>>> e403a8cec385dff4cdf6eb07180f89361a9c625b
   }
 }

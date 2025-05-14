@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 12:06:12 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:22:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	variable_search_instr(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '$')
 			break ;
 		i++;
 	}
-	if (str[i])
+	if (str && str[i])
 		return (1);
 	return (0);
 }
@@ -56,7 +56,6 @@ void	tree_to_rediropen(t_tree *tree)
 	process_pipe_trees(tree);
 	process_all_redirections(&tree);
 	command_arr_fill(&tree);
-	quote_remove_two(&tree);
 	quote_set(&tree);
 	syntax_error_two(&tree);
 }

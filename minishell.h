@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/14 15:37:51 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:36:59 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <termios.h>
 # include <dirent.h>
 # include <limits.h>
-# include <readline/history.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 
 typedef struct s_list
 {
@@ -49,6 +49,12 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_split
+{
+	int	arr_index;
+	int	split_flag;
+}	t_split;
+
 typedef struct s_tree
 {
 	char			*type;
@@ -56,11 +62,13 @@ typedef struct s_tree
 	struct s_tree	*right;
 	char			*command;
 	char			**command_arr;
+	char			***command_arr_expanded;
 	char			*redirections;
 	int				ambiguous;
 	int				quotes;
 	int				var;
 	t_list_fd		*fd_list;
+	t_split			**split;
 }	t_tree;
 
 typedef struct s_dynbuf
@@ -136,6 +144,7 @@ void		tree_to_rediropen(t_tree *tree);
 void		inits_main(t_env **env,
 				t_tree **tree, char **argev);
 void		command_arr_fill(t_tree **tree);
+void		quote_remove(t_tree **tree);
 void		quote_remove_two(t_tree **tree);
 void		free_tree(t_tree *tree);
 void		free_list_fd(t_list_fd **head);
@@ -268,7 +277,7 @@ int			countwords(char *s, char c);
 void		ambiguous_set(t_tree **tree);
 int			variable_search_instr(char *str);
 int			new_syntax_error(t_list **head);
-int			ambiguous_syntax_error(t_tree **tree);
+int			ambiguous_syntax_error(t_tree **tree, t_env **env);
 void		quote_set(t_tree **tree);
 void		tree_empty_error(t_tree **tree);
 void		redirections_list_maker(t_tree **tree);
@@ -317,5 +326,7 @@ void		handle_wildcards_in_fdlst(t_tree **tree);
 void		quote_remove_lst(t_tree **tree);
 void	variable_expantion_para(t_tree **tree, t_env **env);
 char	*ft_itoa(int n);
+void		quote_remove_lst_two(t_tree **tree);
+int			expandableornot(char *str);
 
 #endif
