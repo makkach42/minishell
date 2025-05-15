@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/15 12:29:14 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/15 14:14:43 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -786,7 +786,6 @@ void reset_command_arr(t_tree **tree)
         reset_command_arr(&(*tree)->right);
     if ((*tree) && (*tree)->command_arr)
     {
-		printf("AAAAAAAA\n");
 		if ((!ft_strcmp((*tree)->command_arr[0], "export") || variable_search_instr((*tree)->command_arr[0])) || hidenword((*tree)->command_arr[0], "export"))
 		{
 			i = 0;
@@ -973,11 +972,12 @@ void reset_command_arr(t_tree **tree)
 						j++;
 					}
 					(*tree)->split[i]->arr_index = i;
-					if ((variable_search_instr((*tree)->command_arr[i]) && prev_command_arr && !ft_strcmp(prev_command_arr, "=") && (i - 2 < 0 || (i - 2 >= 0 && (!variable_search_instr((*tree)->command_arr[i - 2]) || (variable_search_instr((*tree)->command_arr[i]) && flag == 1))))) || (!ft_strchr((*tree)->command_arr[i], '$')))//&& !prev_command_arr
+					if ((variable_search_instr((*tree)->command_arr[i]) && prev_command_arr && !ft_strcmp(prev_command_arr, "=") && (i - 2 < 0 || (i - 2 >= 0 && (!variable_search_instr((*tree)->command_arr[i - 2]))))) || (variable_search_instr((*tree)->command_arr[i]) && flag == 1) || (!ft_strchr((*tree)->command_arr[i], '$')))//&& !prev_command_arr
 						(*tree)->split[i]->split_flag = 0;
 					else
 						(*tree)->split[i]->split_flag = 1;
 					prev_command_arr = (*tree)->command_arr[i];
+					flag = 0;
 					i++;
 				}
 				(*tree)->split[i] = NULL;
@@ -1062,7 +1062,6 @@ void	command_arr_readjustments(t_tree **tree)
 		command_arr_readjustments(&(*tree)->right);
 	if ((*tree) && (*tree)->command_arr)
 	{
-		printf("GGGGGGGGG\n");
 		if ((*tree)->command_arr_expanded)
 		{
 			i = -1;
