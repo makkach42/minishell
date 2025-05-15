@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/14 16:53:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:56:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -649,7 +649,6 @@ int	main(int argc, char **argv, char **argev)
 		quote_remove(&tree);
 		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
 			variable_expantion(&tree, &env);
-			printf("----------------%d\n", variable_search_inlnkedlst(&tree));
 		if (variable_search_inlnkedlst(&tree) == 1)
 			variable_expantion_inlnkedlst(&tree, &env);
 		if (!flag)

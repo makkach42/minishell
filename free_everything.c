@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/14 16:57:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:53:06 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,29 @@ void free_tree(t_tree *tree)
     if (tree->command_arr_expanded)
     {
         i = -1;
-
-		while (tree->command_arr_expanded[++i])
-		{
-			j = -1;
-			while (tree->command_arr_expanded[i][++j])
-				(free(tree->command_arr_expanded[i][j]), tree->command_arr_expanded[i][j] = NULL);
-			(free(tree->command_arr_expanded[i]), tree->command_arr_expanded[i] = NULL);
-		}
-		(free(tree->command_arr_expanded), tree->command_arr_expanded = NULL);
+        while (tree->command_arr_expanded[++i])
+        {
+            if (tree->command_arr_expanded[i])
+            {
+                j = -1;
+                while (tree->command_arr_expanded[i][++j])
+                {
+                    if (tree->command_arr_expanded[i][j])
+                        (free(tree->command_arr_expanded[i][j]), tree->command_arr_expanded[i][j] = NULL);
+                }
+                (free(tree->command_arr_expanded[i]), tree->command_arr_expanded[i] = NULL);
+            }
+        }
+        (free(tree->command_arr_expanded), tree->command_arr_expanded = NULL);
     }
+
     if (tree->split)
     {
         i = -1;
         while (tree->split[++i])
             (free(tree->split[i]), tree->split[i] = NULL);
         free(tree->split);
+		tree->split = NULL;
     }
     if (tree->fd_list)
         free_list_fd(&(tree)->fd_list);
