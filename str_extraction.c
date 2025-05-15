@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   str_extraction.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:39:46 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/12 14:25:57 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:19:35 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 

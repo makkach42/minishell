@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/15 12:16:31 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:28:32 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,8 @@ void	free_env(t_env **env)
 	{
 		tmp2 = tmp->next;
 		free(tmp->key);
-		free(tmp->value);
+		if (tmp->value)
+			free(tmp->value);
 		free(tmp);
 		tmp = tmp2;
 	}
