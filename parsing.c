@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/15 11:56:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/15 14:13:10 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,8 +195,12 @@ void reset_command_arr(t_tree **tree)
 						i--;
 						if ((*tree)->command_arr_expanded[i])
 						{
-							for (j = 0; (*tree)->command_arr_expanded[i][j]; j++)
+							j = 0;
+							while ((*tree)->command_arr_expanded[i][j])
+							{
 								free((*tree)->command_arr_expanded[i][j]);
+								j++;
+							}
 							free((*tree)->command_arr_expanded[i]);
 						}
 					}
@@ -362,11 +366,12 @@ void reset_command_arr(t_tree **tree)
 						j++;
 					}
 					(*tree)->split[i]->arr_index = i;
-					if ((variable_search_instr((*tree)->command_arr[i]) && prev_command_arr && !ft_strcmp(prev_command_arr, "=") && (i - 2 < 0 || (i - 2 >= 0 && (!variable_search_instr((*tree)->command_arr[i - 2]) || (variable_search_instr((*tree)->command_arr[i]) && flag == 1))))) || (!ft_strchr((*tree)->command_arr[i], '$')))//&& !prev_command_arr
+					if ((variable_search_instr((*tree)->command_arr[i]) && prev_command_arr && !ft_strcmp(prev_command_arr, "=") && (i - 2 < 0 || (i - 2 >= 0 && (!variable_search_instr((*tree)->command_arr[i - 2]))))) || (variable_search_instr((*tree)->command_arr[i]) && flag == 1) || (!ft_strchr((*tree)->command_arr[i], '$')))//&& !prev_command_arr
 						(*tree)->split[i]->split_flag = 0;
 					else
 						(*tree)->split[i]->split_flag = 1;
 					prev_command_arr = (*tree)->command_arr[i];
+					flag = 0;
 					i++;
 				}
 				(*tree)->split[i] = NULL;

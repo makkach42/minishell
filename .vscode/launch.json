@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/mnt/homes/makkach/Desktop/Minishell",
-      "program": "/mnt/homes/makkach/Desktop/Minishell/build/Debug/outDebug"
+      "cwd": "/mnt/homes/makkach/Desktop/minishell",
+      "program": "/mnt/homes/makkach/Desktop/minishell/build/Debug/outDebug"
     }
   ]
 }
