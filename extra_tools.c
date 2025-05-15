@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:28:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/14 10:22:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:18:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,20 @@ void	print_tree_visual(t_tree *tree, int level, int is_left)
 	}
 	else
 		printf(" (Split: NULL)");
-	// if (tree->command_arr_expanded)
-	// {
-	// 	for (int i = 0; tree->command_arr_expanded[i]; i++)
-	// 	{
-	// 		if (tree->command_arr_expanded[i])
-	// 		{
-	// 			for (int j = 0; tree->command_arr_expanded[i][j]; j++)
-	// 				printf(" (Command_arr_expanded: %s i = %d j = %d)", tree->command_arr_expanded[i][j], i, j);
-	// 		}
-	// 	}
-	// }
-	// else
-	// 	printf(" (Command_arr_expanded: NULL)");
+	if (tree->command_arr_expanded)
+	{
+		printf(" (Command_arr_expanded: %p)", tree->command_arr_expanded);
+		// for (int i = 0; tree->command_arr_expanded[i]; i++)
+		// {
+		// 	if (tree->command_arr_expanded[i])
+		// 	{
+		// 		for (int j = 0; tree->command_arr_expanded[i][j]; j++)
+		// 			printf(" (Command_arr_expanded: %s i = %d j = %d)", tree->command_arr_expanded[i][j], i, j);
+		// 	}
+		// }
+	}
+	else
+		printf(" (Command_arr_expanded: NULL)");
 	if (tree->redirections)
 		printf(" [Redirections: %s]", tree->redirections);
 	printf("\n");

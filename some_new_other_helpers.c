@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/13 16:01:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:02:30 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	quote_set(t_tree **tree)
 	}
 }
 
-void	empty_string_error(t_list_fd **head_fd)
+void	empty_string_error(t_list_fd **head_fd, int *flag)
 {
 	t_list_fd	*tmp;
 
@@ -83,20 +83,21 @@ void	empty_string_error(t_list_fd **head_fd)
 				] == '\'' && !tmp->name[2]))
 		{
 			write(2, "No such file or directory\n", 26);
+			*flag = 1;
 			break ;
 		}
 		tmp = tmp->next;
 	}
 }
 
-void	tree_empty_error(t_tree **tree)
+void	tree_empty_error(t_tree **tree, int *flag)
 {
 	if ((*tree) && (*tree)->left)
-		tree_empty_error(&(*tree)->left);
+		tree_empty_error(&(*tree)->left, flag);
 	if ((*tree) && (*tree)->right)
-		tree_empty_error(&(*tree)->right);
+		tree_empty_error(&(*tree)->right, flag);
 	if ((*tree) && (*tree)->fd_list)
 	{
-		empty_string_error(&(*tree)->fd_list);
+		empty_string_error(&(*tree)->fd_list, flag);
 	}
 }

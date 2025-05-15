@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/14 10:23:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:58:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,11 @@ void		process_all_redirections(t_tree **tree);
 void		extract_redirections(char *cmd_str,
 				char **cmd_part, char **redir_part);
 char		*extract_content_from_parentheses(char *command);
-void		syntax_error_two(t_tree **tree);
-void		syntax_error(t_list **head);
-int			even_more_ifs(char *prev_token, char *prev_data, t_list *tmp);
-void		lexer_to_tree(char *str, t_tree **tree);
-void		tree_to_rediropen(t_tree *tree);
+void		syntax_error_two(t_tree **tree, int *flag);
+void		syntax_error(t_list **head, int *flag);
+void		even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag);
+void		lexer_to_tree(char *str, t_tree **tree, int *flag);
+void		tree_to_rediropen(t_tree *tree, int *flag);
 void		inits_main(t_env **env,
 				t_tree **tree, char **argev);
 void		command_arr_fill(t_tree **tree);
@@ -217,7 +217,7 @@ void		process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
 void		process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
 				int *node_info);
 int			skip_spaces(char *str, int start);
-int			check_quotes(char *str);
+int			check_quotes(char *str, int *flag);
 t_tree		*build_pipe_tree(t_list **head);
 t_tree		*create_tree_node(void *command, char *type);
 void		build_command_str(char **command_str, t_list *current);
@@ -272,14 +272,14 @@ int			process_first_redirection(t_tree *tree, t_list_fd **head,
 void		append_new_redirection(t_list_fd **tmp, t_tree *tree,
 				char *redirections_copy, int *i);
 int			check_empty(char *str);
-void		quote_parse(char **str);
+void		quote_parse(char **str, int *flag);
 int			countwords(char *s, char c);
 void		ambiguous_set(t_tree **tree);
 int			variable_search_instr(char *str);
 int			new_syntax_error(t_list **head);
 int			ambiguous_syntax_error(t_tree **tree, t_env **env);
 void		quote_set(t_tree **tree);
-void		tree_empty_error(t_tree **tree);
+void		tree_empty_error(t_tree **tree, int *flag);
 void		redirections_list_maker(t_tree **tree);
 char	*ft_cmd_check(char *env, char *s);
 int		ft_parse(char *s);
