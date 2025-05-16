@@ -116,54 +116,54 @@ static char	*ft_word(char	const	*s, char c)
 	return (word);
 }
 
-static int	ft_fill_string(char **str, char const *s, char c)
-{
-	int	i;
-	int	j;
+// static int	ft_fill_string(char **str, char const *s, char c)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = 0;
-	j = 0;
-	while (s[i] != '\0')
-	{
-		while (s[i] != '\0' && delimiter(s[i], c) == 1)
-			i++;
-		if (s[i] != '\0')
-		{
-			str[j] = ft_word(&s[i], c);
-			if (str[j] == NULL)
-				return (0);
-			j++;
-		}
-		while (s[i] != '\0' && delimiter(s[i], c) == 0)
-			i++;
-	}
-	str[j] = 0;
-	return (1);
-}
+// 	i = 0;
+// 	j = 0;
+// 	while (s[i] != '\0')
+// 	{
+// 		while (s[i] != '\0' && delimiter(s[i], c) == 1)
+// 			i++;
+// 		if (s[i] != '\0')
+// 		{
+// 			str[j] = ft_word(&s[i], c);
+// 			if (str[j] == NULL)
+// 				return (0);
+// 			j++;
+// 		}
+// 		while (s[i] != '\0' && delimiter(s[i], c) == 0)
+// 			i++;
+// 	}
+// 	str[j] = 0;
+// 	return (1);
+// }
 
-char	**ft_split(char	const	*s, char c)
-{
-	char	**strings;
-	int		i;
+// char	**ft_split(char	const	*s, char c)
+// {
+// 	char	**strings;
+// 	int		i;
 
-	i = 0;
-	if (s == NULL)
-		return (NULL);
-	strings = (char **)malloc(sizeof(char *) * (ft_count_strings(s, c) + 1));
-	if (strings == NULL)
-		return (NULL);
-	if (ft_fill_string(strings, s, c) == 0)
-	{
-		while (strings[i] != NULL)
-		{
-			free(strings[i]);
-			i++;
-		}
-		free(strings);
-		return (NULL);
-	}
-	return (strings);
-}
+// 	i = 0;
+// 	if (s == NULL)
+// 		return (NULL);
+// 	strings = (char **)malloc(sizeof(char *) * (ft_count_strings(s, c) + 1));
+// 	if (strings == NULL)
+// 		return (NULL);
+// 	if (ft_fill_string(strings, s, c) == 0)
+// 	{
+// 		while (strings[i] != NULL)
+// 		{
+// 			free(strings[i]);
+// 			i++;
+// 		}
+// 		free(strings);
+// 		return (NULL);
+// 	}
+// 	return (strings);
+// }
 
 t_env *ft_check(t_env *h, char *str)
 {

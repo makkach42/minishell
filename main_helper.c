@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/15 12:20:40 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:08:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	variable_search_instr(char *str)
 	int	i;
 
 	i = 0;
-	while (str && str[i])
+	if (!str)
+		return (0);
+	while (str[i])
 	{
 		if (str[i] == '$')
 			break ;
@@ -45,7 +47,7 @@ void	lexer_to_tree(char *str, t_tree **tree, int *flag)
 		printf("\n");
 		tmp = tmp->next;
 	}
-	syntax_error(&head, flag);////////////////////////
+	syntax_error(&head, flag);
 	if (syntax_error_parentheses(&head))
 		*flag = 1;
 	if (!*flag)

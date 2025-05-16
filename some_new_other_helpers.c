@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/14 15:02:30 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:02:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ambiguous_syntax_error(t_tree **tree, t_env **env)
 {
-	int	i;
-	t_env *tmp;
-	t_list_fd *tmplst;
+	int			i;
+	t_env		*tmp;
+	t_list_fd	*tmplst;
 
 	tmp = *env;
 	i = 0;

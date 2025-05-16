@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/15 12:28:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:11:41 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,8 @@ void		extract_redirections(char *cmd_str,
 char		*extract_content_from_parentheses(char *command);
 void		syntax_error_two(t_tree **tree, int *flag);
 void		syntax_error(t_list **head, int *flag);
-void		even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag);
+void		even_more_ifs(char *prev_token, char *prev_data,
+				t_list *tmp, int *flag);
 void		lexer_to_tree(char *str, t_tree **tree, int *flag);
 void		tree_to_rediropen(t_tree *tree, int *flag);
 void		inits_main(t_env **env,
@@ -317,7 +318,7 @@ int			variable_search_inlnkedlst(t_tree **tree);
 char		*ft_strjoin_three(char *s1, char *s2, char *s3);
 void		variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
 int    check_empty(char *str);
-char		**ft_split(char	const	*s, char c);
+char		**ft_split(char	*s, char c);
 void		handle_signal(int sig);
 int			has_wild_cards_comarr(t_tree **tree);
 int			has_wild_cards_fdlst(t_tree **tree);
@@ -328,5 +329,21 @@ void	variable_expantion_para(t_tree **tree, t_env **env);
 char	*ft_itoa(int n);
 void		quote_remove_lst_two(t_tree **tree);
 int			expandableornot(char *str);
+void		wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path);
+char		**get_matches(const char *pattern,
+				char *dir_path, int *match_count);
+int			match_pattern(const char *pattern, const char *string);
+char		*str_duplicate(const char *s);
+int			if_has_wildcards(char *str);
+void		sort_matches(char **arr, int count);
+void		process_wildcard_node_fd(t_list_fd *node, char *dir_path);
+int			copy_and_resize_matches(char ***matches,
+				int match_count, int new_cap);
+char		*join_matches(char **matches, int match_count);
+int			fd_list_size(t_list_fd **head);
+int			no_words_beside(char *str);
+void		process_command_string(t_tree **tree, int k);
+void		process_command_array(t_tree **tree);
+char		*create_filtered_string(char *old_str, int final_len);
 
 #endif
