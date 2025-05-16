@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/12 17:28:01 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:33:59 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*extract_variable(char *str)
 	char	*word;
 
 	i = 1;
-	while (str[i] && str[i] != 32 && !is_operator(str[i]))// && ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= '0' && str[i] <= '9'))
+	while (str[i] && str[i] != 32 && !is_operator(str[i]))
 	{
 		if (str[i] >= '0' && str[i] <= '9' && str[i - 1] == '$')
 		{

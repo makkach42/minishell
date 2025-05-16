@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:26:40 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 15:50:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:20:39 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,19 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	}
 	sub[i] = '\0';
 	return (sub);
+}
+
+int	fd_list_size(t_list_fd **head)
+{
+	t_list_fd	*tmp;
+	int			size;
+
+	tmp = *head;
+	size = 0;
+	while (tmp)
+	{
+		size++;
+		tmp = tmp->next;
+	}
+	return (size);
 }

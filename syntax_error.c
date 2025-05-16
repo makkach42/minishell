@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 08:35:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:24:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,30 +69,6 @@ void	while_loop_syntax_error(t_list *tmp,
 		if (!*flag)
 			(more_ifs(prev_token, prev_data, tmp, flag));
 	}
-}
-
-int	no_words_beside(char *str)
-{
-	int	i;
-	int	open_par;
-	int	closed_par;
-
-	i = 0;
-	open_par = 0;
-	closed_par = 0;
-	if (str[i] != '(')
-		return (0);
-	while (str[i])
-	{
-		if (str[i] == '(')
-			open_par++;
-		else if (str[i] == ')')
-			closed_par++;
-		if (open_par == closed_par && str[i + 1])
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 void	syntax_error(t_list **head, int *flag)

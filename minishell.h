@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 08:36:39 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:32:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,5 +274,21 @@ void		handle_wildcards_in_fdlst(t_tree **tree);
 void		quote_remove_lst(t_tree **tree);
 void		quote_remove_lst_two(t_tree **tree);
 int			expandableornot(char *str);
+void		wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path);
+char		**get_matches(const char *pattern,
+				char *dir_path, int *match_count);
+int			match_pattern(const char *pattern, const char *string);
+char		*str_duplicate(const char *s);
+int			if_has_wildcards(char *str);
+void		sort_matches(char **arr, int count);
+void		process_wildcard_node_fd(t_list_fd *node, char *dir_path);
+int			copy_and_resize_matches(char ***matches,
+				int match_count, int new_cap);
+char		*join_matches(char **matches, int match_count);
+int			fd_list_size(t_list_fd **head);
+int			no_words_beside(char *str);
+void		process_command_string(t_tree **tree, int k);
+void		process_command_array(t_tree **tree);
+char		*create_filtered_string(char *old_str, int final_len);
 
 #endif

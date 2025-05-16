@@ -6,11 +6,35 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:07:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/05 14:31:06 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:24:04 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	no_words_beside(char *str)
+{
+	int	i;
+	int	open_par;
+	int	closed_par;
+
+	i = 0;
+	open_par = 0;
+	closed_par = 0;
+	if (str[i] != '(')
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '(')
+			open_par++;
+		else if (str[i] == ')')
+			closed_par++;
+		if (open_par == closed_par && str[i + 1])
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 static char	*makestrs(const char *s, int start, int end)
 {
