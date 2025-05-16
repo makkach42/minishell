@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 09:02:04 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 12:00:44 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ int	hidenword(char *str, char *str2)
 	i = 0;
 	j = 0;
 	count = 0;
+	if (!str || !str2)
+		return (0);
 	while (str2[i])
 	{
 		while (str[j])
@@ -457,190 +459,449 @@ void	split_adjustments(t_tree **tree)
 	}
 }
 
-void	command_arr_readjustments(t_tree **tree)
-{
-	int		i;
-	int		j;
-	int		k;
-	int		count;
-	char	**cmd;
-	char	*new_str;
-	t_list	*head;
-	t_list	*new_node;
-	t_list	*tmp;
+// void	command_arr_readjustments(t_tree **tree)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		k;
+// 	int		count;
+// 	char	**cmd;
+// 	char	*new_str;
+// 	t_list	*head;
+// 	t_list	*new_node;
+// 	t_list	*tmp;
 
-	if ((*tree) && (*tree)->left)
-		command_arr_readjustments(&(*tree)->left);
-	if ((*tree) && (*tree)->right)
-		command_arr_readjustments(&(*tree)->right);
-	if ((*tree) && (*tree)->command_arr)
-	{
-		if ((*tree)->command_arr_expanded)
-		{
-			i = -1;
-			while ((*tree)->command_arr_expanded[++i])
-			{
-				j = -1;
-				while ((*tree)->command_arr_expanded[i][++j])
-				{
-					free((*tree)->command_arr_expanded[i][j]);
-					(*tree)->command_arr_expanded[i][j] = NULL;
-				}
-				free((*tree)->command_arr_expanded[i]);
-				(*tree)->command_arr_expanded[i] = NULL;
-			}
-			free((*tree)->command_arr_expanded);
-			(*tree)->command_arr_expanded = NULL;
-		}
-		i = 0;
-		while ((*tree)->command_arr[i])
-			i++;
-		(*tree)->command_arr_expanded = malloc(sizeof(char **) * (i + 1));
-		i = 0;
-		while ((*tree)->command_arr[i])
-		{
-			if (countwords((*tree)->command_arr[i], 32) > 1 && (
-					*tree)->split[i]->split_flag == 1)
-				(*tree)->command_arr_expanded[i] = ft_split(
-						(*tree)->command_arr[i], ' ');
-			else
-			{
-				j = 0;
-				cmd = malloc(sizeof(char *) * 2);
-				cmd[0] = ft_strdup((*tree)->command_arr[i]);
-				cmd[1] = NULL;
-				(*tree)->command_arr_expanded[i] = cmd;
-			}
-			i++;
-		}
-		(*tree)->command_arr_expanded[i] = NULL;
-		cmd = NULL;
-		i = 0;
-		count = 0;
-		while ((*tree)->command_arr_expanded[i])
-		{
-			j = 0;
-			while ((*tree)->command_arr_expanded[i][j])
-			{
-				count++;
-				j++;
-			}
-			i++;
-		}
-		cmd = malloc(sizeof(char *) * (count + 1));
-		i = 0;
-		j = 0;
-		k = 0;
-		while ((*tree)->command_arr_expanded[i])
-		{
-			j = 0;
-			while ((*tree)->command_arr_expanded[i][j])
-			{
-				cmd[k] = ft_strdup((*tree)->command_arr_expanded[i][j]);
-				k++;
-				j++;
-			}
-			i++;
-		}
-		cmd[k] = NULL;
-		i = 0;
-		head = malloc(sizeof(t_list));
-		head->data = ft_strdup(cmd[0]);
-		head->token = NULL;
-		head->prev = NULL;
-		head->next = NULL;
-		tmp = head;
-		i++;
-		while (cmd[i])
-		{
-			new_node = malloc(sizeof(t_list));
-			new_node->data = ft_strdup(cmd[i]);
-			new_node->token = NULL;
-			new_node->prev = tmp;
-			new_node->next = NULL;
-			tmp->next = new_node;
-			tmp = new_node;
-			i++;
-		}
-		tmp = head;
-		while (tmp)
-		{
-			if (!ft_strcmp(tmp->data, "="))
-			{
-				new_str = ft_strjoin_three(tmp->prev->data,
-						tmp->data, tmp->next->data);
-				free(tmp->data);
-				tmp->data = ft_strdup(new_str);
-				free(new_str);
-				free(tmp->prev->data);
-				tmp->prev->data = NULL;
-				free(tmp->next->data);
-				tmp->next->data = NULL;
-			}
-			tmp = tmp->next;
-		}
-		i = 0;
-		while (cmd[i])
-		{
-			free(cmd[i]);
-			i++;
-		}
-		free(cmd);
-		j = lst_size(&head);
-		cmd = malloc(sizeof(char *) * (j + 1));
-		i = 0;
-		tmp = head;
-		while (tmp)
-		{
-			if (tmp->data)
-			{
-				cmd[i] = ft_strdup(tmp->data);
-				i++;
-			}
-			tmp = tmp->next;
-		}
-		cmd[i] = NULL;
-		free_list(&head);
-		i = 0;
-		while ((*tree)->command_arr[i])
-		{
-			free((*tree)->command_arr[i]);
-			(*tree)->command_arr[i] = NULL;
-			i++;
-		}
-		free((*tree)->command_arr);
-		(*tree)->command_arr = cmd;
-		printf("\n\n");
-		i = 0;
-		while ((*tree)->command_arr[i])
-		{
-			printf("%s\n", (*tree)->command_arr[i]);
-			i++;
-		}
-		if ((*tree)->split)
-		{
-			i = 0;
-			while ((*tree)->split[i])
-			{
-				free((*tree)->split[i]);
-				i++;
-			}
-			free((*tree)->split);
-		}
-		i = 0;
-		while ((*tree)->command_arr[i])
-			i++;
-		(*tree)->split = malloc(sizeof(t_split *) * (i + 1));
-		i = 0;
-		while ((*tree)->command_arr[i])
-		{
-			(*tree)->split[i] = malloc(sizeof(t_split));
-			(*tree)->split[i]->arr_index = i;
-			(*tree)->split[i]->split_flag = 0;
-			i++;
-		}
-		(*tree)->split[i] = NULL;
-	}
+// 	if ((*tree) && (*tree)->left)
+// 		command_arr_readjustments(&(*tree)->left);
+// 	if ((*tree) && (*tree)->right)
+// 		command_arr_readjustments(&(*tree)->right);
+// 	if ((*tree) && (*tree)->command_arr)
+// 	{
+// 		if ((*tree)->command_arr_expanded)
+// 		{
+// 			i = -1;
+// 			while ((*tree)->command_arr_expanded[++i])
+// 			{
+// 				j = -1;
+// 				while ((*tree)->command_arr_expanded[i][++j])
+// 				{
+// 					free((*tree)->command_arr_expanded[i][j]);
+// 					(*tree)->command_arr_expanded[i][j] = NULL;
+// 				}
+// 				free((*tree)->command_arr_expanded[i]);
+// 				(*tree)->command_arr_expanded[i] = NULL;
+// 			}
+// 			free((*tree)->command_arr_expanded);
+// 			(*tree)->command_arr_expanded = NULL;
+// 		}
+// 		i = 0;
+// 		while ((*tree)->command_arr[i])
+// 			i++;
+// 		(*tree)->command_arr_expanded = malloc(sizeof(char **) * (i + 1));
+// 		i = 0;
+// 		while ((*tree)->command_arr[i])
+// 		{
+// 			if (((*tree)->split && (*tree)->split[i] && countwords(
+// 					(*tree)->command_arr[i], 32) > 1 && (
+// 						*tree)->split[i]->split_flag == 1))
+// 				(*tree)->command_arr_expanded[i] = ft_split(
+// 						(*tree)->command_arr[i], ' ');
+// 			else
+// 			{
+// 				j = 0;
+// 				cmd = malloc(sizeof(char *) * 2);
+// 				cmd[0] = ft_strdup((*tree)->command_arr[i]);
+// 				cmd[1] = NULL;
+// 				(*tree)->command_arr_expanded[i] = cmd;
+// 			}
+// 			i++;
+// 		}
+// 		(*tree)->command_arr_expanded[i] = NULL;
+// 		cmd = NULL;
+// 		i = 0;
+// 		count = 0;
+// 		while ((*tree)->command_arr_expanded[i])
+// 		{
+// 			j = 0;
+// 			while ((*tree)->command_arr_expanded[i][j])
+// 			{
+// 				count++;
+// 				j++;
+// 			}
+// 			i++;
+// 		}
+// 		cmd = malloc(sizeof(char *) * (count + 1));
+// 		i = 0;
+// 		j = 0;
+// 		k = 0;
+// 		while ((*tree)->command_arr_expanded[i])
+// 		{
+// 			j = 0;
+// 			while ((*tree)->command_arr_expanded[i][j])
+// 			{
+// 				cmd[k] = ft_strdup((*tree)->command_arr_expanded[i][j]);
+// 				k++;
+// 				j++;
+// 			}
+// 			i++;
+// 		}
+// 		cmd[k] = NULL;
+// 		i = 0;
+// 		head = malloc(sizeof(t_list));
+// 		head->data = ft_strdup(cmd[0]);
+// 		head->token = NULL;
+// 		head->prev = NULL;
+// 		head->next = NULL;
+// 		tmp = head;
+// 		i++;
+// 		while (cmd[i])
+// 		{
+// 			new_node = malloc(sizeof(t_list));
+// 			new_node->data = ft_strdup(cmd[i]);
+// 			new_node->token = NULL;
+// 			new_node->prev = tmp;
+// 			new_node->next = NULL;
+// 			tmp->next = new_node;
+// 			tmp = new_node;
+// 			i++;
+// 		}
+// 		tmp = head;
+// 		while (tmp)
+// 		{
+// 			if (!ft_strcmp(tmp->data, "="))
+// 			{
+// 				new_str = ft_strjoin_three(tmp->prev->data,
+// 						tmp->data, tmp->next->data);
+// 				free(tmp->data);
+// 				tmp->data = ft_strdup(new_str);
+// 				free(new_str);
+// 				free(tmp->prev->data);
+// 				tmp->prev->data = NULL;
+// 				free(tmp->next->data);
+// 				tmp->next->data = NULL;
+// 			}
+// 			tmp = tmp->next;
+// 		}
+// 		i = 0;
+// 		while (cmd[i])
+// 		{
+// 			free(cmd[i]);
+// 			i++;
+// 		}
+// 		free(cmd);
+// 		j = lst_size(&head);
+// 		cmd = malloc(sizeof(char *) * (j + 1));
+// 		i = 0;
+// 		tmp = head;
+// 		while (tmp)
+// 		{
+// 			if (tmp->data)
+// 			{
+// 				cmd[i] = ft_strdup(tmp->data);
+// 				i++;
+// 			}
+// 			tmp = tmp->next;
+// 		}
+// 		cmd[i] = NULL;
+// 		free_list(&head);
+// 		i = 0;
+// 		while ((*tree)->command_arr[i])
+// 		{
+// 			free((*tree)->command_arr[i]);
+// 			(*tree)->command_arr[i] = NULL;
+// 			i++;
+// 		}
+// 		free((*tree)->command_arr);
+// 		(*tree)->command_arr = cmd;
+// 		printf("\n\n");
+// 		i = 0;
+// 		while ((*tree)->command_arr[i])
+// 		{
+// 			printf("%s\n", (*tree)->command_arr[i]);
+// 			i++;
+// 		}
+// 		if ((*tree)->split)
+// 		{
+// 			i = 0;
+// 			while ((*tree)->split[i])
+// 			{
+// 				free((*tree)->split[i]);
+// 				i++;
+// 			}
+// 			free((*tree)->split);
+// 		}
+// 		i = 0;
+// 		while ((*tree)->command_arr[i])
+// 			i++;
+// 		(*tree)->split = malloc(sizeof(t_split *) * (i + 1));
+// 		i = 0;
+// 		while ((*tree)->command_arr[i])
+// 		{
+// 			(*tree)->split[i] = malloc(sizeof(t_split));
+// 			(*tree)->split[i]->arr_index = i;
+// 			(*tree)->split[i]->split_flag = 0;
+// 			i++;
+// 		}
+// 		(*tree)->split[i] = NULL;
+// 	}
+// }
+
+void command_arr_readjustments(t_tree **tree)
+{
+    int i, j, k, count;
+    char **cmd;
+    char *new_str;
+    t_list *head = NULL;
+    t_list *new_node;
+    t_list *tmp;
+
+    if ((*tree) && (*tree)->left)
+        command_arr_readjustments(&(*tree)->left);
+    if ((*tree) && (*tree)->right)
+        command_arr_readjustments(&(*tree)->right);
+    if ((*tree) && (*tree)->command_arr)
+    {
+        if ((*tree)->command_arr_expanded)
+        {
+            i = -1;
+            while ((*tree)->command_arr_expanded[++i])
+            {
+                j = -1;
+                while ((*tree)->command_arr_expanded[i][++j])
+                {
+                    free((*tree)->command_arr_expanded[i][j]);
+                    (*tree)->command_arr_expanded[i][j] = NULL;
+                }
+                free((*tree)->command_arr_expanded[i]);
+                (*tree)->command_arr_expanded[i] = NULL;
+            }
+            free((*tree)->command_arr_expanded);
+            (*tree)->command_arr_expanded = NULL;
+        }
+        i = 0;
+        while ((*tree)->command_arr[i])
+            i++;
+        (*tree)->command_arr_expanded = malloc(sizeof(char **) * (i + 1));
+        if (!(*tree)->command_arr_expanded)
+            return;
+        if (!(*tree)->split) {
+            (*tree)->split = malloc(sizeof(t_split *) * (i + 1));
+            if (!(*tree)->split) {
+                free((*tree)->command_arr_expanded);
+                (*tree)->command_arr_expanded = NULL;
+                return;
+            }
+            j = 0;
+            while (j < i) {
+                (*tree)->split[j] = malloc(sizeof(t_split));
+                if (!(*tree)->split[j]) {
+                    while (j > 0) {
+                        j--;
+                        free((*tree)->split[j]);
+                    }
+                    free((*tree)->split);
+                    (*tree)->split = NULL;
+                    free((*tree)->command_arr_expanded);
+                    (*tree)->command_arr_expanded = NULL;
+                    return;
+                }
+                (*tree)->split[j]->arr_index = j;
+                (*tree)->split[j]->split_flag = 0;
+                j++;
+            }
+            (*tree)->split[i] = NULL;
+        }
+        i = 0;
+        while ((*tree)->command_arr[i])
+        {
+            if ((*tree)->split && (*tree)->split[i] && 
+                countwords((*tree)->command_arr[i], 32) > 1 && 
+                (*tree)->split[i]->split_flag == 1)
+            {
+                (*tree)->command_arr_expanded[i] = ft_split((*tree)->command_arr[i], ' ');
+            }
+            else
+            {
+                cmd = malloc(sizeof(char *) * 2);
+                if (!cmd) {
+                    i++;
+                    continue;
+                }
+                cmd[0] = ft_strdup((*tree)->command_arr[i]);
+                cmd[1] = NULL;
+                (*tree)->command_arr_expanded[i] = cmd;
+            }
+            i++;
+        }
+        (*tree)->command_arr_expanded[i] = NULL;
+        i = 0;
+        count = 0;
+        while ((*tree)->command_arr_expanded[i])
+        {
+            j = 0;
+            while ((*tree)->command_arr_expanded[i][j])
+            {
+                count++;
+                j++;
+            }
+            i++;
+        }
+        if (count == 0) {
+            cmd = malloc(sizeof(char *));
+            if (!cmd)
+                return;
+            cmd[0] = NULL;
+        } else {
+            cmd = malloc(sizeof(char *) * (count + 1));
+            if (!cmd)
+                return;
+            i = 0;
+            k = 0;
+            while ((*tree)->command_arr_expanded[i])
+            {
+                j = 0;
+                while ((*tree)->command_arr_expanded[i][j])
+                {
+                    cmd[k] = ft_strdup((*tree)->command_arr_expanded[i][j]);
+                    k++;
+                    j++;
+                }
+                i++;
+            }
+            cmd[k] = NULL;
+            if (k > 0) {
+                head = malloc(sizeof(t_list));
+                if (!head) {
+                    i = 0;
+                    while (cmd[i]) {
+                        free(cmd[i]);
+                        i++;
+                    }
+                    free(cmd);
+                    return;
+                }
+                head->data = ft_strdup(cmd[0]);
+                head->token = NULL;
+                head->prev = NULL;
+                head->next = NULL;
+                tmp = head;
+                i = 1;
+                while (cmd[i]) {
+                    new_node = malloc(sizeof(t_list));
+                    if (!new_node) {
+                        free_list(&head);
+                        j = 0;
+                        while (cmd[j]) {
+                            free(cmd[j]);
+                            j++;
+                        }
+                        free(cmd);
+                        return;
+                    }
+                    
+                    new_node->data = ft_strdup(cmd[i]);
+                    new_node->token = NULL;
+                    new_node->prev = tmp;
+                    new_node->next = NULL;
+                    tmp->next = new_node;
+                    tmp = new_node;
+                    i++;
+                }
+                tmp = head;
+                while (tmp) {
+                    if (tmp->data && tmp->prev && tmp->next && 
+                        tmp->prev->data && tmp->next->data &&
+                        !ft_strcmp(tmp->data, "="))
+                    {
+                        new_str = ft_strjoin_three(tmp->prev->data, tmp->data, tmp->next->data);
+                        free(tmp->data);
+                        tmp->data = ft_strdup(new_str);
+                        free(new_str);
+                        free(tmp->prev->data);
+                        tmp->prev->data = NULL;
+                        free(tmp->next->data);
+                        tmp->next->data = NULL;
+                    }
+                    tmp = tmp->next;
+                }
+            }
+            i = 0;
+            while (cmd[i]) {
+                free(cmd[i]);
+                i++;
+            }
+            free(cmd);
+            j = 0;
+            if (head) {
+                j = lst_size(&head);
+            }
+            cmd = malloc(sizeof(char *) * (j + 1));
+            if (!cmd) {
+                if (head)
+                    free_list(&head);
+                return;
+            }
+            i = 0;
+            if (head) {
+                tmp = head;
+                while (tmp) {
+                    if (tmp->data) {
+                        cmd[i] = ft_strdup(tmp->data);
+                        i++;
+                    }
+                    tmp = tmp->next;
+                }
+                free_list(&head);
+            }
+            cmd[i] = NULL;
+        }
+        i = 0;
+        while ((*tree)->command_arr[i]) {
+            free((*tree)->command_arr[i]);
+            (*tree)->command_arr[i] = NULL;
+            i++;
+        }
+        free((*tree)->command_arr);
+        (*tree)->command_arr = cmd;
+        printf("\n\n");
+        i = 0;
+        while ((*tree)->command_arr[i]) {
+            printf("%s\n", (*tree)->command_arr[i]);
+            i++;
+        }
+        if ((*tree)->split) {
+            i = 0;
+            while ((*tree)->split[i]) {
+                free((*tree)->split[i]);
+                i++;
+            }
+            free((*tree)->split);
+        }
+        i = 0;
+        while ((*tree)->command_arr[i])
+            i++;
+        (*tree)->split = malloc(sizeof(t_split *) * (i + 1));
+        if (!(*tree)->split)
+            return;
+        i = 0;
+        while ((*tree)->command_arr[i]) {
+            (*tree)->split[i] = malloc(sizeof(t_split));
+            if (!(*tree)->split[i]) {
+                j = 0;
+                while (j < i) {
+                    free((*tree)->split[j]);
+                    j++;
+                }
+                free((*tree)->split);
+                (*tree)->split = NULL;
+                return;
+            }
+            (*tree)->split[i]->arr_index = i;
+            (*tree)->split[i]->split_flag = 0;
+            i++;
+        }
+        (*tree)->split[i] = NULL;
+    }
 }
 
 int	main(int argc, char **argv, char **argev)
