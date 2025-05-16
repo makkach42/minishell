@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/14 17:00:38 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 08:35:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,42 @@
 
 void	more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 {
-	int i;
+	int	i;
 
 	if (!tmp)
 		return ;
 	i = 0;
-	if ((i == 0 && (ft_strcmp("OPERATION_&&", prev_token
-			) == 0 || ft_strcmp("OPERATION_||", prev_token) == 0
-		) && ft_strcmp(prev_token, tmp->token) == 0))
-		(print_syntax_error((tmp)->data), *flag = 1, i = 1);
-	if (i == 0 && (ft_strcmp("PIPE", prev_token
+	if ((!*flag && (ft_strcmp("OPERATION_&&", prev_token
+				) == 0 || ft_strcmp("OPERATION_||", prev_token) == 0
+			) && ft_strcmp(prev_token, tmp->token) == 0))
+		(print_syntax_error((tmp)->data), *flag = 1);
+	if (!*flag && (ft_strcmp("PIPE", prev_token
 			) == 0 && ft_strcmp(prev_token, tmp->token) == 0))
-		(write(2, "syntax error near unexpected token `|'\n", 40), *flag = 1, i = 1, printf("CCCCCC\n"));
-	if (i == 0 && ((ft_strcmp("OPERATION_&&", prev_token
-			) == 0 || ft_strcmp("OPERATION_||", prev_token) == 0
-		) && ft_strcmp(tmp->token, "PIPE") == 0))
-		(print_syntax_error((tmp)->data), *flag = 1, i = 1);
-	if (i == 0 && (ft_strcmp("PIPE", prev_token) == 0 && (
-			ft_strcmp(tmp->token, "OPERATION_&&") == 0 || ft_strcmp(
-				tmp->token, "OPERATION_||") == 0)))
-		(write(2, "syntax error near unexpected token `|'\n", 40), *flag = 1, i = 1);
-	// if (i == 0 && (!ft_strcmp("REDIRECTION", prev_token) && !ft_strcmp(
-			// tmp->token, "PIPE") && ft_strlen(prev_token) == 1))
-		// (print_syntax_error(prev_data), *flag = 1, i = 1);
+		(write(2, "syntax error near unexpected token `|'\n", 40), *flag = 1);
+	if (!*flag && ((ft_strcmp("OPERATION_&&", prev_token
+				) == 0 || ft_strcmp("OPERATION_||", prev_token) == 0
+			) && ft_strcmp(tmp->token, "PIPE") == 0))
+		(print_syntax_error((tmp)->data), *flag = 1);
+	if (!*flag && (ft_strcmp("PIPE", prev_token) == 0 && (
+				ft_strcmp(tmp->token, "OPERATION_&&") == 0 || ft_strcmp(
+					tmp->token, "OPERATION_||") == 0)))
+		(write(2, "syntax error near unexpected token `|'\n", 40), *flag = 1);
+	if (!*flag && (!ft_strcmp("REDIRECTION", prev_token) && !ft_strcmp(
+				tmp->token, "PIPE") && ft_strlen(prev_token) == 1))
+		(print_syntax_error(prev_data), *flag = 1);
 	if (!i)
 		(even_more_ifs(prev_token, prev_data, tmp, flag));
 }
 
-void	while_loop_syntax_error(t_list *tmp, char *prev_token, char *prev_data, int *flag)
+void	while_loop_syntax_error(t_list *tmp,
+		char *prev_token, char *prev_data, int *flag)
 {
 	while (tmp)
 	{
 		prev_token = tmp->token;
 		prev_data = tmp->data;
 		tmp = tmp->next;
-		if (!*flag && (ft_strcmp("REDIRECTION", prev_token) == 0 && tmp == NULL))
+		if (!*flag && (ft_strcmp("REDIRECTION", prev_token) == 0 && !tmp))
 		{
 			if (ft_strcmp(prev_data, ">") == 0 && ft_strlen(prev_data) == 1)
 				(write(2, "syntax error near unexpected token `newline'\n",
@@ -61,7 +62,7 @@ void	while_loop_syntax_error(t_list *tmp, char *prev_token, char *prev_data, int
 				(print_syntax_error(prev_data), *flag = 1);
 		}
 		if (!*flag && ((ft_strcmp("OPERATION_&&", prev_token) == 0 || ft_strcmp(
-					"OPERATION_||", prev_token) == 0) && tmp == NULL))
+						"OPERATION_||", prev_token) == 0) && tmp == NULL))
 			(print_syntax_error(prev_data), *flag = 1);
 		if (!*flag && (ft_strcmp("PIPE", prev_token) == 0 && tmp == NULL))
 			(print_syntax_error(prev_data), *flag = 1);
@@ -85,7 +86,7 @@ int	no_words_beside(char *str)
 	{
 		if (str[i] == '(')
 			open_par++;
-		else if(str[i] == ')')
+		else if (str[i] == ')')
 			closed_par++;
 		if (open_par == closed_par && str[i + 1])
 			return (0);
@@ -107,12 +108,13 @@ void	syntax_error(t_list **head, int *flag)
 	i = 0;
 	prev_data = NULL;
 	prev_token = NULL;
-	if (!i && (!ft_strcmp((*head)->token, "PARENTHASIS") && !(*head)->next && no_words_beside((*head)->data)))
+	if (!i && (!ft_strcmp((*head)->token, "PARENTHASIS") && !(
+				*head)->next && no_words_beside((*head)->data)))
 		(print_syntax_error(")"), *flag = 1, i = 1);
 	if (!i && (ft_strcmp((*head)->token, "PIPE") == 0))
 		(print_syntax_error("|"), *flag = 1, i = 1);
 	if (!i && (ft_strcmp((*head)->token, "OPERATION_&&") == 0 || ft_strcmp(
-			(*head)->token, "OPERATION_||") == 0))
+				(*head)->token, "OPERATION_||") == 0))
 		(print_syntax_error((*head)->data), *flag = 1, i = 1);
 	if (!i)
 		while_loop_syntax_error(tmp, prev_token, prev_data, flag);

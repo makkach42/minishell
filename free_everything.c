@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/15 11:53:06 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 08:22:43 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,61 +64,64 @@ void	free_list_fd(t_list_fd **head)
 	*head = NULL;
 }
 
-void free_tree(t_tree *tree)
+void	free_tree(t_tree *tree)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    if (!tree)
-        return;
-    if (tree->left)
-        free_tree(tree->left);
-    if (tree->right)
-        free_tree(tree->right);
-    if (tree->command)
-        (free(tree->command), tree->command = NULL);
-    if (tree->redirections)
-    {
-        free(tree->redirections);
-        tree->redirections = NULL;
-    }
-    if (tree->command_arr)
-    {
-        i = -1;
-        while (tree->command_arr[++i])
-            (free(tree->command_arr[i]), tree->command_arr[i] = NULL);
-        (free(tree->command_arr), tree->command_arr = NULL);
-    }
-    if (tree->command_arr_expanded)
-    {
-        i = -1;
-        while (tree->command_arr_expanded[++i])
-        {
-            if (tree->command_arr_expanded[i])
-            {
-                j = -1;
-                while (tree->command_arr_expanded[i][++j])
-                {
-                    if (tree->command_arr_expanded[i][j])
-                        (free(tree->command_arr_expanded[i][j]), tree->command_arr_expanded[i][j] = NULL);
-                }
-                (free(tree->command_arr_expanded[i]), tree->command_arr_expanded[i] = NULL);
-            }
-        }
-        (free(tree->command_arr_expanded), tree->command_arr_expanded = NULL);
-    }
-
-    if (tree->split)
-    {
-        i = -1;
-        while (tree->split[++i])
-            (free(tree->split[i]), tree->split[i] = NULL);
-        free(tree->split);
+	if (!tree)
+		return ;
+	if (tree->left)
+		free_tree(tree->left);
+	if (tree->right)
+		free_tree(tree->right);
+	if (tree->command)
+		(free(tree->command), tree->command = NULL);
+	if (tree->redirections)
+	{
+		free(tree->redirections);
+		tree->redirections = NULL;
+	}
+	if (tree->command_arr)
+	{
+		i = -1;
+		while (tree->command_arr[++i])
+			(free(tree->command_arr[i]), tree->command_arr[i] = NULL);
+		(free(tree->command_arr), tree->command_arr = NULL);
+	}
+	if (tree->command_arr_expanded)
+	{
+		i = -1;
+		while (tree->command_arr_expanded[++i])
+		{
+			if (tree->command_arr_expanded[i])
+			{
+				j = -1;
+				while (tree->command_arr_expanded[i][++j])
+				{
+					if (tree->command_arr_expanded[i][j])
+					{
+						free(tree->command_arr_expanded[i][j]);
+						tree->command_arr_expanded[i][j] = NULL;
+					}
+				}
+				free(tree->command_arr_expanded[i]);
+				tree->command_arr_expanded[i] = NULL;
+			}
+		}
+		(free(tree->command_arr_expanded), tree->command_arr_expanded = NULL);
+	}
+	if (tree->split)
+	{
+		i = -1;
+		while (tree->split[++i])
+			(free(tree->split[i]), tree->split[i] = NULL);
+		free(tree->split);
 		tree->split = NULL;
-    }
-    if (tree->fd_list)
-        free_list_fd(&(tree)->fd_list);
-    free(tree);
+	}
+	if (tree->fd_list)
+		free_list_fd(&(tree)->fd_list);
+	free(tree);
 }
 
 void	free_env(t_env **env)

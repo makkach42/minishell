@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/13 11:41:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:03:42 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ void	process_command_array(t_tree **tree)
 	k = 0;
 	while ((*tree)->command_arr[k])
 	{
-		if (variable_search_instr((*tree)->command_arr[k]) && !expandableornot((*tree)->command_arr[k]))
+		if (variable_search_instr((*tree)->command_arr[k]
+			) && !expandableornot((*tree)->command_arr[k]))
 		{
 			k++;
 			continue ;

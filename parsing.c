@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/15 14:13:10 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:02:04 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,36 +154,39 @@ int	hidenword(char *str, char *str2)
 	return (0);
 }
 
-void reset_command_arr(t_tree **tree)
+void	reset_command_arr(t_tree **tree)
 {
-    int i;
-    int j;
-	int	count;
-	int	flag;
-	int	in_quotes;
-    int size_lst;
-	char quote_type;
-    char *old_cmd;
-    char *prev_command_arr;
-    char **new_cmd_arr;
-    t_list *head;
-    t_list *new_node;
-    t_list *tmp;
+	int		i;
+	int		j;
+	int		count;
+	int		flag;
+	int		in_quotes;
+	int		size_lst;
+	char	quote_type;
+	char	*old_cmd;
+	char	*prev_command_arr;
+	char	**new_cmd_arr;
+	t_list	*head;
+	t_list	*new_node;
+	t_list	*tmp;
 
-    if ((*tree) && (*tree)->left)
-        reset_command_arr(&(*tree)->left);
-    if ((*tree) && (*tree)->right)
-        reset_command_arr(&(*tree)->right);
-    if ((*tree) && (*tree)->command_arr)
-    {
-		if ((!ft_strcmp((*tree)->command_arr[0], "export") || variable_search_instr((*tree)->command_arr[0])) || hidenword((*tree)->command_arr[0], "export"))
+	if ((*tree) && (*tree)->left)
+		reset_command_arr(&(*tree)->left);
+	if ((*tree) && (*tree)->right)
+		reset_command_arr(&(*tree)->right);
+	if ((*tree) && (*tree)->command_arr)
+	{
+		if ((!ft_strcmp((*tree)->command_arr[0], "export"
+				) || variable_search_instr((*tree
+					)->command_arr[0])) || hidenword((
+					*tree)->command_arr[0], "export"))
 		{
 			i = 0;
 			while ((*tree)->command_arr[i])
 				i++;
 			(*tree)->command_arr_expanded = malloc(sizeof(char **) * (i + 1));
 			if (!(*tree)->command_arr_expanded)
-				return;
+				return ;
 			i = 0;
 			while ((*tree)->command_arr[i])
 			{
@@ -219,7 +222,7 @@ void reset_command_arr(t_tree **tree)
 						if (!head)
 						{
 							free(old_cmd);
-							return;
+							return ;
 						}
 						head->data = ft_substr(old_cmd, 0, j);
 						head->token = NULL;
@@ -229,7 +232,7 @@ void reset_command_arr(t_tree **tree)
 						{
 							free(old_cmd);
 							free_list(&head);
-							return;
+							return ;
 						}
 						new_node->data = ft_strdup("=");
 						new_node->token = NULL;
@@ -241,13 +244,13 @@ void reset_command_arr(t_tree **tree)
 						{
 							free(old_cmd);
 							free_list(&head);
-							return;
+							return ;
 						}
-						new_node->data = ft_substr(old_cmd, j + 1, ft_strlen(old_cmd) - (j + 1));
+						new_node->data = ft_substr(
+								old_cmd, j + 1, ft_strlen(old_cmd) - (j + 1));
 						new_node->token = NULL;
 						new_node->next = NULL;
 						tmp->next = new_node;
-						
 						free(old_cmd);
 						old_cmd = NULL;
 					}
@@ -261,7 +264,7 @@ void reset_command_arr(t_tree **tree)
 						free_list(&head);
 						if (old_cmd)
 							free(old_cmd);
-						return;
+						return ;
 					}
 					j = 0;
 					tmp = head;
@@ -282,9 +285,9 @@ void reset_command_arr(t_tree **tree)
 					{
 						if (old_cmd)
 							free(old_cmd);
-						return;
+						return ;
 					}
-					new_cmd_arr[0] = old_cmd;  
+					new_cmd_arr[0] = old_cmd;
 					new_cmd_arr[1] = NULL;
 					(*tree)->command_arr_expanded[i] = new_cmd_arr;
 					old_cmd = NULL;
@@ -316,7 +319,8 @@ void reset_command_arr(t_tree **tree)
 				j = 0;
 				while ((*tree)->command_arr_expanded[i][j])
 				{
-					new_cmd_arr[count] = ft_strdup((*tree)->command_arr_expanded[i][j]);
+					new_cmd_arr[count] = ft_strdup((
+								*tree)->command_arr_expanded[i][j]);
 					count++;
 					j++;
 				}
@@ -344,7 +348,8 @@ void reset_command_arr(t_tree **tree)
 				i++;
 			}
 			prev_command_arr = NULL;
-			if (!ft_strcmp((*tree)->command_arr[0], "export") || variable_search_instr((*tree)->command_arr[0]))
+			if (!ft_strcmp((*tree)->command_arr[0], "export"
+				) || variable_search_instr((*tree)->command_arr[0]))
 			{
 				i = 1;
 				in_quotes = 0;
@@ -354,19 +359,30 @@ void reset_command_arr(t_tree **tree)
 					j = 0;
 					while ((*tree)->command_arr[i][j])
 					{
-						if (!in_quotes && ((*tree)->command_arr[i][j] == '"' || (*tree)->command_arr[i][j] == '\''))
+						if (!in_quotes && ((*tree
+								)->command_arr[i][j] == '"' || (
+								*tree)->command_arr[i][j] == '\''))
 						{
 							in_quotes = 1;
 							quote_type = (*tree)->command_arr[i][j];
 						}
 						else if (in_quotes && (*tree)->command_arr[i][j] == '$')
 							flag = 1;
-						else if (in_quotes && (*tree)->command_arr[i][j] == quote_type)
+						else if (in_quotes && (*tree
+							)->command_arr[i][j] == quote_type)
 							in_quotes = 0;
 						j++;
 					}
 					(*tree)->split[i]->arr_index = i;
-					if ((variable_search_instr((*tree)->command_arr[i]) && prev_command_arr && !ft_strcmp(prev_command_arr, "=") && (i - 2 < 0 || (i - 2 >= 0 && (!variable_search_instr((*tree)->command_arr[i - 2]))))) || (variable_search_instr((*tree)->command_arr[i]) && flag == 1) || (!ft_strchr((*tree)->command_arr[i], '$')))//&& !prev_command_arr
+					if ((variable_search_instr((*tree)->command_arr[i]
+							) && prev_command_arr && !ft_strcmp(
+								prev_command_arr, "=") && (
+								i - 2 < 0 || (i - 2 >= 0 && (
+										!variable_search_instr((*tree
+											)->command_arr[i - 2]))))) || (
+							variable_search_instr((*tree)->command_arr[i]
+							) && flag == 1) || (
+							!ft_strchr((*tree)->command_arr[i], '$')))
 						(*tree)->split[i]->split_flag = 0;
 					else
 						(*tree)->split[i]->split_flag = 1;
@@ -386,19 +402,23 @@ void reset_command_arr(t_tree **tree)
 					j = 0;
 					while ((*tree)->command_arr[i][j])
 					{
-						if (!in_quotes && ((*tree)->command_arr[i][j] == '"' || (*tree)->command_arr[i][j] == '\''))
+						if (!in_quotes && ((*tree
+								)->command_arr[i][j] == '"' || (
+								*tree)->command_arr[i][j] == '\''))
 						{
 							in_quotes = 1;
 							quote_type = (*tree)->command_arr[i][j];
 						}
 						else if (in_quotes && (*tree)->command_arr[i][j] == '$')
 							flag = 1;
-						else if (in_quotes && (*tree)->command_arr[i][j] == quote_type)
+						else if (in_quotes && (*tree
+							)->command_arr[i][j] == quote_type)
 							in_quotes = 0;
 						j++;
 					}
 					(*tree)->split[i]->arr_index = i;
-					if (((variable_search_instr((*tree)->command_arr[i]) && flag == 1)))
+					if (((variable_search_instr((*tree)->command_arr[i]
+								) && flag == 1)))
 						(*tree)->split[i]->split_flag = 0;
 					else
 						(*tree)->split[i]->split_flag = 1;
@@ -412,10 +432,9 @@ void reset_command_arr(t_tree **tree)
 						(*tree)->split[i]->split_flag = 0;
 					i++;
 				}
-
 			}
 		}
-    }
+	}
 }
 
 void	split_adjustments(t_tree **tree)
@@ -440,10 +459,10 @@ void	split_adjustments(t_tree **tree)
 
 void	command_arr_readjustments(t_tree **tree)
 {
-	int	i;
-	int	j;
-	int	k;
-	int	count;
+	int		i;
+	int		j;
+	int		k;
+	int		count;
 	char	**cmd;
 	char	*new_str;
 	t_list	*head;
@@ -463,10 +482,15 @@ void	command_arr_readjustments(t_tree **tree)
 			{
 				j = -1;
 				while ((*tree)->command_arr_expanded[i][++j])
-					(free((*tree)->command_arr_expanded[i][j]), (*tree)->command_arr_expanded[i][j] = NULL);
-				(free((*tree)->command_arr_expanded[i]), (*tree)->command_arr_expanded[i] = NULL);
+				{
+					free((*tree)->command_arr_expanded[i][j]);
+					(*tree)->command_arr_expanded[i][j] = NULL;
+				}
+				free((*tree)->command_arr_expanded[i]);
+				(*tree)->command_arr_expanded[i] = NULL;
 			}
-			(free((*tree)->command_arr_expanded), (*tree)->command_arr_expanded = NULL);
+			free((*tree)->command_arr_expanded);
+			(*tree)->command_arr_expanded = NULL;
 		}
 		i = 0;
 		while ((*tree)->command_arr[i])
@@ -475,8 +499,10 @@ void	command_arr_readjustments(t_tree **tree)
 		i = 0;
 		while ((*tree)->command_arr[i])
 		{
-			if (countwords((*tree)->command_arr[i], 32) > 1 && (*tree)->split[i]->split_flag == 1)
-				(*tree)->command_arr_expanded[i] = ft_split((*tree)->command_arr[i], ' ');
+			if (countwords((*tree)->command_arr[i], 32) > 1 && (
+					*tree)->split[i]->split_flag == 1)
+				(*tree)->command_arr_expanded[i] = ft_split(
+						(*tree)->command_arr[i], ' ');
 			else
 			{
 				j = 0;
@@ -541,7 +567,8 @@ void	command_arr_readjustments(t_tree **tree)
 		{
 			if (!ft_strcmp(tmp->data, "="))
 			{
-				new_str = ft_strjoin_three(tmp->prev->data, tmp->data, tmp->next->data);
+				new_str = ft_strjoin_three(tmp->prev->data,
+						tmp->data, tmp->next->data);
 				free(tmp->data);
 				tmp->data = ft_strdup(new_str);
 				free(new_str);
@@ -553,7 +580,7 @@ void	command_arr_readjustments(t_tree **tree)
 			tmp = tmp->next;
 		}
 		i = 0;
-		while(cmd[i])
+		while (cmd[i])
 		{
 			free(cmd[i]);
 			i++;
@@ -563,7 +590,7 @@ void	command_arr_readjustments(t_tree **tree)
 		cmd = malloc(sizeof(char *) * (j + 1));
 		i = 0;
 		tmp = head;
-		while(tmp)
+		while (tmp)
 		{
 			if (tmp->data)
 			{
@@ -590,7 +617,8 @@ void	command_arr_readjustments(t_tree **tree)
 			printf("%s\n", (*tree)->command_arr[i]);
 			i++;
 		}
-		if ((*tree)->split) {
+		if ((*tree)->split)
+		{
 			i = 0;
 			while ((*tree)->split[i])
 			{
@@ -599,7 +627,6 @@ void	command_arr_readjustments(t_tree **tree)
 			}
 			free((*tree)->split);
 		}
-
 		i = 0;
 		while ((*tree)->command_arr[i])
 			i++;
@@ -640,7 +667,7 @@ int	main(int argc, char **argv, char **argev)
 		}
 		add_history(str);
 		quote_parse(&str, &flag);
-		lexer_to_tree(str, &tree, &flag); /////////
+		lexer_to_tree(str, &tree, &flag);
 		tree_to_rediropen(tree, &flag);
 		var_set(&tree);
 		if (!flag)
@@ -682,6 +709,5 @@ int	main(int argc, char **argv, char **argev)
 // "((ls)>file2) > file"
 // >file4(>file5 ls>file>file2>file3 -la>file6)>file7>file8
 //> file4 (>file5 ls>file>file2>file3 -la>file6)>file7>file8make
-
 
 //"*"
