@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 16:14:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:30:06 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -412,12 +412,12 @@ void	reset_command_arr(t_tree **tree)
 									i - 2 >= 0 && (!variable_search_instr((
 												*tree)->command_arr[i - 2]
 										) && !isnt_valid((
-												*tree)->command_arr[i - 2], 0)
+												*tree)->command_arr[i - 2], 1)
 									)))) || (
 							variable_search_instr((*tree)->command_arr[i]
 							) && flag == 1) || (!ft_strchr((
 									*tree)->command_arr[i], '$') && !isnt_valid(
-								(*tree)->command_arr[i], 1)))
+								(*tree)->command_arr[i], 0)))
 						(*tree)->split[i]->split_flag = 0;
 					else
 						(*tree)->split[i]->split_flag = 1;
