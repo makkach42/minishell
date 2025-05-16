@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   even_more_libft_funcs.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:26:40 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:12 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:08:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,19 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	}
 	sub[i] = '\0';
 	return (sub);
+}
+
+int	fd_list_size(t_list_fd **head)
+{
+	t_list_fd	*tmp;
+	int			size;
+
+	tmp = *head;
+	size = 0;
+	while (tmp)
+	{
+		size++;
+		tmp = tmp->next;
+	}
+	return (size);
 }

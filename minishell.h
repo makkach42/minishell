@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/15 18:56:08 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:29:26 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,11 +138,12 @@ void		process_all_redirections(t_tree **tree);
 void		extract_redirections(char *cmd_str,
 				char **cmd_part, char **redir_part);
 char		*extract_content_from_parentheses(char *command);
-void		syntax_error_two(t_tree **tree);
-void		syntax_error(t_list **head);
-int			even_more_ifs(char *prev_token, char *prev_data, t_list *tmp);
-void		lexer_to_tree(char *str, t_tree **tree);
-void		tree_to_rediropen(t_tree *tree);
+void		syntax_error_two(t_tree **tree, int *flag);
+void		syntax_error(t_list **head, int *flag);
+void		even_more_ifs(char *prev_token, char *prev_data,
+				t_list *tmp, int *flag);
+void		lexer_to_tree(char *str, t_tree **tree, int *flag);
+void		tree_to_rediropen(t_tree *tree, int *flag);
 void		inits_main(t_env **env,
 				t_tree **tree, char **argev);
 void		command_arr_fill(t_tree **tree);
@@ -219,7 +220,7 @@ void		process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
 void		process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
 				int *node_info);
 int			skip_spaces(char *str, int start);
-int			check_quotes(char *str);
+int			check_quotes(char *str, int *flag);
 t_tree		*build_pipe_tree(t_list **head);
 t_tree		*create_tree_node(void *command, char *type);
 void		build_command_str(char **command_str, t_list *current);
@@ -274,14 +275,14 @@ int			process_first_redirection(t_tree *tree, t_list_fd **head,
 void		append_new_redirection(t_list_fd **tmp, t_tree *tree,
 				char *redirections_copy, int *i);
 int			check_empty(char *str);
-void		quote_parse(char **str);
+void		quote_parse(char **str, int *flag);
 int			countwords(char *s, char c);
 void		ambiguous_set(t_tree **tree);
 int			variable_search_instr(char *str);
 int			new_syntax_error(t_list **head);
 int			ambiguous_syntax_error(t_tree **tree, t_env **env);
 void		quote_set(t_tree **tree);
-void		tree_empty_error(t_tree **tree);
+void		tree_empty_error(t_tree **tree, int *flag);
 void		redirections_list_maker(t_tree **tree);
 char	*ft_cmd_check(char *env, char *s);
 int		ft_parse(char *s);
@@ -319,7 +320,7 @@ int			variable_search_inlnkedlst(t_tree **tree);
 char		*ft_strjoin_three(char *s1, char *s2, char *s3);
 void		variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
 int    check_empty(char *str);
-char		**ft_split(char	const	*s, char c);
+char		**ft_split(char	*s, char c);
 void		handle_signal(int sig);
 int			has_wild_cards_comarr(t_tree **tree);
 int			has_wild_cards_fdlst(t_tree **tree);
@@ -331,5 +332,21 @@ char	*ft_itoa(int n);
 void		quote_remove_lst_two(t_tree **tree);
 int			expandableornot(char *str);
 int     ft_equal_count(char *str);
+void		wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path);
+char		**get_matches(const char *pattern,
+				char *dir_path, int *match_count);
+int			match_pattern(const char *pattern, const char *string);
+char		*str_duplicate(const char *s);
+int			if_has_wildcards(char *str);
+void		sort_matches(char **arr, int count);
+void		process_wildcard_node_fd(t_list_fd *node, char *dir_path);
+int			copy_and_resize_matches(char ***matches,
+				int match_count, int new_cap);
+char		*join_matches(char **matches, int match_count);
+int			fd_list_size(t_list_fd **head);
+int			no_words_beside(char *str);
+void		process_command_string(t_tree **tree, int k);
+void		process_command_array(t_tree **tree);
+char		*create_filtered_string(char *old_str, int final_len);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:58:14 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/25 16:12:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:04:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*extract_content_from_parentheses(char *command)
 	return (content);
 }
 
-int	check_quotes(char *str)
+int	check_quotes(char *str, int *flag)
 {
 	int		i;
 	int		in_quotes;
@@ -98,6 +98,6 @@ int	check_quotes(char *str)
 		i++;
 	}
 	if (in_quotes)
-		return (write(2, "Syntax error: open quotes.\n", 28), 1);
+		return (write(2, "Syntax error: open quotes.\n", 28), *flag = 1, 1);
 	return (0);
 }
