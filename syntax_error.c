@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 14:10:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/17 08:54:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 					tmp->token, "OPERATION_||") == 0)))
 		(write(2, "syntax error near unexpected token `|'\n", 40), *flag = 1);
 	if (!*flag && (!ft_strcmp("REDIRECTION", prev_token) && !ft_strcmp(
-				tmp->token, "PIPE") && ft_strlen(prev_token) == 1))
+				tmp->token, "PIPE")))
 		(print_syntax_error(prev_data), *flag = 1);
 	if (!i)
 		(even_more_ifs(prev_token, prev_data, tmp, flag));
