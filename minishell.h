@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 14:11:41 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:29:26 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
+	int				active;
+	int				h;
 }	t_env;
 
 typedef struct s_split
@@ -300,8 +302,8 @@ int		ft_echo(char **s);
 int		ft_env(t_env *h);
 int		ft_check_string(char *str);
 void	ft_exit(char **s);
-int		ft_export(char  **s, t_env *h, t_tree *tree);
-int		ft_pwd(void);
+int		ft_export(char  **s, t_env **h, t_tree *tree);
+int		ft_pwd(t_env *h);
 void	ft_unset(t_env **h, char **s);
 int	ft_file_check(char *str);
 int	ft_file_create(char *str, int n);
@@ -329,6 +331,7 @@ void	variable_expantion_para(t_tree **tree, t_env **env);
 char	*ft_itoa(int n);
 void		quote_remove_lst_two(t_tree **tree);
 int			expandableornot(char *str);
+int     ft_equal_count(char *str);
 void		wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path);
 char		**get_matches(const char *pattern,
 				char *dir_path, int *match_count);
