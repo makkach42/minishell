@@ -1,0 +1,188 @@
+X $a split			
+X minishell$> export f""=$a b=$a second mustnt be split   
+X minishell$> export 1saa=$a f=$a b=$a split if str[0] 0-9
+X $ara export 1=$a f=$a b=$a kolchi split
+X $t u=$a split
+
+
+X /*
+X ----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fee5a9041c0) (fd_list_redirs: "") [Redirections: > $z""]
+X *******************1
+X minishell$> > a$b
+X >
+X REDIRECTION
+X 
+X a$b
+X WORD
+X 
+X 
+X 
+X ----REDIRECTION (Command: ) (Ambiguous: 0) (Var: 0) (Fd_list: 0x7fee5a804140) (fd_list_redirs: a    abc   ) (fd_list_redirs split: a) [Redirections: > a$b]
+X *******************0
+X 
+X 
+X //////ambiguous set after expantion
+X */
+X 
+X 
+X minishell$> > "$a"
+X >
+X REDIRECTION
+X 
+X "$a"
+X WORD
+X 
+X 
+X 
+X ambiguous redirect
+X ----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fee5a804190) (fd_list_redirs: b  c) (fd_list_redirs split: b) [Redirections: > "$a"]
+X *******************1
+X 
+X not ambiguous
+
+X export b=""
+X ls > a$b
+
+Xminishell$> ls $a
+Xls
+XWORD
+X
+X$a
+XVARIABLE
+X
+X
+X
+X++++++++++++ls
+X++++++++++++b  c
+
+Xminishell$> export "h=$a"
+Xexport
+XCOMMAND
+X
+X"h=$a"
+XWORD
+X
+X
+X
+X++++++++++++export
+X++++++++++++h=b  c"
+X----COMMAND (Command: export "h=$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h=b  c") (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+X*******************0
+X
+Xminishell$> "export h=$a"
+X"export h=$a"
+XWORD
+X
+X
+X
+X++++++++++++export h=b
+X++++++++++++c"
+X----WORD (Command: "export h=$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export h=b) (Command_arr: c") (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+X*******************0
+
+Xminishell$> export 'h=$a'
+Xexport
+XCOMMAND
+X
+X'h=$a'
+XWORD
+X
+X
+X
+X++++++++++++export
+X++++++++++++h=b  c'
+X----COMMAND (Command: export 'h=$a' ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h=b  c') (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+X*******************0
+Xminishell$> export 'h=$a'
+
+X minishell$> > $a
+X >
+X REDIRECTION
+X 
+X $a
+X VARIABLE
+X 
+X 
+X 
+X ----REDIRECTION (Command: ) (Ambiguous: 0) (Var: 0) (Fd_list: 0x7fc59e204200) (fd_list_redirs: b  c) (fd_list_redirs split: b) [Redirections: > $a]
+X *******************0
+X  ambiguous
+
+'"$a"'
+
+> '"$a"' a="l k j"
+
+> a$b ambiguous b="  abc  "
+
+ > $c c=
+
+///////////////////////
+ ➜  minishell git:(parser) ✗ export h="ayoub'aaa" hh='ayoub"sss'
+➜  minishell git:(parser) ✗ ./minishell 
+minishell$>  j=$a ""n=$a "f=$a"
+j=$a
+WORD
+
+""n=$a
+WORD
+
+"f=$a"
+WORD
+
+
+
+++++++++++++j=b  c
+++++++++++++n=b
+++++++++++++c
+++++++++++++f=b  c
+----WORD (Command: j=$a ""n=$a "f=$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: j=b  c) (Command_arr: n=b) (Command_arr: c) (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0)
+*******************0
+minishell$>  j=$a """n=$a" "f=$a"
+j=$a
+WORD
+
+"""n=$a"
+WORD
+
+"f=$a"
+WORD
+
+[1]    21294 segmentation fault  ./minishell
+////////////////////////////
+////////////////////////////
+minishell$> export   j=$a ""'n=$a' "f=$a"
+export
+COMMAND
+
+j=$a
+WORD
+
+""'n=$a'
+WORD
+
+"f=$a"
+WORD
+
+
+
+++++++++++++export
+++++++++++++j=b  c
+++++++++++++n=b
+++++++++++++c'
+++++++++++++f=b  c
+----COMMAND (Command: export j=$a ""'n=$a' "f=$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b  c) (Command_arr: n=b) (Command_arr: c') (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0)
+*******************0
+minishell$> export   j=$a ""'n=$a' "f=$a"
+/////////////////////////////////// dont expand 'n=$a'
+////////////
+bash-3.2$ echo $
+$
+bash-3.2$ echo $"HOME"
+HOME
+bash-3.2$ echo $"HOME$"
+HOME$
+bash-3.2$ echo $"$'HOME$"
+$'HOME$
+bash-3.2$ echo $"$'HOME"
+$'HOME
+///////////////

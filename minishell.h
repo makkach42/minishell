@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 09:32:58 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/17 12:18:17 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_list
 typedef struct s_list_fd
 {
 	int					fd;
+	int					in_quotes;
 	char				*name;
 	char				**name_split;
 	char				*command;

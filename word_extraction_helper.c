@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:50:28 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/08 12:48:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/17 11:09:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,47 +19,72 @@ int	is_operator(char c)
 	return (0);
 }
 
-int	else_if_str_is_quote(int *i, char *str)
-{
-	(*i)++;
-	while (str[*i] != '\"' && str[*i] != '\0')
-		(*i)++;
-	if (str[*i] == '\0')
-		return (1);
-	(*i)++;
-	if (str[*i] == '\0')
-		return (1);
-	if (str[*i] == 32)
-		return (1);
-	else
-	{
-		while (str[*i] != 32 && str[*i] != '\0')
-			(*i)++;
-	}
-	return (0);
-}
+// int	else_if_str_is_quote(int *i, char *str)
+// {
+// 	(*i)++;
+// 	while (str[*i] != '\"' && str[*i] != '\0')
+// 		(*i)++;
+// 	if (str[*i] == '\0')
+// 		return (1);
+// 	(*i)++;
+// 	if (str[*i] == '\0')
+// 		return (1);
+// 	if (str[*i] == 32)
+// 		return (1);
+// 	else
+// 	{
+// 		while (str[*i] != 32 && str[*i] != '\0')
+// 			(*i)++;
+// 	}
+// 	return (0);
+// }
+
+// void	if_string_while_loop(int *i, char *str, char **word)
+// {
+// 	int	count_quotes;
+
+// 	count_quotes = 0;
+// 	while ((count_quotes == 0 || (count_quotes % 2 != 0)))
+// 	{
+// 		while (str[*i] && str[*i] != '\"' && str[*i] != 32 && str[*i] != '\0')
+// 			(*i)++;
+// 		if (str[*i] == 32)
+// 			break ;
+// 		else if (str[*i] == '\"')
+// 		{
+// 			if (else_if_str_is_quote(i, str) == 1)
+// 				break ;
+// 		}
+// 		if (!str[*i])
+// 			(*i)--;
+// 		(*i)++;
+// 		if (!str[*i])
+// 			break ;
+// 	}
+// 	*word = ft_substr(str, 0, *i);
+// }
 
 void	if_string_while_loop(int *i, char *str, char **word)
 {
-	int	count_quotes;
+	int	open_quotes;
+	char	quote_type;
 
-	count_quotes = 0;
-	while ((count_quotes == 0 || (count_quotes % 2 != 0)))
+	*i = 0;
+	open_quotes = 0;
+	while (str[*i])
 	{
-		while (str[*i] && str[*i] != '\"' && str[*i] != 32 && str[*i] != '\0')
-			(*i)++;
-		if (str[*i] == 32)
-			break ;
-		else if (str[*i] == '\"')
+		if (!open_quotes && (str[*i] == '"' || str[*i] == '\''))
 		{
-			if (else_if_str_is_quote(i, str) == 1)
-				break ;
+			open_quotes = 1;
+			quote_type = str[*i];
 		}
-		if (!str[*i])
-			(*i)--;
-		(*i)++;
-		if (!str[*i])
+		else if (open_quotes && (str[*i] == quote_type))
+			open_quotes = 0;
+		// printf("------%c\n", str[*i]);
+		// printf("------%d\n\n", open_quotes);
+		if (!open_quotes && (str[*i] == 32 || is_operator(str[*i])))
 			break ;
+		(*i)++;
 	}
 	*word = ft_substr(str, 0, *i);
 }
