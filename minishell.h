@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/17 12:18:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/17 16:50:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_tree
 	int				var;
 	t_list_fd		*fd_list;
 	t_split			**split;
+	t_split		**expandable;
 }	t_tree;
 
 typedef struct s_dynbuf
