@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 14:10:01 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/18 14:47:26 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1707,10 +1707,12 @@ void	reset_command_arr(t_tree **tree)
 				}
 				prev_command_arr = (*tree)->command_arr[i];
 				i++;
+				printf("aaaaa\n");
 			}
 			if (!ft_strcmp((*tree)->command_arr[0], "export") || variable_search_instr((*tree)->command_arr[0]))
 			{
 				i = 1;
+				printf("bbbbbbb\n");
 				while ((*tree)->command_arr[i])
 				{
 					
@@ -1774,6 +1776,7 @@ void	reset_command_arr(t_tree **tree)
 			}
 			else if (hidenword((*tree)->command_arr[0], "export"))
 			{
+				printf("ccccccc\n");
 				i = 1; 
 				
 				while ((*tree)->command_arr[i])
@@ -1823,9 +1826,11 @@ void	reset_command_arr(t_tree **tree)
 		}
 		else 
 		{
+			// printf("ddddddddd\n");
 			char *str_check;
 			char *str_check2;
 			int	flag0;
+			// int	flag00;
 			flag0 = 0;
 			str_check2 = ft_strdup((*tree)->command_arr[0]);
 			str_check = str_extractor(str_check2);
@@ -1851,10 +1856,17 @@ void	reset_command_arr(t_tree **tree)
 					return ;
 				}
 				(*tree)->split[j]->arr_index = j;
-				if (flag0 == 0)
+				int has_quotes = 0;
+				// printf("word_recognizer = %d\n", word_recognizer((*tree)->command_arr[j]));
+				// printf("word = %s\n", (*tree)->command_arr[j]);
+				if ((*tree)->command_arr[j] && (ft_strchr((*tree)->command_arr[j], '"') || 
+												ft_strchr((*tree)->command_arr[j], '\'')))
+					has_quotes = 1;
+				if (j == 0 || has_quotes || countwords((*tree)->command_arr[j], 32) <= 1)
 					(*tree)->split[j]->split_flag = 0;
 				else
 					(*tree)->split[j]->split_flag = 1;
+				
 				j++;
 			}
 			(*tree)->split[j] = NULL;
@@ -2169,13 +2181,13 @@ void	command_arr_readjustments(t_tree **tree)
 		}
 		free((*tree)->command_arr);
 		(*tree)->command_arr = cmd;
-		printf("\n\n");
-		i = 0;
-		while ((*tree)->command_arr[i])
-		{
-			printf("++++++++++++%s\n", (*tree)->command_arr[i]);
-			i++;
-		}
+		// printf("\n\n");
+		// i = 0;
+		// while ((*tree)->command_arr[i])
+		// {
+		// 	printf("++++++++++++%s\n", (*tree)->command_arr[i]);
+		// 	i++;
+		// }
 		if ((*tree)->split)
 		{
 			i = 0;
@@ -2256,6 +2268,7 @@ int	main(int argc, char **argv, char **argev)
 		var_set(&tree);
 		if (!flag)
 			reset_command_arr(&tree);
+		// print_tree_visual(tree, 1, 1);
 		redirections_list_maker(&tree);
 		if (!flag && has_wild_cards_comarr(&tree) == 1)
 			handle_wildcards_in_cmdarr(&tree);
@@ -2265,7 +2278,7 @@ int	main(int argc, char **argv, char **argev)
 		// quote_remove(&tree);
 		quote_remove(&tree);
 		quote_remove_lst(&tree);
-		print_tree_visual(tree, 1, 1);
+		// print_tree_visual(tree, 1, 1);
 		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
 			variable_expantion(&tree, &env);
 		if (variable_search_inlnkedlst(&tree) == 1)
