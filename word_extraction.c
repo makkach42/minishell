@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/17 11:05:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/18 13:55:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	string_in_word_recognizer(char *str)
 	while (str[i] && ((quote_counter % 2 != 0 && quote_counter != 0
 			) || flag == 0))
 	{
-		if (str[i] == '\"')
+		if (str[i] == '\"' || str[i] == '\'')
 			quote_counter++;
 		if (!str[i] || (
 				str[i] == 32 && quote_counter == 0) || (

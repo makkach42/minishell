@@ -193,159 +193,159 @@ X echo "'$f'" expand
 X echo '"'$g'"' remve quotes
 X echo "'"$a"'" expand 
 X echo $b'"as"' remove quotes
-"$l "-la dont split l=ls the same here ls'     '-la or ls"     "-la or ls"   a  "-la
- <<"'$b'" '$b' should stay
-///////////////////////////////////////////////////////////////////////////////
-minishell$> export h=$a ""n=$a
-export
-COMMAND
-
-h=$a
-WORD
-
-""n=$a
-WORD
-
-----COMMAND (Command: export h=$a ""n=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h) (Command_arr: =) (Command_arr: \$a) (Command_arr: n) (Command_arr: =) (Command_arr: \$a) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0) (Split idx: 5) (Split flg: 0) (Split idx: 6) (Split flg: 1)
-
-
-++++++++++++export
-++++++++++++h=b  c
-++++++++++++n=b
-++++++++++++c
-----COMMAND (Command: export h=$a ""n=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h=b  c) (Command_arr: n=b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0)
-*******************0
-minishell$> export h=$a $n=$a
-export
-COMMAND
-
-h=$a
-WORD
-
-$n=$a
-VARIABLE
-
-----COMMAND (Command: export h=$a $n=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h) (Command_arr: =) (Command_arr: \$a) (Command_arr: \$n) (Command_arr: =) (Command_arr: \$a) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 1) (Split idx: 5) (Split flg: 0) (Split idx: 6) (Split flg: 1)
-=================================================================
-==3851==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000184d1 at pc 0x000108392781 bp 0x7ffee7892250 sp 0x7ffee7892248
-READ of size 1 at 0x6020000184d1 thread T0
-    #0 0x108392780 in variable_expantion+0x4d0 (minishell:x86_64+0x100025780)
-    #1 0x108384660 in main+0x510 (minishell:x86_64+0x100017660)
-    #2 0x7fff67ddacc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
-
-0x6020000184d1 is located 0 bytes to the right of 1-byte region [0x6020000184d0,0x6020000184d1)
-allocated by thread T0 here:
-    #0 0x10846817d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
-    #1 0x108386316 in cases+0xb6 (minishell:x86_64+0x100019316)
-    #2 0x108385eef in ft_strjoin+0x1f (minishell:x86_64+0x100018eef)
-    #3 0x108392181 in process_array_variable+0x631 (minishell:x86_64+0x100025181)
-    #4 0x108392e9d in variable_expantion+0xbed (minishell:x86_64+0x100025e9d)
-    #5 0x108384660 in main+0x510 (minishell:x86_64+0x100017660)
-    #6 0x7fff67ddacc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
-
-SUMMARY: AddressSanitizer: heap-buffer-overflow (minishell:x86_64+0x100025780) in variable_expantion+0x4d0
-Shadow bytes around the buggy address:
-  0x1c0400003040: fa fa fd fa fa fa fd fa fa fa 03 fa fa fa 00 fa
-  0x1c0400003050: fa fa 00 fa fa fa 00 fa fa fa 00 fa fa fa 00 fa
-  0x1c0400003060: fa fa 00 fa fa fa 00 fa fa fa 07 fa fa fa 02 fa
-  0x1c0400003070: fa fa 02 fa fa fa 02 fa fa fa fd fa fa fa fd fa
-  0x1c0400003080: fa fa fd fa fa fa fd fa fa fa 05 fa fa fa fd fa
-=>0x1c0400003090: fa fa fd fa fa fa fd fa fa fa[01]fa fa fa fa fa
-  0x1c04000030a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000030b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000030c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000030d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000030e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-Shadow byte legend (one shadow byte represents 8 application bytes):
-  Addressable:           00
-  Partially addressable: 01 02 03 04 05 06 07 
-  Heap left redzone:       fa
-  Freed heap region:       fd
-  Stack left redzone:      f1
-  Stack mid redzone:       f2
-  Stack right redzone:     f3
-  Stack after return:      f5
-  Stack use after scope:   f8
-  Global redzone:          f9
-  Global init order:       f6
-  Poisoned by user:        f7
-  Container overflow:      fc
-  Array cookie:            ac
-  Intra object redzone:    bb
-  ASan internal:           fe
-  Left alloca redzone:     ca
-  Right alloca redzone:    cb
-  Shadow gap:              cc
-==3851==ABORTING
-[1]    3851 abort      ./minishell
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-minishell$> export j=$a $n=$a ''"f=$a"
-export
-COMMAND
-
-j=$a
-WORD
-
-$n=$a
-VARIABLE
-
-''"f=$a"
-WORD
-
-----COMMAND (Command: export j=$a $n=$a ''"f=$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j) (Command_arr: =) (Command_arr: \$a) (Command_arr: \$n) (Command_arr: =) (Command_arr: \$a) (Command_arr: f=$a) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 1) (Split idx: 5) (Split flg: 0) (Split idx: 6) (Split flg: 1) (Split idx: 7) (Split flg: 0)
-=================================================================
-==6220==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000010b51 at pc 0x000102aaf781 bp 0x7ffeed175250 sp 0x7ffeed175248
-READ of size 1 at 0x602000010b51 thread T0
-    #0 0x102aaf780 in variable_expantion+0x4d0 (minishell:x86_64+0x100025780)
-    #1 0x102aa1660 in main+0x510 (minishell:x86_64+0x100017660)
-    #2 0x7fff67ddacc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
-
-0x602000010b51 is located 0 bytes to the right of 1-byte region [0x602000010b50,0x602000010b51)
-allocated by thread T0 here:
-    #0 0x1030ac17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
-    #1 0x102aa3316 in cases+0xb6 (minishell:x86_64+0x100019316)
-    #2 0x102aa2eef in ft_strjoin+0x1f (minishell:x86_64+0x100018eef)
-    #3 0x102aaf181 in process_array_variable+0x631 (minishell:x86_64+0x100025181)
-    #4 0x102aafe9d in variable_expantion+0xbed (minishell:x86_64+0x100025e9d)
-    #5 0x102aa1660 in main+0x510 (minishell:x86_64+0x100017660)
-    #6 0x7fff67ddacc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
-
-SUMMARY: AddressSanitizer: heap-buffer-overflow (minishell:x86_64+0x100025780) in variable_expantion+0x4d0
-Shadow bytes around the buggy address:
-  0x1c0400002110: fa fa fd fd fa fa 00 fa fa fa 00 fa fa fa 00 fa
-  0x1c0400002120: fa fa 00 fa fa fa 00 fa fa fa 00 fa fa fa 00 fa
-  0x1c0400002130: fa fa 00 fa fa fa 07 fa fa fa 02 fa fa fa 02 fa
-  0x1c0400002140: fa fa 02 fa fa fa 05 fa fa fa fd fa fa fa fd fa
-  0x1c0400002150: fa fa fd fa fa fa fd fa fa fa 05 fa fa fa fd fa
-=>0x1c0400002160: fa fa fd fa fa fa fd fa fa fa[01]fa fa fa fa fa
-  0x1c0400002170: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c0400002180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c0400002190: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000021a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000021b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-Shadow byte legend (one shadow byte represents 8 application bytes):
-  Addressable:           00
-  Partially addressable: 01 02 03 04 05 06 07 
-  Heap left redzone:       fa
-  Freed heap region:       fd
-  Stack left redzone:      f1
-  Stack mid redzone:       f2
-  Stack right redzone:     f3
-  Stack after return:      f5
-  Stack use after scope:   f8
-  Global redzone:          f9
-  Global init order:       f6
-  Poisoned by user:        f7
-  Container overflow:      fc
-  Array cookie:            ac
-  Intra object redzone:    bb
-  ASan internal:           fe
-  Left alloca redzone:     ca
-  Right alloca redzone:    cb
-  Shadow gap:              cc
-==6220==ABORTING
-[1]    6220 abort      ./minishell
-///////////////////////////////////////////////////////////////////////////////
+X "$l "-la dont split l=ls the same here ls'     '-la or ls"     "-la or ls"   a  "-la
+X <<"'$b'" '$b' should stay
+X ///////////////////////////////////////////////////////////////////////////////
+X minishell$> export h=$a ""n=$a
+X export
+X COMMAND
+X 
+X h=$a
+X WORD
+X 
+X ""n=$a
+X WORD
+X 
+X ----COMMAND (Command: export h=$a ""n=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h) (Command_arr: =) (Command_arr: \$a) (Command_arr: n) (Command_arr: =) (Command_arr: \$a) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0) (Split idx: 5) (Split flg: 0) (Split idx: 6) (Split flg: 1)
+X 
+X 
+X ++++++++++++export
+X ++++++++++++h=b  c
+X ++++++++++++n=b
+X ++++++++++++c
+X ----COMMAND (Command: export h=$a ""n=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h=b  c) (Command_arr: n=b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0)
+X *******************0
+X minishell$> export h=$a $n=$a
+X export
+X COMMAND
+X 
+X h=$a
+X WORD
+X 
+X $n=$a
+X VARIABLE
+X 
+X ----COMMAND (Command: export h=$a $n=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h) (Command_arr: =) (Command_arr: \$a) (Command_arr: \$n) (Command_arr: =) (Command_arr: \$a) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 1) (Split idx: 5) (Split flg: 0) (Split idx: 6) (Split flg: 1)
+X =================================================================
+X ==3851==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000184d1 at pc 0x000108392781 bp 0x7ffee7892250 sp 0x7ffee7892248
+X READ of size 1 at 0x6020000184d1 thread T0
+X     #0 0x108392780 in variable_expantion+0x4d0 (minishell:x86_64+0x100025780)
+X     #1 0x108384660 in main+0x510 (minishell:x86_64+0x100017660)
+X     #2 0x7fff67ddacc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+X 
+X 0x6020000184d1 is located 0 bytes to the right of 1-byte region [0x6020000184d0,0x6020000184d1)
+X allocated by thread T0 here:
+X     #0 0x10846817d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+X     #1 0x108386316 in cases+0xb6 (minishell:x86_64+0x100019316)
+X     #2 0x108385eef in ft_strjoin+0x1f (minishell:x86_64+0x100018eef)
+X     #3 0x108392181 in process_array_variable+0x631 (minishell:x86_64+0x100025181)
+X     #4 0x108392e9d in variable_expantion+0xbed (minishell:x86_64+0x100025e9d)
+X     #5 0x108384660 in main+0x510 (minishell:x86_64+0x100017660)
+X     #6 0x7fff67ddacc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+X 
+X SUMMARY: AddressSanitizer: heap-buffer-overflow (minishell:x86_64+0x100025780) in variable_expantion+0x4d0
+X Shadow bytes around the buggy address:
+X   0x1c0400003040: fa fa fd fa fa fa fd fa fa fa 03 fa fa fa 00 fa
+X   0x1c0400003050: fa fa 00 fa fa fa 00 fa fa fa 00 fa fa fa 00 fa
+X   0x1c0400003060: fa fa 00 fa fa fa 00 fa fa fa 07 fa fa fa 02 fa
+X   0x1c0400003070: fa fa 02 fa fa fa 02 fa fa fa fd fa fa fa fd fa
+X   0x1c0400003080: fa fa fd fa fa fa fd fa fa fa 05 fa fa fa fd fa
+X =>0x1c0400003090: fa fa fd fa fa fa fd fa fa fa[01]fa fa fa fa fa
+X   0x1c04000030a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+X   0x1c04000030b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+X   0x1c04000030c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+X   0x1c04000030d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+X   0x1c04000030e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+X Shadow byte legend (one shadow byte represents 8 application bytes):
+X   Addressable:           00
+X   Partially addressable: 01 02 03 04 05 06 07 
+X   Heap left redzone:       fa
+X   Freed heap region:       fd
+X   Stack left redzone:      f1
+X   Stack mid redzone:       f2
+X   Stack right redzone:     f3
+X   Stack after return:      f5
+X   Stack use after scope:   f8
+X   Global redzone:          f9
+X   Global init order:       f6
+X   Poisoned by user:        f7
+X   Container overflow:      fc
+X   Array cookie:            ac
+X   Intra object redzone:    bb
+X   ASan internal:           fe
+X   Left alloca redzone:     ca
+X   Right alloca redzone:    cb
+X   Shadow gap:              cc
+X ==3851==ABORTING
+X [1]    3851 abort      ./minishell
+X ///////////////////////////////////////////////////////////////////////////////
+X ///////////////////////////////////////////////////////////////////////////////
+X minishell$> export j=$a $n=$a ''"f=$a"
+X export
+X COMMAND
+X 
+X j=$a
+X WORD
+X 
+X $n=$a
+X VARIABLE
+X 
+X ''"f=$a"
+X WORD
+X 
+X ----COMMAND (Command: export j=$a $n=$a ''"f=$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j) (Command_arr: =) (Command_arr: \$a) (Command_arr: \$n) (Command_arr: =) (Command_arr: \$a) (Command_arr: f=$a) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 1) (Split idx: 5) (Split flg: 0) (Split idx: 6) (Split flg: 1) (Split idx: 7) (Split flg: 0)
+X =================================================================
+X ==6220==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000010b51 at pc 0x000102aaf781 bp 0x7ffeed175250 sp 0x7ffeed175248
+X READ of size 1 at 0x602000010b51 thread T0
+X     #0 0x102aaf780 in variable_expantion+0x4d0 (minishell:x86_64+0x100025780)
+X     #1 0x102aa1660 in main+0x510 (minishell:x86_64+0x100017660)
+X     #2 0x7fff67ddacc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+X 
+X 0x602000010b51 is located 0 bytes to the right of 1-byte region [0x602000010b50,0x602000010b51)
+X allocated by thread T0 here:
+X     #0 0x1030ac17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+X     #1 0x102aa3316 in cases+0xb6 (minishell:x86_64+0x100019316)
+X     #2 0x102aa2eef in ft_strjoin+0x1f (minishell:x86_64+0x100018eef)
+X     #3 0x102aaf181 in process_array_variable+0x631 (minishell:x86_64+0x100025181)
+X     #4 0x102aafe9d in variable_expantion+0xbed (minishell:x86_64+0x100025e9d)
+X     #5 0x102aa1660 in main+0x510 (minishell:x86_64+0x100017660)
+X     #6 0x7fff67ddacc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+X 
+X SUMMARY: AddressSanitizer: heap-buffer-overflow (minishell:x86_64+0x100025780) in variable_expantion+0x4d0
+X Shadow bytes around the buggy address:
+X   0x1c0400002110: fa fa fd fd fa fa 00 fa fa fa 00 fa fa fa 00 fa
+X   0x1c0400002120: fa fa 00 fa fa fa 00 fa fa fa 00 fa fa fa 00 fa
+X   0x1c0400002130: fa fa 00 fa fa fa 07 fa fa fa 02 fa fa fa 02 fa
+X   0x1c0400002140: fa fa 02 fa fa fa 05 fa fa fa fd fa fa fa fd fa
+X   0x1c0400002150: fa fa fd fa fa fa fd fa fa fa 05 fa fa fa fd fa
+X =>0x1c0400002160: fa fa fd fa fa fa fd fa fa fa[01]fa fa fa fa fa
+X   0x1c0400002170: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+X   0x1c0400002180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+X   0x1c0400002190: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+X   0x1c04000021a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+X   0x1c04000021b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+X Shadow byte legend (one shadow byte represents 8 application bytes):
+X   Addressable:           00
+X   Partially addressable: 01 02 03 04 05 06 07 
+X   Heap left redzone:       fa
+X   Freed heap region:       fd
+X   Stack left redzone:      f1
+X   Stack mid redzone:       f2
+X   Stack right redzone:     f3
+X   Stack after return:      f5
+X   Stack use after scope:   f8
+X   Global redzone:          f9
+X   Global init order:       f6
+X   Poisoned by user:        f7
+X   Container overflow:      fc
+X   Array cookie:            ac
+X   Intra object redzone:    bb
+X   ASan internal:           fe
+X   Left alloca redzone:     ca
+X   Right alloca redzone:    cb
+X   Shadow gap:              cc
+X ==6220==ABORTING
+X [1]    6220 abort      ./minishell
+X ///////////////////////////////////////////////////////////////////////////////
 
 
