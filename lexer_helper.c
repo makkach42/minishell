@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:56:19 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 10:03:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/18 14:42:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,52 @@ int	command_recognizer(char *str)
 	return (0);
 }
 
+// int	word_recognizer(char *str)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (!str)
+// 		return (0);
+// 	while (str[i] == 32)
+// 		i++;
+// 	while (str[i] == '-')
+// 		i++;
+// 	while (str[i] >= 'a' && str[i] <= 'z')
+// 		i++;
+// 	while (str[i] >= 'A' && str[i] <= 'Z')
+// 		i++;
+// 	while (str[i] == 32)
+// 		i++;
+// 	if (str[i] == '\0')
+// 		return (1);
+// 	return (0);
+// }
+
 int	word_recognizer(char *str)
 {
-	int	i;
+	int		i;
+	int		in_quotes;
+	char	quote_type;
 
 	i = 0;
+	in_quotes = 0;
 	if (!str)
 		return (0);
-	while (str[i] == 32)
+	while (str[i])
+	{
+		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
+		{
+			in_quotes = 1;
+			quote_type = str[i];
+		}
+		else if (in_quotes && str[i] == quote_type)
+			in_quotes = 0;
+		if (!in_quotes && is_operator(str[i]))
+			return (0);
 		i++;
-	while (str[i] == '-')
-		i++;
-	while (str[i] >= 'a' && str[i] <= 'z')
-		i++;
-	while (str[i] >= 'A' && str[i] <= 'Z')
-		i++;
-	while (str[i] == 32)
-		i++;
-	if (str[i] == '\0')
-		return (1);
-	return (0);
+	}
+	return (1);
 }
 
 int	pipe_recognizer(char *str)
