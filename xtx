@@ -348,4 +348,85 @@ X ==6220==ABORTING
 X [1]    6220 abort      ./minishell
 X ///////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////
+minishell$> "'""'$'a'""'"
+"'""'$'a'""'"
+WORD
+
+bbbbbbb
+///////////////////////////////////////////
+
+echo '$a'$a $a should be expanded
+///////////////////////////////////////////
+minishell$> "ls ' lalal"
+"ls '
+WORD
+
+lalal"
+WORD
+
+----WORD (Command: "ls ' lalal" ) (Ambiguous: 0) (Var: 0) (Fd_list: 0) (Command_arr: ls ') (Command_arr: lalal) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+*******************0
+minishell$> "ls ' lalal"
+///////////////////////////////////////////
+minishell$> echo AYOUB"$HOME"k
+echo
+COMMAND
+
+AYOUB"$HOME"k
+WORD
+
+----COMMAND (Command: echo AYOUB"$HOME"k ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: echo) (Command_arr: AYOUB) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+*******************0
+///////////////////////////////////////////
+minishell$> e'c'h"o "$a
+e'c'h"o "$a
+WORD
+
+aaaaa
+bbbbbbb
+----WORD (Command: e'c'h"o "$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: echo) (Command_arr: b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0)
+*******************0
+///////////////////////////////////////////
+minishell$> ls"$o"$a
+ls"$o"$a
+WORD
+
+aaaaa
+bbbbbbb
+----WORD (Command: ls"$o"$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: ls) (Command_arr: b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0)
+*******************0
+///////////////////////////////////////////
+minishell$> echo $b"a"
+echo
+COMMAND
+
+$b"a"
+VARIABLE
+
+----COMMAND (Command: echo $b"a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: echo) (Command_arr: ) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+*******************0
+/////////////////////////////////////////// variable name extraction
+///////////////////////////////////////////
+minishell$> "export" $a="$a c$a"
+"export"
+WORD
+
+$a="$a
+VARIABLE
+
+c$a"
+WORD
+
+aaaaa
+aaaaa
+aaaaa
+aaaaa
+ccccccc
+----WORD (Command: "export" $a="$a c$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: b) (Command_arr: c=b  c) (Command_arr: cb) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0)
+*******************0
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+///////////////////////////////////////////
 

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 14:03:23 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/18 19:21:18 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,6 @@ char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 	return (result);
 }
 
-/**
- * Processes a variable in a command array element
- * Safely replaces variables with their values from the environment
- * 
- * @param command_arr Array of command strings
- * @param arr_idx Index in the command array
- * @param var_pos Position of the $ character
- * @param env Environment variables list
- * @return 0 on success, -1 on error
- */
 int	process_array_variable(char **command_arr,
 		int arr_idx, int var_pos, t_env **env)
 {
@@ -222,26 +212,24 @@ void	variable_expantion(t_tree **tree, t_env **env)
 				else if (in_quote && (*tree)->command_arr[i][j] == quote_type)
 				{
 					in_quote = 0;
-					quote_type = '\0';
 				}
 				if ((*tree)->command_arr[i][j] == '$' && 
 					(in_quote == 0 || (in_quote && (quote_type == '\"' || 
 					(quote_type == '\'' && (*tree)->var != 2)))) && 
 					(*tree)->var != 2)
 				{
-					if ((*tree)->command_arr[i][j+1] && 
+					if ((*tree)->command_arr[i][j + 1] && 
 						process_array_variable((*tree)->command_arr, i, j, env) == -1)
 						break;
 					if (!variable_search(tree))
 						j = 0;
 					else
 						j = 0;
-					continue; 
 				}
 				if ((*tree)->command_arr[i][j])
 					j++;
 				else
-					break;
+					break ;
 			}
 			i++;
 		}

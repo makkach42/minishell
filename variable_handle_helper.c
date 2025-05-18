@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/17 15:39:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/18 19:18:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	variable_expantion_two(char **redirname,
 			ft_strlen((*redirname)) - name_end);
 	if (!after)
 		return (free(value), free(before), -1);
-	if (*flag == 1 && (!*before || !*after))
+	if (flag && *flag == 1 && (!*before || !*after))
 		*flag = 2;
 	if (value)
 		new_redir = ft_strjoin_three(before, value, after);
