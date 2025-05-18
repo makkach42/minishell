@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 14:29:26 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/18 09:33:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_list
 typedef struct s_list_fd
 {
 	int					fd;
+	int					in_quotes;
 	char				*name;
 	char				**name_split;
 	char				*command;
@@ -71,6 +72,7 @@ typedef struct s_tree
 	int				var;
 	t_list_fd		*fd_list;
 	t_split			**split;
+	t_split		**expandable;
 }	t_tree;
 
 typedef struct s_dynbuf

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 14:08:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/18 09:33:20 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,14 @@ void	free_tree(t_tree *tree)
 			(free(tree->split[i]), tree->split[i] = NULL);
 		free(tree->split);
 		tree->split = NULL;
+	}
+	if (tree->expandable)
+	{
+		i = -1;
+		while (tree->expandable[++i])
+			(free(tree->expandable[i]), tree->expandable[i] = NULL);
+		free(tree->expandable);
+		tree->expandable = NULL;
 	}
 	if (tree->fd_list)
 		free_list_fd(&(tree)->fd_list);

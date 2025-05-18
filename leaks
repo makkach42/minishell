@@ -1,0 +1,416 @@
+➜  minishell git:(parser) ✗ export z="" z=" "
+➜  minishell git:(parser) ✗ ./minishell      
+minishell$> > $z
+>
+REDIRECTION
+
+$z
+VARIABLE
+
+
+
+ambiguous redirect
+----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fb8ae407bc0) (fd_list_redirs:  ) (fd_list_redirs split: (null)) [Redirections: > $z]
+*******************1
+minishell$> > $z""
+>
+REDIRECTION
+
+$z""
+VARIABLE
+
+
+
+No such file or directory
+----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fb8ae407bd0) (fd_list_redirs:  "") [Redirections: > $z""]
+*******************1
+minishell$> > $zz
+>
+REDIRECTION
+
+$zz
+VARIABLE
+
+
+
+ambiguous redirect
+----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fb8ae704110) (fd_list_redirs: $zz) [Redirections: > $zz]
+*******************1
+minishell$> > $zz""
+>
+REDIRECTION
+
+$zz""
+VARIABLE
+
+
+
+No such file or directory
+----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fb8ae604110) (fd_list_redirs: $zz) [Redirections: > $zz""]
+*******************1
+minishell$> > $a$a
+>
+REDIRECTION
+
+$a$a
+VARIABLE
+
+
+
+ambiguous redirect
+----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fb8af104140) (fd_list_redirs: b  cb  c) (fd_list_redirs split: b) [Redirections: > $a$a]
+*******************1
+minishell$> > "$a$a"
+>
+REDIRECTION
+
+"$a$a"
+WORD
+
+
+
+----REDIRECTION (Command: ) (Ambiguous: 0) (Var: 0) (Fd_list: 0x7fb8ae704250) (fd_list_redirs: b  cb  c) (fd_list_redirs split: b) [Redirections: > "$a$a"]
+*******************0
+minishell$> export n=$a
+export
+COMMAND
+
+n=$a
+WORD
+
+
+
+++++++++++++export
+++++++++++++n=b  c
+----COMMAND (Command: export n=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: n=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+*******************0
+minishell$> export n=$a f=$a
+export
+COMMAND
+
+n=$a
+WORD
+
+f=$a
+WORD
+
+
+
+++++++++++++export
+++++++++++++n=b  c
+++++++++++++f=b  c
+----COMMAND (Command: export n=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: n=b  c) (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0)
+*******************0
+minishell$> export n""=$a f=$a
+export
+COMMAND
+
+n""=$a
+WORD
+
+f=$a
+WORD
+
+
+
+++++++++++++export
+++++++++++++n=b
+++++++++++++c
+++++++++++++f=b  c
+----COMMAND (Command: export n""=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: n=b) (Command_arr: c) (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0)
+*******************0
+minishell$> export j=$a n""=$a f=$a
+export
+COMMAND
+
+j=$a
+WORD
+
+n""=$a
+WORD
+
+f=$a
+WORD
+
+
+
+++++++++++++export
+++++++++++++j=b  c
+++++++++++++n=b
+++++++++++++c
+++++++++++++f=b  c
+----COMMAND (Command: export j=$a n""=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b  c) (Command_arr: n=b) (Command_arr: c) (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0)
+*******************0
+minishell$> export j=$a $n=$a f=$a
+export
+COMMAND
+
+j=$a
+WORD
+
+$n=$a
+VARIABLE
+
+f=$a
+WORD
+
+
+
+++++++++++++export
+++++++++++++j=b  c
+++++++++++++=b
+++++++++++++c
+++++++++++++f=b  c
+----COMMAND (Command: export j=$a $n=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b  c) (Command_arr: =b) (Command_arr: c) (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0)
+*******************0
+minishell$> export j=$a 1n=$a f=$a
+export
+COMMAND
+
+j=$a
+WORD
+
+1n=$a
+WORD
+
+f=$a
+WORD
+
+
+
+++++++++++++export
+++++++++++++j=b  c
+++++++++++++1n=b
+++++++++++++c
+++++++++++++f=b  c
+----COMMAND (Command: export j=$a 1n=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b  c) (Command_arr: 1n=b) (Command_arr: c) (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0)
+*******************0
+minishell$> export j=$a n1=$a f=$a
+export
+COMMAND
+
+j=$a
+WORD
+
+n1=$a
+WORD
+
+f=$a
+WORD
+
+
+
+++++++++++++export
+++++++++++++j=b  c
+++++++++++++n1=b
+++++++++++++c
+++++++++++++f=b  c
+----COMMAND (Command: export j=$a n1=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b  c) (Command_arr: n1=b) (Command_arr: c) (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0)
+*******************0
+minishell$> export j=$a n%=$a f=$a
+export
+COMMAND
+
+j=$a
+WORD
+
+n%=$a
+WORD
+
+f=$a
+WORD
+
+
+
+++++++++++++export
+++++++++++++j=b  c
+++++++++++++n%=b
+++++++++++++c
+++++++++++++f=b  c
+----COMMAND (Command: export j=$a n%=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b  c) (Command_arr: n%=b) (Command_arr: c) (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0)
+*******************0
+minishell$> export j=$a n+=$a f=$a
+export
+COMMAND
+
+j=$a
+WORD
+
+n+=$a
+WORD
+
+f=$a
+WORD
+
+
+
+++++++++++++export
+++++++++++++j=b  c
+++++++++++++n+=b  c
+++++++++++++f=b  c
+----COMMAND (Command: export j=$a n+=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b  c) (Command_arr: n+=b  c) (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0)
+*******************0
+minishell$> export j=$a n++=$a f=$a
+export
+COMMAND
+
+j=$a
+WORD
+
+n++=$a
+WORD
+
+f=$a
+WORD
+
+
+
+++++++++++++export
+++++++++++++j=b  c
+++++++++++++n++=b
+++++++++++++c
+++++++++++++f=b  c
+----COMMAND (Command: export j=$a n++=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b  c) (Command_arr: n++=b) (Command_arr: c) (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0)
+*******************0
+minishell$> export j=$a ""n=$a f=$a
+export
+COMMAND
+
+j=$a
+WORD
+
+""n=$a
+WORD
+
+f=$a
+WORD
+
+
+
+++++++++++++export
+++++++++++++j=b  c
+++++++++++++n=b
+++++++++++++c
+++++++++++++f=b  c
+----COMMAND (Command: export j=$a ""n=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b  c) (Command_arr: n=b) (Command_arr: c) (Command_arr: f=b  c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0)
+*******************0
+minishell$> $afagag export j=$a ""n=$a f=$a
+$afagag
+VARIABLE
+
+export
+COMMAND
+
+j=$a
+WORD
+
+""n=$a
+WORD
+
+f=$a
+WORD
+
+
+
+++++++++++++
+++++++++++++export
+++++++++++++j=b
+++++++++++++c
+++++++++++++n=b
+++++++++++++c
+++++++++++++f=b
+++++++++++++c
+----VARIABLE (Command: $afagag export j=$a ""n=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: ) (Command_arr: export) (Command_arr: j=b) (Command_arr: c) (Command_arr: n=b) (Command_arr: c) (Command_arr: f=b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0) (Split idx: 5) (Split flg: 0) (Split idx: 6) (Split flg: 0) (Split idx: 7) (Split flg: 0)
+*******************0
+minishell$> export"" j=$a ""n=$a f=$a
+export""
+WORD
+
+j=$a
+WORD
+
+""n=$a
+WORD
+
+f=$a
+WORD
+
+**********106
+**********j
+
+
+++++++++++++export
+++++++++++++j=b
+++++++++++++c
+++++++++++++n=b
+++++++++++++c
+++++++++++++f=b
+++++++++++++c
+----WORD (Command: export"" j=$a ""n=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b) (Command_arr: c) (Command_arr: n=b) (Command_arr: c) (Command_arr: f=b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0) (Split idx: 5) (Split flg: 0) (Split idx: 6) (Split flg: 0)
+*******************0
+minishell$> "export" j=$a ""n=$a f=$a
+"export"
+WORD
+
+j=$a
+WORD
+
+""n=$a
+WORD
+
+f=$a
+WORD
+
+**********106
+**********j
+
+
+++++++++++++export
+++++++++++++j=b
+++++++++++++c
+++++++++++++n=b
+++++++++++++c
+++++++++++++f=b
+++++++++++++c
+----WORD (Command: "export" j=$a ""n=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b) (Command_arr: c) (Command_arr: n=b) (Command_arr: c) (Command_arr: f=b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0) (Split idx: 5) (Split flg: 0) (Split idx: 6) (Split flg: 0)
+*******************0
+minishell$> ""export j=$a ""n=$a f=$a
+""export
+WORD
+
+j=$a
+WORD
+
+""n=$a
+WORD
+
+f=$a
+WORD
+
+**********106
+**********j
+
+
+++++++++++++export
+++++++++++++j=b
+++++++++++++c
+++++++++++++n=b
+++++++++++++c
+++++++++++++f=b
+++++++++++++c
+----WORD (Command: ""export j=$a ""n=$a f=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: j=b) (Command_arr: c) (Command_arr: n=b) (Command_arr: c) (Command_arr: f=b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0) (Split idx: 5) (Split flg: 0) (Split idx: 6) (Split flg: 0)
+*******************0
+minishell$> 
+leaks Report Version: 4.0
+Process 19925: 456 nodes malloced for 337 KB
+Process 19925: 6 leaks for 128 total leaked bytes.
+
+e    6 (128 bytes) << TOTAL >>
+
+      3 (64 bytes) ROOT LEAK: 0x7fb8ae704300 [32]
+         1 (16 bytes) 0x7fb8ae704240 [16]  length: 3  "c$a"
+         1 (16 bytes) 0x7fb8ae704320 [16]  length: 1  "b"
+
+      3 (64 bytes) ROOT LEAK: 0x7fb8af1041f0 [32]
+         1 (16 bytes) 0x7fb8af104130 [16]  length: 3  "c$a"
+         1 (16 bytes) 0x7fb8af104210 [16]  length: 1  "b"
