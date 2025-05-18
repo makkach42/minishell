@@ -187,12 +187,12 @@ bash-3.2$ echo $"$'HOME"
 $'HOME
 ///////////////
 
-minishell$> > a$b
-b=
-echo "'$f'" expand
-echo '"'$g'"' remve quotes
-echo "'"$a"'" expand 
-echo $b'"as"' remove quotes
+X minishell$> > a$b
+X b=
+X echo "'$f'" expand
+X echo '"'$g'"' remve quotes
+X echo "'"$a"'" expand 
+X echo $b'"as"' remove quotes
 "$l "-la dont split l=ls the same here ls'     '-la or ls"     "-la or ls"   a  "-la
  <<"'$b'" '$b' should stay
 ///////////////////////////////////////////////////////////////////////////////
