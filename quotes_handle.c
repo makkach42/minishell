@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/17 12:25:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/18 10:15:39 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ void	process_lnked_lst(t_tree **tree)
 	tmp = (*tree)->fd_list;
 	while (tmp)
 	{
-		if (variable_search_instr(tmp->name) && !expandableornot(tmp->name))
-		{
-			tmp = tmp->next;
-			continue ;
-		}
 		if (tmp->name && (tmp->name[0] == '"' || tmp->name[0] == '\'') && (tmp->name[ft_strlen(tmp->name) - 1] == '"' || tmp->name[ft_strlen(tmp->name) - 1] == '\''))
 			tmp->in_quotes = 1;
 		process_lst(&tmp);
