@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 10:17:41 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/18 11:26:59 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,9 @@ void	variable_expantion(t_tree **tree, t_env **env)
 					in_quote = 0;
 					quote_type = '\0';
 				}
+				// printf("===============%d\n", (*tree)->var);
 				if ((*tree)->command_arr[i][j] == '$' && (
-						in_quote == 0 || (in_quote && quote_type == '\"')))
+						in_quote == 0 || (in_quote && (quote_type == '\"' || (quote_type == '\'' && (*tree)->var != 2)))) && (*tree)->var != 2)
 				{
 					if (process_array_variable((
 								*tree)->command_arr, i, j, env) == -1)

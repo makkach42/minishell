@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 09:33:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/18 11:26:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ void		update_tree_with_cmd(t_tree *tree, t_tree *cmd_tree);
 void		update_quote_state(char c, int *in_quotes, char *quote_type);
 void		join_cmd_with_args(char **cmd_part, char *args_start,
 				char *redir_start);
-int			count_filtered_length(char *old_str);
+int			count_filtered_length(char *old_str, int *var_flag);
 int			process_variable(t_list *tmp, int i, t_env **env);
 int			process_word_variable(t_list *tmp, t_env **env);
 char		*check_for_valid_args(char *redir_start, int j);
@@ -350,5 +350,8 @@ int			no_words_beside(char *str);
 void		process_command_string(t_tree **tree, int k);
 void		process_command_array(t_tree **tree);
 char		*create_filtered_string(char *old_str, int final_len);
+void		variable_expantion_preserve_quotes(t_tree **tree, t_env **env);
+void		quote_remove_preserve_var(t_tree **tree);
+void		quote_remove_improved(t_tree **tree);
 
 #endif
