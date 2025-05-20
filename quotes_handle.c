@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 11:12:01 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/20 10:26:41 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	process_lst(t_list_fd **node)
 	int			final_len;
 
 	old_str = (*node)->name;
-	final_len = count_filtered_length(old_str, NULL);
-	new_str = create_filtered_string(old_str, final_len);
+	final_len = count_filtered_length(old_str, NULL, 0, 0);
+	new_str = create_filtered_string(old_str, final_len, 0, 0);
 	if (!new_str)
 		return ;
 	free((*node)->name);

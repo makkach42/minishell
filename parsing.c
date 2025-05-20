@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 20:18:55 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/20 18:22:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1670,13 +1670,40 @@ t_list	*new_list_init(char *str)
 			i++;
 		}
 		tmp_char = word;
-		word = ft_substr(str, 0, i + 1);
+		word = ft_substr(str, 0, i);
 		free(tmp_char);
 		tmp_char = word;
 		word = ft_strtrim(word, " ");
 		free(tmp_char);
 		tmp_char = str;
-		str = ft_substr(str, i + 1, ft_strlen(str) - (i + 1));
+		str = ft_substr(str, i, ft_strlen(str) - (i));
+		free(tmp_char);
+		tmp_char = str;
+		str = ft_strtrim(str, " ");
+		free(tmp_char);
+	}
+	else if(*str == '+')
+	{
+		if (str[1] == '=')
+		{
+			tmp_char = word;
+			word = ft_substr(str, 0, 2);
+			free(tmp_char);
+			tmp_char = word;
+			word = ft_strtrim(word, " ");
+			free(tmp_char);
+		}
+		else
+		{
+			tmp_char = word;
+			word = ft_substr(str, 0, 1);
+			free(tmp_char);
+			tmp_char = word;
+			word = ft_strtrim(word, " ");
+			free(tmp_char);
+		}
+		tmp_char = str;
+		str = ft_substr(str, ft_strlen(word), ft_strlen(str) - (ft_strlen(word)));
 		free(tmp_char);
 		tmp_char = str;
 		str = ft_strtrim(str, " ");
@@ -1718,18 +1745,18 @@ t_list	*new_list_init(char *str)
 	{
 		while (str[i])
 		{
-			if (str[i] == '"' || str[i] == '\'' || str[i] == '$' || is_operator(str[i]) || str[i] == '(')
+			if (str[i] == '"' || str[i] == '\'' || str[i] == '$' || is_operator(str[i]) || str[i] == '(' || str[i] == '=')
 				break ;
 			i++;
 		}
 		tmp_char = word;
-		word = ft_substr(str, 0, i + 1);
+		word = ft_substr(str, 0, i);
 		free(tmp_char);
 		tmp_char = word;
 		word = ft_strtrim(word, " ");
 		free(tmp_char);
 		tmp_char = str;
-		str = ft_substr(str, i + 1, ft_strlen(str) - (i + 1));
+		str = ft_substr(str, i, ft_strlen(str) - (i));
 		free(tmp_char);
 		tmp_char = str;
 		str = ft_strtrim(str, " ");
@@ -1851,6 +1878,15 @@ t_list	*new_list_init(char *str)
 			str = ft_strtrim(str, " ");
 			free(tmp_char);
 		}
+		else if (*str == '=')
+		{
+			tmp_char = word;
+			word = ft_substr(str, 0, 1);
+			free(tmp_char);
+			tmp_char = str;
+			str = ft_substr(str, 1, ft_strlen(str) - 1);
+			free(tmp_char);
+		}
 		else
 		{
 			i = 0;
@@ -1861,13 +1897,13 @@ t_list	*new_list_init(char *str)
 				i++;
 			}
 			tmp_char = word;
-			word = ft_substr(str, 0, i + 1);
+			word = ft_substr(str, 0, i);
 			free(tmp_char);
 			tmp_char = word;
 			word = ft_strtrim(word, " ");
 			free(tmp_char);
 			tmp_char = str;
-			str = ft_substr(str, i + 1, ft_strlen(str) - (i + 1));
+			str = ft_substr(str, i, ft_strlen(str) - (i));
 			free(tmp_char);
 			tmp_char = str;
 			str = ft_strtrim(str, " ");
@@ -1888,17 +1924,22 @@ t_list	*new_list_init(char *str)
 	return (head);
 }
 
+
 void	reset_vars(t_tree **tree, t_env **env)
 {
 	int	i;
 	int	j;
+	int	k;
+	int	l;
+	int	m;
 	int	in_quotes;
 	int	final_len;
 	int	list_size;
 	char quote_type;
 	char *new_str;
-	char *tmp_char;
 	char *old_cmd;
+	char **cmd;
+	char ***cmd2;
 	t_list	*head;
 	t_list	*tmp;
 
@@ -1917,7 +1958,7 @@ void	reset_vars(t_tree **tree, t_env **env)
 			if (ft_strchr((*tree)->command_arr[i], '"') || ft_strchr((*tree)->command_arr[i], '\'') || ft_strchr((*tree)->command_arr[i], '$'))
 			{
 				old_cmd = ft_strdup((*tree)->command_arr[i]);
-				head = new_list_init(old_cmd);
+				head = list_init(old_cmd);
 				list_size = lst_size(&head);
 				j = 0;
 				tmp = head;
@@ -1925,6 +1966,8 @@ void	reset_vars(t_tree **tree, t_env **env)
 				{
 					if (ft_strchr(tmp->data, '"') || ft_strchr(tmp->data, '\'') || ft_strchr(tmp->data, '$'))
 					{
+						k = 0;
+						l = 0;
 						if (ft_strchr(tmp->data, '$'))
 						{
 							in_quotes = 0;
@@ -1941,28 +1984,221 @@ void	reset_vars(t_tree **tree, t_env **env)
 									in_quotes = 0;
 								if (tmp->data[j] == '$' && (!in_quotes || (in_quotes && quote_type == '"')))
 								{
-									process_array_variable(&tmp->data, 0, j, env);
-										j = -1;
+									l = j;
+									process_array_variable(&tmp->data, 0, &j, env);
+									k = l + j;
+									j = -1;
 								}
 								j++;
 							}
 						}
-						if (ft_strchr(tmp->data, '"') || ft_strchr(tmp->data, '\''))
-						{
-							old_cmd = tmp->data;
-							final_len = count_filtered_length(old_cmd, &(*tree)->var);
-							new_str = create_filtered_string(old_cmd, final_len);
-							if (!new_str)
-								return ;
-							free(tmp->data);
-							tmp->data = new_str;
-						}
 					}
-					printf("%s\n", tmp->data);
 					tmp = tmp->next;
 				}
 				tmp = head;
+				new_str = ft_strdup(tmp->data);
+				free((*tree)->command_arr[i]);
+				(*tree)->command_arr[i] = new_str;
+				free_list(&head);
+			}
+			i++;
+		}
+		list_size = 0;
+		final_len = 0;
+		i = 0;
+		head = NULL;
+		while ((*tree)->command_arr[i])
+			i++;
+		cmd2 = malloc(sizeof(char **) * (i + 1));
+		i = 0;
+		while ((*tree)->command_arr[i])
+		{
+			old_cmd = ft_strdup((*tree)->command_arr[i]);
+			head = list_init(old_cmd);
+			list_size = lst_size(&head);
+			if (list_size == 0)
+			{
+				cmd = malloc(sizeof(char *) * (list_size + 1));
+				j = 0;
+				tmp = head;
+				while (tmp)
+				{
+					new_str = ft_strdup(tmp->data);
+					cmd[j] = new_str;
+					j++;
+					tmp = tmp->next;
+				}
+				cmd[j] = NULL;
+				cmd2[i] = cmd;
+				free_list(&head);
+				free(old_cmd);
+				i++;
+				continue ;
+			}
+			cmd = malloc(sizeof(char *) * (list_size + 1));
+			j = 0;
+			tmp = head;
+			while (tmp)
+			{
+				new_str = ft_strdup(tmp->data);
+				cmd[j] = new_str;
+				j++;
+				tmp = tmp->next;
+			}
+			cmd[j] = NULL;
+			cmd2[i] = cmd;
+			free_list(&head);
+			i++;
+		}
+		cmd2[i] = NULL;
+		i = 0;
+		while ((*tree)->command_arr[i])
+		{
+			free((*tree)->command_arr[i]);
+			i++;
+		}
+		free((*tree)->command_arr);
+		m = 0;
+		i = 0;
+		j = 0;
+		while (cmd2[i])
+		{
+			j = 0;
+			while (cmd2[i][j])
+			{
+				m++;
+				j++;
+			}
+			i++;
+		}
+		(*tree)->command_arr = malloc(sizeof(char *) * (m + 1));
+		i = 0;
+		j = 0;
+		m = 0;
+		while (cmd2[i])
+		{
+			j = 0;
+			while (cmd2[i][j])
+			{
+				(*tree)->command_arr[m] = ft_strdup(cmd2[i][j]);
+				m++;
+				j++;
+			}
+			i++;
+		}
+		(*tree)->command_arr[m] = NULL;
+		i = -1;
+		while (cmd2[++i])
+		{
+			if (cmd2[i])
+			{
+				j = -1;
+				while (cmd2[i][++j])
+				{
+					if (cmd2[i][j])
+					{
+						free(cmd2[i][j]);
+						cmd2[i][j] = NULL;
+					}
+				}
+				free(cmd2[i]);
+				cmd2[i] = NULL;
+			}
+		}
+		(free(cmd2), cmd2 = NULL);
+		i = 0;
+		while ((*tree)->command_arr[i])
+		{
+			if (ft_strchr((*tree)->command_arr[i], '"') || ft_strchr((*tree)->command_arr[i], '\''))
+			{
+				old_cmd = (*tree)->command_arr[i];
+				final_len = count_filtered_length(old_cmd, &(*tree)->var, l, k);
+				new_str = create_filtered_string(old_cmd, final_len, l, k);
+				if (!new_str)
+					return ;
+				free((*tree)->command_arr[i]);
+				(*tree)->command_arr[i] = new_str;
+			}
+			i++;
+		}
+	}
+}
+
+void export_cases(t_tree **tree)
+{
+	int	i;
+	int	j;
+	int	flag;
+	int	in_quotes;
+	char quote_type;
+	char *old_cmd;
+	char *tmp_char;
+	char *new_str;
+	t_list *head;
+	t_list *tmp;
+	t_list *tmp2;
+
+    if ((*tree) && (*tree)->left)
+		export_cases(&(*tree)->left);
+    if ((*tree) && (*tree)->right)
+		export_cases(&(*tree)->right);
+	if ((*tree) && (*tree)->command_arr)
+	{
+		i = 1;
+		if (!ft_strcmp((*tree)->command_arr[0], "export"))
+		{
+			while ((*tree)->command_arr[i])
+			{
+				old_cmd = ft_strdup((*tree)->command_arr[i]);
+				head = new_list_init(old_cmd);
+				// tmp = head;
+				// while (tmp)
+				// {
+				// 	printf("**************%s\n", tmp->data);
+				// 	tmp = tmp->next;
+				// }
+				tmp = head;
 				new_str = NULL;
+				while (tmp)
+				{
+					if (!ft_strcmp(tmp->data, "="))
+					{
+						tmp2 = tmp;
+						if (!isnt_valid(tmp2->prev->data, 1))
+						{
+							tmp2 = tmp->next;
+							while (tmp2)
+							{
+								j = 0;
+								flag = 0;
+								in_quotes = 0;
+								quote_type = 0;
+								while (tmp2->data[j])
+								{
+									if (!in_quotes && (tmp2->data[j] == '"' || tmp2->data[j] == '\''))
+									{
+										in_quotes = 1;
+										quote_type = tmp2->data[j];
+									}
+									else if (in_quotes && tmp2->data[j] == quote_type)
+										in_quotes = 0;
+									if (tmp2->data[j] == '$' && !in_quotes)
+										flag = 1;
+									j++;
+								}
+								if (flag == 1)
+								{
+									tmp_char = tmp2->data;
+									tmp2->data = ft_strjoin_three("\"", tmp2->data, "\"");
+									free(tmp_char);
+								}
+								tmp2 = tmp2->next;
+							}
+						}
+					}
+					tmp = tmp->next;
+				}
+				tmp = head;
 				while (tmp)
 				{
 					tmp_char = new_str;
@@ -1970,19 +2206,16 @@ void	reset_vars(t_tree **tree, t_env **env)
 					free(tmp_char);
 					tmp = tmp->next;
 				}
-				printf("*-+%s\n", new_str);
-				printf("%s\n", (*tree)->command_arr[i]);
 				free((*tree)->command_arr[i]);
 				(*tree)->command_arr[i] = new_str;
 				free_list(&head);
+				i++;
 			}
-			i++;
 		}
-
 	}
 }
 
-int	main(int argc, char **argv, char **argev) //see why it doesnt do the spliting thing and emprove it
+int	main(int argc, char **argv, char **argev)
 {
 	char		*str;
 	int			flag;
@@ -2011,16 +2244,20 @@ int	main(int argc, char **argv, char **argev) //see why it doesnt do the splitin
 		lexer_to_tree(str, &tree, &flag);
 		tree_to_rediropen(tree, &flag);
 		var_set(&tree);
-		if (!flag)
-			reset_command_arr(&tree);
-		if (!flag)
-			reset_vars(&tree, &env);
-		// print_tree_visual(tree, 1, 1);
+		// if (!flag)
+		// 	reset_command_arr(&tree);
+		export_cases(&tree);
+		print_tree_visual(tree, 1, 1);
 		redirections_list_maker(&tree);
 		if (has_wild_cards_comarr(&tree) == 1)
 			handle_wildcards_in_cmdarr(&tree);
 		if (has_wild_cards_fdlst(&tree) == 1)
 			handle_wildcards_in_fdlst(&tree);
+		if (!flag)
+			reset_vars(&tree, &env);
+		// if (!flag)
+			// if_zero_not_export()
+		print_tree_visual(tree, 1, 1);
 		// quote_remove_lst(&tree);
 		// quote_remove(&tree);
 		// quote_remove(&tree);
@@ -2030,14 +2267,14 @@ int	main(int argc, char **argv, char **argev) //see why it doesnt do the splitin
 		// 	variable_expantion(&tree, &env);
 		// if (variable_search_inlnkedlst(&tree) == 1)
 		// 	variable_expantion_inlnkedlst(&tree, &env);
-		if (!flag)
-			split_adjustments(&tree);
+		// if (!flag)
+		// 	split_adjustments(&tree);
 		// if (!flag)
 		// 	command_arr_readjustments(&tree);
 		// print_tree_visual(tree, 1, 1);
 		ambiguous_set(&tree);
-		if (ambiguous_syntax_error(&tree, &env) == 1)
-			(write(2, "ambiguous redirect\n", 19), flag = 1);
+		// if (ambiguous_syntax_error(&tree, &env) == 1)
+		// 	(write(2, "ambiguous redirect\n", 19), flag = 1);
 		// if (ambiguous_syntax_error(&tree, &env) == 2)
 			// (write(2, "No such file or directory\n", 26), flag = 1);
 		// if (ambiguous_syntax_error(&tree, &env) != 2)

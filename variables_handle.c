@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 19:21:18 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:26:17 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,28 +71,24 @@ char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 }
 
 int	process_array_variable(char **command_arr,
-		int arr_idx, int var_pos, t_env **env)
+		int arr_idx, int *var_pos, t_env **env)
 {
 	int		var_end;
 	char	*var_name;
 	char	*var_value;
+	char	*tmp_char;
 	char	*before;
 	char	*after;
 	char	*new_str;
 	char	c;
 	t_env	*tmp_env;
 
-	
-	if (!command_arr || !command_arr[arr_idx] || var_pos < 0 || 
-		!command_arr[arr_idx][var_pos])
+	if (!command_arr || !command_arr[arr_idx] || (*var_pos) < 0 || 
+		!command_arr[arr_idx][(*var_pos)])
 		return (-1);
-		
-	
-	if (command_arr[arr_idx][var_pos] == '$' && !command_arr[arr_idx][var_pos + 1])
+	if (command_arr[arr_idx][(*var_pos)] == '$' && !command_arr[arr_idx][(*var_pos) + 1])
 		return (0); 
-	
-	var_end = var_pos + 1;
-	
+	var_end = (*var_pos) + 1;
 	while (command_arr[arr_idx][var_end])
 	{
 		c = command_arr[arr_idx][var_end];
@@ -102,75 +98,70 @@ int	process_array_variable(char **command_arr,
 		else
 			break;
 	}
-	
-	
-	if (var_end == var_pos + 1) {
-		
-		
+	if (var_end == (*var_pos) + 1)
+	{
 		if (command_arr[arr_idx][var_end] == '?' || 
 			command_arr[arr_idx][var_end] == '@' ||
-			command_arr[arr_idx][var_end] == '#') {
+			command_arr[arr_idx][var_end] == '#')
+		{
 			var_end++;
 		}
 	}
-	
-	
-	var_name = ft_substr(command_arr[arr_idx], var_pos + 1, var_end - var_pos - 1);
+	var_name = ft_substr(command_arr[arr_idx], (*var_pos) + 1, var_end - (*var_pos) - 1);
 	if (!var_name)
 		return (-1);
-	
-	
-	if (ft_strlen(var_name) == 0) {
+	if (ft_strlen(var_name) == 0)
+	{
 		free(var_name);
 		return (0);
 	}
-	
-	
 	var_value = NULL;
 	tmp_env = *env;
 	while (tmp_env)
 	{
 		if (ft_strcmp(tmp_env->key, var_name) == 0)
 		{
-			var_value = tmp_env->value;
-			break;
+			var_value = ft_strdup(tmp_env->value);
+			break ;
 		}
 		tmp_env = tmp_env->next;
 	}
-	
-	
-	before = ft_substr(command_arr[arr_idx], 0, var_pos);
-	if (!before) {
+	before = ft_substr(command_arr[arr_idx], 0, (*var_pos));
+	if (!before)
+	{
 		free(var_name);
 		return (-1);
 	}
-	
-	
 	after = ft_substr(command_arr[arr_idx], var_end,
 			ft_strlen(command_arr[arr_idx]) - var_end);
-	if (!after) {
+	if (!after)
+	{
 		free(var_name);
 		free(before);
 		return (-1);
 	}
-	
-	
+	if (var_value)
+	{
+		if (ft_strchr(var_value, '"') || ft_strchr(var_value, '\''))
+		{
+			tmp_char = var_value;
+			var_value = ft_strjoin_three("\"", var_value, "\"");
+			free(tmp_char);
+		}
+		*var_pos = ft_strlen(var_value);
+	}
 	if (var_value)
 		new_str = ft_strjoin_three(before, var_value, after);
 	else
 		new_str = ft_strjoin(before, after);
-		
 	free(var_name);
 	free(before);
 	free(after);
-	
+	free(var_value);
 	if (!new_str)
 		return (-1);
-	
-	
 	free(command_arr[arr_idx]);
 	command_arr[arr_idx] = new_str;
-	
 	return (0);
 }
 
@@ -219,7 +210,7 @@ void	variable_expantion(t_tree **tree, t_env **env)
 					(*tree)->var != 2)
 				{
 					if ((*tree)->command_arr[i][j + 1] && 
-						process_array_variable((*tree)->command_arr, i, j, env) == -1)
+						process_array_variable((*tree)->command_arr, i, &j, env) == -1)
 						break;
 					if (!variable_search(tree))
 						j = 0;

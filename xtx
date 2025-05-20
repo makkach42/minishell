@@ -2,121 +2,109 @@ X $a split
 X minishell$> export f""=$a b=$a second mustnt be split   
 X minishell$> export 1saa=$a f=$a b=$a split if str[0] 0-9
 X $ara export 1=$a f=$a b=$a kolchi split
-X $t u=$a split
-
-
-X /*
-X ----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fee5a9041c0) (fd_list_redirs: "") [Redirections: > $z""]
-X *******************1
-X minishell$> > a$b
-X >
-X REDIRECTION
-X 
-X a$b
+ $t u=$a split
+ /*
+ ----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fee5a9041c0) (fd_list_redirs: "") [Redirections: > $z""]
+ *******************1
+ minishell$> > a$b
+ >
+ REDIRECTION
+ 
+ a$b
+ WORD
+ 
+ 
+ 
+ ----REDIRECTION (Command: ) (Ambiguous: 0) (Var: 0) (Fd_list: 0x7fee5a804140) (fd_list_redirs: a    abc   ) (fd_list_redirs split: a) [Redirections: > a$b]
+ *******************0
+ 
+ 
+ //////ambiguous set after expantion
+ */
+ 
+ 
+ minishell$> > "$a"
+ >
+ REDIRECTION
+ 
+ "$a"
+ WORD
+ 
+ 
+ 
+ ambiguous redirect
+ ----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fee5a804190) (fd_list_redirs: b  c) (fd_list_redirs split: b) [Redirections: > "$a"]
+ *******************1
+ 
+ not ambiguous
+ export b=""
+ ls > a$b
+X minishell$> ls $a
+X ls
 X WORD
-X 
-X 
-X 
-X ----REDIRECTION (Command: ) (Ambiguous: 0) (Var: 0) (Fd_list: 0x7fee5a804140) (fd_list_redirs: a    abc   ) (fd_list_redirs split: a) [Redirections: > a$b]
-X *******************0
-X 
-X 
-X //////ambiguous set after expantion
-X */
-X 
-X 
-X minishell$> > "$a"
-X >
-X REDIRECTION
-X 
-X "$a"
-X WORD
-X 
-X 
-X 
-X ambiguous redirect
-X ----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fee5a804190) (fd_list_redirs: b  c) (fd_list_redirs split: b) [Redirections: > "$a"]
-X *******************1
-X 
-X not ambiguous
-
-X export b=""
-X ls > a$b
-
-Xminishell$> ls $a
-Xls
-XWORD
-X
-X$a
-XVARIABLE
-X
-X
-X
-X++++++++++++ls
-X++++++++++++b  c
-
-Xminishell$> export "h=$a"
-Xexport
-XCOMMAND
-X
-X"h=$a"
-XWORD
-X
-X
-X
-X++++++++++++export
-X++++++++++++h=b  c"
-X----COMMAND (Command: export "h=$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h=b  c") (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
-X*******************0
-X
-Xminishell$> "export h=$a"
-X"export h=$a"
-XWORD
-X
-X
-X
-X++++++++++++export h=b
-X++++++++++++c"
-X----WORD (Command: "export h=$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export h=b) (Command_arr: c") (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
-X*******************0
-
-Xminishell$> export 'h=$a'
-Xexport
-XCOMMAND
-X
-X'h=$a'
-XWORD
-X
-X
-X
-X++++++++++++export
-X++++++++++++h=b  c'
-X----COMMAND (Command: export 'h=$a' ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h=b  c') (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
-X*******************0
-Xminishell$> export 'h=$a'
-
-X minishell$> > $a
-X >
-X REDIRECTION
 X 
 X $a
 X VARIABLE
 X 
 X 
 X 
-X ----REDIRECTION (Command: ) (Ambiguous: 0) (Var: 0) (Fd_list: 0x7fc59e204200) (fd_list_redirs: b  c) (fd_list_redirs split: b) [Redirections: > $a]
+X ++++++++++++ls
+X ++++++++++++b  c
+X minishell$> export "h=$a"
+X export
+X COMMAND
+X 
+X "h=$a"
+X WORD
+X 
+X 
+X 
+X ++++++++++++export
+X ++++++++++++h=b  c"
+X ----COMMAND (Command: export "h=$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h=b  c") (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
 X *******************0
-X  ambiguous
 
-X ///'"$a"'
-
-X > '"$a"' a="l k j"
-
-X > a$b ambiguous b="  abc  "
-
-X > $c c=
-
-///////////////////////
+X minishell$> "export h=$a"
+X "export h=$a"
+X WORD
+X 
+X 
+X 
+X ++++++++++++export h=b
+X ++++++++++++c"
+X ----WORD (Command: "export h=$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export h=b) (Command_arr: c") (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+X *******************0
+X minishell$> export 'h=$a'
+X export
+X COMMAND
+X 
+X 'h=$a'
+X WORD
+X 
+X 
+X 
+X ++++++++++++export
+X ++++++++++++h=b  c'
+X ----COMMAND (Command: export 'h=$a' ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h=b  c') (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+X *******************0
+X minishell$> export 'h=$a'
+ minishell$> > $a
+ >
+ REDIRECTION
+ 
+ $a
+ VARIABLE
+ 
+ 
+ 
+ ----REDIRECTION (Command: ) (Ambiguous: 0) (Var: 0) (Fd_list: 0x7fc59e204200) (fd_list_redirs: b  c) (fd_list_redirs split: b) [Redirections: > $a]
+ *******************0
+  ambiguous
+ ///'"$a"'
+ > '"$a"' a="l k j"
+ > a$b ambiguous b="  abc  "
+ > $c c=
+//////////////////////
 X  ➜  minishell git:(parser) ✗ export h="ayoub'aaa" hh='ayoub"sss'
 X ➜  minishell git:(parser) ✗ ./minishell 
 X minishell$>  j=$a ""n=$a "f=$a"
@@ -187,15 +175,15 @@ bash-3.2$ echo $"$'HOME"
 $'HOME
 ///////////////
 
-X minishell$> > a$b
-X b=
+ minishell$> > a$b
+ b=
 X echo "'$f'" expand
 X echo '"'$g'"' remve quotes
 X echo "'"$a"'" expand 
 X echo $b'"as"' remove quotes
 X "$l "-la dont split l=ls the same here ls'     '-la or ls"     "-la or ls"   a  "-la
-X <<"'$b'" '$b' should stay
-X ///////////////////////////////////////////////////////////////////////////////
+ <<"'$b'" '$b' should stay
+ ///////////////////////////////////////////////////////////////////////////////
 X minishell$> export h=$a ""n=$a
 X export
 X COMMAND
@@ -357,75 +345,75 @@ bbbbbbb
 ///////////////////////////////////////////
 
 echo '$a'$a $a should be expanded
-///////////////////////////////////////////
-minishell$> "ls ' lalal"
-"ls '
-WORD
-
-lalal"
-WORD
-
-----WORD (Command: "ls ' lalal" ) (Ambiguous: 0) (Var: 0) (Fd_list: 0) (Command_arr: ls ') (Command_arr: lalal) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
-*******************0
-minishell$> "ls ' lalal"
-///////////////////////////////////////////
-minishell$> echo AYOUB"$HOME"k
-echo
-COMMAND
-
-AYOUB"$HOME"k
-WORD
-
-----COMMAND (Command: echo AYOUB"$HOME"k ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: echo) (Command_arr: AYOUB) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
-*******************0
-///////////////////////////////////////////
-minishell$> e'c'h"o "$a
-e'c'h"o "$a
-WORD
-
-aaaaa
-bbbbbbb
-----WORD (Command: e'c'h"o "$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: echo) (Command_arr: b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0)
-*******************0
-///////////////////////////////////////////
-minishell$> ls"$o"$a
-ls"$o"$a
-WORD
-
-aaaaa
-bbbbbbb
-----WORD (Command: ls"$o"$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: ls) (Command_arr: b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0)
-*******************0
-///////////////////////////////////////////
-minishell$> echo $b"a"
-echo
-COMMAND
-
-$b"a"
-VARIABLE
-
-----COMMAND (Command: echo $b"a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: echo) (Command_arr: ) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
-*******************0
-/////////////////////////////////////////// variable name extraction
-///////////////////////////////////////////
-minishell$> "export" $a="$a c$a"
-"export"
-WORD
-
-$a="$a
-VARIABLE
-
-c$a"
-WORD
-
-aaaaa
-aaaaa
-aaaaa
-aaaaa
-ccccccc
-----WORD (Command: "export" $a="$a c$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: b) (Command_arr: c=b  c) (Command_arr: cb) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0)
-*******************0
-///////////////////////////////////////////
+X ///////////////////////////////////////////
+X minishell$> "ls ' lalal"
+X "ls '
+X WORD
+X 
+X lalal"
+X WORD
+X 
+X ----WORD (Command: "ls ' lalal" ) (Ambiguous: 0) (Var: 0) (Fd_list: 0) (Command_arr: ls ') (Command_arr: lalal) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+X *******************0
+X minishell$> "ls ' lalal"
+X ///////////////////////////////////////////
+X minishell$> echo AYOUB"$HOME"k
+X echo
+X COMMAND
+X 
+X AYOUB"$HOME"k
+X WORD
+X 
+X ----COMMAND (Command: echo AYOUB"$HOME"k ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: echo) (Command_arr: AYOUB) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+X *******************0
+X ///////////////////////////////////////////
+X minishell$> e'c'h"o "$a
+X e'c'h"o "$a
+X WORD
+X 
+X aaaaa
+X bbbbbbb
+X ----WORD (Command: e'c'h"o "$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: echo) (Command_arr: b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0)
+X *******************0
+X ///////////////////////////////////////////
+X minishell$> ls"$o"$a
+X ls"$o"$a
+X WORD
+X 
+X aaaaa
+X bbbbbbb
+X ----WORD (Command: ls"$o"$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: ls) (Command_arr: b) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0)
+X *******************0
+X ///////////////////////////////////////////
+X minishell$> echo $b"a"
+X echo
+X COMMAND
+X 
+X $b"a"
+X VARIABLE
+X 
+X ----COMMAND (Command: echo $b"a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: echo) (Command_arr: ) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
+X *******************0
+X /////////////////////////////////////////// variable name extraction
+X ///////////////////////////////////////////
+X minishell$> "export" $a="$a c$a"
+X "export"
+X WORD
+X 
+X $a="$a
+X VARIABLE
+X 
+X c$a"
+X WORD
+X 
+X aaaaa
+X aaaaa
+X aaaaa
+X aaaaa
+X ccccccc
+X ----WORD (Command: "export" $a="$a c$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: b) (Command_arr: c=b  c) (Command_arr: cb) (Command_arr: c) (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0) (Split idx: 2) (Split flg: 0) (Split idx: 3) (Split flg: 0) (Split idx: 4) (Split flg: 0)
+X *******************0
+X ///////////////////////////////////////////
 ///////////////////////////////////////////
 
 ///////////////////////////////////////////
