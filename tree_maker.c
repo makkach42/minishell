@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_maker.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:09:28 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 15:08:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/22 16:43:11 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	process_regular_node(t_list **head, t_tree **tree, int i)
 	t_list	*current;
 	t_list	*to_free;
 
+	// dprintf(2, "this is stat: %d\n", (*tree)->status);
 	init_tree_node(tree, "");
 	if (!(*tree))
 		return ;
@@ -110,6 +111,7 @@ void	tree_maker(t_list **head, t_tree **tree)
 	if (*head == NULL)
 		return ;
 	node_index = total_nodes;
+	// dprintf(2, "this is stat: %d\n", (*tree)->status);
 	process_regular_node(head, tree, node_index);
 }
 

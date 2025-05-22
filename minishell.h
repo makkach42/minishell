@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 14:29:26 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/22 13:01:21 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/stat.h>
+# include <errno.h>
 
 typedef struct s_list
 {
@@ -71,6 +73,7 @@ typedef struct s_tree
 	int				var;
 	t_list_fd		*fd_list;
 	t_split			**split;
+	int				status;
 }	t_tree;
 
 typedef struct s_dynbuf
@@ -301,8 +304,8 @@ int		ft_cd(char **s, t_env *h);
 int		ft_echo(char **s);
 int		ft_env(t_env *h);
 int		ft_check_string(char *str);
-void	ft_exit(char **s);
-int		ft_export(char  **s, t_env **h, t_tree *tree);
+void	ft_exit(char **s, t_env **h);
+int		ft_export(char  **s, t_env *h, t_tree *tree);
 int		ft_pwd(t_env *h);
 void	ft_unset(t_env **h, char **s);
 int	ft_file_check(char *str);
@@ -348,5 +351,6 @@ int			no_words_beside(char *str);
 void		process_command_string(t_tree **tree, int k);
 void		process_command_array(t_tree **tree);
 char		*create_filtered_string(char *old_str, int final_len);
+void		ft_is_dir(char *s);
 
 #endif
