@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:27:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/17 11:04:49 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/21 14:24:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ void	handle_quotes(char **word, char **str)
 {
 	char	*tmp_char;
 
+	tmp_char = *str;
+	*str = ft_strtrim(*str, " ");
+	if (!*str)
+		return ;
+	free(tmp_char);
 	*word = str_extractor(*str);
 	if (!word)
 		return ;
@@ -39,6 +44,11 @@ void	handle_operator(char **word, char **str)
 {
 	char	*tmp_char;
 
+	tmp_char = *str;
+	*str = ft_strtrim(*str, " ");
+	if (!*str)
+		return ;
+	free(tmp_char);
 	*word = extract_operator(*str);
 	if (!word)
 		return ;
@@ -62,6 +72,11 @@ void	variable_handle(char **word, char **str)
 {
 	char	*tmp_char;
 
+	tmp_char = *str;
+	*str = ft_strtrim(*str, " ");
+	if (!*str)
+		return ;
+	free(tmp_char);
 	*word = extract_variable(*str);
 	if (!*word)
 		return ;
@@ -85,6 +100,11 @@ void	handle_parenthases(char **word, char **str)
 {
 	char	*tmp_char;
 
+	tmp_char = *str;
+	*str = ft_strtrim(*str, " ");
+	if (!*str)
+		return ;
+	free(tmp_char);
 	*word = extract_parenthesis(*str);
 	if (!*word)
 		return ;
@@ -108,6 +128,11 @@ void	handle_else(char **word, char **str)
 {
 	char	*tmp_char;
 
+	tmp_char = *str;
+	*str = ft_strtrim(*str, " ");
+	if (!*str)
+		return ;
+	free(tmp_char);
 	*word = word_extractor(*str);
 	if (!*word)
 		return ;

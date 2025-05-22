@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 10:17:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:27:31 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,11 @@ int	countwords(char *s, char c)
 void	ambiguous_set(t_tree **tree)
 {
 	t_list_fd	*tmp;
+	int			i;
+	int			in_word;
+	int			in_quotes;
+	int			count;
+	char		quote_type;
 
 	if ((*tree) && (*tree)->left)
 		ambiguous_set(&(*tree)->left);
@@ -84,9 +89,43 @@ void	ambiguous_set(t_tree **tree)
 		tmp = (*tree)->fd_list;
 		while (tmp)
 		{
-			if (variable_search_instr(tmp->name
-				) && ft_strcmp(tmp->redir, "<<"))
+			i = 0;
+			in_quotes = 0;
+			quote_type = 0;
+			in_word = 0;
+			count = 0;
+			while (tmp->name[i])
+			{
+				if (!in_quotes && (tmp->name[i] == '"' || tmp->name[i] == '\''))
+				{
+					in_quotes = 1;
+					quote_type = tmp->name[i];
+				}
+				else if (in_quotes && tmp->name[i] == quote_type)
+					in_quotes = 0;
+				if (!in_quotes && tmp->name[i] == 32)
+					in_word = 0;
+				else if (!in_word)
+				{
+					count++;
+					in_word = 1;
+				}
+				i++;
+			}
+			printf("==========%s\n", tmp->name);
+			printf("==========%d\n", count);
+			if (count != 1)
+			{
 				(*tree)->ambiguous = 1;
+			}
+			else if (count == 1)
+			{
+				i = 0;
+				while (tmp->name[i] == '"' || tmp->name[i] == '\'')
+					i++;
+				if (!tmp->name[i] && i != 0)
+					(*tree)->quotes = 1;
+			}
 			tmp = tmp->next;
 		}
 	}

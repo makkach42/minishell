@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 09:35:05 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:27:37 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ int	variable_expantion_two(char **redirname,
 			ft_strlen((*redirname)) - name_end);
 	if (!after)
 		return (free(value), free(before), -1);
-	if (*flag == 1 && (!*before || !*after))
+	if (flag && *flag == 1 && (!*before || !*after))
 		*flag = 2;
 	if (value)
 		new_redir = ft_strjoin_three(before, value, after);
 	else
-		new_redir = ft_strdup(*redirname);
+		new_redir = ft_strjoin(before, after);
 	if (!new_redir)
 		return (free(before), free(value), free(after), -1);
 	free((*redirname));
@@ -197,8 +197,6 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 						break ;
 					if (tmp->name && countwords(tmp->name, 32) != 1)
 						tmp->name_split = ft_split(tmp->name, 32);
-					if (flag == 1 || !tmp->in_quotes)
-						(*tree)->ambiguous = 1;
 					if (!variable_search_inlnkedlst(tree
 						) || !variable_search_instr(tmp->name))
 						i = -1;

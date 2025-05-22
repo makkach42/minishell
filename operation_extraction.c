@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 14:09:44 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:26:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,47 @@ char	*remove_operator(char *str, char *word)
 	return (str_word);
 }
 
+// char	*extract_variable(char *str)
+// {
+// 	int		i;
+// 	char	*word;
+
+// 	i = 1;
+// 	while (str[i] && str[i] != 32 && !is_operator(str[i]))
+// 	{
+// 		if (str[i] >= '0' && str[i] <= '9' && str[i - 1] == '$')
+// 		{
+// 			i++;
+// 			break ;
+// 		}
+// 		i++;
+// 	}
+// 	word = ft_substr(str, 0, i);
+// 	return (word);
+// }
+
+
 char	*extract_variable(char *str)
 {
 	int		i;
+	int		in_quotes;
+	char	quote_type;
 	char	*word;
 
 	i = 1;
-	while (str[i] && str[i] != 32 && !is_operator(str[i]))
+	in_quotes = 0;
+	quote_type = 0;
+	while (str[i])
 	{
-		if (str[i] >= '0' && str[i] <= '9' && str[i - 1] == '$')
+		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
 		{
-			i++;
-			break ;
+			in_quotes = 1;
+			quote_type = str[i];
 		}
+		else if (in_quotes && str[i] == quote_type)
+			in_quotes = 0;
+		if (!in_quotes && (str[i] == 32 || is_operator(str[i])))// || (str[i] == '$' && (i - 1 <= 0 || str[i - 1] != '=')
+			break ;
 		i++;
 	}
 	word = ft_substr(str, 0, i);
