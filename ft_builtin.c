@@ -443,12 +443,15 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                                     if (v[1] == NULL)
                                     {
                                         new = ft_lstnew(v[0], ft_strdup(""));
+                                        free (v[0]);
                                         new->active = 0;
                                         new->h = 0;
                                     }
                                     else
                                     {
                                         new = ft_lstnew(v[0], v[1]);
+                                        free (v[0]);
+                                        free (v[1]);
                                         new->active = 0;
                                         new->h = 0;
                                     }
@@ -456,6 +459,7 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                                 else
                                 {
                                     new = ft_lstnew(v[0], NULL);
+                                    free (v[0]);
                                     new->active = 1;
                                     new->h = 0;
                                 }
@@ -484,6 +488,7 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                                 tmp = f->value;
                                 f->value = ft_strjoin(f->value, v[1]);
                                 free (tmp);
+                                free (v[1]);
                             }
                             else
                             {
@@ -504,12 +509,15 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                                         if (v[1] == NULL)
                                         {
                                             new = ft_lstnew(v[0], ft_strdup(""));
+                                            free (v[0]);
                                             new->active = 0;
                                             new->h = 0;
                                         }
                                         else
                                         {
                                             new = ft_lstnew(v[0], v[1]);
+                                            free (v[0]);
+                                            free (v[1]);
                                             new->active = 0;
                                             new->h = 0;
                                         }
@@ -517,6 +525,7 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                                     else
                                     {
                                         new = ft_lstnew(v[0], NULL);
+                                        free (v[0]);
                                         new->active = 1;
                                         new->h = 0;
                                     }
