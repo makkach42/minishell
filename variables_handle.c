@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/21 14:31:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/22 13:12:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,30 @@ int	process_array_variable(char **command_arr,
 	// if (command_arr[arr_idx][(*var_pos)] == '$' && !command_arr[arr_idx][(*var_pos) + 1])
 	// 	return (0);
 	var_end = (*var_pos) + 1;
+	if (command_arr[arr_idx][var_end] == '$')
+	{
+		before = ft_substr(command_arr[arr_idx], 0, *var_pos);
+		if (!before)
+			return (0);
+		after = ft_substr(command_arr[arr_idx], var_end, ft_strlen(command_arr[arr_idx] - var_end));
+		if (!after)
+		{
+			free(before);
+			return (0);
+		}
+		new_str = ft_strjoin(before, after);
+		if (!new_str)
+		{
+			free(before);
+			free(after);
+			return (0);
+		}
+		free(command_arr[arr_idx]);
+		command_arr[arr_idx] = new_str;
+		free(before);
+		free(after);
+		return (0);
+	}
 	while (command_arr[arr_idx][var_end])
 	{
 		c = command_arr[arr_idx][var_end];
@@ -151,8 +175,10 @@ int	process_array_variable(char **command_arr,
 			tmp_char = var_value;
 			var_value = ft_strjoin_three("\"", var_value, "\"");
 			free(tmp_char);
+			*var_pos = ft_strlen(var_value);
 		}
-		*var_pos = ft_strlen(var_value);
+		else
+			*var_pos = ft_strlen(var_value) * -1;
 	}
 	if (var_value)
 		new_str = ft_strjoin_three(before, var_value, after);
