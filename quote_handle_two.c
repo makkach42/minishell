@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:25:20 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/20 10:40:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/21 11:09:35 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ char	*create_filtered_string(char *old_str, int final_len, int l, int k)
 	{
 		while (i < (int)ft_strlen(old_str))
 		{
-			if (old_str[i] == '\'' && !in_double_quotes)// && (i < l || i > k)
+			if (old_str[i] == '\'' && !in_double_quotes && (i < l || i > k))
 				in_single_quotes = !in_single_quotes;
-			else if (old_str[i] == '\"' && !in_single_quotes)// && (i < l || i > k)
+			else if (old_str[i] == '\"' && !in_single_quotes && (i < l || i > k))
 				in_double_quotes = !in_double_quotes;
 			else
 				new_str[j++] = old_str[i];

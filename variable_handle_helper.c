@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 19:18:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/21 09:18:18 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	variable_expantion_two(char **redirname,
 	if (value)
 		new_redir = ft_strjoin_three(before, value, after);
 	else
-		new_redir = ft_strdup(*redirname);
+		new_redir = ft_strjoin(before, after);
 	if (!new_redir)
 		return (free(before), free(value), free(after), -1);
 	free((*redirname));
@@ -137,10 +137,10 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 				{
 					if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
 						break ;
-					if (tmp->name && countwords(tmp->name, 32) != 1)
-						tmp->name_split = ft_split(tmp->name, 32);
-					if (flag == 1 || !tmp->in_quotes)
-						(*tree)->ambiguous = 1;
+					// if (tmp->name && countwords(tmp->name, 32) != 1)
+					// 	tmp->name_split = ft_split(tmp->name, 32);
+					// if (flag == 1 || !tmp->in_quotes)
+					// 	(*tree)->ambiguous = 1;
 					if (!variable_search_inlnkedlst(tree
 						) || !variable_search_instr(tmp->name))
 						i = -1;

@@ -182,7 +182,7 @@ X echo '"'$g'"' remve quotes
 X echo "'"$a"'" expand 
 X echo $b'"as"' remove quotes
 X "$l "-la dont split l=ls the same here ls'     '-la or ls"     "-la or ls"   a  "-la
- <<"'$b'" '$b' should stay
+X <<"'$b'" '$b' should stay
  ///////////////////////////////////////////////////////////////////////////////
 X minishell$> export h=$a ""n=$a
 X export
@@ -416,5 +416,137 @@ X *******************0
 X ///////////////////////////////////////////
 ///////////////////////////////////////////
 
+
+///////////////////////////////////////////
+minishell$> """$1HOME"""
+"""$1HOME"""
+WORD
+
+----WORD (Command: """$1HOME""" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: )
+///////////////////////////////////////////
+///////////////////////////////////////////
+minishell$> "'$f'"
+"'$f'"
+WORD
+
+----WORD (Command: "'$f'" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: 'ayohm")
+///////////////////////////////////////////
+///////////////////////////////////////////
+➜  minishell git:(parser) ✗ echo $g
+ayp"hm
+➜  minishell git:(parser) ✗ ./minishell
+minishell$> $g
+$g
+VARIABLE
+
+----VARIABLE (Command: $g ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: ayphm)
+///////////////////////////////////////////
+///////////////////////////////////////////
+minishell$> export a=$a "b=""$a" c=$a
+export
+COMMAND
+
+a=$a
+WORD
+
+"b=""$a" c=$a ///
+WORD
+
+----COMMAND (Command: export a=$a "b=""$a" c=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: a=B  C) (Command_arr: b=B  Cc=B  C)
+*******************0
+minishell$> 
+///////////////////////////////////////////
+///////////////////////////////////////////
+minishell$> export "b="$a
+export
+COMMAND
+
+"b="$a
+WORD
+
+----COMMAND (Command: export "b="$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: b=B  C)
+/////////////////////////////////////////// split
+///////////////////////////////////////////
+minishell$> export $j=$a
+export
+COMMAND
+
+$j=     /////////////
+VARIABLE
+
+$a
+VARIABLE
+
+X ----COMMAND (Command: export $j= $a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: =) (Command_arr: B) (Command_arr: C)
+X ///////////////////////////////////////////
+X ///////////////////////////////////////////
+X minishell$> ""export j=$a
+X ""export j=$a
+X WORD
+X 
+X ----WORD (Command: ""export j=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export j=B  C)
+X /////////////////////////////////////////// split
+X ///////////////////////////////////////////
+X echo $$$$$$a infinit loop
+X ///////////////////////////////////////////
+X ///////////////////////////////////////////
+X minishell$> ls $USER$USER$USER
+X ls
+X WORD
+X 
+X $USER
+X VARIABLE
+X 
+X $USER
+X VARIABLE
+X 
+X $USER
+X VARIABLE
+X 
+X ----WORD (Command: ls $USER $USER $USER ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: ls) (Command_arr: $USER) (Command_arr: $USER) (Command_arr: $USER)
+X ----WORD (Command: ls $USER $USER $USER ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: ls) (Command_arr: makkach) (Command_arr: makkach) (Command_arr: makkach)
+X ----WORD (Command: ls $USER $USER $USER ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: ls) (Command_arr: makkach) (Command_arr: makkach) (Command_arr: makkach)
+X ///////////////////////////////////////////
+X ///////////////////////////////////////////
+X minishell$> export l*+=$a
+X export
+X COMMAND
+X 
+X l*+=$a
+X WORD
+X 
+X ----COMMAND (Command: export l*+=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: l*+="$a")
+X ----COMMAND (Command: export l*+=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: l*+=b  c)
+X ----COMMAND (Command: export l*+=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: l*+=b  c)
+X *******************0
+X minishell$> 
+X /////////////////////////////////////////// split
+X ///////////////////////////////////////////
+X minishell$> export ay1hg=$a
+X export
+X COMMAND
+X 
+X ay1hg=$a
+X WORD
+X 
+X ----COMMAND (Command: export ay1hg=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay1hg=$a)
+X ----COMMAND (Command: export ay1hg=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay1hg=b) (Command_arr: c)
+X ----COMMAND (Command: export ay1hg=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay1hg=b) (Command_arr: c)
+X *******************0
+X minishell$> export ay1=$a
+X /////////////////////////////////////////// spli only if str[0] = 0-9
+X ///////////////////////////////////////////
+X minishell$> export ay="$a""$a"
+X export
+X COMMAND
+X 
+X ay="$a""$a"
+X WORD
+X 
+X ----COMMAND (Command: export ay="$a""$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay="$a""$a")
+X ----COMMAND (Command: export ay="$a""$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay="$a"""$a"")
+X ----COMMAND (Command: export ay="$a""$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay=b  cb) (Command_arr: c)
+X ///////////////////////////////////////////skip if already in double quotes
 ///////////////////////////////////////////
 
+///////////////////////////////////////////

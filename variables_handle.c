@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/20 14:26:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/21 14:31:22 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,25 @@ int	process_array_variable(char **command_arr,
 	if (!command_arr || !command_arr[arr_idx] || (*var_pos) < 0 || 
 		!command_arr[arr_idx][(*var_pos)])
 		return (-1);
-	if (command_arr[arr_idx][(*var_pos)] == '$' && !command_arr[arr_idx][(*var_pos) + 1])
-		return (0); 
+	// if (command_arr[arr_idx][(*var_pos)] == '$' && !command_arr[arr_idx][(*var_pos) + 1])
+	// 	return (0);
 	var_end = (*var_pos) + 1;
 	while (command_arr[arr_idx][var_end])
 	{
 		c = command_arr[arr_idx][var_end];
 		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || 
-			(c >= '0' && c <= '9') || c == '_')
-			var_end++;
+			((c >= '0' && c <= '9')) || c == '_')
+		{
+			if (c >= '0' && c <= '9' && command_arr[arr_idx][var_end - 1] == '$')
+			{
+				var_end++;
+				break ;
+			}
+			else
+				var_end++;	
+		}
 		else
-			break;
+			break ;
 	}
 	if (var_end == (*var_pos) + 1)
 	{
@@ -110,11 +118,7 @@ int	process_array_variable(char **command_arr,
 	var_name = ft_substr(command_arr[arr_idx], (*var_pos) + 1, var_end - (*var_pos) - 1);
 	if (!var_name)
 		return (-1);
-	if (ft_strlen(var_name) == 0)
-	{
-		free(var_name);
-		return (0);
-	}
+	// }
 	var_value = NULL;
 	tmp_env = *env;
 	while (tmp_env)
