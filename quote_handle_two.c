@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:25:20 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 09:31:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/21 11:09:35 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	create_filtered_string_inits(int *j, int *in_single_quotes,
 	*i = 0;
 }
 
-char	*create_filtered_string(char *old_str, int final_len)
+char	*create_filtered_string(char *old_str, int final_len, int l, int k)
 {
 	int		i;
 	int		j;
@@ -34,15 +34,31 @@ char	*create_filtered_string(char *old_str, int final_len)
 	if (!new_str)
 		return (NULL);
 	create_filtered_string_inits(&j, &in_single_quotes, &in_double_quotes, &i);
-	while (i < (int)ft_strlen(old_str))
+	if (l != k)
 	{
-		if (old_str[i] == '\'' && !in_double_quotes)
-			in_single_quotes = !in_single_quotes;
-		else if (old_str[i] == '\"' && !in_single_quotes)
-			in_double_quotes = !in_double_quotes;
-		else
-			new_str[j++] = old_str[i];
-		i++;
+		while (i < (int)ft_strlen(old_str))
+		{
+			if (old_str[i] == '\'' && !in_double_quotes && (i < l || i > k))
+				in_single_quotes = !in_single_quotes;
+			else if (old_str[i] == '\"' && !in_single_quotes && (i < l || i > k))
+				in_double_quotes = !in_double_quotes;
+			else
+				new_str[j++] = old_str[i];
+			i++;
+		}
+	}
+	else
+	{
+		while (i < (int)ft_strlen(old_str))
+		{
+			if (old_str[i] == '\'' && !in_double_quotes)
+				in_single_quotes = !in_single_quotes;
+			else if (old_str[i] == '\"' && !in_single_quotes)
+				in_double_quotes = !in_double_quotes;
+			else
+				new_str[j++] = old_str[i];
+			i++;
+		}
 	}
 	new_str[j] = '\0';
 	return (new_str);
@@ -55,8 +71,8 @@ void	process_command_string(t_tree **tree, int k)
 	int		final_len;
 
 	old_str = (*tree)->command_arr[k];
-	final_len = count_filtered_length(old_str);
-	new_str = create_filtered_string(old_str, final_len);
+	final_len = count_filtered_length(old_str, &(*tree)->var, 0, 0);
+	new_str = create_filtered_string(old_str, final_len, 0, 0);
 	if (!new_str)
 		return ;
 	free((*tree)->command_arr[k]);
@@ -96,12 +112,12 @@ void	process_command_array(t_tree **tree)
 	k = 0;
 	while ((*tree)->command_arr[k])
 	{
-		if (variable_search_instr((*tree)->command_arr[k]
-			) && !expandableornot((*tree)->command_arr[k]))
-		{
-			k++;
-			continue ;
-		}
+		// if (variable_search_instr((*tree)->command_arr[k]
+		// 	) && !expandableornot((*tree)->command_arr[k]))
+		// {
+		// 	k++;
+		// 	continue ;
+		// }
 		process_command_string(tree, k);
 		k++;
 	}

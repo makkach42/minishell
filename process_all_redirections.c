@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/30 11:52:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/20 10:23:01 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_filtered_length(char *old_str)
+int	count_filtered_length(char *old_str, int *var_flag, int l, int k)
 {
 	int	i;
 	int	len;
@@ -25,16 +25,41 @@ int	count_filtered_length(char *old_str)
 	in_single_quotes = 0;
 	in_double_quotes = 0;
 	i = 0;
-	while (i < len)
+	if (l != k)
 	{
-		if (old_str[i] == '\'' && !in_double_quotes)
-			in_single_quotes = !in_single_quotes;
-		else if (old_str[i] == '\"' && !in_single_quotes)
-			in_double_quotes = !in_double_quotes;
-		else
-			final_len++;
-		i++;
+		while (i < len)
+		{
+			if (old_str[i] == '\'' && !in_double_quotes && (i < l || i > k))
+				in_single_quotes = !in_single_quotes;
+			else if (old_str[i] == '\"' && !in_single_quotes && (i < l || i > k))
+				in_double_quotes = !in_double_quotes;
+			else
+			{
+				if (old_str[i] == '$' && in_single_quotes && !in_double_quotes && var_flag)
+					*var_flag = 2;
+				final_len++;
+			}
+			i++;
+		}
 	}
+	else
+	{
+		while (i < len)
+		{
+			if (old_str[i] == '\'' && !in_double_quotes)
+				in_single_quotes = !in_single_quotes;
+			else if (old_str[i] == '\"' && !in_single_quotes)
+				in_double_quotes = !in_double_quotes;
+			else
+			{
+				if (old_str[i] == '$' && in_single_quotes && !in_double_quotes && var_flag)
+					*var_flag = 2;
+				final_len++;
+			}
+			i++;
+		}
+	}
+
 	return (final_len);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:00:03 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 16:59:36 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:21:47 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	init_tree_node(t_tree **node, char *type)
 	(*node)->quotes = 0;
 	(*node)->var = 0;
 	(*node)->split = NULL;
+	(*node)->expandable = NULL;
 	(*node)->command_arr_expanded = NULL;
 	(*node)->status = 0;
 }

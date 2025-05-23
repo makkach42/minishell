@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 13:01:21 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:23:35 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_list
 typedef struct s_list_fd
 {
 	int					fd;
+	int					in_quotes;
 	char				*name;
 	char				**name_split;
 	char				*command;
@@ -74,6 +75,7 @@ typedef struct s_tree
 	t_list_fd		*fd_list;
 	t_split			**split;
 	int				status;
+	t_split		**expandable;
 }	t_tree;
 
 typedef struct s_dynbuf
@@ -240,7 +242,7 @@ void		update_tree_with_cmd(t_tree *tree, t_tree *cmd_tree);
 void		update_quote_state(char c, int *in_quotes, char *quote_type);
 void		join_cmd_with_args(char **cmd_part, char *args_start,
 				char *redir_start);
-int			count_filtered_length(char *old_str);
+int			count_filtered_length(char *old_str, int *var_flag, int l, int k);
 int			process_variable(t_list *tmp, int i, t_env **env);
 int			process_word_variable(t_list *tmp, t_env **env);
 char		*check_for_valid_args(char *redir_start, int j);
@@ -350,7 +352,15 @@ int			fd_list_size(t_list_fd **head);
 int			no_words_beside(char *str);
 void		process_command_string(t_tree **tree, int k);
 void		process_command_array(t_tree **tree);
-char		*create_filtered_string(char *old_str, int final_len);
+// char		*create_filtered_string(char *old_str, int final_len, int l, int k);
 void		ft_is_dir(char *s);
+void		variable_expantion_preserve_quotes(t_tree **tree, t_env **env);
+void		quote_remove_preserve_var(t_tree **tree);
+void		quote_remove_improved(t_tree **tree);
+int			process_array_variable(char **command_arr,
+				int arr_idx, int *var_pos, t_env **env);
+int			count_filtered_length(char *old_str, int *var_flag, int l, int k);
+char		*create_filtered_string(char *old_str, int final_len, int l, int k);
+void    reset_vars(t_tree **tree, t_env **env);
 
 #endif

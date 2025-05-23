@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 11:38:31 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/05 14:02:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/17 12:22:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_list_fd_node(t_list_fd *node)
 	node->command = NULL;
 	node->redir = NULL;
 	node->next = NULL;
+	node->in_quotes = 0;
 	node->name_split = NULL;
 	node->fd = -1;
 }
