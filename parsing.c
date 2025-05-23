@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/23 09:53:06 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/23 09:59:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2027,12 +2027,6 @@ void	reset_vars(t_tree **tree, t_env **env)
 			}
 			i++;
 		}
-		i = 0;
-		// while ((*tree)->command_arr[i])
-		// {
-		// 	printf("-------+------%s\n", (*tree)->command_arr[i]);
-		// 	i++;
-		// }
 		list_size = 0;
 		final_len = 0;
 		i = 0;
@@ -2044,7 +2038,6 @@ void	reset_vars(t_tree **tree, t_env **env)
 		while ((*tree)->command_arr[i])
 		{
 			old_cmd = ft_strdup((*tree)->command_arr[i]);
-			// printf("%s\n", old_cmd);
 			head = list_init(old_cmd);
 			list_size = lst_size(&head);
 			if (list_size == 0)
@@ -2150,12 +2143,6 @@ void	reset_vars(t_tree **tree, t_env **env)
 				free((*tree)->command_arr[i]);
 				(*tree)->command_arr[i] = new_str;
 			}
-			i++;
-		}
-		i = 0;
-		while ((*tree)->command_arr[i])
-		{
-			printf("-----%s\n", (*tree)->command_arr[i]);
 			i++;
 		}
 	}
