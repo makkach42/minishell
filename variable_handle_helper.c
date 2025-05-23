@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 17:27:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/23 10:21:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	variable_expantion_two(char **redirname,
 		else
 			break ;
 	}
+	*flag = 0;
 	var_name = ft_substr((*redirname), var_pos + 1, name_end - var_pos - 1);
 	if (!var_name)
 		return (-1);
@@ -70,8 +71,6 @@ int	variable_expantion_two(char **redirname,
 		if (!ft_strcmp(tmp->key, var_name))
 		{
 			value = ft_strdup(tmp->value);
-			if (countwords(value, 32) != 1)
-				*flag = 1;
 			break ;
 		}
 		tmp = tmp->next;
@@ -84,8 +83,6 @@ int	variable_expantion_two(char **redirname,
 			ft_strlen((*redirname)) - name_end);
 	if (!after)
 		return (free(value), free(before), -1);
-	if (flag && *flag == 1 && (!*before || !*after))
-		*flag = 2;
 	if (value)
 		new_redir = ft_strjoin_three(before, value, after);
 	else
@@ -179,7 +176,7 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 		{
 			i = 0;
 			in_quotes = 0;
-			flag = 0;
+			// flag = 0;
 			while (tmp->name && tmp->name[i])
 			{
 				if (!in_quotes && (tmp->name[i] == '"' || tmp->name[i] == '\''))
@@ -192,14 +189,15 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 				if (tmp->name[i] == '$' && (
 						!in_quotes || (in_quotes && quote_type == '"')))
 				{
-					dprintf(2, "enterd in the right place\n");
-					if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
-						break ;
-					if (tmp->name && countwords(tmp->name, 32) != 1)
-						tmp->name_split = ft_split(tmp->name, 32);
-					if (!variable_search_inlnkedlst(tree
-						) || !variable_search_instr(tmp->name))
+					if (tmp->name[i] == '$' && ((in_quotes && tmp->name[i + 1] && (tmp->name[i + 1] == '"' || tmp->name[i + 1] == '\'')) || (!in_quotes && !tmp->name[i + 1])))
+						i++;
+					else
+					{
+						process_array_variable(&tmp->name, 0, &i, env);
+						if (tmp->name && countwords(tmp->name, 32) != 1)
+							tmp->name_split = ft_split(tmp->name, 32);
 						i = -1;
+					}
 				}
 				i++;
 			}

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/23 11:44:33 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/23 13:55:09 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2685,19 +2685,24 @@ void	reset_vars(t_tree **tree, t_env **env)
 								{
 									// n = j;
 									l = j;
-									process_array_variable(&tmp->data, 0, &j, env);
-									if (j != -1 && j < 0)
-									{
-										l = 0;
-										k = 0;
-									}
+									if (tmp->data[j] == '$' && ((in_quotes && tmp->data[j + 1] && (tmp->data[j + 1] == '"' || tmp->data[j + 1] == '\'')) || (!in_quotes && !tmp->data[j + 1])))
+										j++;
 									else
 									{
-										k = l + j;
-										k -= 2;
-										l++;
+										process_array_variable(&tmp->data, 0, &j, env);
+										if (j != -1 && j < 0)
+										{
+											l = 0;
+											k = 0;
+										}
+										else
+										{
+											k = l + j;
+											k -= 2;
+											l++;
+										}
+										j = -1;
 									}
-									j = -1;
 								}
 								j++;
 							}
@@ -2714,12 +2719,6 @@ void	reset_vars(t_tree **tree, t_env **env)
 			}
 			i++;
 		}
-		i = 0;
-		// while ((*tree)->command_arr[i])
-		// {
-		// 	printf("-------+------%s\n", (*tree)->command_arr[i]);
-		// 	i++;
-		// }
 		list_size = 0;
 		final_len = 0;
 		i = 0;
@@ -2731,7 +2730,6 @@ void	reset_vars(t_tree **tree, t_env **env)
 		while ((*tree)->command_arr[i])
 		{
 			old_cmd = ft_strdup((*tree)->command_arr[i]);
-			// printf("%s\n", old_cmd);
 			head = list_init(old_cmd);
 			list_size = lst_size(&head);
 			if (list_size == 0)
@@ -2837,12 +2835,6 @@ void	reset_vars(t_tree **tree, t_env **env)
 				free((*tree)->command_arr[i]);
 				(*tree)->command_arr[i] = new_str;
 			}
-			i++;
-		}
-		i = 0;
-		while ((*tree)->command_arr[i])
-		{
-			printf("-----%s\n", (*tree)->command_arr[i]);
 			i++;
 		}
 	}
