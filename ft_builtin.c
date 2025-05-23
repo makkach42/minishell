@@ -405,7 +405,7 @@ int    ft_export(char  **s, t_env **h, t_tree *tree)
                             v = ft_split(s[i], '=');
                         if (v == NULL)
                             return (1);
-                        f = ft_check(h, v[0]);
+                        f = ft_check(*h, v[0]);
                         if (f != NULL && f->h == 0)
                         {
                             if (v[1] == NULL && act == 0)

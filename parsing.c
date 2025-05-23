@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/23 09:56:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/23 09:56:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -584,8 +584,9 @@ int	ft_execute(t_tree *tree, t_env **h, char **e)
 		return (1);
 	if (ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections == NULL)
 	{
-		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
-			variable_expantion(&tree, h);
+		// if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
+		// 	variable_expantion(&tree, h);
+		reset_vars(&tree, h);
 		status = ft_cmd_exec(tree, h);
 	}
 	if (ft_strcmp("PARENTHASIS", tree->type) == 0)
@@ -618,8 +619,9 @@ int	ft_execute(t_tree *tree, t_env **h, char **e)
 	}
 	if (tree->redirections == NULL && ft_strcmp("WORD", tree->type) == 0)
 	{
-		if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
-			variable_expantion(&tree, h);
+		// if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
+		// 	variable_expantion(&tree, h);
+		reset_vars(&tree, h);
 		id = fork();
 		if (id == 0)
 			ft_exec(tree, *h, e);
@@ -2935,8 +2937,7 @@ int	main(int argc, char **argv, char **argev)  //ambiguous  $
 			handle_wildcards_in_cmdarr(&tree);
 		if (!flag && has_wild_cards_fdlst(&tree) == 1)
 			handle_wildcards_in_fdlst(&tree);
-		if (!flag)
-			reset_vars(&tree, &env);
+			// reset_vars(&tree, &env);
 		// if (!flag)
 			// if_zero_not_export()
 		print_tree_visual(tree, 1, 1);
@@ -2963,12 +2964,12 @@ int	main(int argc, char **argv, char **argev)  //ambiguous  $
 			(write(2, "No such file or directory\n", 26), flag = 1);
 		// if (ambiguous_syntax_error(&tree, &env) != 2)
 		// 	tree_empty_error(&tree, &flag);
-			e = ft_env_str(env);
+		e = ft_env_str(env);
 		ft_hdoc_handle(tree);
 		// printf("\n\n");
 		ft_execute(tree, &env, e);
-		print_tree_visual(tree, 1, 1);
-		printf("*******************%d\n", flag);
+		// print_tree_visual(tree, 1, 1);
+		// printf("*******************%d\n", flag);
 		lasfree(&tree);
 	}
 	free_env(&env);

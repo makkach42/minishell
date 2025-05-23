@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 17:26:25 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:51:13 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,5 +356,6 @@ int			process_array_variable(char **command_arr,
 				int arr_idx, int *var_pos, t_env **env);
 int			count_filtered_length(char *old_str, int *var_flag, int l, int k);
 char		*create_filtered_string(char *old_str, int final_len, int l, int k);
+void    reset_vars(t_tree **tree, t_env **env);
 
 #endif
