@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/23 10:13:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/23 10:21:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	variable_expantion_para(t_tree **tree, t_env **env)
 	t_list_fd	*tmp;
 	int			i;
 	int			in_quotes;
-	// int			flag;
+	int			flag;
 	char		quote_type;
 
 	if ((*tree)->left)
