@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 13:12:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/23 17:22:18 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,13 @@ int	process_array_variable(char **command_arr,
 	if (!command_arr || !command_arr[arr_idx] || (*var_pos) < 0 || 
 		!command_arr[arr_idx][(*var_pos)])
 		return (-1);
-	// if (command_arr[arr_idx][(*var_pos)] == '$' && !command_arr[arr_idx][(*var_pos) + 1])
-	// 	return (0);
 	var_end = (*var_pos) + 1;
 	if (command_arr[arr_idx][var_end] == '$')
 	{
 		before = ft_substr(command_arr[arr_idx], 0, *var_pos);
 		if (!before)
 			return (0);
-		after = ft_substr(command_arr[arr_idx], var_end, ft_strlen(command_arr[arr_idx] - var_end));
+		after = ft_substr(command_arr[arr_idx], var_end, ft_strlen(command_arr[arr_idx]) - var_end);
 		if (!after)
 		{
 			free(before);
@@ -124,8 +122,8 @@ int	process_array_variable(char **command_arr,
 				var_end++;
 				break ;
 			}
-			else
-				var_end++;	
+			else                  
+			var_end++;	
 		}
 		else
 			break ;
