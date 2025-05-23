@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 17:27:31 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/23 10:13:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,6 @@ void	ambiguous_set(t_tree **tree)
 				}
 				i++;
 			}
-			printf("==========%s\n", tmp->name);
-			printf("==========%d\n", count);
 			if (count != 1)
 			{
 				(*tree)->ambiguous = 1;
