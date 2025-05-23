@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 17:27:25 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/23 09:56:34 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2639,19 +2639,24 @@ void	reset_vars(t_tree **tree, t_env **env)
 								{
 									// n = j;
 									l = j;
-									process_array_variable(&tmp->data, 0, &j, env);
-									if (j != -1 && j < 0)
-									{
-										l = 0;
-										k = 0;
-									}
+									if (tmp->data[j] == '$' && ((in_quotes && tmp->data[j + 1] && (tmp->data[j + 1] == '"' || tmp->data[j + 1] == '\'')) || (!in_quotes && !tmp->data[j + 1])))
+										j++;
 									else
 									{
-										k = l + j;
-										k -= 2;
-										l++;
+										process_array_variable(&tmp->data, 0, &j, env);
+										if (j != -1 && j < 0)
+										{
+											l = 0;
+											k = 0;
+										}
+										else
+										{
+											k = l + j;
+											k -= 2;
+											l++;
+										}
+										j = -1;
 									}
-									j = -1;
 								}
 								j++;
 							}
