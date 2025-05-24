@@ -74,7 +74,7 @@ int    ft_cd(char **s, t_env *h)
 
         }
     }
-    dprintf(2, "this is the value of n: %s\n", n->value);
+    // dprintf(2, "this is the value of n: %s\n", n->value);
     return (0);
 }
 
@@ -178,7 +178,7 @@ int ft_modulo(char *str)
 }
 
 
-void    ft_exit(char **s)
+void    ft_exit(char **s, t_env **h)
 {
     int m;
 
@@ -199,9 +199,15 @@ void    ft_exit(char **s)
         {
             m = ft_modulo(s[1]);
             if (m < 0)
+            {
+                free_env(h);
                 exit (m + 256);
+            }
             else
+            {
+                free_env(h);
                 exit (m);
+            }
         }
     }
 }
@@ -324,12 +330,19 @@ char **ft_equal_str(char *str)
             p[0] = ft_substr(str, 0, i);
             // dprintf(2, "this is the first: %s\n", p[0]);
             if (p[0] == NULL)
+            {
+                free (p);
                 return (NULL);
+            }
             i++;
             p[1] = ft_substr(str, i, ft_strlen(&str[i]));
             // dprintf(2, "this is the second : %s\n", p[1]);
             if (p[1] == NULL)
+            {
+                free (p[0]);
+                free (p);
                 return (NULL);
+            }
             flag = 1;
         }
         i++;
@@ -337,7 +350,7 @@ char **ft_equal_str(char *str)
     return (p);
 }
 
-int    ft_export(char  **s, t_env **h, t_tree *tree)
+int    ft_export(char  **s, t_env *h, t_tree *tree)
 {
     char    **v;
     t_env   *f;
@@ -354,29 +367,18 @@ int    ft_export(char  **s, t_env **h, t_tree *tree)
         i++;
     if (s[i] == NULL)
     {
-        *h = ft_sort_list(*h);
-        while (*h != NULL)
+        h = ft_sort_list(h);
+        while (h != NULL)
         {
-            if ((*h)->h == 0)
-                printf("%s=%s\n", (*h)->key, (*h)->value);
-            *h = (*h)->next;
+            if ((h)->h == 0)
+                printf("%s=%s\n", (h)->key, (h)->value);
+            h = (h)->next;
         }
     }
-     while (s[i] != NULL)
+    while (s[i] != NULL)
     {
-        // if (check_empty(s[i]) == 1 && tree->var == 1)
-        // {
-        //     h = ft_sort_list(h);
-        //     while (h != NULL)
-        //     {
-        //         printf("%s=%s\n", h->key, h->value);
-        //         h = h->next;
-        //     }
-        // }
         if (s[i] != NULL)
         {
-            // while (s[i] != NULL)
-            // {
                 act = 1;
                 if ((check_empty(s[i]) == 1 && tree->var == 0))
                 {
@@ -391,7 +393,7 @@ int    ft_export(char  **s, t_env **h, t_tree *tree)
                         act = 0;
                     if (s[i][0] == '=')
                     {
-                        write(2, "minishell: export: ", 15);
+                        write(2, "minishell: export: ", 20);
                         write(2, s[i], ft_strlen(s[i]));
                         write(2, ": not a valid identifier\n", 26);
                         status = 1;
@@ -400,21 +402,28 @@ int    ft_export(char  **s, t_env **h, t_tree *tree)
                     {
                         // dprintf(2, "this is : %s\n", s[i]);
                         if (ft_equal_count(s[i]) > 1)
-                            v = ft_equal_str(s[i]);
+                            v = ft_equal_str(s[i]);//must be checked for leaks
                         else
                             v = ft_split(s[i], '=');
                         if (v == NULL)
                             return (1);
-                        f = ft_check(*h, v[0]);
+                        f = ft_check(h, v[0]);
                         if (f != NULL && f->h == 0)
                         {
                             if (v[1] == NULL && act == 0)
+                            {
                                 f->value = ft_strdup("");
+                                free (v[0]);
+                                free (v);
+                            }
                             else if (v[1] != NULL)
                             {
                                 // dprintf(2, "%s\n", v[1]);
                                 tmp = f->value;
-                                f->value = v[1];
+                                f->value = ft_strdup(v[1]);
+                                free (v[1]);
+                                free (v[0]);
+                                free (v);
                                 free (tmp);
                             }    
                         }
@@ -438,12 +447,17 @@ int    ft_export(char  **s, t_env **h, t_tree *tree)
                                     if (v[1] == NULL)
                                     {
                                         new = ft_lstnew(v[0], ft_strdup(""));
+                                        free (v[0]);
+                                        free (v);
                                         new->active = 0;
                                         new->h = 0;
                                     }
                                     else
                                     {
                                         new = ft_lstnew(v[0], v[1]);
+                                        free (v[0]);
+                                        free (v[1]);
+                                        free (v);
                                         new->active = 0;
                                         new->h = 0;
                                     }
@@ -451,6 +465,8 @@ int    ft_export(char  **s, t_env **h, t_tree *tree)
                                 else
                                 {
                                     new = ft_lstnew(v[0], NULL);
+                                    free (v[0]);
+                                    free (v);
                                     new->active = 1;
                                     new->h = 0;
                                 }
@@ -478,7 +494,10 @@ int    ft_export(char  **s, t_env **h, t_tree *tree)
                             {
                                 tmp = f->value;
                                 f->value = ft_strjoin(f->value, v[1]);
+                                free (v[0]);
                                 free (tmp);
+                                free (v[1]);
+                                free (v);
                             }
                             else
                             {
@@ -499,12 +518,17 @@ int    ft_export(char  **s, t_env **h, t_tree *tree)
                                         if (v[1] == NULL)
                                         {
                                             new = ft_lstnew(v[0], ft_strdup(""));
+                                            free (v[0]);
+                                            free (v);
                                             new->active = 0;
                                             new->h = 0;
                                         }
                                         else
                                         {
                                             new = ft_lstnew(v[0], v[1]);
+                                            free (v[0]);
+                                            free (v[1]);
+                                            free (v);
                                             new->active = 0;
                                             new->h = 0;
                                         }
@@ -512,6 +536,8 @@ int    ft_export(char  **s, t_env **h, t_tree *tree)
                                     else
                                     {
                                         new = ft_lstnew(v[0], NULL);
+                                        free (v[0]);
+                                        free (v);
                                         new->active = 1;
                                         new->h = 0;
                                     }

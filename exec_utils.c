@@ -41,14 +41,39 @@ void	ft_cmd_helper(t_cmd *com, int i, char *env, char *s)
 char	*ft_cmd_check(char *env, char *s)
 {
 	t_cmd	com;
+	int		fd;
 
 	com.i = 0;
+	fd = -1;
 	if (s[0] == '\0' || ft_is_spaces(s) == 0)
 		return (NULL);
 	if (ft_strchr(s, '/') != NULL || env == NULL || env[0] == '\0')
 	{
-		if (access(s, X_OK) == 0)
+		// ft_is_dir(s);
+			// dprintf(2, "in here\n");
+		fd = open(s, O_DIRECTORY);
+		if (fd != -1)
+		{
+			ft_putstr_fd(2, "minishell: ");
+			ft_putstr_fd(2, s);
+			ft_putstr_fd(2, ": is a directory\n");
+			exit (126);
+		}
+		else if (access(s, X_OK) == 0)
+		{
 			return (ft_strdup(s));
+		}
+		else if (access(s, X_OK) == -1)
+		{
+			perror("");
+			if (errno == 2)
+				exit (127);
+			else if (errno == 13 || errno == 20)
+				exit (126);
+			// else if ()
+			// dprintf(2, "this is errno: %d\n", errno);
+			exit (1);
+		}
 		return (NULL);
 	}
 	ft_cmd_helper(&com, 0, env, s);
@@ -167,6 +192,8 @@ static char	*ft_word(char	const	*s, char c)
 
 t_env *ft_check(t_env *h, char *str)
 {
+	if (!h || !h->next)
+		return (NULL);
     while (h != NULL)
     {
         if (ft_strcmp(h->key, str) == 0)
@@ -340,9 +367,9 @@ int	ft_file_create(char *str, int n)
 	int	fd;
 
 	if (n == 1)
-		fd = open(str, O_RDWR | O_TRUNC | O_CREAT, 0644);
+		fd = open(str, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (n == 2)
-		fd = open(str, O_RDWR | O_APPEND | O_CREAT, 0644);
+		fd = open(str, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	return (fd);
 }
 

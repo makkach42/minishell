@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_maker_helper.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:00:03 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 09:35:00 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:21:47 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	init_tree_node(t_tree **node, char *type)
 	(*node)->split = NULL;
 	(*node)->expandable = NULL;
 	(*node)->command_arr_expanded = NULL;
+	(*node)->status = 0;
 }
 
 void	free_node_data(t_list *node)
