@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/23 17:22:18 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/24 12:16:36 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 int	process_array_variable(char **command_arr,
 		int arr_idx, int *var_pos, t_env **env)
 {
+	int		i;
 	int		var_end;
 	char	*var_name;
 	char	*var_value;
@@ -148,6 +149,15 @@ int	process_array_variable(char **command_arr,
 		if (ft_strcmp(tmp_env->key, var_name) == 0)
 		{
 			var_value = ft_strdup(tmp_env->value);
+			i = 0;
+			while (var_value[i])
+			{
+				if (var_value[i] == '"')
+					var_value[i] = 10;
+				else if (var_value[i] == '\'')
+					var_value[i] = 11;
+				i++;
+			}
 			break ;
 		}
 		tmp_env = tmp_env->next;
