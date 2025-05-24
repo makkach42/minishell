@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/23 10:12:55 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/24 13:04:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2790,6 +2790,21 @@ void	reset_vars(t_tree **tree, t_env **env)
 					return ;
 				free((*tree)->command_arr[i]);
 				(*tree)->command_arr[i] = new_str;
+			}
+			i++;
+		}
+		i = 0;
+		j = 0;
+		while ((*tree)->command_arr[i])
+		{
+			j = 0;
+			while ((*tree)->command_arr[i][j])
+			{
+				if ((*tree)->command_arr[i][j] == 10)
+					(*tree)->command_arr[i][j] = '"';
+				else if ((*tree)->command_arr[i][j] == 11)
+					(*tree)->command_arr[i][j] = '\'';
+				j++;
 			}
 			i++;
 		}

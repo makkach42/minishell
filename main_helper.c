@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 14:32:33 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/05/24 13:04:17 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	tree_to_rediropen(t_tree *tree, int *flag)
 	process_pipe_trees(tree);
 	process_all_redirections(&tree);
 	command_arr_fill(&tree);
-	quote_set(&tree);
+	// quote_set(&tree);
 	syntax_error_two(&tree, flag);
 }
 

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/23 10:13:00 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/24 13:04:25 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	ambiguous_set(t_tree **tree)
 	t_list_fd	*tmp;
 	int			i;
 	int			in_word;
+	int			flag;
 	int			in_quotes;
 	int			count;
 	char		quote_type;
@@ -94,8 +95,11 @@ void	ambiguous_set(t_tree **tree)
 			quote_type = 0;
 			in_word = 0;
 			count = 0;
+			flag = 0;
 			while (tmp->name[i])
 			{
+				if (tmp->name[i] != '"' && tmp->name[i] != '\'')
+					flag = 1;
 				if (!in_quotes && (tmp->name[i] == '"' || tmp->name[i] == '\''))
 				{
 					in_quotes = 1;
@@ -113,17 +117,9 @@ void	ambiguous_set(t_tree **tree)
 				i++;
 			}
 			if (count != 1)
-			{
 				(*tree)->ambiguous = 1;
-			}
-			else if (count == 1)
-			{
-				i = 0;
-				while (tmp->name[i] == '"' || tmp->name[i] == '\'')
-					i++;
-				if (!tmp->name[i] && i != 0)
-					(*tree)->quotes = 1;
-			}
+			else if (count == 1 && flag == 0 && ft_strcmp(tmp->redir, "<<"))
+				(*tree)->quotes = 1;
 			tmp = tmp->next;
 		}
 	}
