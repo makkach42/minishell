@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/24 12:32:49 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/24 14:10:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 	t_list_fd	*tmp;
 	int			i;
 	int			in_quotes;
-	// int			flag;
 	char		quote_type;
+	char		*tmp_char;
 
 	if ((*tree)->left)
 		variable_expantion_inlnkedlst(&(*tree)->left, env);
@@ -119,7 +119,6 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 		{
 			i = 0;
 			in_quotes = 0;
-			// flag = 0;
 			while (tmp->name && tmp->name[i])
 			{
 				if (!in_quotes && (tmp->name[i] == '"' || tmp->name[i] == '\''))
@@ -137,6 +136,9 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 					else
 					{
 						process_array_variable(&tmp->name, 0, &i, env);
+						tmp_char = tmp->name;
+						tmp->name = ft_strtrim(tmp->name, " ");
+						free(tmp_char);
 						if (tmp->name && countwords(tmp->name, 32) != 1)
 							tmp->name_split = ft_split(tmp->name, 32);
 						i = -1;

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:16:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 09:22:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/24 14:46:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,29 @@ void	sort_matches(char **arr, int count)
 	}
 }
 
-int	copy_and_resize_matches(char ***matches, int match_count, int new_cap)
+// int	copy_and_resize_matches(char ***matches, int match_count, int new_cap)
+// {
+// 	char	**new_matches;
+// 	int		i;
+
+// 	new_matches = malloc(sizeof(char *) * new_cap);
+// 	if (!new_matches)
+// 	{
+// 		perror("malloc failed");
+// 		return (0);
+// 	}
+// 	i = 0;
+// 	while (i < match_count)
+// 	{
+// 		new_matches[i] = (*matches)[i];
+// 		i++;
+// 	}
+// 	free(*matches);
+// 	*matches = new_matches;
+// 	return (1);
+// }
+
+int copy_and_resize_matches(char ***matches, int match_count, int new_cap)
 {
 	char	**new_matches;
 	int		i;
@@ -120,7 +142,6 @@ int	copy_and_resize_matches(char ***matches, int match_count, int new_cap)
 	new_matches = malloc(sizeof(char *) * new_cap);
 	if (!new_matches)
 	{
-		perror("malloc failed");
 		return (0);
 	}
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 09:22:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/24 14:47:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,32 @@ void	wild_cards_handle_fd_list(t_list_fd **fd_list, char *dir_path)
 	free(wildcard_nodes);
 }
 
-void	handle_wildcards_in_cmdarr(t_tree **tree)
+void handle_wildcards_in_cmdarr(t_tree **tree)
 {
 	char	*dir_name;
 	int		j;
-
-	if ((*tree)->command_arr)
+	
+	if (!tree || !*tree)
+		return;
+	if ((*tree)->command_arr && (*tree)->command_arr[0] && 
+		ft_strcmp((*tree)->command_arr[0], "export") == 0)
+	{
+		j = 1;
+		while ((*tree)->command_arr[j])
+		{
+			if (if_has_wildcards((*tree)->command_arr[j]))
+			{
+				dir_name = getcwd(NULL, 0);
+				if (!dir_name)
+					return ;
+				wild_cards_handle_cmdarr(&(*tree)->command_arr, dir_name);
+				free(dir_name);
+				break;
+			}
+			j++;
+		}
+	}
+	else if ((*tree)->command_arr)
 	{
 		j = 0;
 		while ((*tree)->command_arr[j])
@@ -105,14 +125,15 @@ void	handle_wildcards_in_cmdarr(t_tree **tree)
 					return ;
 				wild_cards_handle_cmdarr(&(*tree)->command_arr, dir_name);
 				free(dir_name);
+				break;
 			}
 			j++;
 		}
 	}
 	if ((*tree)->left)
-		has_wild_cards_comarr(&(*tree)->left);
+		handle_wildcards_in_cmdarr(&(*tree)->left);
 	if ((*tree)->right)
-		has_wild_cards_comarr(&(*tree)->right);
+		handle_wildcards_in_cmdarr(&(*tree)->right);
 }
 
 void	handle_wildcards_in_fdlst(t_tree **tree)
