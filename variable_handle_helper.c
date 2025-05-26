@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 15:14:48 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:39:30 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 						free(tmp_char);
 						if (tmp->name && countwords(tmp->name, 32) != 1)
 							tmp->name_split = ft_split(tmp->name, 32);
+						in_quotes = 0;
 						i = -1;
 					}
 				}

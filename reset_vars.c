@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:08:07 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 14:56:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:34:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ void	reset_vars(t_tree **tree, t_env **env)
 							quote_type = tmp->data[j];
 						}
 						else if (in_quotes && tmp->data[j] == quote_type)
+						{
 							in_quotes = 0;
+							quote_type = 0;
+						}
 						if (tmp->data[j] == '$' && (!in_quotes || (
 									in_quotes && quote_type == '"')))
 						{
@@ -80,6 +83,7 @@ void	reset_vars(t_tree **tree, t_env **env)
 							{
 								process_array_variable(&tmp->data, 0, &j, env);
 								j = -1;
+								in_quotes = 0;
 							}
 						}
 						j++;
