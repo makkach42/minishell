@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/24 12:16:36 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:40:53 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,23 @@ int	variable_search(t_tree **tree)
 	return (found_in_current || found_in_left || found_in_right);
 }
 
-int	check_for_variable(char *str)
-{
-	int	i;
+// int	check_for_variable(char *str)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-	{
-		if (str[i] == '$')
-			break ;
-		i++;
-	}
-	if (!str[i])
-		return (0);
-	return (1);
-}
+// 	i = 0;
+// 	if (!str)
+// 		return (0);
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '$')
+// 			break ;
+// 		i++;
+// 	}
+// 	if (!str[i])
+// 		return (0);
+// 	return (1);
+// }
 
 char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 {
@@ -141,7 +141,6 @@ int	process_array_variable(char **command_arr,
 	var_name = ft_substr(command_arr[arr_idx], (*var_pos) + 1, var_end - (*var_pos) - 1);
 	if (!var_name)
 		return (-1);
-	// }
 	var_value = NULL;
 	tmp_env = *env;
 	while (tmp_env)
@@ -250,10 +249,10 @@ void	variable_expantion(t_tree **tree, t_env **env)
 					if ((*tree)->command_arr[i][j + 1] && 
 						process_array_variable((*tree)->command_arr, i, &j, env) == -1)
 						break;
-					if (!variable_search(tree))
-						j = 0;
-					else
-						j = 0;
+					// if (!variable_search(tree))
+					// 	j = 0;
+					// else
+					j = 0;
 				}
 				if ((*tree)->command_arr[i][j])
 					j++;

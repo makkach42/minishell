@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:58:14 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/14 15:04:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 09:44:34 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	lst_size(t_list **head)
 	return (i);
 }
 
-void	extract_content_from_parentheses_helper(char *command, int *i, int *j)
+static void	extract_content_from_parentheses_helper(char *command, int *i, int *j)
 {
 	while (command[*i] && *j > 0)
 	{

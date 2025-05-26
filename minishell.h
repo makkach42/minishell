@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 09:41:03 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:12:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ int		check_empty(char *str);
 void	handle_signal(int sig);
 void	inits_main(t_env **env,
 			t_tree **tree, char **argev);
-char	*create_filtered_string(char *old_str, int final_len, int l, int k);
-int		count_filtered_length(char *old_str, int *var_flag, int l, int k);
+char	*create_filtered_string(char *old_str, int final_len);
+int		count_filtered_length(char *old_str, int *var_flag);
 int		process_array_variable(char **command_arr,
 			int arr_idx, int *var_pos, t_env **env);
 int		is_operator(char c);
@@ -236,6 +236,10 @@ char	*join_matches(char **matches, int match_count);
 char	*ft_strcpy(char *dest, char *src);
 void	quote_remove_two(t_tree **tree);
 void	process_command_array(t_tree **tree);
-void	process_command_string(t_tree **tree, int k);
+// void	process_command_string(t_tree **tree, int k);
+t_list	*new_list_init(char *str);
+void	reset_vars(t_tree **tree, t_env **env);
+int		isnt_valid(char *str);
+void	export_cases(t_tree **tree);
 
 #endif

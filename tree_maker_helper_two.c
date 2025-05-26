@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:03:26 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/17 16:43:12 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:34:34 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_tree	*create_command_node(t_list **node_list, int offset)
+static t_tree	*create_command_node(t_list **node_list, int offset)
 {
 	t_tree	*command;
 	t_list	*node;
@@ -77,7 +77,7 @@ void	if_prev(t_list *tmp, t_list **prev_part, t_tree **tree, t_list **head)
 	}
 }
 
-t_tree	*setup_operation_command(t_list **next_list, int offset)
+static t_tree	*setup_operation_command(t_list **next_list, int offset)
 {
 	t_tree	*command;
 

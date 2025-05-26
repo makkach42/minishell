@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/21 14:24:58 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 09:52:34 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,6 @@ char	*remove_operator(char *str, char *word)
 	return (str_word);
 }
 
-// char	*extract_variable(char *str)
-// {
-// 	int		i;
-// 	char	*word;
-
-// 	i = 1;
-// 	while (str[i] && str[i] != 32 && !is_operator(str[i]))
-// 	{
-// 		if (str[i] >= '0' && str[i] <= '9' && str[i - 1] == '$')
-// 		{
-// 			i++;
-// 			break ;
-// 		}
-// 		i++;
-// 	}
-// 	word = ft_substr(str, 0, i);
-// 	return (word);
-// }
-
-
 char	*extract_variable(char *str)
 {
 	int		i;
@@ -93,7 +73,7 @@ char	*extract_variable(char *str)
 		}
 		else if (in_quotes && str[i] == quote_type)
 			in_quotes = 0;
-		if (!in_quotes && (str[i] == 32 || is_operator(str[i])))// || (str[i] == '$' && (i - 1 <= 0 || str[i - 1] != '=')
+		if (!in_quotes && (str[i] == 32 || is_operator(str[i])))
 			break ;
 		i++;
 	}

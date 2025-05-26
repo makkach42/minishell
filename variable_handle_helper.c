@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/24 14:10:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:38:54 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,63 +36,63 @@ int	variable_search_inlnkedlst(t_tree **tree)
 	return (i);
 }
 
-int	variable_expantion_two(char **redirname,
-	int var_pos, t_env **env, int *flag)
-{
-	int		name_end;
-	char	*var_name;
-	char	*before;
-	char	*after;
-	char	*value;
-	char	*new_redir;
-	t_env	*tmp;
+// int	variable_expantion_two(char **redirname,
+// 	int var_pos, t_env **env, int *flag)
+// {
+// 	int		name_end;
+// 	char	*var_name;
+// 	char	*before;
+// 	char	*after;
+// 	char	*value;
+// 	char	*new_redir;
+// 	t_env	*tmp;
 
-	if (!(*redirname)[var_pos])
-		return (-1);
-	name_end = var_pos + 1;
-	while ((*redirname)[name_end])
-	{
-		if (((*redirname)[name_end] >= 'a' && (*redirname)[name_end] <= 'z'
-			) || ((*redirname)[name_end] >= 'A' && (*redirname)[name_end] <= 'Z'
-			) || ((*redirname)[name_end] >= '0' && (*redirname)[name_end] <= '9'
-			))
-			name_end++;
-		else
-			break ;
-	}
-	*flag = 0;
-	var_name = ft_substr((*redirname), var_pos + 1, name_end - var_pos - 1);
-	if (!var_name)
-		return (-1);
-	tmp = *env;
-	value = NULL;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->key, var_name))
-		{
-			value = ft_strdup(tmp->value);
-			break ;
-		}
-		tmp = tmp->next;
-	}
-	free(var_name);
-	before = ft_substr((*redirname), 0, var_pos);
-	if (!before)
-		return (free(value), -1);
-	after = ft_substr((*redirname), name_end,
-			ft_strlen((*redirname)) - name_end);
-	if (!after)
-		return (free(value), free(before), -1);
-	if (value)
-		new_redir = ft_strjoin_three(before, value, after);
-	else
-		new_redir = ft_strjoin(before, after);
-	if (!new_redir)
-		return (free(before), free(value), free(after), -1);
-	free((*redirname));
-	(*redirname) = new_redir;
-	return (free(before), free(value), free(after), 0);
-}
+// 	if (!(*redirname)[var_pos])
+// 		return (-1);
+// 	name_end = var_pos + 1;
+// 	while ((*redirname)[name_end])
+// 	{
+// 		if (((*redirname)[name_end] >= 'a' && (*redirname)[name_end] <= 'z'
+// 			) || ((*redirname)[name_end] >= 'A' && (*redirname)[name_end] <= 'Z'
+// 			) || ((*redirname)[name_end] >= '0' && (*redirname)[name_end] <= '9'
+// 			))
+// 			name_end++;
+// 		else
+// 			break ;
+// 	}
+// 	*flag = 0;
+// 	var_name = ft_substr((*redirname), var_pos + 1, name_end - var_pos - 1);
+// 	if (!var_name)
+// 		return (-1);
+// 	tmp = *env;
+// 	value = NULL;
+// 	while (tmp)
+// 	{
+// 		if (!ft_strcmp(tmp->key, var_name))
+// 		{
+// 			value = ft_strdup(tmp->value);
+// 			break ;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// 	free(var_name);
+// 	before = ft_substr((*redirname), 0, var_pos);
+// 	if (!before)
+// 		return (free(value), -1);
+// 	after = ft_substr((*redirname), name_end,
+// 			ft_strlen((*redirname)) - name_end);
+// 	if (!after)
+// 		return (free(value), free(before), -1);
+// 	if (value)
+// 		new_redir = ft_strjoin_three(before, value, after);
+// 	else
+// 		new_redir = ft_strjoin(before, after);
+// 	if (!new_redir)
+// 		return (free(before), free(value), free(after), -1);
+// 	free((*redirname));
+// 	(*redirname) = new_redir;
+// 	return (free(before), free(value), free(after), 0);
+// }
 
 void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 {

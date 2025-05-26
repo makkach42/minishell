@@ -6,28 +6,28 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 08:46:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:15:34 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	process_lst(t_list_fd **node)
+static void	process_lst(t_list_fd **node)
 {
 	char		*old_str;
 	char		*new_str;
 	int			final_len;
 
 	old_str = (*node)->name;
-	final_len = count_filtered_length(old_str, NULL, 0, 0);
-	new_str = create_filtered_string(old_str, final_len, 0, 0);
+	final_len = count_filtered_length(old_str, NULL);
+	new_str = create_filtered_string(old_str, final_len);
 	if (!new_str)
 		return ;
 	free((*node)->name);
 	(*node)->name = new_str;
 }
 
-void	process_lnked_lst(t_tree **tree)
+static void	process_lnked_lst(t_tree **tree)
 {
 	t_list_fd	*tmp;
 	int			i;

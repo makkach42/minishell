@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:50:28 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/17 11:09:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:42:12 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	if_string_while_loop(int *i, char *str, char **word)
 	*word = ft_substr(str, 0, *i);
 }
 
-int	else_if_str_is_par(int *i, char *str)
+static int	else_if_str_is_par(int *i, char *str)
 {
 	(*i)++;
 	while (str[*i] != ')' && str[*i] != '\0')

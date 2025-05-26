@@ -6,11 +6,32 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:31:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 15:03:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 10:23:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	isnt_valid(char *str)
+{
+	int	i;
+
+	i = 0;
+
+	while (str[i])
+	{
+		if ((str[i] == '%') || (
+				str[i] == '"') || (
+				str[i] == '\'') || (
+				str[i] == '$') || (
+				str[i] == '*') || (
+				str[i] == '+' && str[i + 1]) || (
+				str[0] >= '0' && str[0] <= '9'))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 void	tokenizer(t_list *tmp)
 {

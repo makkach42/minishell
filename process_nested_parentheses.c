@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:35:48 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/30 10:29:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 10:53:54 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	has_outer_parenthases_inits(int *i, int *par_open,
+static void	has_outer_parenthases_inits(int *i, int *par_open,
 		int *par_closed, int *in_quotes)
 {
 	*i = 0;
@@ -21,7 +21,7 @@ void	has_outer_parenthases_inits(int *i, int *par_open,
 	*in_quotes = 0;
 }
 
-int	has_outer_parenthases(char *str)
+static int	has_outer_parenthases(char *str)
 {
 	int		i;
 	int		par_open;

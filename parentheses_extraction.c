@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:42:38 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/29 15:28:04 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 09:53:38 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	extract_parenthesis_helper(char *str, int *i,
+static void	extract_parenthesis_helper(char *str, int *i,
 	int *open_par, int *closed_par)
 {
 	while (str[*i] != '\0' && str[*i] != ')')
@@ -35,7 +35,7 @@ void	extract_parenthesis_helper(char *str, int *i,
 	}
 }
 
-void	extract_parenthesis_helper_two(char *str, int *i,
+static void	extract_parenthesis_helper_two(char *str, int *i,
 	int *flag, char **word)
 {
 	int	open_par;

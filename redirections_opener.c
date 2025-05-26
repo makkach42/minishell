@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:47:08 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/17 13:25:06 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:23:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	extract_redir_token(char **old_redirs, char **target_redir)
+static void	extract_redir_token(char **old_redirs, char **target_redir)
 {
 	int		i;
 	char	*tmp_char;
@@ -30,7 +30,7 @@ void	extract_redir_token(char **old_redirs, char **target_redir)
 	free(tmp_char);
 }
 
-void	extract_filename(char **old_redirs, char **target_name)
+static void	extract_filename(char **old_redirs, char **target_name)
 {
 	int		i;
 	char	*tmp_char;
@@ -46,7 +46,7 @@ void	extract_filename(char **old_redirs, char **target_name)
 	free(tmp_char);
 }
 
-t_list_fd	*create_redir_node(char **old_redirs, char *command)
+static t_list_fd	*create_redir_node(char **old_redirs, char *command)
 {
 	t_list_fd	*node;
 
@@ -63,7 +63,7 @@ t_list_fd	*create_redir_node(char **old_redirs, char *command)
 	return (node);
 }
 
-void	process_tree_redirections(t_tree *tree, char *old_redirs)
+static void	process_tree_redirections(t_tree *tree, char *old_redirs)
 {
 	t_list_fd	*head;
 	t_list_fd	*new_node;

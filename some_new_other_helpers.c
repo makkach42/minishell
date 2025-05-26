@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/24 09:24:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:26:02 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,21 @@ int	ambiguous_syntax_error(t_tree **tree, t_env **env)
 	return (i);
 }
 
-int	quote_detect(char *str)
-{
-	int	i;
+// int	quote_detect(char *str)
+// {
+// 	int	i;
 
-	i = 0;
-	while (str && str[i])
-	{
-		if (str[i] == '"' || str[i] == '\'')
-			break ;
-		i++;
-	}
-	if (str[i])
-		return (1);
-	return (0);
-}
+// 	i = 0;
+// 	while (str && str[i])
+// 	{
+// 		if (str[i] == '"' || str[i] == '\'')
+// 			break ;
+// 		i++;
+// 	}
+// 	if (str[i])
+// 		return (1);
+// 	return (0);
+// }
 
 // void	quote_set(t_tree **tree)
 // {
@@ -71,33 +71,33 @@ int	quote_detect(char *str)
 // 	}
 // }
 
-void	empty_string_error(t_list_fd **head_fd, int *flag)
-{
-	t_list_fd	*tmp;
+// static void	empty_string_error(t_list_fd **head_fd, int *flag)
+// {
+// 	t_list_fd	*tmp;
 
-	tmp = *head_fd;
-	while (tmp)
-	{
-		if ((tmp->name[0] == '"' && tmp->name[1] == '"' && !tmp->name[2]
-			) || (tmp->name[0] == '\'' && tmp->name[1
-				] == '\'' && !tmp->name[2]))
-		{
-			write(2, "No such file or directory\n", 26);
-			*flag = 1;
-			break ;
-		}
-		tmp = tmp->next;
-	}
-}
+// 	tmp = *head_fd;
+// 	while (tmp)
+// 	{
+// 		if ((tmp->name[0] == '"' && tmp->name[1] == '"' && !tmp->name[2]
+// 			) || (tmp->name[0] == '\'' && tmp->name[1
+// 				] == '\'' && !tmp->name[2]))
+// 		{
+// 			write(2, "No such file or directory\n", 26);
+// 			*flag = 1;
+// 			break ;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
 
-void	tree_empty_error(t_tree **tree, int *flag)
-{
-	if ((*tree) && (*tree)->left)
-		tree_empty_error(&(*tree)->left, flag);
-	if ((*tree) && (*tree)->right)
-		tree_empty_error(&(*tree)->right, flag);
-	if ((*tree) && (*tree)->fd_list)
-	{
-		empty_string_error(&(*tree)->fd_list, flag);
-	}
-}
+// void	tree_empty_error(t_tree **tree, int *flag)
+// {
+// 	if ((*tree) && (*tree)->left)
+// 		tree_empty_error(&(*tree)->left, flag);
+// 	if ((*tree) && (*tree)->right)
+// 		tree_empty_error(&(*tree)->right, flag);
+// 	if ((*tree) && (*tree)->fd_list)
+// 	{
+// 		empty_string_error(&(*tree)->fd_list, flag);
+// 	}
+// }

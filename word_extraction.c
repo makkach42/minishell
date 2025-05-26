@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:36:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 13:55:47 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:43:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	string_in_word_recognizer(char *str)
+static int	string_in_word_recognizer(char *str)
 {
 	int	i;
 	int	flag;
@@ -37,7 +37,7 @@ int	string_in_word_recognizer(char *str)
 	return (0);
 }
 
-int	parenthesis_in_word_recogniser(char *str)
+static int	parenthesis_in_word_recogniser(char *str)
 {
 	int	i;
 	int	open_par;
@@ -62,7 +62,7 @@ int	parenthesis_in_word_recogniser(char *str)
 	return (open_par == closed_par && open_par > 0);
 }
 
-int	operation_or_pipe_before_condition(char *str, int flag)
+static int	operation_or_pipe_before_condition(char *str, int flag)
 {
 	int	i;
 
