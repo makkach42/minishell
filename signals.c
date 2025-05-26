@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:22:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 12:29:03 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 21:15:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 static void	hide_terminal_control_chars(void)
 {
 	struct termios	terminos_p;
-	int				status;
 
-	status = tcgetattr(STDOUT_FILENO, &terminos_p);
+	tcgetattr(STDOUT_FILENO, &terminos_p);
 	terminos_p.c_lflag &= ~(ECHOCTL);
-	status = tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_p);
+	tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_p);
 }
 
 void	handle_signal(int sig)
