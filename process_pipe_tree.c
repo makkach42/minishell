@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/12 14:27:57 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 08:57:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	has_unquoted_pipe_or_amp(char *str)
 			else
 				quote = 0;
 		}
-		else if (check_pipe_or_amp(str, i, quote))
+		else if (check_pipe_or_and(str, i, quote))
 			return (1);
 		i++;
 	}

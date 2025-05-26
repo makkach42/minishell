@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/24 12:34:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 08:46:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,18 @@ void	process_lnked_lst(t_tree **tree)
 	}
 }
 
-void	process_lnked_lst_two(t_tree **tree)
-{
-	t_list_fd	*tmp;
+// void	process_lnked_lst_two(t_tree **tree)
+// {
+// 	t_list_fd	*tmp;
 
-	tmp = (*tree)->fd_list;
-	while (tmp)
-	{
-		if (variable_search_instr(tmp->name))
-			process_lst(&tmp);
-		tmp = tmp->next;
-	}
-}
+// 	tmp = (*tree)->fd_list;
+// 	while (tmp)
+// 	{
+// 		if (variable_search_instr(tmp->name))
+// 			process_lst(&tmp);
+// 		tmp = tmp->next;
+// 	}
+// }
 
 void	quote_remove_lst(t_tree **tree)
 {
@@ -72,12 +72,12 @@ void	quote_remove_lst(t_tree **tree)
 		process_lnked_lst(tree);
 }
 
-void	quote_remove_lst_two(t_tree **tree)
-{
-	if ((*tree)->left)
-		quote_remove_lst(&(*tree)->left);
-	if ((*tree)->right)
-		quote_remove_lst(&(*tree)->right);
-	if ((*tree)->fd_list)
-		process_lnked_lst_two(tree);
-}
+// void	quote_remove_lst_two(t_tree **tree)
+// {
+// 	if ((*tree)->left)
+// 		quote_remove_lst(&(*tree)->left);
+// 	if ((*tree)->right)
+// 		quote_remove_lst(&(*tree)->right);
+// 	if ((*tree)->fd_list)
+// 		process_lnked_lst_two(tree);
+// }

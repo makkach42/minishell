@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:39:46 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/21 11:19:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 08:35:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,30 +50,6 @@ void	str_extractor_helper(char *str, int *i, int *flag, char **word)
 	}
 	*word = ft_substr(str, 0, *i + 1);
 }
-
-// char	*str_extractor(char *str)
-// {
-// 	int		i;
-// 	int		flag;
-// 	char	*word;
-
-// 	i = 1;
-// 	flag = 0;
-// 	if (!str || !*str)
-// 		return (NULL);
-// 	while ((str[i] != str[0]) && str[i] != '\0')
-// 		i++;
-// 	if (str[i] != '\0' && str[i + 1] && (
-// 			str[i + 1] == 32 || str[i + 1
-// 			] == '\0' || is_operator(str[i + 1])))
-// 	{
-// 		word = ft_substr(str, 0, i + 1);
-// 		return (word);
-// 	}
-// 	else
-// 		str_extractor_helper(str, &i, &flag, &word);
-// 	return (word);
-// }
 
 char	*str_extractor(char *str)
 {

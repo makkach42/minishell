@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 10:18:57 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/12 13:59:04 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 08:57:38 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	process_command_with_pipes_inits(t_list **cmd_list, char **cmd_copy)
 	*cmd_copy = NULL;
 }
 
-int	check_pipe_or_amp(const char *str, int i, char quote)
+int	check_pipe_or_and(const char *str, int i, char quote)
 {
 	if (quote == 0)
 	{
