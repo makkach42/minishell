@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 11:38:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 15:14:48 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,12 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 				if (tmp->name[i] == '$' && (
 						!in_quotes || (in_quotes && quote_type == '"')))
 				{
-					if (tmp->name[i] == '$' && ((in_quotes && tmp->name[i + 1] && (tmp->name[i + 1] == '"' || tmp->name[i + 1] == '\'')) || (!in_quotes && !tmp->name[i + 1])))
+					if (tmp->name[i] == '$' && ((
+								in_quotes && tmp->name[i + 1
+								] && (tmp->name[i + 1
+									] == '"' || tmp->name[i + 1
+									] == '\'')) || (
+								!in_quotes && !tmp->name[i + 1])))
 						i++;
 					else
 					{

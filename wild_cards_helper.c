@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:05:52 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/24 14:45:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 15:14:17 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@
 // 	free(matches);
 // }
 
-void process_wildcard_node_fd(t_list_fd *node, char *dir_path)
+void	process_wildcard_node_fd(t_list_fd *node, char *dir_path)
 {
 	DIR				*dir;
 	struct dirent	*entry;
@@ -122,7 +122,8 @@ void process_wildcard_node_fd(t_list_fd *node, char *dir_path)
 		{
 			if (match_count >= capacity)
 			{
-				if (!copy_and_resize_matches(&matches, match_count, capacity * 2))
+				if (!copy_and_resize_matches(&matches,
+						match_count, capacity * 2))
 				{
 					i = 0;
 					while (i < match_count)
@@ -279,7 +280,7 @@ char	*str_duplicate(const char *s)
 // 		sort_matches(matches, *match_count);
 // 	return (matches);
 // }
-char **get_matches(const char *pattern, char *dir_path, int *match_count)
+char	**get_matches(const char *pattern, char *dir_path, int *match_count)
 {
 	DIR				*dir;
 	struct dirent	*entry;
@@ -310,7 +311,8 @@ char **get_matches(const char *pattern, char *dir_path, int *match_count)
 		{
 			if (*match_count >= capacity)
 			{
-				if (!copy_and_resize_matches(&matches, *match_count, capacity * 2))
+				if (!copy_and_resize_matches(&matches,
+						*match_count, capacity * 2))
 				{
 					i = 0;
 					while (i < *match_count)
@@ -426,7 +428,7 @@ char **get_matches(const char *pattern, char *dir_path, int *match_count)
 // 	*cmd_arr = new_cmd_arr;
 // }
 
-void wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path)
+void	wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path)
 {
 	int		i;
 	int		j;
@@ -467,7 +469,8 @@ void wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path)
 	{
 		if (if_has_wildcards((*cmd_arr)[i]))
 		{
-			expanded_matches = get_matches((*cmd_arr)[i], dir_path, &match_count);
+			expanded_matches = get_matches((
+						*cmd_arr)[i], dir_path, &match_count);
 			if (expanded_matches && match_count > 0)
 			{
 				k = 0;

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 10:24:20 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:50:53 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ int	main(int argc, char **argv, char **argev)
 			handle_wildcards_in_fdlst(&tree);
 		if (!flag)
 			reset_vars(&tree, &env);
-		
 		// quote_remove(&tree);
 		// quote_remove(&tree);
 		// quote_remove_lst(&tree);
@@ -151,7 +150,6 @@ int	main(int argc, char **argv, char **argev)
 		// 	variable_expantion(&tree, &env);
 		if (variable_search_inlnkedlst(&tree) == 1)
 			variable_expantion_inlnkedlst(&tree, &env);
-		
 		ambiguous_set(&tree);
 		quote_remove_lst(&tree);
 		if (!flag && ambiguous_syntax_error(&tree, &env) == 1)

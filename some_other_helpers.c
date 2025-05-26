@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/24 12:31:44 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:58:07 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	countwords(char *s, char c)
 	}
 	return (count);
 }
+
 void	ambiguous_set(t_tree **tree)
 {
 	t_list_fd	*tmp;

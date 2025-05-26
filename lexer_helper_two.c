@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:01:01 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 09:47:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:43:06 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	redirection_recognizer(char *str)
 	return (0);
 }
 
-static void	parenthesis_recognizer_inits(int *i, int *j, int *flag, int *open_par)
+static void	parenthesis_recognizer_inits(
+		int *i, int *j, int *flag, int *open_par)
 {
 	*i = 0;
 	*j = 0;
@@ -55,7 +56,8 @@ static void	parenthesis_recognizer_inits(int *i, int *j, int *flag, int *open_pa
 	*open_par = 0;
 }
 
-static int	while_loop(char **str, char *quote_type, int *in_quotes, int *open_par)
+static int	while_loop(char **str,
+	char *quote_type, int *in_quotes, int *open_par)
 {
 	int	i;
 	int	closed_par;

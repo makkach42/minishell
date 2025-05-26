@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:08:07 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 10:08:41 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:56:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 void	reset_vars(t_tree **tree, t_env **env)
 {
-	int	i;
-	int	j;
-	int	m;
-	int	in_quotes;
-	int	final_len;
-	int	list_size;
-	char quote_type;
-	char *new_str;
-	char *old_cmd;
-	char **cmd;
-	char ***cmd2;
+	int		i;
+	int		j;
+	int		m;
+	int		in_quotes;
+	int		final_len;
+	int		list_size;
+	char	quote_type;
+	char	*new_str;
+	char	*old_cmd;
+	char	**cmd;
+	char	***cmd2;
 	t_list	*head;
 	t_list	*tmp;
 
@@ -40,7 +40,11 @@ void	reset_vars(t_tree **tree, t_env **env)
 		head = NULL;
 		while ((*tree)->command_arr[i])
 		{
-			if (ft_strchr((*tree)->command_arr[i], '"') || ft_strchr((*tree)->command_arr[i], '\'') || ft_strchr((*tree)->command_arr[i], '$'))
+			if (ft_strchr((*tree)->command_arr[i], '"'
+				) || ft_strchr(
+					(*tree)->command_arr[i], '\''
+				) || ft_strchr(
+					(*tree)->command_arr[i], '$'))
 			{
 				old_cmd = ft_strdup((*tree)->command_arr[i]);
 				head = list_init(old_cmd);
@@ -54,16 +58,23 @@ void	reset_vars(t_tree **tree, t_env **env)
 					j = 0;
 					while (tmp->data && tmp->data[j])
 					{
-						if (!in_quotes && (tmp->data[j] == '"' || tmp->data[j] == '\''))
+						if (!in_quotes && (tmp->data[j
+								] == '"' || tmp->data[j] == '\''))
 						{
 							in_quotes = 1;
 							quote_type = tmp->data[j];
 						}
 						else if (in_quotes && tmp->data[j] == quote_type)
 							in_quotes = 0;
-						if (tmp->data[j] == '$' && (!in_quotes || (in_quotes && quote_type == '"')))
+						if (tmp->data[j] == '$' && (!in_quotes || (
+									in_quotes && quote_type == '"')))
 						{
-							if (tmp->data[j] == '$' && ((in_quotes && tmp->data[j + 1] && (tmp->data[j + 1] == '"' || tmp->data[j + 1] == '\'')) || (!in_quotes && !tmp->data[j + 1])))
+							if (tmp->data[j] == '$' && ((
+										in_quotes && tmp->data[j + 1] && (
+											tmp->data[j + 1
+											] == '"' || tmp->data[
+												j + 1] == '\'')) || (
+										!in_quotes && !tmp->data[j + 1])))
 								j++;
 							else
 							{
@@ -189,7 +200,9 @@ void	reset_vars(t_tree **tree, t_env **env)
 		i = 0;
 		while ((*tree)->command_arr[i])
 		{
-			if (ft_strchr((*tree)->command_arr[i], '"') || ft_strchr((*tree)->command_arr[i], '\''))
+			if (ft_strchr((*tree)->command_arr[i], '"'
+				) || ft_strchr(
+					(*tree)->command_arr[i], '\''))
 			{
 				old_cmd = (*tree)->command_arr[i];
 				final_len = count_filtered_length(old_cmd, &(*tree)->var);

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:58:14 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 09:44:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:42:10 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,23 @@
 
 char	*replace_whites_spaces(char *str)
 {
-	int	i;
+	int		i;
+	int		in_quotes;
+	char	quote_type;
 
 	i = -1;
+	in_quotes = 0;
+	quote_type = 0;
 	while (str[++i])
 	{
-		if (str[i] >= 9 && str[i] <= 13)
+		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
+		{
+			in_quotes = 1;
+			quote_type = str[i];
+		}
+		else if (in_quotes && str[i] == quote_type)
+			in_quotes = 0;
+		if (!in_quotes && str[i] >= 9 && str[i] <= 13)
 			str[i] = 32;
 	}
 	return (str);
@@ -40,7 +51,8 @@ int	lst_size(t_list **head)
 	return (i);
 }
 
-static void	extract_content_from_parentheses_helper(char *command, int *i, int *j)
+static void	extract_content_from_parentheses_helper(
+		char *command, int *i, int *j)
 {
 	while (command[*i] && *j > 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 11:12:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:43:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_split
-{
-	int	arr_index;
-	int	split_flag;
-}	t_split;
-
 typedef struct s_tree
 {
 	char			*type;
@@ -67,8 +61,6 @@ typedef struct s_tree
 	int				quotes;
 	int				var;
 	t_list_fd		*fd_list;
-	t_split			**split;
-	t_split		**expandable;
 }	t_tree;
 
 typedef struct s_dynbuf
@@ -179,7 +171,8 @@ void	syntax_error_parentheses_while_loop(t_list *tmp,
 			int *i, int *flag, int *open_par);
 int		check_quotes(char *str, int *flag);
 int		no_words_beside(char *str);
-void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag);
+void	even_more_ifs(char *prev_token,
+			char *prev_data, t_list *tmp, int *flag);
 char	*replace_whites_spaces(char *str);
 t_env	*env_fill(char **argev);
 void	syntax_error_two(t_tree **tree, int *flag);

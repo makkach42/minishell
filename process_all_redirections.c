@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 10:50:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:51:12 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	count_filtered_length(char *old_str, int *var_flag)
 			in_double_quotes = !in_double_quotes;
 		else
 		{
-			if (old_str[i] == '$' && in_single_quotes && !in_double_quotes && var_flag)
+			if (old_str[i] == '$' && (in_single_quotes
+				) && !in_double_quotes && var_flag)
 				*var_flag = 2;
 			final_len++;
 		}

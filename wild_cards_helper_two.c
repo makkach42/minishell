@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:16:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/24 14:46:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 15:15:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	sort_matches(char **arr, int count)
 // 	return (1);
 // }
 
-int copy_and_resize_matches(char ***matches, int match_count, int new_cap)
+int	copy_and_resize_matches(char ***matches, int match_count, int new_cap)
 {
 	char	**new_matches;
 	int		i;

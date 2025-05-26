@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:31:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 10:23:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:42:42 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	isnt_valid(char *str)
 	int	i;
 
 	i = 0;
-
 	while (str[i])
 	{
 		if ((str[i] == '%') || (
@@ -65,4 +64,21 @@ void	lexer(t_list **head)
 		tokenizer(tmp);
 		tmp = tmp->next;
 	}
+}
+
+void	free_env(t_env **env)
+{
+	t_env	*tmp;
+	t_env	*tmp2;
+
+	tmp = *env;
+	while (tmp)
+	{
+		tmp2 = tmp->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+		tmp = tmp2;
+	}
+	*env = NULL;
 }

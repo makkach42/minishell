@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:39:46 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 11:30:49 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 15:00:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 // }
 void	str_extractor_helper(char *str, int *i, int *flag, char **word)
 {
-	int	in_quotes;
-	char quote_type;
+	int		in_quotes;
+	char	quote_type;
 
 	*flag = 0;
 	in_quotes = 0;
@@ -44,7 +44,10 @@ void	str_extractor_helper(char *str, int *i, int *flag, char **word)
 		}
 		else if (in_quotes && (str[*i] == quote_type))
 			in_quotes = 0;
-		if (!in_quotes && (str[*i] && (str[*i] == 32 || str[*i] == '\0' || is_operator(str[*i]))))
+		if (!in_quotes && (str[*i] && (
+					str[*i] == 32 || str[*i
+					] == '\0' || is_operator(
+						str[*i]))))
 			break ;
 		(*i)++;
 	}
@@ -89,7 +92,6 @@ char	*str_extractor(char *str)
 		str_extractor_helper(str, &i, &flag, &word);
 	}
 	return (word);
-
 }
 
 char	*str_remover(char *str, char *word)

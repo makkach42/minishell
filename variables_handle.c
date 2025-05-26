@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 11:40:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 15:09:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,6 @@ int	variable_search(t_tree **tree)
 	return (found_in_current || found_in_left || found_in_right);
 }
 
-// int	check_for_variable(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (!str)
-// 		return (0);
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '$')
-// 			break ;
-// 		i++;
-// 	}
-// 	if (!str[i])
-// 		return (0);
-// 	return (1);
-// }
-
 char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 {
 	char	*temp;
@@ -84,8 +66,9 @@ int	process_array_variable(char **command_arr,
 	char	c;
 	t_env	*tmp_env;
 
-	if (!command_arr || !command_arr[arr_idx] || (*var_pos) < 0 || 
-		!command_arr[arr_idx][(*var_pos)])
+	if (!command_arr || !command_arr[arr_idx
+		] || (*var_pos) < 0 || !command_arr[
+			arr_idx][(*var_pos)])
 		return (-1);
 	var_end = (*var_pos) + 1;
 	if (command_arr[arr_idx][var_end] == '$')
@@ -93,7 +76,9 @@ int	process_array_variable(char **command_arr,
 		before = ft_substr(command_arr[arr_idx], 0, *var_pos);
 		if (!before)
 			return (0);
-		after = ft_substr(command_arr[arr_idx], var_end, ft_strlen(command_arr[arr_idx]) - var_end);
+		after = ft_substr(command_arr[arr_idx
+			], var_end, ft_strlen(command_arr[
+					arr_idx]) - var_end);
 		if (!after)
 		{
 			free(before);
@@ -115,30 +100,31 @@ int	process_array_variable(char **command_arr,
 	while (command_arr[arr_idx][var_end])
 	{
 		c = command_arr[arr_idx][var_end];
-		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || 
-			((c >= '0' && c <= '9')) || c == '_')
+		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'
+			) || ((c >= '0' && c <= '9')) || c == '_')
 		{
-			if (c >= '0' && c <= '9' && command_arr[arr_idx][var_end - 1] == '$')
+			if (c >= '0' && c <= '9' && command_arr[
+					arr_idx][var_end - 1] == '$')
 			{
 				var_end++;
 				break ;
 			}
-			else                  
-			var_end++;	
+			else
+				var_end++;
 		}
 		else
 			break ;
 	}
 	if (var_end == (*var_pos) + 1)
 	{
-		if (command_arr[arr_idx][var_end] == '?' || 
-			command_arr[arr_idx][var_end] == '@' ||
-			command_arr[arr_idx][var_end] == '#')
-		{
+		if (command_arr[arr_idx][var_end
+		] == '?' || command_arr[arr_idx][
+			var_end] == '@' || command_arr[
+				arr_idx][var_end] == '#')
 			var_end++;
-		}
 	}
-	var_name = ft_substr(command_arr[arr_idx], (*var_pos) + 1, var_end - (*var_pos) - 1);
+	var_name = ft_substr(command_arr[arr_idx],
+			(*var_pos) + 1, var_end - (*var_pos) - 1);
 	if (!var_name)
 		return (-1);
 	var_value = NULL;
@@ -209,7 +195,6 @@ void	variable_expantion(t_tree **tree, t_env **env)
 	int		in_quote;
 	char	quote_type;
 
-	
 	if (!tree || !*tree)
 		return ;
 	if ((*tree)->left)
@@ -224,15 +209,16 @@ void	variable_expantion(t_tree **tree, t_env **env)
 			if (!(*tree)->command_arr[i] || (*tree)->command_arr[i][0] == '\0')
 			{
 				i++;
-				continue;
+				continue ;
 			}
 			j = 0;
 			in_quote = 0;
 			quote_type = '\0';
 			while ((*tree)->command_arr[i][j])
 			{
-				if (!in_quote && ((*tree)->command_arr[i][j] == '\'' || 
-								 (*tree)->command_arr[i][j] == '\"'))
+				if (!in_quote && ((*tree)->command_arr[i
+						][j] == '\'' || (*tree)->command_arr[i
+					][j] == '\"'))
 				{
 					in_quote = 1;
 					quote_type = (*tree)->command_arr[i][j];
@@ -241,17 +227,17 @@ void	variable_expantion(t_tree **tree, t_env **env)
 				{
 					in_quote = 0;
 				}
-				if ((*tree)->command_arr[i][j] == '$' && 
-					(in_quote == 0 || (in_quote && (quote_type == '\"' || 
-					(quote_type == '\'' && (*tree)->var != 2)))) && 
-					(*tree)->var != 2)
+				if ((*tree)->command_arr[i][j
+				] == '$' && (in_quote == 0 || (
+					in_quote && (quote_type == '\"' || (
+						quote_type == '\'' && (*tree
+						)->var != 2)))) && (*tree
+						)->var != 2)
 				{
-					if ((*tree)->command_arr[i][j + 1] && 
-						process_array_variable((*tree)->command_arr, i, &j, env) == -1)
-						break;
-					// if (!variable_search(tree))
-					// 	j = 0;
-					// else
+					if ((*tree)->command_arr[i][j + 1
+					] && process_array_variable((*tree
+							)->command_arr, i, &j, env) == -1)
+						break ;
 					j = 0;
 				}
 				if ((*tree)->command_arr[i][j])

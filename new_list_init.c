@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:04:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 10:05:25 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:49:36 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 t_list	*new_list_init(char *str)
 {
-	int	i;
-	int	in_quotes;
-	int	open_par;
-	int	closed_par;
-	char quote_type;
-	char *word;
-	char *tmp_char;
+	int		i;
+	int		in_quotes;
+	int		open_par;
+	int		closed_par;
+	char	quote_type;
+	char	*word;
+	char	*tmp_char;
 	t_list	*head;
 	t_list	*new_node;
 	t_list	*tmp;
@@ -89,7 +89,9 @@ t_list	*new_list_init(char *str)
 		i = 1;
 		while (str[i])
 		{
-			if (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z') && !(str[i] >= '0' && str[i] <= '9'))
+			if (!(str[i] >= 'a' && str[i] <= 'z') && !(
+					str[i] >= 'A' && str[i] <= 'Z') && !(
+					str[i] >= '0' && str[i] <= '9'))
 				break ;
 			i++;
 		}
@@ -106,7 +108,7 @@ t_list	*new_list_init(char *str)
 		str = ft_strtrim(str, " ");
 		free(tmp_char);
 	}
-	else if(*str == '+')
+	else if (*str == '+')
 	{
 		if (str[1] == '=')
 		{
@@ -127,7 +129,8 @@ t_list	*new_list_init(char *str)
 			free(tmp_char);
 		}
 		tmp_char = str;
-		str = ft_substr(str, ft_strlen(word), ft_strlen(str) - (ft_strlen(word)));
+		str = ft_substr(str, ft_strlen(word),
+				ft_strlen(str) - (ft_strlen(word)));
 		free(tmp_char);
 		tmp_char = str;
 		str = ft_strtrim(str, " ");
@@ -169,7 +172,11 @@ t_list	*new_list_init(char *str)
 	{
 		while (str[i])
 		{
-			if (str[i] == '"' || str[i] == '\'' || str[i] == '$' || is_operator(str[i]) || str[i] == '(' || str[i] == '=')
+			if ((str[i] == '"') || (str[i] == '\''
+				) || (str[i] == '$') || (
+					is_operator(str[i])) || (
+					str[i] == '(') || (
+					str[i] == '='))
 				break ;
 			i++;
 		}
@@ -184,7 +191,7 @@ t_list	*new_list_init(char *str)
 		free(tmp_char);
 		tmp_char = str;
 		str = ft_strtrim(str, " ");
-		free(tmp_char);		
+		free(tmp_char);
 	}
 	head = malloc(sizeof(t_list));
 	head->data = ft_strdup(word);
@@ -254,7 +261,9 @@ t_list	*new_list_init(char *str)
 			i = 1;
 			while (str[i])
 			{
-				if (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z') && !(str[i] >= '0' && str[i] <= '9'))
+				if (!(str[i] >= 'a' && str[i] <= 'z'
+					) && !(str[i] >= 'A' && str[i] <= 'Z'
+					) && !(str[i] >= '0' && str[i] <= '9'))
 					break ;
 				i++;
 			}
@@ -297,7 +306,8 @@ t_list	*new_list_init(char *str)
 			word = ft_strtrim(word, " ");
 			free(tmp_char);
 			tmp_char = str;
-			str = ft_substr(str, ft_strlen(word), ft_strlen(str) - ft_strlen(word));
+			str = ft_substr(str, ft_strlen(word),
+					ft_strlen(str) - ft_strlen(word));
 			free(tmp_char);
 			tmp_char = str;
 			str = ft_strtrim(str, " ");
@@ -317,7 +327,10 @@ t_list	*new_list_init(char *str)
 			i = 0;
 			while (str[i])
 			{
-				if (str[i] == '"' || str[i] == '\'' || str[i] == '$' || is_operator(str[i]) || str[i] == '(')
+				if ((str[i] == '"') || (str[i] == '\''
+					) || (str[i] == '$') || (
+						is_operator(str[i])) || (
+						str[i] == '('))
 					break ;
 				i++;
 			}
@@ -332,7 +345,7 @@ t_list	*new_list_init(char *str)
 			free(tmp_char);
 			tmp_char = str;
 			str = ft_strtrim(str, " ");
-			free(tmp_char);		
+			free(tmp_char);
 		}
 		new_node = malloc(sizeof(t_list));
 		new_node->data = ft_strdup(word);
