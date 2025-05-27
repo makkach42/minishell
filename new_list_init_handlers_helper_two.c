@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:07:51 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/27 20:43:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/27 21:03:30 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	new_operator_word_extractor(char **word, char **str)
 	*word = ft_strtrim(*word, " ");
 	free(tmp_char);
 	tmp_char = *str;
-	*str = ft_substr(*str, ft_strlen(*word), ft_strlen(*str) - ft_strlen(*word));
+	*str = ft_substr(*str, ft_strlen(*word),
+			ft_strlen(*str) - ft_strlen(*word));
 	free(tmp_char);
 	tmp_char = *str;
 	*str = ft_strtrim(*str, " ");
