@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:25:20 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 11:13:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/27 17:24:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	process_command_string(t_tree **tree, int k)
 	int		final_len;
 
 	old_str = (*tree)->command_arr[k];
-	final_len = count_filtered_length(old_str, &(*tree)->var);
+	final_len = count_filtered_length(old_str);
 	new_str = create_filtered_string(old_str, final_len);
 	if (!new_str)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:42:38 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 09:53:38 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/27 16:15:37 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*parenthesis_remover(char *str, char *word)
 	char	*new_str;
 	int		word_len;
 
-	if (!str | !*str)
+	if (!str || !*str)
 		return (NULL);
 	strlenth = ft_strlen(str);
 	word_len = ft_strlen(word);
