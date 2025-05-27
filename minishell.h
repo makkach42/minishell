@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 14:43:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/27 12:08:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,5 +234,16 @@ t_list	*new_list_init(char *str);
 void	reset_vars(t_tree **tree, t_env **env);
 int		isnt_valid(char *str);
 void	export_cases(t_tree **tree);
+char	*new_quote_handle(char *str);
+char	*new_parenthasis_handle(char *str);
+char	*new_variable_handle(char *str);
+char	*plus_handle(char *str);
+char	*new_operator_handle(char *str);
+char	*new_word_handle(char *str);
+void	new_quote_word_extractor(char *tmp_char, char *word, char *str, int i);
+void	new_parenthasis_word_extractor(char *word, char *tmp_char, int i, char *str);
+void	new_variable_word_extractor(char *str, char *word, int i);
+void	plus_handle_word_extractor(char *tmp_char, char *str, char *word);
+void	new_operator_word_extractor(char *word, char *tmp_char, char *str);
 
 #endif
