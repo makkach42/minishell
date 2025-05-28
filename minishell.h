@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 15:22:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:47:35 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,14 @@ typedef struct s_extract
 	char		quote_type;
 	int			paren_count;
 }	t_extract;
+
+typedef struct s_idx
+{
+	int	i;
+	int	j;
+	int	original_size;
+}	t_idx;
+
 
 void	print_tree_visual(t_tree *tree, int level, int is_left);
 int		ft_strcmp(char *s1, char *s2);

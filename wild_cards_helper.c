@@ -6,58 +6,11 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:05:52 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 15:42:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:48:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int	count_pattern_matches(const char *pattern, char *dir_path)
-// {
-// 	DIR				*dir;
-// 	struct dirent	*entry;
-// 	int				match_count;
-
-// 	match_count = 0;
-// 	dir = opendir(dir_path);
-// 	if (dir == NULL)
-// 		return (0);
-// 	entry = readdir(dir);
-// 	while (entry != NULL)
-// 	{
-// 		if (entry->d_name[0] == '.' && pattern[0] != '.')
-// 		{
-// 			entry = readdir(dir);
-// 			continue ;
-// 		}
-// 		if (match_pattern(pattern, entry->d_name))
-// 			match_count++;
-// 		entry = readdir(dir);
-// 	}
-// 	closedir(dir);
-// 	return (match_count);
-// }
-
-// char	*str_duplicate(const char *s)
-// {
-// 	size_t		len;
-// 	const char	*tmp;
-// 	char		*dup;
-// 	char		*ptr;
-
-// 	len = 0;
-// 	tmp = s;
-// 	while (*tmp++)
-// 		len++;
-// 	dup = malloc(len + 1);
-// 	if (!dup)
-// 		return (NULL);
-// 	ptr = dup;
-// 	while (*s)
-// 		*ptr++ = *s++;
-// 	*ptr = '\0';
-// 	return (dup);
-// }
 
 static int	handle_matching_entry(char ***matches, int *match_count,
 		int *capacity, char *entry_name)
@@ -170,51 +123,85 @@ void	if_expanded_matches(char ***new_cmd_arr,
 	free(expanded_matches);
 }
 
+int	count_cmd_arr_size(char **cmd_arr)
+{
+	int	size;
+
+	size = 0;
+	if (!cmd_arr)
+		return (0);
+	while (cmd_arr[size])
+		size++;
+	return (size);
+}
+
+char	**init_new_cmd_arr(int new_size)
+{
+	char	**new_cmd_arr;
+
+	new_cmd_arr = malloc(sizeof(char *) * (new_size + 1));
+	if (!new_cmd_arr)
+		return (NULL);
+	return (new_cmd_arr);
+}
+
+void	process_wildcard_element(char ***new_cmd_arr, char *element,
+		char *dir_path, int *j)
+{
+	char	**expanded_matches;
+	int		match_count;
+
+	expanded_matches = get_matches(element, dir_path, &match_count);
+	if (expanded_matches && match_count > 0)
+		if_expanded_matches(new_cmd_arr, expanded_matches, match_count, j);
+	else
+	{
+		(*new_cmd_arr)[(*j)++] = ft_strdup(element);
+		if (expanded_matches)
+			free(expanded_matches);
+	}
+}
+
+void	process_regular_element(char ***new_cmd_arr, char *element, int *j)
+{
+	(*new_cmd_arr)[(*j)++] = ft_strdup(element);
+}
+
+void	free_original_cmd_arr(char ***cmd_arr, int original_size)
+{
+	int	i;
+
+	i = 0;
+	while (i < original_size)
+		free((*cmd_arr)[i++]);
+	free(*cmd_arr);
+}
+
 void	wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path)
 {
-	int		i;
-	int		j;
-	int		original_size;
+	t_idx	m;
 	int		new_size;
-	char	**expanded_matches;
 	int		match_count;
 	char	**new_cmd_arr;
 
 	if (!cmd_arr || !*cmd_arr || !dir_path)
 		return ;
-	original_size = 0;
-	while ((*cmd_arr)[original_size])
-		original_size++;
-	new_size = new_size_calcs(original_size, cmd_arr, dir_path, &match_count);
-	new_cmd_arr = malloc(sizeof(char *) * (new_size + 1));
+	m.original_size = count_cmd_arr_size(*cmd_arr);
+	new_size = new_size_calcs(m.original_size, cmd_arr, dir_path, &match_count);
+	new_cmd_arr = init_new_cmd_arr(new_size);
 	if (!new_cmd_arr)
 		return ;
-	i = 0;
-	j = 0;
-	while (i < original_size)
+	m.i = -1;
+	m.j = 0;
+	while (++m.i < m.original_size)
 	{
-		if (if_has_wildcards((*cmd_arr)[i]))
-		{
-			expanded_matches = get_matches((
-						*cmd_arr)[i], dir_path, &match_count);
-			if (expanded_matches && match_count > 0)
-				if_expanded_matches(&new_cmd_arr,
-					expanded_matches, match_count, &j);
-			else
-			{
-				new_cmd_arr[j++] = ft_strdup((*cmd_arr)[i]);
-				if (expanded_matches)
-					free(expanded_matches);
-			}
-		}
+		if (if_has_wildcards((*cmd_arr)[m.i]))
+			process_wildcard_element(&new_cmd_arr,
+				(*cmd_arr)[m.i], dir_path, &m.j);
 		else
-			new_cmd_arr[j++] = ft_strdup((*cmd_arr)[i]);
-		i++;
+			process_regular_element(&new_cmd_arr, (*cmd_arr)[m.i], &m.j);
 	}
-	new_cmd_arr[j] = NULL;
-	i = 0;
-	while (i < original_size)
-		free((*cmd_arr)[i++]);
-	free(*cmd_arr);
+	new_cmd_arr[m.j] = NULL;
+	free_original_cmd_arr(cmd_arr, m.original_size);
 	*cmd_arr = new_cmd_arr;
 }
