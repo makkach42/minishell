@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:05:52 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 10:14:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 14:27:56 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,25 +137,125 @@ char	*str_duplicate(const char *s)
 	return (dup);
 }
 
-char	**get_matches(const char *pattern, char *dir_path, int *match_count)
-{
-	DIR				*dir;
-	struct dirent	*entry;
-	char			**matches;
-	int				capacity;
-	int				i;
+// char	**get_matches(const char *pattern, char *dir_path, int *match_count)
+// {
+// 	DIR				*dir;
+// 	struct dirent	*entry;
+// 	char			**matches;
+// 	int				capacity;
+// 	int				i;
 
-	*match_count = 0;
-	capacity = 10;
-	dir = opendir(dir_path);
-	if (dir == NULL)
-		return (NULL);
-	matches = malloc(sizeof(char *) * capacity);
-	if (!matches)
+// 	*match_count = 0;
+// 	capacity = 10;
+// 	dir = opendir(dir_path);
+// 	if (dir == NULL)
+// 		return (NULL);
+// 	matches = malloc(sizeof(char *) * capacity);
+// 	if (!matches)
+// 	{
+// 		closedir(dir);
+// 		return (NULL);
+// 	}
+// 	entry = readdir(dir);
+// 	while (entry != NULL)
+// 	{
+// 		if (entry->d_name[0] == '.' && pattern[0] != '.')
+// 		{
+// 			entry = readdir(dir);
+// 			continue ;
+// 		}
+// 		if (match_pattern(pattern, entry->d_name))
+// 		{
+// 			if (*match_count >= capacity)
+// 			{
+// 				if (!copy_and_resize_matches(&matches,
+// 						*match_count, capacity * 2))
+// 				{
+// 					i = 0;
+// 					while (i < *match_count)
+// 						free(matches[i++]);
+// 					free(matches);
+// 					closedir(dir);
+// 					return (NULL);
+// 				}
+// 				capacity *= 2;
+// 			}
+// 			matches[*match_count] = str_duplicate(entry->d_name);
+// 			if (!matches[*match_count])
+// 			{
+// 				i = 0;
+// 				while (i < *match_count)
+// 					free(matches[i++]);
+// 				free(matches);
+// 				closedir(dir);
+// 				return (NULL);
+// 			}
+// 			(*match_count)++;
+// 		}
+// 		entry = readdir(dir);
+// 	}
+// 	closedir(dir);
+// 	if (*match_count > 0)
+// 		sort_matches(matches, *match_count);
+// 	else
+// 	{
+// 		free(matches);
+// 		return (NULL);
+// 	}
+// 	return (matches);
+// }
+
+static int	init_matches(char ***matches, DIR **dir,
+			char *dir_path, int *capacity)
+{
+	*capacity = 10;
+	*dir = opendir(dir_path);
+	if (*dir == NULL)
+		return (0);
+	*matches = malloc(sizeof(char *) * *capacity);
+	if (!*matches)
 	{
-		closedir(dir);
-		return (NULL);
+		closedir(*dir);
+		return (0);
 	}
+	return (1);
+}
+
+static int	handle_matching_entry(char ***matches, int *match_count,
+		int *capacity, char *entry_name)
+{
+	if (*match_count >= *capacity)
+	{
+		if (!copy_and_resize_matches(matches, *match_count, *capacity * 2))
+			return (0);
+		*capacity *= 2;
+	}
+	(*matches)[*match_count] = str_duplicate(entry_name);
+	if (!(*matches)[*match_count])
+		return (0);
+	(*match_count)++;
+	return (1);
+}
+
+static char	**cleanup_on_error(char ***matches, int match_count, DIR *dir)
+{
+	int	i;
+
+	i = 0;
+	while (i < match_count)
+		free((*matches)[i++]);
+	free(*matches);
+	closedir(dir);
+	return (NULL);
+}
+
+static char	**process_directory(DIR *dir, const char *pattern,
+		char ***matches, int *match_count)
+{
+	struct dirent	*entry;
+	int				capacity;
+
+	capacity = 10;
 	entry = readdir(dir);
 	while (entry != NULL)
 	{
@@ -166,34 +266,25 @@ char	**get_matches(const char *pattern, char *dir_path, int *match_count)
 		}
 		if (match_pattern(pattern, entry->d_name))
 		{
-			if (*match_count >= capacity)
-			{
-				if (!copy_and_resize_matches(&matches,
-						*match_count, capacity * 2))
-				{
-					i = 0;
-					while (i < *match_count)
-						free(matches[i++]);
-					free(matches);
-					closedir(dir);
-					return (NULL);
-				}
-				capacity *= 2;
-			}
-			matches[*match_count] = str_duplicate(entry->d_name);
-			if (!matches[*match_count])
-			{
-				i = 0;
-				while (i < *match_count)
-					free(matches[i++]);
-				free(matches);
-				closedir(dir);
-				return (NULL);
-			}
-			(*match_count)++;
+			if (!handle_matching_entry(matches, match_count, &capacity,
+					entry->d_name))
+				return (cleanup_on_error(matches, *match_count, dir));
 		}
 		entry = readdir(dir);
 	}
+	return (*matches);
+}
+
+char	**get_matches(const char *pattern, char *dir_path, int *match_count)
+{
+	DIR		*dir;
+	char	**matches;
+	int		capacity;
+
+	*match_count = 0;
+	if (!init_matches(&matches, &dir, dir_path, &capacity))
+		return (NULL);
+	matches = process_directory(dir, pattern, &matches, match_count);
 	closedir(dir);
 	if (*match_count > 0)
 		sort_matches(matches, *match_count);

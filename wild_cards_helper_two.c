@@ -6,30 +6,36 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:16:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 15:15:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 14:22:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	total_len_calculation(int *i, int match_count,
+		char **matches, int *total_len)
+{
+	*i = 0;
+	*total_len = 0;
+	while (*i < match_count)
+	{
+		*total_len += ft_strlen(matches[*i]);
+		if (*i < match_count - 1)
+			(*total_len)++;
+		(*i)++;
+	}
+}
+
 char	*join_matches(char **matches, int match_count)
 {
 	int		i;
-	size_t	total_len;
+	int		total_len;
 	char	*result;
 	char	*temp;
 
 	if (match_count <= 0)
 		return (NULL);
-	total_len = 0;
-	i = 0;
-	while (i < match_count)
-	{
-		total_len += ft_strlen(matches[i]);
-		if (i < match_count - 1)
-			total_len++;
-		i++;
-	}
+	total_len_calculation(&i, match_count, matches, &total_len);
 	result = malloc(total_len + 1);
 	if (!result)
 		return (NULL);
@@ -49,6 +55,41 @@ char	*join_matches(char **matches, int match_count)
 	return (result);
 }
 
+void	pattern_match_inits(int *i, int *j, int *star_idx, int *str_idx)
+{
+	*i = 0;
+	*j = 0;
+	*star_idx = -1;
+	*str_idx = -1;
+}
+
+int	skip_stars(int *i, const char *pattern)
+{
+	while (pattern[(*i) + 1] == '*')
+		(*i)++;
+	if (!pattern[(*i) + 1])
+		return (1);
+	return (0);
+}
+
+void	update_vars(int *star_idx, int *i, int *str_idx, int *j)
+{
+	*star_idx = (*i)++;
+	*str_idx = *j;
+}
+
+void	back_track(int *i, int *j, int *star_idx, int *str_idx)
+{
+	*i = (*star_idx) + 1;
+	*j = ++(*str_idx);
+}
+
+void	update_vars_two(int *i, int *j)
+{
+	(*i)++;
+	(*j)++;
+}
+
 int	match_pattern(const char *pattern, const char *string)
 {
 	int		i;
@@ -56,35 +97,21 @@ int	match_pattern(const char *pattern, const char *string)
 	int		star_idx;
 	int		str_idx;
 
-	i = 0;
-	j = 0;
-	star_idx = -1;
-	str_idx = -1;
+	pattern_match_inits(&i, &j, &star_idx, &str_idx);
 	while (string[j])
 	{
 		if (pattern[i] == '*')
 		{
-			while (pattern[i + 1] == '*')
-				i++;
-			if (!pattern[i + 1])
+			if (skip_stars(&i, pattern) == 1)
 				return (1);
-			star_idx = i++;
-			str_idx = j;
-			continue ;
+			update_vars(&star_idx, &i, &str_idx, &j);
 		}
-		if (pattern[i] == string[j])
-		{
-			i++;
-			j++;
-			continue ;
-		}
-		if (star_idx >= 0)
-		{
-			i = star_idx + 1;
-			j = ++str_idx;
-			continue ;
-		}
-		return (0);
+		else if (pattern[i] == string[j])
+			update_vars_two(&i, &j);
+		else if (star_idx >= 0)
+			back_track(&i, &j, &star_idx, &str_idx);
+		else
+			return (0);
 	}
 	while (pattern[i] == '*')
 		i++;
