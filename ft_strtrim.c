@@ -81,3 +81,24 @@ char	*ft_strtrim(char *s1, char *set)
 	new[j] = '\0';
 	return (new);
 }
+
+int	copy_and_resize_matches(char ***matches, int match_count, int new_cap)
+{
+	char	**new_matches;
+	int		i;
+
+	new_matches = malloc(sizeof(char *) * new_cap);
+	if (!new_matches)
+	{
+		return (0);
+	}
+	i = 0;
+	while (i < match_count)
+	{
+		new_matches[i] = (*matches)[i];
+		i++;
+	}
+	free(*matches);
+	*matches = new_matches;
+	return (1);
+}

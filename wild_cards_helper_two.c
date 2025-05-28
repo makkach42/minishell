@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:16:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 14:22:49 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 15:20:05 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,41 +53,6 @@ char	*join_matches(char **matches, int match_count)
 	}
 	*temp = '\0';
 	return (result);
-}
-
-void	pattern_match_inits(int *i, int *j, int *star_idx, int *str_idx)
-{
-	*i = 0;
-	*j = 0;
-	*star_idx = -1;
-	*str_idx = -1;
-}
-
-int	skip_stars(int *i, const char *pattern)
-{
-	while (pattern[(*i) + 1] == '*')
-		(*i)++;
-	if (!pattern[(*i) + 1])
-		return (1);
-	return (0);
-}
-
-void	update_vars(int *star_idx, int *i, int *str_idx, int *j)
-{
-	*star_idx = (*i)++;
-	*str_idx = *j;
-}
-
-void	back_track(int *i, int *j, int *star_idx, int *str_idx)
-{
-	*i = (*star_idx) + 1;
-	*j = ++(*str_idx);
-}
-
-void	update_vars_two(int *i, int *j)
-{
-	(*i)++;
-	(*j)++;
 }
 
 int	match_pattern(const char *pattern, const char *string)
@@ -160,27 +125,6 @@ void	sort_matches(char **arr, int count)
 // 	*matches = new_matches;
 // 	return (1);
 // }
-
-int	copy_and_resize_matches(char ***matches, int match_count, int new_cap)
-{
-	char	**new_matches;
-	int		i;
-
-	new_matches = malloc(sizeof(char *) * new_cap);
-	if (!new_matches)
-	{
-		return (0);
-	}
-	i = 0;
-	while (i < match_count)
-	{
-		new_matches[i] = (*matches)[i];
-		i++;
-	}
-	free(*matches);
-	*matches = new_matches;
-	return (1);
-}
 
 int	if_has_wildcards(char *str)
 {

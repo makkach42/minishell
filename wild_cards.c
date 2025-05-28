@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 11:06:59 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 15:14:12 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,21 @@ int	has_wild_cards_comarr(t_tree **tree)
 // 	}
 // 	free(wildcard_nodes);
 // }
+int	init_matches(char ***matches, DIR **dir,
+			char *dir_path, int *capacity)
+{
+	*capacity = 10;
+	*dir = opendir(dir_path);
+	if (*dir == NULL)
+		return (0);
+	*matches = malloc(sizeof(char *) * *capacity);
+	if (!*matches)
+	{
+		closedir(*dir);
+		return (0);
+	}
+	return (1);
+}
 
 void	export_case_wild_card(t_tree **tree)
 {

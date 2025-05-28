@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 11:00:35 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 15:22:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,5 +258,13 @@ int		if_var_end_is_dollar(char **command_arr,
 			int *var_pos, int arr_idx, int var_end);
 void	var_end_set(char **command_arr, int arr_idx, int *var_end);
 void	extract_var_value(t_env **env, char *var_name, char **var_value);
+int		init_matches(char ***matches, DIR **dir,
+			char *dir_path, int *capacity);
+void	pattern_match_inits(int *i, int *j, int *star_idx, int *str_idx);
+int		skip_stars(int *i, const char *pattern);
+void	update_vars(int *star_idx, int *i, int *str_idx, int *j);
+void	back_track(int *i, int *j, int *star_idx, int *str_idx);
+void	update_vars_two(int *i, int *j);
+int		count_pattern_matches(const char *pattern, char *dir_path);
 
 #endif
