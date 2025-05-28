@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 17:51:56 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:59:02 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	fill_twod_char_with_triple(char **arr, char ***cmd2)
 	int	m;
 
 	i = 0;
-	j = 0;
+	// j = 0;
 	m = 0;
 	while (cmd2[i])
 	{

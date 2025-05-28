@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:56:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 10:59:30 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 18:01:04 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	extract_var_value(t_env **env, char *var_name, char **var_value)
 	int		i;
 
 	tmp_env = *env;
-	i = 0;
 	while (tmp_env)
 	{
 		if (ft_strcmp(tmp_env->key, var_name) == 0)

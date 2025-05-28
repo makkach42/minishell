@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:56:19 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 08:34:47 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:59:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int	command_recognizer(char *str)
 {
-	int	i;
-
-	i = 0;
 	if (!str)
 		return (0);
 	if (ft_strcmp(str, "echo") == 0)

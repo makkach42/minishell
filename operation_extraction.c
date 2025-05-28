@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 08:35:40 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:57:53 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*extract_operator(char *str)
 {
 	char	*operator;
 
-	if (!str | !*str)
+	if (!str || !*str)
 		return (NULL);
 	operator = NULL;
 	if (str[0] == '&' && ((str[1] && str[1] != '&') || !str[1]))

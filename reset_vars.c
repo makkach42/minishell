@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:08:07 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 08:00:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 18:03:07 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	reset_var_remove_quotes(t_tree **tree)
 
 	remove_quotes_from_var((*tree)->command_arr);
 	i = 0;
-	j = 0;
 	while ((*tree)->command_arr[i])
 	{
 		j = 0;

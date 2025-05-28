@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 07:46:27 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 07:48:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 18:07:54 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ static void	expanding(t_tree **tree, int i, t_env **env)
 		tmp = tmp->next;
 	}
 	tmp = head;
-	new_str = ft_strdup(tmp->data);
+	if (tmp && tmp->data)
+		new_str = ft_strdup(tmp->data);
+	else
+		new_str = ft_strdup("");
 	free((*tree)->command_arr[i]);
 	(*tree)->command_arr[i] = new_str;
 	free_list(&head);

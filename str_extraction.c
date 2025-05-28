@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:39:46 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 08:39:06 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:58:36 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*str_remover(char *str, char *word)
 	char	*new_str;
 	int		word_len;
 
-	if (!str | !*str)
+	if (!str || !*str)
 		return (NULL);
 	strlenth = ft_strlen(str);
 	word_len = ft_strlen(word);
