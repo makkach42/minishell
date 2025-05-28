@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:22:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 21:15:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:11:29 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,19 @@ void	handle_signal(int sig)
 	{
 		rl_redisplay();
 	}
+}
+
+void	process_regular_element(char ***new_cmd_arr, char *element, int *j)
+{
+	(*new_cmd_arr)[(*j)++] = ft_strdup(element);
+}
+
+void	free_original_cmd_arr(char ***cmd_arr, int original_size)
+{
+	int	i;
+
+	i = 0;
+	while (i < original_size)
+		free((*cmd_arr)[i++]);
+	free(*cmd_arr);
 }

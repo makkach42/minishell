@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 16:47:35 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:12:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ typedef struct s_idx
 	int	j;
 	int	original_size;
 }	t_idx;
-
 
 void	print_tree_visual(t_tree *tree, int level, int is_left);
 int		ft_strcmp(char *s1, char *s2);
@@ -274,5 +273,15 @@ void	update_vars(int *star_idx, int *i, int *str_idx, int *j);
 void	back_track(int *i, int *j, int *star_idx, int *str_idx);
 void	update_vars_two(int *i, int *j);
 int		count_pattern_matches(const char *pattern, char *dir_path);
+int		new_size_calcs(int original_size, char ***cmd_arr,
+			char *dir_path, int *match_count);
+void	if_expanded_matches(char ***new_cmd_arr,
+			char **expanded_matches, int match_count, int *j);
+int		count_cmd_arr_size(char **cmd_arr);
+char	**init_new_cmd_arr(int new_size);
+void	process_wildcard_element(char ***new_cmd_arr, char *element,
+			char *dir_path, int *j);
+void	free_original_cmd_arr(char ***cmd_arr, int original_size);
+void	process_regular_element(char ***new_cmd_arr, char *element, int *j);
 
 #endif
