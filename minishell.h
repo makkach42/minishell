@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 17:12:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:49:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,5 +283,6 @@ void	process_wildcard_element(char ***new_cmd_arr, char *element,
 			char *dir_path, int *j);
 void	free_original_cmd_arr(char ***cmd_arr, int original_size);
 void	process_regular_element(char ***new_cmd_arr, char *element, int *j);
+char	**get_matches(const char *pattern, char *dir_path, int *match_count);
 
 #endif

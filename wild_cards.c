@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:13:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 15:14:12 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:51:32 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	has_wild_cards_comarr(t_tree **tree)
 	int	j;
 
 	i = 0;
-	if ((*tree)->command_arr)
+	if ((*tree) && (*tree)->command_arr)
 	{
 		j = 0;
 		while ((*tree)->command_arr[j])
@@ -28,9 +28,9 @@ int	has_wild_cards_comarr(t_tree **tree)
 			j++;
 		}
 	}
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		i = has_wild_cards_comarr(&(*tree)->left);
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		i = has_wild_cards_comarr(&(*tree)->right);
 	return (i);
 }

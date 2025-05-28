@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 08:36:36 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:51:56 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,11 @@ void	fill_twod_char_with_triple(char **arr, char ***cmd2)
 
 void	quote_remove_lst(t_tree **tree)
 {
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		quote_remove_lst(&(*tree)->left);
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		quote_remove_lst(&(*tree)->right);
-	if ((*tree)->fd_list)
+	if ((*tree) && (*tree)->fd_list)
 		process_lnked_lst(tree);
 }
 
