@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 21:16:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 10:11:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,8 @@ int	main(int argc, char **argv, char **argev)
 		redirections_list_maker(&tree);
 		if (has_wild_cards_comarr(&tree) == 1)
 			handle_wildcards_in_cmdarr(&tree);
-		if (has_wild_cards_fdlst(&tree) == 1)
-			handle_wildcards_in_fdlst(&tree);
+		// if (has_wild_cards_fdlst(&tree) == 1)
+			// handle_wildcards_in_fdlst(&tree);
 		if (!flag)
 			reset_vars(&tree, &env);
 		// quote_remove(&tree);

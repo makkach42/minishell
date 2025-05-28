@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/27 20:40:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 11:00:35 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,8 @@ void	ambiguous_set(t_tree **tree);
 void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
 int		variable_search_inlnkedlst(t_tree **tree);
 void	handle_wildcards_in_cmdarr(t_tree **tree);
-void	handle_wildcards_in_fdlst(t_tree **tree);
-int		has_wild_cards_fdlst(t_tree **tree);
+// void	handle_wildcards_in_fdlst(t_tree **tree);
+// int		has_wild_cards_fdlst(t_tree **tree);
 int		has_wild_cards_comarr(t_tree **tree);
 int		operation_recognizer(char *str);
 int		redirection_recognizer(char *str);
@@ -219,7 +219,7 @@ int		dyn_buf_init(t_dynbuf *buf, size_t initial_capacity);
 int		is_command_char(char c, int in_quotes);
 int		if_has_wildcards(char *str);
 void	wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path);
-void	process_wildcard_node_fd(t_list_fd *node, char *dir_path);
+// void	process_wildcard_node_fd(t_list_fd *node, char *dir_path);
 int		fd_list_size(t_list_fd **head);
 void	sort_matches(char **arr, int count);
 int		copy_and_resize_matches(char ***matches, int match_count, int new_cap);
@@ -246,5 +246,17 @@ void	new_variable_word_extractor(char **str, char **word, int i);
 void	plus_handle_word_extractor(char **str, char **word);
 void	new_operator_word_extractor(char **word, char **str);
 void	equal_handle(char **str, char **word);
+void	reset_var_expand(t_list	*tmp, t_env **env);
+void	reset_var_expand_var(t_tree **tree, t_env **env);
+void	process_no_list_size(t_list	*head, int list_size, char ***cmd2, int *i);
+char	***cmd2_fill(t_tree **tree);
+void	free_twod_char(char **arr);
+int		count_triple_ptr(char ***cmd2);
+void	fill_twod_char_with_triple(char **arr, char ***cmd2);
+void	str_extractor_helper(char *str, int *i, int *flag, char **word);
+int		if_var_end_is_dollar(char **command_arr,
+			int *var_pos, int arr_idx, int var_end);
+void	var_end_set(char **command_arr, int arr_idx, int *var_end);
+void	extract_var_value(t_env **env, char *var_name, char **var_value);
 
 #endif
