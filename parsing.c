@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 17:55:00 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/29 08:14:44 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,12 @@ int	main(int argc, char **argv, char **argev)
 		quote_parse(&str, &flag);
 		lexer_to_tree(str, &tree, &flag);
 		tree_to_rediropen(tree, &flag);
-		export_cases(&tree);
-		redirections_list_maker(&tree);
-		if (has_wild_cards_comarr(&tree) == 1)
+		if (!flag)
+		{
+			export_cases(&tree);
+			redirections_list_maker(&tree);
+		}
+		if (!flag && has_wild_cards_comarr(&tree) == 1)
 			handle_wildcards_in_cmdarr(&tree);
 		// if (has_wild_cards_fdlst(&tree) == 1)
 			// handle_wildcards_in_fdlst(&tree);
@@ -148,17 +151,21 @@ int	main(int argc, char **argv, char **argev)
 		// print_tree_visual(tree, 1, 1);
 		// if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
 		// 	variable_expantion(&tree, &env);
-		if (variable_search_inlnkedlst(&tree) == 1)
+		if (!flag && variable_search_inlnkedlst(&tree) == 1)
 			variable_expantion_inlnkedlst(&tree, &env);
-		ambiguous_set(&tree);
-		quote_remove_lst(&tree);
+		if (!flag)
+		{
+			ambiguous_set(&tree);
+			quote_remove_lst(&tree);
+		}
 		if (!flag && ambiguous_syntax_error(&tree, &env) == 1)
 			(write(2, "ambiguous redirect\n", 19), flag = 1);
 		if (!flag && ambiguous_syntax_error(&tree, &env) == 2)
 			(write(2, "No such file or directory\n", 26), flag = 1);
-		print_tree_visual(tree, 1, 1);
+		if (!flag)
+			print_tree_visual(tree, 1, 1);
 		printf("*******************%d\n", flag);
-		if (tree)
+		if (tree && !flag)
 			free_tree(tree);
 	}
 	free_env(&env);

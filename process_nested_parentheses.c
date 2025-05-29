@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:35:48 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 10:53:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/29 08:03:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,11 @@ void	process_nested_parentheses(t_tree **tree)
 
 	if (!tree || !(*tree))
 		return ;
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		process_nested_parentheses(&((*tree)->left));
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		process_nested_parentheses(&((*tree)->right));
-	if ((*tree)->command && has_outer_parenthases((*tree)->command))
+	if ((*tree) && (*tree)->command && has_outer_parenthases((*tree)->command))
 	{
 		redirections_in_par_handle(tree, &cmd_part, &original_redirs, &content);
 		sub_tree_creation(&sub_tree, &content, &sub_list);
