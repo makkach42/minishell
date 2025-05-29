@@ -63,7 +63,6 @@ char	*ft_strtrim(char *s1, char *set)
 
 	if (!s1 || !set)
 		return (0);
-	// end = 0;
 	start = 0;
 	j = 0;
 	start = getstart(s1, start, set);

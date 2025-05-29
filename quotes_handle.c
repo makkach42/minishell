@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 17:59:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/29 09:34:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	fill_twod_char_with_triple(char **arr, char ***cmd2)
 	int	m;
 
 	i = 0;
-	// j = 0;
 	m = 0;
 	while (cmd2[i])
 	{
@@ -98,18 +97,6 @@ void	fill_twod_char_with_triple(char **arr, char ***cmd2)
 	}
 	arr[m] = NULL;
 }
-// void	process_lnked_lst_two(t_tree **tree)
-// {
-// 	t_list_fd	*tmp;
-
-// 	tmp = (*tree)->fd_list;
-// 	while (tmp)
-// 	{
-// 		if (variable_search_instr(tmp->name))
-// 			process_lst(&tmp);
-// 		tmp = tmp->next;
-// 	}
-// }
 
 void	quote_remove_lst(t_tree **tree)
 {
@@ -120,13 +107,3 @@ void	quote_remove_lst(t_tree **tree)
 	if ((*tree) && (*tree)->fd_list)
 		process_lnked_lst(tree);
 }
-
-// void	quote_remove_lst_two(t_tree **tree)
-// {
-// 	if ((*tree)->left)
-// 		quote_remove_lst(&(*tree)->left);
-// 	if ((*tree)->right)
-// 		quote_remove_lst(&(*tree)->right);
-// 	if ((*tree)->fd_list)
-// 		process_lnked_lst_two(tree);
-// }

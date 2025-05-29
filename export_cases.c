@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:11:30 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/27 21:02:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/29 09:32:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,52 @@ void	while_tmp2(t_list **tmp2)
 		add_quotes(tmp2);
 }
 
+// void	while_tmp(t_list **tmp)
+// {
+// 	t_list	*tmp2;
+
+// 	while ((*tmp))
+// 	{
+// 		if (!ft_strcmp((*tmp)->data, "="))
+// 		{
+// 			tmp2 = (*tmp);
+// 			if (!isnt_valid(tmp2->prev->data))
+// 			{
+// 				tmp2 = (*tmp)->next;
+// 				while (tmp2)
+// 				{
+// 					while_tmp2(&tmp2);
+// 					tmp2 = tmp2->next;
+// 				}
+// 			}
+// 		}
+// 		(*tmp) = (*tmp)->next;
+// 	}
+// }
+
 void	while_tmp(t_list **tmp)
 {
 	t_list	*tmp2;
+	t_list	*first_eq_pos;
+	int		valid_key;
 
+	first_eq_pos = NULL;
+	valid_key = 0;
 	while ((*tmp))
 	{
-		if (!ft_strcmp((*tmp)->data, "="))
+		if (!ft_strcmp((*tmp)->data, "=") && !first_eq_pos)
 		{
-			tmp2 = (*tmp);
-			if (!isnt_valid(tmp2->prev->data))
+			first_eq_pos = (*tmp);
+			if (!isnt_valid(first_eq_pos->prev->data))
+				valid_key = 1;
+			if (valid_key)
 			{
-				tmp2 = (*tmp)->next;
+				tmp2 = first_eq_pos->next;
 				while (tmp2)
-				{
-					while_tmp2(&tmp2);
-					tmp2 = tmp2->next;
-				}
+					(while_tmp2(&tmp2), tmp2 = tmp2->next);
 			}
+			while ((*tmp) && (*tmp)->next)
+				(*tmp) = (*tmp)->next;
 		}
 		(*tmp) = (*tmp)->next;
 	}

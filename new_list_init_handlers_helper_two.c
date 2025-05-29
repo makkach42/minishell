@@ -6,24 +6,24 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:07:51 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/27 21:03:30 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/29 08:59:22 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	plus_handle_word_extractor(char **str, char **word)
-{
-	char	*tmp_char;
+// void	plus_handle_word_extractor(char **str, char **word)
+// {
+// 	char	*tmp_char;
 
-	tmp_char = *str;
-	*str = ft_substr(*str, ft_strlen(*word),
-			ft_strlen(*str) - (ft_strlen(*word)));
-	free(tmp_char);
-	tmp_char = *str;
-	*str = ft_strtrim(*str, " ");
-	free(tmp_char);
-}
+// 	tmp_char = *str;
+// 	*str = ft_substr(*str, ft_strlen(*word),
+// 			ft_strlen(*str) - (ft_strlen(*word)));
+// 	free(tmp_char);
+// 	tmp_char = *str;
+// 	*str = ft_strtrim(*str, " ");
+// 	free(tmp_char);
+// }
 
 void	new_operator_word_extractor(char **word, char **str)
 {

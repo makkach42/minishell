@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/29 08:14:44 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/29 08:40:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,13 +159,13 @@ int	main(int argc, char **argv, char **argev)
 			quote_remove_lst(&tree);
 		}
 		if (!flag && ambiguous_syntax_error(&tree, &env) == 1)
-			(write(2, "ambiguous redirect\n", 19), flag = 1);
+			(write(2, "ambiguous redirect\n", 19), flag = 2);
 		if (!flag && ambiguous_syntax_error(&tree, &env) == 2)
-			(write(2, "No such file or directory\n", 26), flag = 1);
-		if (!flag)
+			(write(2, "No such file or directory\n", 26), flag = 2);
+		if (flag != 1)
 			print_tree_visual(tree, 1, 1);
 		printf("*******************%d\n", flag);
-		if (tree && !flag)
+		if (tree && flag != 1)
 			free_tree(tree);
 	}
 	free_env(&env);

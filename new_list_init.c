@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:04:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/27 20:38:56 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/29 09:33:25 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 static void	slice_and_dice_one(char **str, char **word)
 {
 	if (**str == '"' || **str == '\'')
-		new_quote_handle(str, word);
+		handle_quotes(word, str);
 	else if (**str == '(')
 		new_parenthasis_handle(str, word);
 	else if (**str == '$')
 		new_variable_handle(str, word);
-	else if (**str == '+')
-		plus_handle(str, word);
 	else if (is_operator(**str))
 		new_operator_handle(str, word);
 	else
@@ -31,7 +29,7 @@ static void	slice_and_dice_one(char **str, char **word)
 static void	slice_and_dice_two(char **str, char **word)
 {
 	if (**str == '"' || **str == '\'')
-		new_quote_handle(str, word);
+		handle_quotes(word, str);
 	else if (**str == '(')
 		new_parenthasis_handle(str, word);
 	else if (**str == '$')
