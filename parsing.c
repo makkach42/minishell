@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/29 08:40:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/01 12:02:31 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	main(int argc, char **argv, char **argev)
 	t_env		*env;
 	t_tree		*tree;
 
-	if (!isatty(STDIN_FILENO))
+	if (!isatty(0) || !isatty(1))
 		return (0);
 	atexit(f);
 	((void)argc, (void)argv, inits_main(&env, &tree, argev));
@@ -141,8 +141,8 @@ int	main(int argc, char **argv, char **argev)
 		}
 		if (!flag && has_wild_cards_comarr(&tree) == 1)
 			handle_wildcards_in_cmdarr(&tree);
-		// if (has_wild_cards_fdlst(&tree) == 1)
-			// handle_wildcards_in_fdlst(&tree);
+		if (has_wild_cards_fdlst(&tree) == 1)
+			handle_wildcards_in_fdlst(&tree);
 		if (!flag)
 			reset_vars(&tree, &env);
 		// quote_remove(&tree);
