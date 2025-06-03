@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:05:52 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/03 12:25:58 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/03 12:32:35 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ char	**get_matches(const char *pattern, char *dir_path, int *match_count)
 		return (NULL);
 	matches = process_directory(dir, pattern, &matches, match_count);
 	closedir(dir);
-	// if (*match_count > 0)
-	// 	sort_matches(matches, *match_count);
 	if (*matches <= 0)
 	{
 		free(matches);
