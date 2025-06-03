@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/03 12:26:47 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/03 12:56:40 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_tree
 	struct s_tree	*right;
 	char			*command;
 	char			**command_arr;
-	char			***command_arr_expanded;
+	// char			***command_arr_expanded;
 	char			*redirections;
 	int				ambiguous;
 	int				quotes;

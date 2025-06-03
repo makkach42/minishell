@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 18:02:07 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:11:18 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int	ambiguous_syntax_error(t_tree **tree, t_env **env)
 	if ((*tree) && (*tree)->ambiguous == 1)
 		i = 1;
 	if ((*tree) && (*tree)->left)
-		ambiguous_syntax_error(&(*tree)->left, env);
+		i = ambiguous_syntax_error(&(*tree)->left, env);
 	if ((*tree) && (*tree)->right)
-		ambiguous_syntax_error(&(*tree)->right, env);
+		i = ambiguous_syntax_error(&(*tree)->right, env);
 	return (i);
 }
 

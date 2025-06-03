@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 14:40:41 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:15:07 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,32 +68,6 @@ void	free_list_fd(t_list_fd **head)
 	*head = NULL;
 }
 
-void	if_command_arr_expanded(t_tree *tree)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (tree->command_arr_expanded[++i])
-	{
-		if (tree->command_arr_expanded[i])
-		{
-			j = -1;
-			while (tree->command_arr_expanded[i][++j])
-			{
-				if (tree->command_arr_expanded[i][j])
-				{
-					free(tree->command_arr_expanded[i][j]);
-					tree->command_arr_expanded[i][j] = NULL;
-				}
-			}
-			free(tree->command_arr_expanded[i]);
-			tree->command_arr_expanded[i] = NULL;
-		}
-	}
-	(free(tree->command_arr_expanded), tree->command_arr_expanded = NULL);
-}
-
 void	free_tree(t_tree *tree)
 {
 	int	i;
@@ -115,8 +89,6 @@ void	free_tree(t_tree *tree)
 			(free(tree->command_arr[i]), tree->command_arr[i] = NULL);
 		(free(tree->command_arr), tree->command_arr = NULL);
 	}
-	if (tree->command_arr_expanded)
-		if_command_arr_expanded(tree);
 	if (tree->fd_list)
 		free_list_fd(&(tree)->fd_list);
 	free(tree);
