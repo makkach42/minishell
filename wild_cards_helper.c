@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:05:52 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/01 12:05:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/03 12:25:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ char	**get_matches(const char *pattern, char *dir_path, int *match_count)
 		return (NULL);
 	matches = process_directory(dir, pattern, &matches, match_count);
 	closedir(dir);
-	if (*match_count > 0)
-		sort_matches(matches, *match_count);
-	else
+	// if (*match_count > 0)
+	// 	sort_matches(matches, *match_count);
+	if (*matches <= 0)
 	{
 		free(matches);
 		return (NULL);
@@ -114,79 +114,4 @@ void	wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path)
 	new_cmd_arr[m.j] = NULL;
 	free_original_cmd_arr(cmd_arr, m.original_size);
 	*cmd_arr = new_cmd_arr;
-}
-
-void	process_wildcard_node_fd(t_list_fd *node, char *dir_path)
-{
-	DIR				*dir;
-	struct dirent	*entry;
-	char			*pattern;
-	char			**matches;
-	int				match_count;
-	int				capacity;
-	int				i;
-	int				old_capacity;
-	char			*joined_result;
-
-	pattern = node->name;
-	match_count = 0;
-	capacity = 10;
-	dir = opendir(dir_path);
-	if (dir == NULL)
-		return ;
-	matches = malloc(sizeof(char *) * capacity);
-	if (!matches)
-	{
-		closedir(dir);
-		return ;
-	}
-	entry = readdir(dir);
-	while (entry != NULL)
-	{
-		if (entry->d_name[0] == '.' && pattern[0] != '.')
-		{
-			entry = readdir(dir);
-			continue ;
-		}
-		if (match_pattern(pattern, entry->d_name))
-		{
-			if (match_count >= capacity)
-			{
-				old_capacity = capacity;
-				if (!copy_and_resize_matches(&matches,
-						match_count, capacity * 2))
-				{
-					entry = readdir(dir);
-					continue ;
-				}
-				capacity = old_capacity * 2;
-			}
-			matches[match_count] = str_duplicate(entry->d_name);
-			if (!matches[match_count])
-			{
-				entry = readdir(dir);
-				continue ;
-			}
-			match_count++;
-		}
-		entry = readdir(dir);
-	}
-	closedir(dir);
-	if (match_count > 0)
-	{
-		sort_matches(matches, match_count);
-		joined_result = join_matches(matches, match_count);
-		if (joined_result)
-		{
-			free(node->name);
-			node->name = joined_result;
-			i = 0;
-			while (i < match_count)
-			{
-				free(matches[i]);
-				i++;
-			}
-		}
-	}
-	free(matches);
 }

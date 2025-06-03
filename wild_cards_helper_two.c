@@ -6,54 +6,54 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:16:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 15:20:05 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/03 12:25:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	total_len_calculation(int *i, int match_count,
-		char **matches, int *total_len)
-{
-	*i = 0;
-	*total_len = 0;
-	while (*i < match_count)
-	{
-		*total_len += ft_strlen(matches[*i]);
-		if (*i < match_count - 1)
-			(*total_len)++;
-		(*i)++;
-	}
-}
+// void	total_len_calculation(int *i, int match_count,
+// 		char **matches, int *total_len)
+// {
+// 	*i = 0;
+// 	*total_len = 0;
+// 	while (*i < match_count)
+// 	{
+// 		*total_len += ft_strlen(matches[*i]);
+// 		if (*i < match_count - 1)
+// 			(*total_len)++;
+// 		(*i)++;
+// 	}
+// }
 
-char	*join_matches(char **matches, int match_count)
-{
-	int		i;
-	int		total_len;
-	char	*result;
-	char	*temp;
+// char	*join_matches(char **matches, int match_count)
+// {
+// 	int		i;
+// 	int		total_len;
+// 	char	*result;
+// 	char	*temp;
 
-	if (match_count <= 0)
-		return (NULL);
-	total_len_calculation(&i, match_count, matches, &total_len);
-	result = malloc(total_len + 1);
-	if (!result)
-		return (NULL);
-	temp = result;
-	i = 0;
-	ft_strcpy(temp, matches[i]);
-	temp += ft_strlen(matches[i]);
-	i++;
-	while (i < match_count)
-	{
-		*temp++ = ' ';
-		ft_strcpy(temp, matches[i]);
-		temp += ft_strlen(matches[i]);
-		i++;
-	}
-	*temp = '\0';
-	return (result);
-}
+// 	if (match_count <= 0)
+// 		return (NULL);
+// 	total_len_calculation(&i, match_count, matches, &total_len);
+// 	result = malloc(total_len + 1);
+// 	if (!result)
+// 		return (NULL);
+// 	temp = result;
+// 	i = 0;
+// 	ft_strcpy(temp, matches[i]);
+// 	temp += ft_strlen(matches[i]);
+// 	i++;
+// 	while (i < match_count)
+// 	{
+// 		*temp++ = ' ';
+// 		ft_strcpy(temp, matches[i]);
+// 		temp += ft_strlen(matches[i]);
+// 		i++;
+// 	}
+// 	*temp = '\0';
+// 	return (result);
+// }
 
 int	match_pattern(const char *pattern, const char *string)
 {
@@ -83,47 +83,25 @@ int	match_pattern(const char *pattern, const char *string)
 	return (!pattern[i]);
 }
 
-void	sort_matches(char **arr, int count)
-{
-	int		i;
-	int		j;
-	char	*key;
-
-	i = 1;
-	while (i < count)
-	{
-		key = arr[i];
-		j = i - 1;
-		while (j >= 0 && ft_strcmp(arr[j], key) > 0)
-		{
-			arr[j + 1] = arr[j];
-			j--;
-		}
-		arr[j + 1] = key;
-		i++;
-	}
-}
-
-// int	copy_and_resize_matches(char ***matches, int match_count, int new_cap)
+// void	sort_matches(char **arr, int count)
 // {
-// 	char	**new_matches;
 // 	int		i;
+// 	int		j;
+// 	char	*key;
 
-// 	new_matches = malloc(sizeof(char *) * new_cap);
-// 	if (!new_matches)
+// 	i = 1;
+// 	while (i < count)
 // 	{
-// 		perror("malloc failed");
-// 		return (0);
-// 	}
-// 	i = 0;
-// 	while (i < match_count)
-// 	{
-// 		new_matches[i] = (*matches)[i];
+// 		key = arr[i];
+// 		j = i - 1;
+// 		while (j >= 0 && ft_strcmp(arr[j], key) > 0)
+// 		{
+// 			arr[j + 1] = arr[j];
+// 			j--;
+// 		}
+// 		arr[j + 1] = key;
 // 		i++;
 // 	}
-// 	free(*matches);
-// 	*matches = new_matches;
-// 	return (1);
 // }
 
 int	if_has_wildcards(char *str)

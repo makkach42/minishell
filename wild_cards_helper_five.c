@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:07:47 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 17:08:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:43:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	new_size_calcs(int original_size, char ***cmd_arr,
 	return (new_size);
 }
 
-void	if_expanded_matches(char ***new_cmd_arr,
+static void	if_expanded_matches(char ***new_cmd_arr,
 		char **expanded_matches, int match_count, int *j)
 {
 	int	k;
