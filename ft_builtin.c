@@ -5,6 +5,7 @@ int    ft_cd(char **s, t_env *h)
     t_env   *PWD;
     t_env   *OLD_PWD;
     t_env   *home;
+    char    *t;
     t_env   *n;
     // static char    *p;
     char        *temp;
@@ -13,10 +14,8 @@ int    ft_cd(char **s, t_env *h)
     PWD = ft_check(h, "PWD");
     OLD_PWD = ft_check(h, "OLDPWD");
     n = ft_check(h, "1PWD");
-    // dprintf(2, "this is PWD: %s\n", PWD->value);
     if (PWD && PWD->value)
         n->value = PWD->value;
-    // OLD_PWD = ft_lstnew("OLDPWD", NULL);
     if (s[1] == NULL)
     {
         // dprintf(2, "entered here\n");
@@ -36,7 +35,7 @@ int    ft_cd(char **s, t_env *h)
             return (0);
         else
         {
-            if (!OLD_PWD)
+            if (OLD_PWD)
                 OLD_PWD->value = PWD->value;
             PWD->value = home->value;
         }
@@ -50,12 +49,29 @@ int    ft_cd(char **s, t_env *h)
             write(2, ": No such file or directory\n", 29);
             return (1);
         }
-        if (!PWD || !PWD->value)
+        if (!PWD)
+        {
+            dprintf(2, "rneter in\n");
+            t = getcwd(NULL, 0);
+            if (t)
+                n->value = t;
+            else
+            {
+                temp = s[1];
+                s[1] = ft_strjoin("/", s[1]);
+                if (s[1] == NULL)
+                    return (1);
+                free (temp);
+                temp = n->value;
+                n->value = ft_strjoin(n->value, s[1]);
+                if (!n->value)
+                    return (1);
+                free (temp);
+            }
             return (0);
+        }
         else
         {
-            if (!OLD_PWD || !OLD_PWD->value)
-                OLD_PWD->value = PWD->value;
             PWD->value = getcwd(NULL, 0);
             if (PWD->value == NULL)
             {
@@ -64,17 +80,15 @@ int    ft_cd(char **s, t_env *h)
                 if (s[1] == NULL)
                     return (1);
                 free (temp);
-                temp = PWD->value;
-                PWD->value = ft_strjoin(n->value, s[1]);
-                if (!PWD->value)
+                temp = n->value;
+                n->value = ft_strjoin(n->value, s[1]);
+                if (!n->value)
                     return (1);
-                n->value = PWD->value;
                 free (temp);
+                return (0);
             }
-
         }
     }
-    // dprintf(2, "this is the value of n: %s\n", n->value);
     return (0);
 }
 
@@ -101,17 +115,16 @@ int    ft_echo(char **s)
     int     i;
 
     i = 1;
-	flag = 0;
+	flag = 1;
 	while (s[i] != NULL)
 	{
+        // puts("True");
 		if (ft_nline_check(s[i]) == 0)
 		{
 			while (ft_nline_check(s[i]) == 0)
 				i++;
 			flag = 0;
 		}
-		else
-			flag = 1;
 		while (s[i] != NULL)
 		{
             ft_putstr_fd(1, s[i]);
@@ -561,11 +574,18 @@ int    ft_pwd(t_env *h)
     t_env *n;
     
     n = ft_check(h, "1PWD");
+    // dprintf(2, "this is the pwd: %s\n", n->value);
     path = getcwd(NULL, 0);
     if (path)
-        n->value = path;
-    if (path == NULL)
     {
+        dprintf(2, "entered in path not NULL\n");
+        temp = n->value;
+        n->value = path;
+        free (temp);// to free 1PWD when it is allocated in cd
+    }
+    else if (!path)
+    {
+        dprintf(2, "entered in path NULL\n");
         path = n->value;
         // perror("pwd: ");
         // return (0);
@@ -603,7 +623,7 @@ void    ft_unset(t_env **h, char **s)
         {
             write(2, "unset: ", 8);
             write(2, s[i], ft_strlen(s[i]));
-            write(2, ": invalid parameter name", 25);
+            write(2, ": invalid parameter name\n", 26);
         }
         else
         {

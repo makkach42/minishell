@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 18:23:35 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/03 14:21:22 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/history.h>
 # include <sys/stat.h>
 # include <errno.h>
+# include <signal.h>
 
 typedef struct s_list
 {
@@ -37,6 +38,7 @@ typedef struct s_list
 typedef struct s_list_fd
 {
 	int					fd;
+	int					fd1;
 	int					in_quotes;
 	char				*name;
 	char				**name_split;
@@ -75,6 +77,7 @@ typedef struct s_tree
 	t_list_fd		*fd_list;
 	t_split			**split;
 	int				status;
+	int				sig_flag;
 	t_split		**expandable;
 }	t_tree;
 
@@ -119,6 +122,8 @@ typedef struct s_cmd
 	char	*cmd;
 	int		i;
 }	t_cmd;
+
+int	global_status;
 
 t_env		*env_fill(char **argev);
 t_list		*list_init(char *str);
@@ -362,5 +367,12 @@ int			process_array_variable(char **command_arr,
 int			count_filtered_length(char *old_str, int *var_flag, int l, int k);
 char		*create_filtered_string(char *old_str, int final_len, int l, int k);
 void    reset_vars(t_tree **tree, t_env **env);
+void	ft_sig(int sig);
+void	hide_terminal_control_chars(void);
+void	display_terminal_control_chars(void);
+void	ft_new_handler(int sig);
+void	ft_new_handler_pip(int sig);
+void	ft_free_array(char **p);
+
 
 #endif

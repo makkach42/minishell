@@ -718,3 +718,8 @@ bash: ((: (ls | cat > ) > 0: syntax error: operand expected (error token is ") >
 bash: syntax error near unexpected token `)'
 
 minishell$> > oyt
+
+
+test export with HOLA="bonjour        " the spaces must stay
+in this test "$> export HOLA=""s -la"" 
+$> l""$HOLA""" it must not be splitted

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_handle_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/23 10:21:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 10:16:48 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	variable_expantion_para(t_tree **tree, t_env **env)
 				if (tmp->name[i] == '$' && (
 						!in_quotes || (in_quotes && quote_type == '"')))
 				{
-					dprintf(2, "enterd in the right place\n");
+					// dprintf(2, "enterd in the right place\n");
 					if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
 						break ;
 					if (tmp->name && countwords(tmp->name, 32) != 1)
@@ -189,15 +189,15 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 				if (tmp->name[i] == '$' && (
 						!in_quotes || (in_quotes && quote_type == '"')))
 				{
-					if (tmp->name[i] == '$' && ((in_quotes && tmp->name[i + 1] && (tmp->name[i + 1] == '"' || tmp->name[i + 1] == '\'')) || (!in_quotes && !tmp->name[i + 1])))
-						i++;
-					else
-					{
-						process_array_variable(&tmp->name, 0, &i, env);
-						if (tmp->name && countwords(tmp->name, 32) != 1)
-							tmp->name_split = ft_split(tmp->name, 32);
+					// dprintf(2, "enterd in the right place\n");
+					if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
+						break ;
+					if (tmp->name && countwords(tmp->name, 32) != 1)
+						tmp->name_split = ft_split(tmp->name, 32);
+					if (!variable_search_inlnkedlst(tree
+						) || !variable_search_instr(tmp->name))
 						i = -1;
-					}
+					in_quotes = 0;
 				}
 				i++;
 			}
