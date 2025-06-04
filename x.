@@ -12,3 +12,17 @@ ambiguous redirect
 *******************1
 
 syntax error
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+bash-3.2$ << ($HOME)
+bash: syntax error near unexpected token `('
+bash-3.2$
+bash-3.2$ << ($HOME)
+bash: syntax error near unexpected token `('
+bash-3.2$ << (HOME)
+bash: syntax error near unexpected token `('
+bash-3.2$ << "(HOME)"
+> ($HOME)
+> (HOME)
+bash-3.2$
+////////////////////////////////////////////////
