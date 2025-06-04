@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 11:26:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:56:20 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_tree
 	struct s_tree	*right;
 	char			*command;
 	char			**command_arr;
-	// char			***command_arr_expanded;
 	char			*redirections;
 	int				ambiguous;
 	int				quotes;
@@ -121,6 +120,7 @@ typedef struct s_idx
 	int	j;
 	int	original_size;
 }	t_idx;
+
 int	global_status;
 
 t_env		*env_fill(char **argev);
