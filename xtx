@@ -472,7 +472,21 @@ X /////////////////////////////////////////// split
 X ///////////////////////////////////////////
 
 X /////////////////////////////////////////// spli only if str[0] = 0-9
-
 ///////////////////////////////////////////
+minishell$> export a="ls -la"
+export
+COMMAND
 
+a="ls -la"
+WORD
+
+-----------------0
+----COMMAND (Command: export a="ls -la" ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: export) (Command_arr: a=ls -la)
+*******************0
+minishell$> 
+leaks Report Version: 4.0
+Process 380: 392 nodes malloced for 335 KB
+Process 380: 1 leak for 16 total leaked bytes.
+
+    1 (16 bytes) ROOT LEAK: 0x7f9b8ae04550 [16]  length: 1  "="
 ///////////////////////////////////////////
