@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 10:56:04 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:50:44 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	syntax_error(t_list **head, int *flag)
 	if (!i && (!ft_strcmp((*head)->token, "PARENTHASIS") && !(
 				*head)->next && no_words_beside((*head)->data)))
 		(print_syntax_error(")"), *flag = 1, i = 1);
-	printf("-----------------%d\n", *flag);
 	if (!i && (ft_strcmp((*head)->token, "PIPE") == 0))
 		(print_syntax_error("|"), *flag = 1, i = 1);
 	if (!i && (ft_strcmp((*head)->token, "OPERATION_&&") == 0 || ft_strcmp(

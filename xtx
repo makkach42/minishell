@@ -472,21 +472,145 @@ X /////////////////////////////////////////// split
 X ///////////////////////////////////////////
 
 X /////////////////////////////////////////// spli only if str[0] = 0-9
-///////////////////////////////////////////
-minishell$> export a="ls -la"
-export
-COMMAND
+X ///////////////////////////////////////////
+X minishell$> export a="ls -la"
+X export
+X COMMAND
+X 
+X a="ls -la"
+X WORD
+X 
+X -----------------0
+X ----COMMAND (Command: export a="ls -la" ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: export) (Command_arr: a=ls -la)
+X *******************0
+X minishell$> 
+X leaks Report Version: 4.0
+X Process 380: 392 nodes malloced for 335 KB
+X Process 380: 1 leak for 16 total leaked bytes.
+X 
+X     1 (16 bytes) ROOT LEAK: 0x7f9b8ae04550 [16]  length: 1  "="
+X ///////////////////////////////////////////
+X 
+X /////////////////////////////////////////////////
+X minishell$> $a | "ls" | $a
+X $a
+X VARIABLE
+X 
+X "ls"
+X WORD
+X 
+X "ls"
+X WORD
+X 
+X |
+X PIPE
+X 
+X $a
+X VARIABLE
+X 
+X -----------------0
+X minishell(57210,0x110e1fdc0) malloc: *** error for object 0x7f9ecb407340: pointer being freed was not allocated
+X minishell(57210,0x110e1fdc0) malloc: *** set a breakpoint in malloc_error_break to debug
+X [1]    57210 abort      ./minishell
+X /////////////////////////////////////////////////
+X /////////////////////////////////////////////////
+X ➜  minishell git:(parser) ✗ ./minishell
+X minishell$> export "" v=$a
+X ""
+X WORD
+X 
+X ""
+X WORD
+X 
+X v=$a
+X WORD
+X 
+X -----------------0
+X minishell(58781,0x110730dc0) malloc: *** error for object 0x7fb94b8040e0: pointer being freed was not allocated
+X minishell(58781,0x110730dc0) malloc: *** set a breakpoint in malloc_error_break to debug
+X [1]    58781 abort      ./minishell
+X /////////////////////////////////////////////////
+X /////////////////////////////////////////////////
+X minishell$> echo "$HOME"'$HOME'
+X "$HOME"'$HOME'
+X WORD
+X 
+X "$HOME"'$HOME'
+X WORD
+X 
+X -----------------0
+X minishell(59429,0x109d6edc0) malloc: *** error for object 0x7fbd7a9042a0: pointer being freed was not allocated
+X minishell(59429,0x109d6edc0) malloc: *** set a breakpoint in malloc_error_break to debug
+X [1]    59429 abort      ./minishell
+X /////////////////////////////////////////////////
+X minishell$> < ls < ls || << out
+X <
+X REDIRECTION
+X 
+X ls
+X WORD
+X 
+X <
+X REDIRECTION
+X 
+X ls
+X WORD
+X 
+X ||
+X OPERATION_||
+X 
+X <<
+X REDIRECTION
+X 
+X out
+X WORD
+X 
+X -----------------0
+X syntax error near unexpected token `||'
+X *******************1
+X minishell$> < ls < ls || << out
+X /////////////////////////////////////////////////
+X /////////////////////////////////////////////////
+X minishell$> < ls < ls || "naji'"
+X <
+X REDIRECTION
+X 
+X ls
+X WORD
+X 
+X <
+X REDIRECTION
+X 
+X ls
+X WORD
+X 
+X "naji'"
+X WORD
+X 
+X "naji'"
+X WORD
+X 
+X -----------------0
+X minishell(62474,0x10fcbbdc0) malloc: *** error for object 0x7fac7c804240: pointer being freed was not allocated
+X minishell(62474,0x10fcbbdc0) malloc: *** set a breakpoint in malloc_error_break to debug
+X [1]    62474 abort      ./minishell
+X /////////////////////////////////////////////////
+X /////////////////////////////////////////////////
+X minishell$> cat < "$a"
+X cat
+X WORD
+X 
+X "$a"
+X WORD
+X 
+X "$a"
+X WORD
+X 
+X -----------------0
+X minishell(64338,0x11717fdc0) malloc: *** error for object 0x7faf82b04150: pointer being freed was not allocated
+X minishell(64338,0x11717fdc0) malloc: *** set a breakpoint in malloc_error_break to debug
+X [1]    64338 abort      ./minishell
+X /////////////////////////////////////////////////
+/////////////////////////////////////////////////
 
-a="ls -la"
-WORD
-
------------------0
-----COMMAND (Command: export a="ls -la" ) (Ambiguous: 0) (Quotes: 0) (Var: 0) (Fd_list: 0) (Command_arr: export) (Command_arr: a=ls -la)
-*******************0
-minishell$> 
-leaks Report Version: 4.0
-Process 380: 392 nodes malloced for 335 KB
-Process 380: 1 leak for 16 total leaked bytes.
-
-    1 (16 bytes) ROOT LEAK: 0x7f9b8ae04550 [16]  length: 1  "="
-///////////////////////////////////////////
+/////////////////////////////////////////////////
