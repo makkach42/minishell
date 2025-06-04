@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_handle_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 17:27:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 17:19:55 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	variable_expantion_para(t_tree **tree, t_env **env)
 				if (tmp->name[i] == '$' && (
 						!in_quotes || (in_quotes && quote_type == '"')))
 				{
-					dprintf(2, "enterd in the right place\n");
+					// dprintf(2, "enterd in the right place\n");
 					if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
 						break ;
 					if (tmp->name && countwords(tmp->name, 32) != 1)
@@ -192,7 +192,7 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 				if (tmp->name[i] == '$' && (
 						!in_quotes || (in_quotes && quote_type == '"')))
 				{
-					dprintf(2, "enterd in the right place\n");
+					// dprintf(2, "enterd in the right place\n");
 					if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
 						break ;
 					if (tmp->name && countwords(tmp->name, 32) != 1)
@@ -200,6 +200,7 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 					if (!variable_search_inlnkedlst(tree
 						) || !variable_search_instr(tmp->name))
 						i = -1;
+					in_quotes = 0;
 				}
 				i++;
 			}
