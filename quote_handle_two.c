@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:25:20 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/02 11:19:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 09:26:04 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,32 +62,6 @@ static void	process_command_string(t_tree **tree, int k)
 	free((*tree)->command_arr[k]);
 	(*tree)->command_arr[k] = new_str;
 }
-
-// int	expandableornot(char *str)
-// {
-// 	int		i;
-// 	int		in_quotes;
-// 	char	quotetype;
-
-// 	i = 0;
-// 	in_quotes = 0;
-// 	while (str[i])
-// 	{
-// 		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
-// 		{
-// 			in_quotes = 1;
-// 			quotetype = str[i];
-// 		}
-// 		else if (in_quotes && str[i] == quotetype)
-// 			in_quotes = 0;
-// 		if (str[i] == '$')
-// 			break ;
-// 		i++;
-// 	}
-// 	if (quotetype == '"')
-// 		return (1);
-// 	return (0);
-// }
 
 void	process_command_array(t_tree **tree)
 {
