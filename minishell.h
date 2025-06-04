@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 11:56:20 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:03:36 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,12 @@ typedef struct s_idx
 	int	j;
 	int	original_size;
 }	t_idx;
+
+typedef	struct s_tmp_tree
+{
+	t_list	*tmp;
+	t_tree	*tree;
+}	t_tmp_tree;
 
 int	global_status;
 
@@ -531,7 +537,7 @@ void	new_variable_word_extractor(char **str, char **word, int i);
 // void	plus_handle_word_extractor(char **str, char **word);
 void	new_operator_word_extractor(char **word, char **str);
 void	equal_handle(char **str, char **word);
-void	reset_var_expand(t_list	*tmp, t_env **env);
+void	reset_var_expand(t_tmp_tree	*tmp, t_env **env);
 void	reset_var_expand_var(t_tree **tree, t_env **env);
 void	process_no_list_size(t_list	*head, int list_size, char ***cmd2, int *i);
 char	***cmd2_fill(t_tree **tree);
@@ -571,6 +577,6 @@ void	display_terminal_control_chars(void);
 void	ft_new_handler(int sig);
 void	ft_new_handler_pip(int sig);
 void	ft_free_array(char **p);
-
+void	if_question_mark(t_tmp_tree **tmp, int n);
 
 #endif

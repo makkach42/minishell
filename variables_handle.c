@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 11:44:04 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 12:42:34 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	process_array_variable(char **command_arr,
 			(*var_pos) + 1, var_end - (*var_pos) - 1);
 	if (!var_name)
 		return (-1);
+	if (!ft_strcmp(var_name, "?"))
+		return (free(var_name), *var_pos = -1, 0);
 	var_value = NULL;
 	extract_var_value(env, var_name, &var_value);
 	if (fill_before(&before, &command_arr[arr_idx], var_pos, var_name) == -1)

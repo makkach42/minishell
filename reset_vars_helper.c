@@ -6,30 +6,36 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 07:46:27 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 11:43:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:04:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	expand_dollar(t_list **tmp, int *in_quotes, t_env **env, int *j)
+static void	expand_dollar(t_tmp_tree **tmp, int *in_quotes, t_env **env, int *j)
 {
-	if ((*tmp)->data[*j] == '$' && ((
-				*in_quotes && (*tmp)->data[*j + 1] && (
-					(*tmp)->data[*j + 1
-					] == '"' || (*tmp)->data[
+	int		n;
+
+
+	if ((*tmp)->tmp->data[*j] == '$' && ((
+				*in_quotes && (*tmp)->tmp->data[*j + 1] && (
+					(*tmp)->tmp->data[*j + 1
+					] == '"' || (*tmp)->tmp->data[
 						*j + 1] == '\'')) || (
-				!*in_quotes && !(*tmp)->data[*j + 1])))
+				!*in_quotes && !(*tmp)->tmp->data[*j + 1])))
 		(*j)++;
 	else
 	{
-		process_array_variable(&(*tmp)->data, 0, j, env);
+		n = *j;
+		process_array_variable(&(*tmp)->tmp->data, 0, j, env);
+		if (*j == -1)
+			if_question_mark(tmp, n);
 		*j = -1;
 		*in_quotes = 0;
 	}
 }
 
-void	reset_var_expand(t_list	*tmp, t_env **env)
+void	reset_var_expand(t_tmp_tree	*tmp, t_env **env)
 {
 	int		in_quotes;
 	int		j;
@@ -38,17 +44,17 @@ void	reset_var_expand(t_list	*tmp, t_env **env)
 	in_quotes = 0;
 	quote_type = 0;
 	j = 0;
-	while (tmp->data && tmp->data[j])
+	while (tmp->tmp->data && tmp->tmp->data[j])
 	{
-		if (!in_quotes && (tmp->data[j
-				] == '"' || tmp->data[j] == '\''))
+		if (!in_quotes && (tmp->tmp->data[j
+				] == '"' || tmp->tmp->data[j] == '\''))
 		{
 			in_quotes = 1;
-			quote_type = tmp->data[j];
+			quote_type = tmp->tmp->data[j];
 		}
-		else if (in_quotes && tmp->data[j] == quote_type)
+		else if (in_quotes && tmp->tmp->data[j] == quote_type)
 			in_quotes = 0;
-		if (tmp->data[j] == '$' && (!in_quotes || (
+		if (tmp->tmp->data[j] == '$' && (!in_quotes || (
 					in_quotes && quote_type == '"')))
 			expand_dollar(&tmp, &in_quotes, env, &j);
 		j++;
@@ -57,27 +63,30 @@ void	reset_var_expand(t_list	*tmp, t_env **env)
 
 static void	expanding(t_tree **tree, int i, t_env **env)
 {
-	char	*old_cmd;
-	char	*new_str;
-	t_list	*head;
-	t_list	*tmp;
+	char		*old_cmd;
+	char		*new_str;
+	t_list		*head;
+	t_tmp_tree	*tmp;
 
 	old_cmd = ft_strdup((*tree)->command_arr[i]);
+	tmp = malloc(sizeof(t_tmp_tree));
 	head = list_init(old_cmd);
-	tmp = head;
-	while (tmp)
+	tmp->tmp = head;
+	tmp->tree = (*tree);
+	while (tmp->tmp)
 	{
 		reset_var_expand(tmp, env);
-		tmp = tmp->next;
+		tmp->tmp = tmp->tmp->next;
 	}
-	tmp = head;
-	if (tmp && tmp->data)
-		new_str = ft_strdup(tmp->data);
+	tmp->tmp = head;
+	if (tmp->tmp && tmp->tmp->data)
+		new_str = ft_strdup(tmp->tmp->data);
 	else
 		new_str = ft_strdup("");
 	free((*tree)->command_arr[i]);
 	(*tree)->command_arr[i] = new_str;
 	free_list(&head);
+	free(tmp);
 }
 
 void	reset_var_expand_var(t_tree **tree, t_env **env)
