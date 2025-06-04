@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 11:09:45 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:26:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,7 +353,7 @@ int			copy_and_resize_matches(char ***matches,
 char		*join_matches(char **matches, int match_count);
 int			fd_list_size(t_list_fd **head);
 int			no_words_beside(char *str);
-void		process_command_string(t_tree **tree, int k);
+// void		process_command_string(t_tree **tree, int k);
 void		process_command_array(t_tree **tree);
 // char		*create_filtered_string(char *old_str, int final_len, int l, int k);
 void		ft_is_dir(char *s);

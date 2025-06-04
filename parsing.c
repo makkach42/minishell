@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 11:12:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:30:54 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,7 +394,7 @@ void	ft_hdoc_signal(int sig)
 	// break ;
 }
 
-int	ft_hdoc(char *limiter, char *name, int fd)
+void	ft_hdoc(char *limiter, char *name, int fd)
 {
 	char	*str;
 	// int		fd;
@@ -698,6 +698,16 @@ void	ft_new_handler_pip(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 }
+
+void	display_terminal_control_chars(void)
+{
+	struct termios	terminos_p;
+
+	tcgetattr(0, &terminos_p);
+	terminos_p.c_lflag |= ECHOCTL;
+	tcsetattr(0, TCSANOW, &terminos_p);
+}
+
 void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check)
 {
 	int id;
@@ -989,6 +999,27 @@ char **ft_env_str(t_env *h)
 	return (p);
 }
 
+void	ft_st(t_tree *tree, int stat_flag)
+{
+	if (stat_flag == 0)
+		tree->status = 1;
+}
+
+void	ft_signal_exec(void)
+{
+	if (global_status == 2)
+	{
+		// dprintf(2, "entered here");
+		ft_putstr_fd(1, "\n");
+		// tree->status = 130;
+	}
+	else if (global_status == 3)
+	{
+		ft_putstr_fd(1, "Quit: 3\n");
+		// tree->status = 131;
+	}
+}
+
 int	main(int argc, char **argv, char **argev)
 {
 	char		*str;
@@ -1086,7 +1117,7 @@ int	main(int argc, char **argv, char **argev)
 				ft_signal_exec();
 			}
 			status = tree->status;
-			dprintf(2, "this is status: %d\n", status);
+			// dprintf(2, "this is status: %d\n", status);
 		}
 		tcsetattr(0, TCSANOW, &termios_a);
 		if (tree && flag != 1)

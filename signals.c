@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:22:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 11:08:55 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:26:08 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	hide_terminal_control_chars(void)
+void	hide_terminal_control_chars(void)
 {
 	struct termios	terminos_p;
 

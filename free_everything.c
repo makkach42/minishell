@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 10:50:26 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:29:37 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,4 @@ void	free_tree(t_tree *tree)
 	if (tree->fd_list)
 		free_list_fd(&(tree)->fd_list);
 	free(tree);
-}
-
-void	free_env(t_env **env)
-{
-	t_env	*tmp;
-	t_env	*tmp2;
-
-	tmp = *env;
-	while (tmp)
-	{
-		tmp2 = tmp->next;
-		free(tmp->key);
-		if (tmp->value)
-			free(tmp->value);
-		free(tmp);
-		tmp = tmp2;
-	}
-	*env = NULL;
 }
