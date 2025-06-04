@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:50:28 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/17 11:09:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 15:16:01 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	is_operator(char c)
 
 void	if_string_while_loop(int *i, char *str, char **word)
 {
-	int	open_quotes;
+	int		open_quotes;
 	char	quote_type;
 
 	*i = 0;
@@ -80,8 +80,6 @@ void	if_string_while_loop(int *i, char *str, char **word)
 		}
 		else if (open_quotes && (str[*i] == quote_type))
 			open_quotes = 0;
-		// printf("------%c\n", str[*i]);
-		// printf("------%d\n\n", open_quotes);
 		if (!open_quotes && (str[*i] == 32 || is_operator(str[*i])))
 			break ;
 		(*i)++;
@@ -89,7 +87,7 @@ void	if_string_while_loop(int *i, char *str, char **word)
 	*word = ft_substr(str, 0, *i);
 }
 
-int	else_if_str_is_par(int *i, char *str)
+static int	else_if_str_is_par(int *i, char *str)
 {
 	(*i)++;
 	while (str[*i] != ')' && str[*i] != '\0')

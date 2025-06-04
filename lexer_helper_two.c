@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:01:01 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/24 16:12:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:43:06 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_redirection_recognizer(int *i, int *in_quotes)
+static void	init_redirection_recognizer(int *i, int *in_quotes)
 {
 	*i = -1;
 	*in_quotes = 0;
@@ -47,7 +47,8 @@ int	redirection_recognizer(char *str)
 	return (0);
 }
 
-void	parenthesis_recognizer_inits(int *i, int *j, int *flag, int *open_par)
+static void	parenthesis_recognizer_inits(
+		int *i, int *j, int *flag, int *open_par)
 {
 	*i = 0;
 	*j = 0;
@@ -55,7 +56,8 @@ void	parenthesis_recognizer_inits(int *i, int *j, int *flag, int *open_par)
 	*open_par = 0;
 }
 
-int	while_loop(char **str, char *quote_type, int *in_quotes, int *open_par)
+static int	while_loop(char **str,
+	char *quote_type, int *in_quotes, int *open_par)
 {
 	int	i;
 	int	closed_par;

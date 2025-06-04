@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/24 13:05:41 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 10:50:56 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,22 @@ void	lexer_to_tree(char *str, t_tree **tree, int *flag)
 	syntax_error(&head, flag);
 	if (syntax_error_parentheses(&head))
 		*flag = 1;
-	// if (!*flag)
+	if (!*flag)
 		tree_maker(&head, tree);
+	else
+		free_list(&head);
 }
 
 void	tree_to_rediropen(t_tree *tree, int *flag)
 {
-	process_nested_parentheses(&tree);
-	process_pipe_trees(tree);
-	process_all_redirections(&tree);
-	command_arr_fill(&tree);
-	// quote_set(&tree);
-	syntax_error_two(&tree, flag);
+	if (!*flag)
+	{
+		process_nested_parentheses(&tree);
+		process_pipe_trees(tree);
+		process_all_redirections(&tree);
+		command_arr_fill(&tree);
+		syntax_error_two(&tree, flag);
+	}
 }
 
 void	inits_main(t_env **env,

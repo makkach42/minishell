@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:56:19 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/18 14:42:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:59:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int	command_recognizer(char *str)
 {
-	int	i;
-
-	i = 0;
 	if (!str)
 		return (0);
 	if (ft_strcmp(str, "echo") == 0)
@@ -35,28 +32,6 @@ int	command_recognizer(char *str)
 		return (1);
 	return (0);
 }
-
-// int	word_recognizer(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (!str)
-// 		return (0);
-// 	while (str[i] == 32)
-// 		i++;
-// 	while (str[i] == '-')
-// 		i++;
-// 	while (str[i] >= 'a' && str[i] <= 'z')
-// 		i++;
-// 	while (str[i] >= 'A' && str[i] <= 'Z')
-// 		i++;
-// 	while (str[i] == 32)
-// 		i++;
-// 	if (str[i] == '\0')
-// 		return (1);
-// 	return (0);
-// }
 
 int	word_recognizer(char *str)
 {

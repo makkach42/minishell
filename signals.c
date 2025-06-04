@@ -3,26 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:22:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/09 12:16:46 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/04 10:55:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern void rl_replace_line(const char *text, int clear_undo);
-
-
-void	hide_terminal_control_chars(void)
+static void	hide_terminal_control_chars(void)
 {
 	struct termios	terminos_p;
-	int				status;
 
-	status = tcgetattr(STDOUT_FILENO, &terminos_p);
+	tcgetattr(STDOUT_FILENO, &terminos_p);
 	terminos_p.c_lflag &= ~(ECHOCTL);
-	status = tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_p);
+	tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_p);
 }
 
 void	handle_signal(int sig)
@@ -39,4 +35,19 @@ void	handle_signal(int sig)
 	{
 		rl_redisplay();
 	}
+}
+
+void	process_regular_element(char ***new_cmd_arr, char *element, int *j)
+{
+	(*new_cmd_arr)[(*j)++] = ft_strdup(element);
+}
+
+void	free_original_cmd_arr(char ***cmd_arr, int original_size)
+{
+	int	i;
+
+	i = 0;
+	while (i < original_size)
+		free((*cmd_arr)[i++]);
+	free(*cmd_arr);
 }

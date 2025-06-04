@@ -6,13 +6,14 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:10:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/30 11:54:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:51:24 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	process_regular_char(char c, t_dynbuf *command_buf, int in_quotes_or_paren)
+static int	process_regular_char(char c,
+	t_dynbuf *command_buf, int in_quotes_or_paren)
 {
 	if (c == ' ' || is_command_char(c, in_quotes_or_paren))
 		return (dyn_buf_add_char(command_buf, c));
@@ -48,7 +49,7 @@ int	initialize_buffers(t_extract *v, char *cmd_str)
 	return (1);
 }
 
-int	process_command_char(t_extract *v, char *cmd_str)
+static int	process_command_char(t_extract *v, char *cmd_str)
 {
 	if ((cmd_str[v->i] == '>' || cmd_str[v->i] == '<') && !v->in_quotes
 		&& v->paren_count == 0)

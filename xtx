@@ -1,55 +1,3 @@
-X $a split			
-X minishell$> export f""=$a b=$a second mustnt be split   
-X minishell$> export 1saa=$a f=$a b=$a split if str[0] 0-9
-X $ara export 1=$a f=$a b=$a kolchi split
- $t u=$a split
- /*
- ----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fee5a9041c0) (fd_list_redirs: "") [Redirections: > $z""]
- *******************1
- minishell$> > a$b
- >
- REDIRECTION
- 
- a$b
- WORD
- 
- 
- 
- ----REDIRECTION (Command: ) (Ambiguous: 0) (Var: 0) (Fd_list: 0x7fee5a804140) (fd_list_redirs: a    abc   ) (fd_list_redirs split: a) [Redirections: > a$b]
- *******************0
- 
- 
- //////ambiguous set after expantion
- */
- 
- 
- minishell$> > "$a"
- >
- REDIRECTION
- 
- "$a"
- WORD
- 
- 
- 
- ambiguous redirect
- ----REDIRECTION (Command: ) (Ambiguous: 1) (Var: 0) (Fd_list: 0x7fee5a804190) (fd_list_redirs: b  c) (fd_list_redirs split: b) [Redirections: > "$a"]
- *******************1
- 
- not ambiguous
- export b=""
- ls > a$b
-X minishell$> ls $a
-X ls
-X WORD
-X 
-X $a
-X VARIABLE
-X 
-X 
-X 
-X ++++++++++++ls
-X ++++++++++++b  c
 X minishell$> export "h=$a"
 X export
 X COMMAND
@@ -88,22 +36,22 @@ X ++++++++++++h=b  c'
 X ----COMMAND (Command: export 'h=$a' ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: h=b  c') (Split idx: 0) (Split flg: 0) (Split idx: 1) (Split flg: 0)
 X *******************0
 X minishell$> export 'h=$a'
- minishell$> > $a
- >
- REDIRECTION
- 
- $a
- VARIABLE
- 
- 
- 
- ----REDIRECTION (Command: ) (Ambiguous: 0) (Var: 0) (Fd_list: 0x7fc59e204200) (fd_list_redirs: b  c) (fd_list_redirs split: b) [Redirections: > $a]
- *******************0
-  ambiguous
- ///'"$a"'
- > '"$a"' a="l k j"
- > a$b ambiguous b="  abc  "
- > $c c=
+X minishell$> > $a
+X >
+X REDIRECTION
+X 
+X $a
+X VARIABLE
+X 
+X 
+X 
+X ----REDIRECTION (Command: ) (Ambiguous: 0) (Var: 0) (Fd_list: 0x7fc59e204200) (fd_list_redirs: b  c) (fd_list_redirs split: b) [Redirections: > $a]
+X *******************0
+X  ambiguous
+X ///'"$a"'
+X > '"$a"' a="l k j"
+X > a$b ambiguous b="  abc  "
+X > $c c=
 //////////////////////
 X  ➜  minishell git:(parser) ✗ export h="ayoub'aaa" hh='ayoub"sss'
 X ➜  minishell git:(parser) ✗ ./minishell 
@@ -163,20 +111,20 @@ X *******************0
 X minishell$> export   j=$a ""'n=$a' "f=$a"
 /////////////////////////////////// dont expand 'n=$a'
 ////////////
-bash-3.2$ echo $
-$
-bash-3.2$ echo $"HOME"
-HOME
-bash-3.2$ echo $"HOME$"
-HOME$
-bash-3.2$ echo $"$'HOME$"
-$'HOME$
-bash-3.2$ echo $"$'HOME"
-$'HOME
+X bash-3.2$ echo $
+X $
+X bash-3.2$ echo $"HOME"
+X HOME
+X bash-3.2$ echo $"HOME$"
+X HOME$
+X bash-3.2$ echo $"$'HOME$"
+X $'HOME$
+X bash-3.2$ echo $"$'HOME"
+X $'HOME
 ///////////////
 
- minishell$> > a$b
- b=
+X minishell$> > a$b
+X b=
 X echo "'$f'" expand
 X echo '"'$g'"' remve quotes
 X echo "'"$a"'" expand 
@@ -336,13 +284,13 @@ X ==6220==ABORTING
 X [1]    6220 abort      ./minishell
 X ///////////////////////////////////////////////////////////////////////////////
 
-                          ///////////////////////////////////////////
-                          minishell$> "'""'$'a'""'"
-                          "'""'$'a'""'"
-                          WORD
-
-                          bbbbbbb
-                          ///////////////////////////////////////////
+X                          ///////////////////////////////////////////
+X                          minishell$> "'""'$'a'""'"
+X                          "'""'$'a'""'"
+X                          WORD
+X
+X                          bbbbbbb
+X                          ///////////////////////////////////////////
 
 X echo '$a'$a $a should be expanded
 X ///////////////////////////////////////////
@@ -522,31 +470,9 @@ X *******************0
 X minishell$> 
 X /////////////////////////////////////////// split
 X ///////////////////////////////////////////
-X minishell$> export ay1hg=$a
-X export
-X COMMAND
-X 
-X ay1hg=$a
-X WORD
-X 
-X ----COMMAND (Command: export ay1hg=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay1hg=$a)
-X ----COMMAND (Command: export ay1hg=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay1hg=b) (Command_arr: c)
-X ----COMMAND (Command: export ay1hg=$a ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay1hg=b) (Command_arr: c)
-X *******************0
-X minishell$> export ay1=$a
+
 X /////////////////////////////////////////// spli only if str[0] = 0-9
-X ///////////////////////////////////////////
-X minishell$> export ay="$a""$a"
-X export
-X COMMAND
-X 
-X ay="$a""$a"
-X WORD
-X 
-X ----COMMAND (Command: export ay="$a""$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay="$a""$a")
-X ----COMMAND (Command: export ay="$a""$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay="$a"""$a"")
-X ----COMMAND (Command: export ay="$a""$a" ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: export) (Command_arr: ay=b  cb) (Command_arr: c)
-X ///////////////////////////////////////////skip if already in double quotes
+
 ///////////////////////////////////////////
 
 ///////////////////////////////////////////

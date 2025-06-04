@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/12 14:27:57 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:05:35 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*extract_command_with_redirects(t_list **head, t_list **pipe_pos)
+static char	*extract_command_with_redirects(t_list **head, t_list **pipe_pos)
 {
 	t_list	*current;
 	char	*command_str;
@@ -61,7 +61,7 @@ t_tree	*build_pipe_tree(t_list **head)
 	return (root);
 }
 
-void	process_command_with_pipes(char *command_str, t_tree **command_tree)
+static void	process_command_with_pipes(char *command_str, t_tree **command_tree)
 {
 	t_list	*cmd_list;
 	char	*cmd_copy;
@@ -90,7 +90,7 @@ void	process_command_with_pipes(char *command_str, t_tree **command_tree)
 	free_cmd_list(cmd_list);
 }
 
-int	has_unquoted_pipe_or_amp(char *str)
+static int	has_unquoted_pipe_or_amp(char *str)
 {
 	int		i;
 	char	quote;
@@ -107,7 +107,7 @@ int	has_unquoted_pipe_or_amp(char *str)
 			else
 				quote = 0;
 		}
-		else if (check_pipe_or_amp(str, i, quote))
+		else if (check_pipe_or_and(str, i, quote))
 			return (1);
 		i++;
 	}

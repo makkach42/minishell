@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/24 13:04:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:02:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,62 +36,52 @@ int	variable_search_inlnkedlst(t_tree **tree)
 	return (i);
 }
 
-int	variable_expantion_two(char **redirname,
-	int var_pos, t_env **env, int *flag)
+void	expand_in_lnkdlst(t_list_fd **tmp, t_env **env, int *i, int *in_quotes)
 {
-	int		name_end;
-	char	*var_name;
-	char	*before;
-	char	*after;
-	char	*value;
-	char	*new_redir;
-	t_env	*tmp;
+	char	*tmp_char;
 
-	if (!(*redirname)[var_pos])
-		return (-1);
-	name_end = var_pos + 1;
-	while ((*redirname)[name_end])
-	{
-		if (((*redirname)[name_end] >= 'a' && (*redirname)[name_end] <= 'z'
-			) || ((*redirname)[name_end] >= 'A' && (*redirname)[name_end] <= 'Z'
-			) || ((*redirname)[name_end] >= '0' && (*redirname)[name_end] <= '9'
-			))
-			name_end++;
-		else
-			break ;
-	}
-	*flag = 0;
-	var_name = ft_substr((*redirname), var_pos + 1, name_end - var_pos - 1);
-	if (!var_name)
-		return (-1);
-	tmp = *env;
-	value = NULL;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->key, var_name))
-		{
-			value = ft_strdup(tmp->value);
-			break ;
-		}
-		tmp = tmp->next;
-	}
-	free(var_name);
-	before = ft_substr((*redirname), 0, var_pos);
-	if (!before)
-		return (free(value), -1);
-	after = ft_substr((*redirname), name_end,
-			ft_strlen((*redirname)) - name_end);
-	if (!after)
-		return (free(value), free(before), -1);
-	if (value)
-		new_redir = ft_strjoin_three(before, value, after);
+	if ((*tmp)->name[*i] == '$' && ((
+				*in_quotes && (*tmp)->name[*i + 1
+				] && ((*tmp)->name[*i + 1
+					] == '"' || (*tmp)->name[*i + 1
+					] == '\'')) || (
+				!*in_quotes && !(*tmp)->name[*i + 1])))
+		i++;
 	else
-		new_redir = ft_strjoin(before, after);
-	if (!new_redir)
-		return (free(before), free(value), free(after), -1);
-	free((*redirname));
-	(*redirname) = new_redir;
-	return (free(before), free(value), free(after), 0);
+	{
+		process_array_variable(&(*tmp)->name, 0, i, env);
+		tmp_char = (*tmp)->name;
+		(*tmp)->name = ft_strtrim((*tmp)->name, " ");
+		free(tmp_char);
+		if ((*tmp)->name && countwords((*tmp)->name, 32) != 1)
+			(*tmp)->name_split = ft_split((*tmp)->name, 32);
+		*in_quotes = 0;
+		*i = -1;
+	}
+}
+
+void	quote_filtering_and_expantion(t_list_fd **tmp, t_env **env)
+{
+	int		i;
+	int		in_quotes;
+	char	quote_type;
+
+	i = 0;
+	in_quotes = 0;
+	while ((*tmp)->name && (*tmp)->name[i])
+	{
+		if (!in_quotes && ((*tmp)->name[i] == '"' || (*tmp)->name[i] == '\''))
+		{
+			in_quotes = 1;
+			quote_type = (*tmp)->name[i];
+		}
+		else if ((*tmp)->name[i] == quote_type)
+			in_quotes = 0;
+		if ((*tmp)->name[i] == '$' && (
+				!in_quotes || (in_quotes && quote_type == '"')))
+			expand_in_lnkdlst(tmp, env, &i, &in_quotes);
+		i++;
+	}
 }
 
 
@@ -100,8 +90,8 @@ void	variable_expantion_para(t_tree **tree, t_env **env)
 	t_list_fd	*tmp;
 	int			i;
 	int			in_quotes;
-	int			flag;
 	char		quote_type;
+	int			flag;
 
 	if ((*tree)->left)
 		variable_expantion_para(&(*tree)->left, env);
@@ -135,7 +125,9 @@ void	variable_expantion_para(t_tree **tree, t_env **env)
 						!in_quotes || (in_quotes && quote_type == '"')))
 				{
 					dprintf(2, "enterd in the right place\n");
-					if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
+					// if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
+					// 	break ;
+					if (process_array_variable(&tmp->name, 0, i, env) == -1)
 						break ;
 					if (tmp->name && countwords(tmp->name, 32) != 1)
 						tmp->name_split = ft_split(tmp->name, 32);
@@ -173,34 +165,33 @@ void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 			tmp = tmp->next;
 		}
 		if (tmp)
+			quote_filtering_and_expantion(&tmp, env);
+	}
+}
+
+int	variable_search(t_tree **tree)
+{
+	int	found_in_current;
+	int	found_in_left;
+	int	found_in_right;
+	int	j;
+
+	found_in_current = 0;
+	found_in_left = 0;
+	found_in_right = 0;
+	j = 0;
+	if ((*tree) && (*tree)->command_arr)
+	{
+		while ((*tree)->command_arr[j])
 		{
-			i = 0;
-			in_quotes = 0;
-			// flag = 0;
-			while (tmp->name && tmp->name[i])
-			{
-				if (!in_quotes && (tmp->name[i] == '"' || tmp->name[i] == '\''))
-				{
-					in_quotes = 1;
-					quote_type = tmp->name[i];
-				}
-				else if (tmp->name[i] == quote_type)
-					in_quotes = 0;
-				if (tmp->name[i] == '$' && (
-						!in_quotes || (in_quotes && quote_type == '"')))
-				{
-					if (tmp->name[i] == '$' && ((in_quotes && tmp->name[i + 1] && (tmp->name[i + 1] == '"' || tmp->name[i + 1] == '\'')) || (!in_quotes && !tmp->name[i + 1])))
-						i++;
-					else
-					{
-						process_array_variable(&tmp->name, 0, &i, env);
-						if (tmp->name && countwords(tmp->name, 32) != 1)
-							tmp->name_split = ft_split(tmp->name, 32);
-						i = -1;
-					}
-				}
-				i++;
-			}
+			if (variable_search_instr((*tree)->command_arr[j]))
+				found_in_current = 1;
+			j++;
 		}
 	}
+	if ((*tree) && (*tree)->left)
+		found_in_left = variable_search(&(*tree)->left);
+	if ((*tree) && (*tree)->right)
+		found_in_right = variable_search(&(*tree)->right);
+	return (found_in_current || found_in_left || found_in_right);
 }

@@ -6,48 +6,54 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:16:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 09:22:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/03 12:25:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*join_matches(char **matches, int match_count)
-{
-	int		i;
-	size_t	total_len;
-	char	*result;
-	char	*temp;
+// void	total_len_calculation(int *i, int match_count,
+// 		char **matches, int *total_len)
+// {
+// 	*i = 0;
+// 	*total_len = 0;
+// 	while (*i < match_count)
+// 	{
+// 		*total_len += ft_strlen(matches[*i]);
+// 		if (*i < match_count - 1)
+// 			(*total_len)++;
+// 		(*i)++;
+// 	}
+// }
 
-	if (match_count <= 0)
-		return (NULL);
-	total_len = 0;
-	i = 0;
-	while (i < match_count)
-	{
-		total_len += ft_strlen(matches[i]);
-		if (i < match_count - 1)
-			total_len++;
-		i++;
-	}
-	result = malloc(total_len + 1);
-	if (!result)
-		return (NULL);
-	temp = result;
-	i = 0;
-	ft_strcpy(temp, matches[i]);
-	temp += ft_strlen(matches[i]);
-	i++;
-	while (i < match_count)
-	{
-		*temp++ = ' ';
-		ft_strcpy(temp, matches[i]);
-		temp += ft_strlen(matches[i]);
-		i++;
-	}
-	*temp = '\0';
-	return (result);
-}
+// char	*join_matches(char **matches, int match_count)
+// {
+// 	int		i;
+// 	int		total_len;
+// 	char	*result;
+// 	char	*temp;
+
+// 	if (match_count <= 0)
+// 		return (NULL);
+// 	total_len_calculation(&i, match_count, matches, &total_len);
+// 	result = malloc(total_len + 1);
+// 	if (!result)
+// 		return (NULL);
+// 	temp = result;
+// 	i = 0;
+// 	ft_strcpy(temp, matches[i]);
+// 	temp += ft_strlen(matches[i]);
+// 	i++;
+// 	while (i < match_count)
+// 	{
+// 		*temp++ = ' ';
+// 		ft_strcpy(temp, matches[i]);
+// 		temp += ft_strlen(matches[i]);
+// 		i++;
+// 	}
+// 	*temp = '\0';
+// 	return (result);
+// }
 
 int	match_pattern(const char *pattern, const char *string)
 {
@@ -56,83 +62,47 @@ int	match_pattern(const char *pattern, const char *string)
 	int		star_idx;
 	int		str_idx;
 
-	i = 0;
-	j = 0;
-	star_idx = -1;
-	str_idx = -1;
+	pattern_match_inits(&i, &j, &star_idx, &str_idx);
 	while (string[j])
 	{
 		if (pattern[i] == '*')
 		{
-			while (pattern[i + 1] == '*')
-				i++;
-			if (!pattern[i + 1])
+			if (skip_stars(&i, pattern) == 1)
 				return (1);
-			star_idx = i++;
-			str_idx = j;
-			continue ;
+			update_vars(&star_idx, &i, &str_idx, &j);
 		}
-		if (pattern[i] == string[j])
-		{
-			i++;
-			j++;
-			continue ;
-		}
-		if (star_idx >= 0)
-		{
-			i = star_idx + 1;
-			j = ++str_idx;
-			continue ;
-		}
-		return (0);
+		else if (pattern[i] == string[j])
+			update_vars_two(&i, &j);
+		else if (star_idx >= 0)
+			back_track(&i, &j, &star_idx, &str_idx);
+		else
+			return (0);
 	}
 	while (pattern[i] == '*')
 		i++;
 	return (!pattern[i]);
 }
 
-void	sort_matches(char **arr, int count)
-{
-	int		i;
-	int		j;
-	char	*key;
+// void	sort_matches(char **arr, int count)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	*key;
 
-	i = 1;
-	while (i < count)
-	{
-		key = arr[i];
-		j = i - 1;
-		while (j >= 0 && ft_strcmp(arr[j], key) > 0)
-		{
-			arr[j + 1] = arr[j];
-			j--;
-		}
-		arr[j + 1] = key;
-		i++;
-	}
-}
-
-int	copy_and_resize_matches(char ***matches, int match_count, int new_cap)
-{
-	char	**new_matches;
-	int		i;
-
-	new_matches = malloc(sizeof(char *) * new_cap);
-	if (!new_matches)
-	{
-		perror("malloc failed");
-		return (0);
-	}
-	i = 0;
-	while (i < match_count)
-	{
-		new_matches[i] = (*matches)[i];
-		i++;
-	}
-	free(*matches);
-	*matches = new_matches;
-	return (1);
-}
+// 	i = 1;
+// 	while (i < count)
+// 	{
+// 		key = arr[i];
+// 		j = i - 1;
+// 		while (j >= 0 && ft_strcmp(arr[j], key) > 0)
+// 		{
+// 			arr[j + 1] = arr[j];
+// 			j--;
+// 		}
+// 		arr[j + 1] = key;
+// 		i++;
+// 	}
+// }
 
 int	if_has_wildcards(char *str)
 {

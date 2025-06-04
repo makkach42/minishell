@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:43:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/20 10:23:01 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:20:06 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_filtered_length(char *old_str, int *var_flag, int l, int k)
+int	count_filtered_length(char *old_str)
 {
 	int	i;
 	int	len;
@@ -24,46 +24,20 @@ int	count_filtered_length(char *old_str, int *var_flag, int l, int k)
 	final_len = 0;
 	in_single_quotes = 0;
 	in_double_quotes = 0;
-	i = 0;
-	if (l != k)
+	i = -1;
+	while (++i < len)
 	{
-		while (i < len)
-		{
-			if (old_str[i] == '\'' && !in_double_quotes && (i < l || i > k))
-				in_single_quotes = !in_single_quotes;
-			else if (old_str[i] == '\"' && !in_single_quotes && (i < l || i > k))
-				in_double_quotes = !in_double_quotes;
-			else
-			{
-				if (old_str[i] == '$' && in_single_quotes && !in_double_quotes && var_flag)
-					*var_flag = 2;
-				final_len++;
-			}
-			i++;
-		}
+		if (old_str[i] == '\'' && !in_double_quotes)
+			in_single_quotes = !in_single_quotes;
+		else if (old_str[i] == '\"' && !in_single_quotes)
+			in_double_quotes = !in_double_quotes;
+		else
+			final_len++;
 	}
-	else
-	{
-		while (i < len)
-		{
-			if (old_str[i] == '\'' && !in_double_quotes)
-				in_single_quotes = !in_single_quotes;
-			else if (old_str[i] == '\"' && !in_single_quotes)
-				in_double_quotes = !in_double_quotes;
-			else
-			{
-				if (old_str[i] == '$' && in_single_quotes && !in_double_quotes && var_flag)
-					*var_flag = 2;
-				final_len++;
-			}
-			i++;
-		}
-	}
-
 	return (final_len);
 }
 
-int	check_if_in_string(char *cmd)
+static int	check_if_in_string(char *cmd)
 {
 	int		i;
 	int		in_quotes;
@@ -112,7 +86,7 @@ void	extract_redirections(char *cmd_str, char **cmd_part, char **redir_part)
 	cleanup_and_assign(&v.command_buf, &v.redir_buf, cmd_part, redir_part);
 }
 
-void	process_all_redirections_helper(t_tree **tree, char **cmd)
+static void	process_all_redirections_helper(t_tree **tree, char **cmd)
 {
 	char	*cmd_part;
 	char	*redir_part;

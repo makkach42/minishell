@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tree_maker.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:09:28 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 16:43:11 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/04 10:58:18 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_node_type(t_tree **tree, t_list **head)
+static void	set_node_type(t_tree **tree, t_list **head)
 {
 	if ((*head)->token && (*head)->token[0] != '\0')
 		(*tree)->type = (*head)->token;
@@ -20,7 +20,7 @@ void	set_node_type(t_tree **tree, t_list **head)
 		(*tree)->type = "WORD";
 }
 
-void	process_regular_node(t_list **head, t_tree **tree, int i)
+static void	process_regular_node(t_list **head, t_tree **tree, int i)
 {
 	t_list	*current;
 	t_list	*to_free;
@@ -45,7 +45,7 @@ void	process_regular_node(t_list **head, t_tree **tree, int i)
 	*head = NULL;
 }
 
-void	find_and_process_operation(t_list **head, t_tree **tree,
+static void	find_and_process_operation(t_list **head, t_tree **tree,
 								t_list *last, int total_nodes)
 {
 	t_list	*tmp;
@@ -69,7 +69,7 @@ void	find_and_process_operation(t_list **head, t_tree **tree,
 	}
 }
 
-void	find_and_process_pipe(t_list **head, t_tree **tree,
+static void	find_and_process_pipe(t_list **head, t_tree **tree,
 							t_list *last, int total_nodes)
 {
 	t_list	*tmp;

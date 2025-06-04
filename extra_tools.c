@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:28:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 17:26:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 10:48:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	print_tree_visual(t_tree *tree, int level, int is_left)
 	{
 		for (int i = 0; tree->command_arr[i]; i++)
 		{
-			// Handle special case for dollar sign
 			if (tree->command_arr[i] && tree->command_arr[i][0] == '$')
 				printf("\033[31m (Command_arr: $%s)\033[0m", &(tree->command_arr[i][1]));
 			else
@@ -65,29 +64,6 @@ void	print_tree_visual(t_tree *tree, int level, int is_left)
 	}
 	else
 		printf(" (Command_arr: NULL)");
-	// if (tree->split)
-	// {
-	// 	for (int i = 0; tree->command_arr[i]; i++)
-	// 	{
-	// 		printf(" (Split idx: %d)", tree->split[i]->arr_index); // Always print the index
-	// 		printf(" (Split flg: %d)", tree->split[i]->split_flag); // Always print the flag
-	// 	}
-	// }
-	// else
-	// 	printf(" (Split: NULL)");
-	// if (tree->command_arr_expanded)
-	// {
-	// 	for (int i = 0; tree->command_arr_expanded[i]; i++)
-	// 	{
-	// 		if (tree->command_arr_expanded[i])
-	// 		{
-	// 			for (int j = 0; tree->command_arr_expanded[i][j]; j++)
-	// 				printf(" (Command_arr_expanded: %s i = %d j = %d)", tree->command_arr_expanded[i][j], i, j);
-	// 		}
-	// 	}
-	// }
-	// else
-	// 	printf(" (Command_arr_expanded: NULL)");
 	if (tree->redirections)
 		printf(" [Redirections: %s]", tree->redirections);
 	printf("\n");
