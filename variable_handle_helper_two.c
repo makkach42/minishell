@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:56:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 10:56:39 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:36:53 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	var_end_set(char **command_arr, int arr_idx, int *var_end)
 	{
 		c = command_arr[arr_idx][*var_end];
 		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'
-			) || ((c >= '0' && c <= '9')) || c == '_')
+			) || ((c >= '0' && c <= '9')) || c == '?')
 		{
 			if (c >= '0' && c <= '9' && command_arr[
 					arr_idx][*var_end - 1] == '$')
