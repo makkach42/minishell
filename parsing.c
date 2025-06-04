@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 10:15:21 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/04 10:25:26 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -3029,12 +3029,21 @@ void	reset_vars(t_tree **tree, t_env **env)
 			}
 			i++;
 		}
-		// i = 0;
-		// while ((*tree)->command_arr[i])
-		// {
-		// 	printf("-----%s\n", (*tree)->command_arr[i]);
-		// 	i++;
-		// }
+		i = 0;
+		j = 0;
+		while ((*tree)->command_arr[i])
+		{
+			j = 0;
+			while ((*tree)->command_arr[i][j])
+			{
+				if ((*tree)->command_arr[i][j] == 10)
+					(*tree)->command_arr[i][j] = '"';
+				else if ((*tree)->command_arr[i][j] == 11)
+					(*tree)->command_arr[i][j] = '\'';
+				j++;
+			}
+			i++;
+		}
 	}
 }
 

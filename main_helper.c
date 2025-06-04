@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 10:46:10 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/04 10:25:42 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	tree_to_rediropen(t_tree *tree, int *flag)
 	process_pipe_trees(tree);
 	process_all_redirections(&tree);
 	command_arr_fill(&tree);
-	quote_set(&tree);
+	// quote_set(&tree);
 	syntax_error_two(&tree, flag);
 }
 

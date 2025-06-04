@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/22 11:03:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/05/24 09:24:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,19 @@ int	quote_detect(char *str)
 	return (0);
 }
 
-void	quote_set(t_tree **tree)
-{
-	if ((*tree) && (*tree)->left)
-		quote_set(&(*tree)->left);
-	if ((*tree) && (*tree)->right)
-		quote_set(&(*tree)->right);
-	if ((*tree) && (*tree)->redirections)
-	{
-		if (variable_search_instr((*tree)->redirections
-			) && quote_detect((*tree)->redirections))
-			(*tree)->quotes = 1;
-	}
-}
+// void	quote_set(t_tree **tree)
+// {
+// 	if ((*tree) && (*tree)->left)
+// 		quote_set(&(*tree)->left);
+// 	if ((*tree) && (*tree)->right)
+// 		quote_set(&(*tree)->right);
+// 	if ((*tree) && (*tree)->redirections)
+// 	{
+// 		if (variable_search_instr((*tree)->redirections
+// 			) && quote_detect((*tree)->redirections))
+// 			(*tree)->quotes = 1;
+// 	}
+// }
 
 void	empty_string_error(t_list_fd **head_fd, int *flag)
 {
