@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:34:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 14:37:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:37:29 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ void	new_variable_word_extractor(char **str, char **word, int i)
 	free(tmp_char);
 }
 
-void	protected_extraction(char **word, char **str)
-{
-	char	*tmp_char;
+// void	protected_extraction(char **word, char **str)
+// {
+// 	char	*tmp_char;
 
-	tmp_char = *word;
-	*word = str_extractor(*str);
-	free(tmp_char);
-}
+// 	tmp_char = *word;
+// 	*word = str_extractor(*str);
+// 	free(tmp_char);
+// }

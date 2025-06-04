@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 14:37:43 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:40:06 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,6 +287,6 @@ char	**get_matches(const char *pattern, char *dir_path, int *match_count);
 void	process_wildcard_node_fd(t_list_fd *node, char *dir_path);
 void	handle_wildcards_in_fdlst(t_tree **tree);
 int		has_wild_cards_fdlst(t_tree **tree);
-void	protected_extraction(char **word, char **str);
+// void	protected_extraction(char **word, char **str);
 
 #endif

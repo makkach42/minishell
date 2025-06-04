@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:27:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 14:37:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:37:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	handle_quotes(char **word, char **str)
 	if (!*str)
 		return ;
 	free(tmp_char);
-	protected_extraction(word, str);
+	// protected_extraction(word, str);
+	*word = str_extractor(*str);
 	if (!word)
 		return ;
 	tmp_char = *word;
