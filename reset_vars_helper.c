@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 07:46:27 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 13:04:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:42:17 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	expand_dollar(t_tmp_tree **tmp, int *in_quotes, t_env **env, int *j)
 {
 	int		n;
-
 
 	if ((*tmp)->tmp->data[*j] == '$' && ((
 				*in_quotes && (*tmp)->tmp->data[*j + 1] && (

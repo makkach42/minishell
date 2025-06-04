@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:22:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 13:03:31 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:44:39 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void	if_question_mark(t_tmp_tree **tmp, int n)
 	char	*new_str;
 
 	before = ft_substr((*tmp)->tmp->data, 0, n);
+	n++;
 	after = ft_substr((*tmp)->tmp->data, n + 1,
 			ft_strlen((*tmp)->tmp->data) - (n + 1));
-	printf("==================%p\n", (*tmp)->tree->status);
 	num = ft_itoa((*tmp)->tree->status);
 	new_str = ft_strjoin_three(before, num, after);
 	free((*tmp)->tmp->data);
