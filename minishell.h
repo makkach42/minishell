@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 11:00:49 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 11:09:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/history.h>
 # include <sys/stat.h>
 # include <errno.h>
+# include <signal.h>
 
 typedef struct s_list
 {
@@ -37,6 +38,7 @@ typedef struct s_list
 typedef struct s_list_fd
 {
 	int					fd;
+	int					fd1;
 	int					in_quotes;
 	char				*name;
 	char				**name_split;
@@ -68,6 +70,7 @@ typedef struct s_tree
 	int				var;
 	t_list_fd		*fd_list;
 	int				status;
+	int				sig_flag;
 }	t_tree;
 
 typedef struct s_dynbuf
@@ -118,6 +121,7 @@ typedef struct s_idx
 	int	j;
 	int	original_size;
 }	t_idx;
+int	global_status;
 
 t_env		*env_fill(char **argev);
 t_list		*list_init(char *str);
@@ -561,5 +565,12 @@ char	**get_matches(const char *pattern, char *dir_path, int *match_count);
 void	process_wildcard_node_fd(t_list_fd *node, char *dir_path);
 void	handle_wildcards_in_fdlst(t_tree **tree);
 int		has_wild_cards_fdlst(t_tree **tree);
+void	ft_sig(int sig);
+void	hide_terminal_control_chars(void);
+void	display_terminal_control_chars(void);
+void	ft_new_handler(int sig);
+void	ft_new_handler_pip(int sig);
+void	ft_free_array(char **p);
+
 
 #endif

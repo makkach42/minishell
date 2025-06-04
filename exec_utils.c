@@ -5,7 +5,7 @@ int	delimiter(char c, char del)
 	return (c == del);
 }
 
-void	ft_free(char **p)
+void	ft_free_array(char **p)
 {
 	int	i;
 
@@ -32,8 +32,8 @@ void	ft_cmd_helper(t_cmd *com, int i, char *env, char *s)
 	}
 	if (i == 1)
 	{
-		ft_free(com->t);
-		ft_free(com->p);
+		ft_free_array(com->t);
+		ft_free_array(com->p);
 		free (com->str);
 	}
 }
@@ -50,7 +50,7 @@ char	*ft_cmd_check(char *env, char *s)
 	if (ft_strchr(s, '/') != NULL || env == NULL || env[0] == '\0')
 	{
 		// ft_is_dir(s);
-			// dprintf(2, "in here\n");
+		dprintf(2, "in here\n");
 		fd = open(s, O_DIRECTORY);
 		if (fd != -1)
 		{
