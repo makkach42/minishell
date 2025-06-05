@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:09:53 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 15:15:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/05 13:54:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	dyn_buf_ensure_capacity(t_dynbuf *buf, size_t additional_bytes)
 	if (buf->pos + additional_bytes >= buf->size)
 	{
 		new_size = buf->size * 2;
-		if (buf->pos + additional_bytes >= new_size)
-			new_size = buf->pos + additional_bytes + 1;
 		new_data = malloc(new_size);
 		if (!new_data)
 			return (0);
