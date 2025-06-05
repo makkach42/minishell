@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/03 13:15:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:16:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	lexer_to_tree(char *str, t_tree **tree, int *flag)
 	head = list_init(str);
 	lexer(&head);
 	if (new_syntax_error(&head))
-		(print_syntax_error("("), *flag = 1);
+		(print_syntax_error(), *flag = 1);
 	tmp = head;
 	while (tmp)
 	{
@@ -61,7 +61,7 @@ void	tree_to_rediropen(t_tree *tree, int *flag)
 	if (!*flag)
 	{
 		process_nested_parentheses(&tree);
-		process_pipe_trees(tree);
+		// process_pipe_trees(tree);
 		process_all_redirections(&tree);
 		command_arr_fill(&tree);
 		syntax_error_two(&tree, flag);

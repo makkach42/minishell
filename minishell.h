@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 16:40:06 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:15:22 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,11 +154,11 @@ void	free_cmd_list(t_list *cmd_list);
 void	lexer(t_list **head);
 void	process_command_with_pipes_inits(t_list **cmd_list, char **cmd_copy);
 t_tree	*handle_operation_token(t_list **head, t_list *pipe_pos);
-t_tree	*handle_pipe_token(t_list **head, char *left_cmd,
-			t_list *pipe_pos);
-void	free_list_to_position(t_list **head, t_list *position);
-t_tree	*create_tree_node(void *command, char *type);
-void	build_command_str(char **command_str, t_list *current);
+// t_tree	*handle_pipe_token(t_list **head, char *left_cmd,
+			// t_list *pipe_pos);
+// void	free_list_to_position(t_list **head, t_list *position);
+// t_tree	*create_tree_node(void *command, char *type);
+// void	build_command_str(char **command_str, t_list *current);
 void	redirections_in_par_handle(t_tree **tree, char **cmd_part,
 			char **original_redirs, char **content);
 void	sub_tree_creation(t_tree **sub_tree, char **content, t_list **sub_list);
@@ -173,7 +173,7 @@ void	dyn_buf_free(t_dynbuf *buf);
 void	cleanup_and_assign(t_dynbuf *command_buf, t_dynbuf *redir_buf,
 			char **cmd_part, char **redir_part);
 void	init_list_fd_node(t_list_fd *node);
-void	print_syntax_error(char *str2);
+void	print_syntax_error(void);
 void	syntax_error_parentheses_while_loop(t_list *tmp,
 			int *i, int *flag, int *open_par);
 int		check_quotes(char *str, int *flag);
@@ -214,7 +214,7 @@ void	cleanup_left_nodes(t_list *nodes);
 void	if_prev(t_list *tmp, t_list **prev_part, t_tree **tree, t_list **head);
 void	handle_operation_command(t_tree **tree, t_list *tmp,
 			int total_nodes, int i);
-t_tree	*build_pipe_tree(t_list **head);
+// t_tree	*build_pipe_tree(t_list **head);
 t_list	*copy_list_segment(t_list *head, t_list *end_pos);
 int		dyn_buf_add_char(t_dynbuf *buf, char c);
 int		process_redirection_helper(char *cmd_str, int *i, t_dynbuf *redir_buf);
