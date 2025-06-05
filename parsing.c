@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 14:39:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/05 18:49:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,27 +394,58 @@ void	ft_hdoc_signal(int sig)
 	// break ;
 }
 
-void	ft_hdoc(char *limiter, char *name, int fd)
+void	ft_hdoc_expand(char **line, t_env **env, int status)
+{
+	int	in_quotes;
+	int	i;
+	int	n;
+	int	flag;
+	char quote_type;
+	
+	i = 0;
+	in_quotes = 0;
+	flag = 0;
+	quote_type = 0;
+	while ((*line) && (*line)[i])
+	{
+		if (!in_quotes && ((*line)[i] == '"' || (*line)[i] == '\''))
+		{
+			in_quotes = 1;
+			quote_type = (*line)[i];
+		}
+		else if ((*line)[i] == quote_type)
+			in_quotes = 0;
+		if ((*line)[i] == '$' && (
+				!in_quotes || (in_quotes && quote_type == '"')))
+		{
+			// if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
+			// 	break ;
+			n = i;
+			if (process_array_variable(line, 0, &i, env) == -1)
+				break ;
+			if (i == -1)
+				if_question_mark_two(line, status, n);
+			// if ((*line) && countwords((*line), 32) != 1)
+			// 	tmp->name_split = ft_split(tmp->name, 32);
+			// if (flag == 1)
+			// 	(*tree)->ambiguous = 1;
+			// if (!variable_search_inlnkedlst(tree))
+			// dprintf(2, "this is str in parsing: %s\n", (*line));
+			i = -1;
+		}
+		i++;
+	}
+}
+
+void	ft_hdoc(char *limiter, int fd, t_env **env, int status)
 {
 	char	*str;
-	// int		fd;
 	char	*tmp;
-	// int		fd1;
 
-	// unlink(name);
-	// name = ft_name_check(name);
-	// fd = open(name, O_RDWR | O_CREAT, 0777);
-	// if (fd == -1)
-	// 	return (1);
-	// fd1 = open(name, O_RDONLY, 0777);
-	// if (fd1 == -1)
-	// 	return (1);
-	// unlink(name);
-	// signal(SIGINT, ft_hdoc_signal);
-	// signal(SIGQUIT, SIG_IGN);
 	str = readline("> ");
 	while (str != NULL && ft_strcmp(limiter, str) != 0)
 	{
+		ft_hdoc_expand(&str, env, status);
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		tmp = str;
@@ -422,9 +453,7 @@ void	ft_hdoc(char *limiter, char *name, int fd)
 		free(tmp);
 	}
 	ft_hdoc_free(&str, &limiter, fd);
-	//i was unlinking the name in return but changed it
-	// dprintf(2, "this is fd: %d\n", fd1);
-	// return (fd1);
+	exit (0);
 }
 
 int	ft_exec_redir(t_tree *tree, t_env **h, char **env)
@@ -545,20 +574,20 @@ int ft_cmd_redir(t_tree *tree, t_env **h)
 
 void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check);
 
-// int	ft_variable(t_tree *tree, t_env **h, char **e)
-// {
-// 	if (cmd_check(tree) == 1)
-// 		ft_word_handle(tree, h, e);
-// 	else if (cmd_check(tree) == 0)
-// 		tree->status = ft_cmd_exec(tree, h);
-// 	else
-// 	{
-// 		ft_putstr_fd(2, "minishell: ");
-// 		ft_putstr_fd(2, tree->command_arr[0]);
-// 		ft_putstr_fd(2, ": command not found\n");
-// 	}
-// 	return (tree->status);
-// }
+int	ft_variable(t_tree *tree, t_env **h, char **e, int *check)
+{
+	if (cmd_check(tree) == 1)
+		ft_word_handle(tree, h, e, check);
+	else if (cmd_check(tree) == 0)
+		tree->status = ft_cmd_exec(tree, h);
+	else
+	{
+		ft_putstr_fd(2, "minishell: ");
+		ft_putstr_fd(2, tree->command_arr[0]);
+		ft_putstr_fd(2, ": command not found\n");
+	}
+	return (tree->status);
+}
 
 int	check_amb(t_tree *tree)
 {
@@ -718,7 +747,6 @@ void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		// ft_sig();
 		ft_exec(tree, *h, e);
 	}
 	else if (id < 0)
@@ -741,7 +769,6 @@ void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check)
 		else if (tree->status == 3)
 		{
 			global_status = SIGQUIT;
-			// ft_putstr_fd(1, "Quit: 3\n");
 		}
 		tree->status += 128;
 	}
@@ -751,34 +778,22 @@ void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check)
 void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 {
 	int id;
-	// int	check;
-	// int	stdout;
-	
-	// stdout = 0;
-	// if (isatty(1) || isatty(0))
-	// 	stdout = dup(1);
-	// check = 0;
-	// dprintf(2, "this is check: %d\n", *check);
+
 	if (!tree)
 	{
 		free_env(h);
 		exit (1);
 	}
-	// if (!(*h))
-	// {
-	// 	dprintf(2, "env is NULL\n");
-	// }
-	// print_tree_visual(tree, 1, 1);
 	if ((ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections == NULL) || (ft_strcmp("WORD", tree->type) == 0 && cmd_check(tree) == 0))
 	{
 		reset_vars(&tree, h);
-		// dprintf(2, "this is the OLDPWD EXPAnd: %s\n", tree->command_arr[1]);
 		tree->status = ft_cmd_exec(tree, h);
 	}
 	if (ft_strcmp("PARENTHASIS", tree->type) == 0)
 		tree->status = ft_parenthasis(tree, h, e);
 	if ((ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections != NULL) || (cmd_check(tree) == 0 && ft_strcmp("REDIRECTION", tree->type) == 0))
 	{
+		// dprintf(2, "this iun here\n");
 		if (variable_search_inlnkedlst(&tree) == 1)
 			variable_expantion_inlnkedlst(&tree, h);
 		ambiguous_set(&tree);
@@ -804,8 +819,7 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 	if (ft_strcmp("VARIABLE", tree->type) == 0)
 	{
 		reset_vars(&tree, h);
-		// print_tree_visual(tree, 1, 1);
-		// tree->status = ft_variable(tree, h, e);
+		tree->status = ft_variable(tree, h, e, check);
 	}
 	if (tree->redirections == NULL && ft_strcmp("WORD", tree->type) == 0 && cmd_check(tree) == 1)
 	{
@@ -830,6 +844,7 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 		}
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
+		close (tree->fd_list->fd1);
 		waitpid(id, &(tree->status), 0);
 		if (WIFEXITED(tree->status))
 			tree->status = WEXITSTATUS(tree->status);
@@ -846,77 +861,72 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 	}
 	if (ft_strcmp("PIPE", tree->type) == 0)
 	{
-		// display_terminal_control_chars();
-		// signal(SIGINT, ft_new_handler);
-		// signal(SIGQUIT, ft_new_handler);
 		tree->status = ft_pip(tree, h, e, check);
 	}
 }
 
-int	ft_hdoc_first(t_tree *tree)
+int	ft_hdoc_first(t_list_fd *tmp)
 {
 	int		fd;
 	char	*temp;
 	int		fd1;
-	t_list_fd *tmp;
+	// t_list_fd *tmp;
 
-	tmp = tree->fd_list;
+	// tmp = tree->fd_list;
 	unlink(tmp->name);
 	tmp->name = ft_name_check(tmp->name);
 	tmp->fd = open(tmp->name, O_RDWR | O_CREAT, 0777);
 	if (tmp->fd == -1)
 		return (1);
 	tmp->fd1 = open(tmp->name, O_RDONLY, 0777);
-	if (fd1 == -1)
+	if (tmp->fd1 == -1)
 		return (1);
 	unlink(tmp->name);
-	// return (fd1);
 	return (0);
 }
 
-void	 ft_hdoc_check(t_tree *tree, int *sig_flag)
+void	 ft_hdoc_check(t_tree *tree, int *sig_flag, t_env **env, int status)
 {
 	t_list_fd *tmp;
 	int		id;
+	int		prev_fd;
 
 	if (!tree)
 		return ;
 	tmp = tree->fd_list;
-	// if (!tmp)
-	// 	return;
-	// tmp->sig_flag = 1;
 	while (tmp != NULL)
 	{
 		if (ft_redir_check(tmp->redir) == 3 && (*sig_flag) == 1)
 		{
-			if (!ft_hdoc_first(tree))
+			close (prev_fd);
+			if (!ft_hdoc_first(tmp))
 			{
-				id = fork();
-				if (id == 0)
-				{
-					signal(SIGINT, SIG_DFL);
-					ft_hdoc(ft_strdup(tmp->name), tmp->name, tmp->fd);
-				}
-				else if (id < 0)
-					perror("fork");
-				signal(SIGINT, SIG_IGN); 
-				waitpid(id, &(tree->status), 0);
-				// tmp->fd = tmp->fd1;
-				if (tmp ->fd1 == -1)
+				prev_fd = tmp->fd1;
+				if (tmp-> fd == -1 || tmp->fd1 == -1)
 				{
 					perror("minishell: ");
 					return ;
 				}
+				id = fork();
+				if (id == 0)
+				{
+					signal(SIGINT, SIG_DFL);
+					ft_hdoc(ft_strdup(tmp->name), tmp->fd, env, status);
+					close (tmp->fd1);
+				}
+				else if (id < 0)
+					perror("fork");
+				signal(SIGINT, SIG_IGN);
+				waitpid(id, &(tree->status), 0);
 				if (WIFSIGNALED(tree->status))
 				{
 					tree->status = WTERMSIG(tree->status);
 					if (tree->status == 2)
 						ft_putstr_fd(1, "\n");
-					// tree->status = 1;
 					*sig_flag = 0;
-					// puts("it entered here");
 				}
-				
+				close (tmp->fd);
+				// close (tmp->fd1);
 			}
 			// dup2(tmp->fd1, 0);
 		}
@@ -925,16 +935,16 @@ void	 ft_hdoc_check(t_tree *tree, int *sig_flag)
 	// return (tree->sig_flag);
 }
 
-void	ft_hdoc_handle(t_tree *tree, int *sig_flag)
+void	ft_hdoc_handle(t_tree *tree, int *sig_flag, t_env **env, int status)
 {
 	if (!tree)
 		return ;
 	// dprintf(2, "got out here\n");
 	if (tree->left)
-		ft_hdoc_handle(tree->left, sig_flag);
+		ft_hdoc_handle(tree->left, sig_flag, env, status);
 	if (tree->right)
-		ft_hdoc_handle(tree->right, sig_flag);
-	ft_hdoc_check(tree, sig_flag);
+		ft_hdoc_handle(tree->right, sig_flag, env, status);
+	ft_hdoc_check(tree, sig_flag, env, status);
 }
 
 // int	ft_node_lent(t_env *h)
@@ -1009,14 +1019,11 @@ void	ft_signal_exec(void)
 {
 	if (global_status == 2)
 	{
-		// dprintf(2, "entered here");
 		ft_putstr_fd(1, "\n");
-		// tree->status = 130;
 	}
 	else if (global_status == 3)
 	{
 		ft_putstr_fd(1, "Quit: 3\n");
-		// tree->status = 131;
 	}
 }
 
@@ -1035,13 +1042,11 @@ int	main(int argc, char **argv, char **argev)
 
 	if (!isatty(0) || !isatty(1))
 		return (0);
-	// atexit(f);
 	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
 		return 0;
 	((void)argc, (void)argv, inits_main(&env, &tree, argev));
 	e = ft_env_str(env);
 	tmp = env;
-	// tree->status = 0;// tanchof fin ki3mr tree
 	tcgetattr(0, &termios_a);
 	while (1)
 	{
@@ -1072,7 +1077,6 @@ int	main(int argc, char **argv, char **argev)
 		flag = 0;
 		add_history(str);
 		quote_parse(&str, &flag);
-		// dprintf(2, "this is stat: %d\n", tree->status);
 		lexer_to_tree(str, &tree, &flag);
 		tree_to_rediropen(tree, &flag);
 		if (!flag)
@@ -1084,32 +1088,14 @@ int	main(int argc, char **argv, char **argev)
 			handle_wildcards_in_cmdarr(&tree);
 		if (!flag && has_wild_cards_fdlst(&tree) == 1)
 			handle_wildcards_in_fdlst(&tree);
-		if (!flag)
-			reset_vars(&tree, &env);
-		// quote_remove(&tree);
-		// quote_remove(&tree);
-		// quote_remove_lst(&tree);
-		// print_tree_visual(tree, 1, 1);
-		// if (variable_search(&tree) == 1) //TO EXPAND WITH IN EXECUTION THIS SEARCHES FOR VARIABLES AND THE NEXT ONE EXPANDS THEM
-		// 	variable_expantion(&tree, &env);
-		if (!flag && variable_search_inlnkedlst(&tree) == 1)
-			variable_expantion_inlnkedlst(&tree, &env);
-		if (!flag)
-		{
-			ambiguous_set(&tree);
-			quote_remove_lst(&tree);
-		}
-		if (!flag && ambiguous_syntax_error(&tree, &env) == 1)
-			(write(2, "ambiguous redirect\n", 19), flag = 2);
-		if (!flag && ambiguous_syntax_error(&tree, &env) == 2)
-			(write(2, "No such file or directory\n", 26), flag = 2);
 		if (flag != 1)
 			print_tree_visual(tree, 1, 1);
 		printf("*******************%d\n", flag);
 		if (!flag)
 		{
 			tree->status = status;
-			ft_hdoc_handle(tree, &sig_flag);
+			// dprintf(2, "this is stat: %d\n", tree->status);
+			ft_hdoc_handle(tree, &sig_flag, &env, tree->status);
 			ft_st(tree, sig_flag);
 			if (sig_flag)
 			{
@@ -1117,7 +1103,6 @@ int	main(int argc, char **argv, char **argev)
 				ft_signal_exec();
 			}
 			status = tree->status;
-			// dprintf(2, "this is status: %d\n", status);
 		}
 		tcsetattr(0, TCSANOW, &termios_a);
 		if (tree && flag != 1)

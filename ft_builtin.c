@@ -141,9 +141,20 @@ int    ft_echo(char **s)
     return (0);
 }
 
+int ft_check_act(t_env *h)
+{
+    while (h)
+    {
+        if (h->active == 0)
+            return (0);
+        h = h->next;
+    }
+    return (1);
+}
+
 int ft_env(t_env *h)
 {
-    if (h == NULL)
+    if (h == NULL || ft_check_act(h))
     {
         ft_putstr_fd(2, "minishell: env: No such file or directory\n");
         return (127);
@@ -195,6 +206,7 @@ void    ft_exit(char **s, t_env **h)
 {
     int m;
 
+    ft_putstr_fd(1, "exit\n");
     if (s[1] == NULL)
         exit (0);
     else
@@ -207,7 +219,9 @@ void    ft_exit(char **s, t_env **h)
             exit (255);
         }
         else if (s[2] != NULL)
+        {
             write(2, "minishell: exit: too many arguments\n", 37);
+        }
         else
         {
             m = ft_modulo(s[1]);
@@ -426,14 +440,17 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                             if (v[1] == NULL && act == 0)
                             {
                                 f->value = ft_strdup("");
+                                f->active = 0;
+                                f->h = 0;
                                 free (v[0]);
                                 free (v);
                             }
                             else if (v[1] != NULL)
                             {
-                                // dprintf(2, "%s\n", v[1]);
                                 tmp = f->value;
                                 f->value = ft_strdup(v[1]);
+                                f->active = 0;
+                                f->h = 0;
                                 free (v[1]);
                                 free (v[0]);
                                 free (v);
@@ -444,14 +461,10 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                         {
                             if (ft_parse(v[0]) == 1)
                             {
-                                // if (i == 1)
-                                // {
-                                    // dprintf(2, "this is the first and second: %s , %s", v[0], v[1]);
                                     write(2, "minishell: export: not an identifier: ", 39);
                                     write(2, s[i], ft_strlen(s[i]));
                                     write(2, "\n", 1);
                                     status = 1;
-                                // }
                             }
                             else
                             {
@@ -507,6 +520,8 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                             {
                                 tmp = f->value;
                                 f->value = ft_strjoin(f->value, v[1]);
+                                f->active = 0;
+                                f->h = 0;
                                 free (v[0]);
                                 free (tmp);
                                 free (v[1]);
@@ -560,7 +575,6 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                         }
                     }
                 }
-            // }
         }
         i++;
     }

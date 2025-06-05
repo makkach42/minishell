@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_list_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:04:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 14:38:19 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 17:27:38 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,19 @@ t_list	*new_list_init(char *str)
 	word = NULL;
 	slice_and_dice_one(&str, &word);
 	new_node_init(&head, &word);
+	free(word);
 	tmp = head;
 	while (str && *str)
 	{
+		word = NULL;
 		slice_and_dice_two(&str, &word);
 		new_node_init(&new_node, &word);
+		free(word);
 		new_node->prev = tmp;
 		tmp->next = new_node;
 		tmp = new_node;
 	}
 	if (str)
 		free(str);
-	if (word)
-		free(word);
 	return (head);
 }

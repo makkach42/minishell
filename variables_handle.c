@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_handle.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 12:42:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/05 16:49:02 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ int	new_str_fill(char *var_value, char **str, char *before, char *after)
 	(free(before), free(after), free(var_value));
 	if (!new_str)
 		return (-1);
-	free((*str));
+	// free((*str));
 	(*str) = new_str;
+	// dprintf(2, "this is the new_str: %s\n", new_str);
+	// dprintf(2, "this is the new_str: %s\n", (*str));
 	return (0);
 }
 

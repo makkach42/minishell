@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error_helper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 18:02:58 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/04 17:30:49 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 				ft_strcmp(tmp->token, "OPERATION_&&") == 0 || ft_strcmp(
 					tmp->token, "OPERATION_||") == 0)))
 		(print_syntax_error(prev_data), *flag = 1, i = 1);
-	if (!i && ((ft_strcmp("OPERATION_&&", prev_token) == 0 || ft_strcmp(
-					"OPERATION_||", prev_token) == 0) && ft_strcmp(
-				tmp->token, "REDIRECTION") == 0))
-		(print_syntax_error(prev_data), *flag = 1, i = 1);
+	// if (!i && ((ft_strcmp("OPERATION_&&", prev_token) == 0 || ft_strcmp(
+	// 				"OPERATION_||", prev_token) == 0) && ft_strcmp(
+	// 			tmp->token, "REDIRECTION") == 0))
+	// 	(print_syntax_error(prev_data), *flag = 1, i = 1);
 	if (!i && (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
 				tmp->token, prev_token) == 0))
 		(print_syntax_error(prev_data), *flag = 1, i = 1);
