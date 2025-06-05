@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/05 17:12:02 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/05 18:52:12 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -579,5 +579,6 @@ void	ft_new_handler_pip(int sig);
 void	ft_free_array(char **p);
 void	if_question_mark(t_tmp_tree **tmp, int n);
 void	if_question_mark_two(char **line, int status, int n);
+// void	protected_extraction(char **word, char **str);
 
 #endif
