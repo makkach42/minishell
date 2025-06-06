@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/29 09:34:00 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 12:54:44 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	str_extractor_helper(char *str, int *i, int *flag, char **word)
 		(*i)++;
 	}
 	*word = ft_substr(str, 0, *i);
+	if (!*word)
+		return ;
 }
 
 static void	process_lst(t_list_fd **node)

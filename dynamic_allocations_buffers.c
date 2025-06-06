@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:09:53 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/05 13:54:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/05 15:16:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,6 @@ int	dyn_buf_add_char(t_dynbuf *buf, char c)
 	if (!dyn_buf_ensure_capacity(buf, 1))
 		return (0);
 	buf->data[buf->pos++] = c;
-	return (1);
-}
-
-int	dyn_buf_add_str(t_dynbuf *buf, const char *str, size_t len)
-{
-	size_t	i;
-
-	if (!dyn_buf_ensure_capacity(buf, len))
-		return (0);
-	i = 0;
-	while (i < len)
-	{
-		buf->data[buf->pos + i] = str[i];
-		i++;
-	}
-	buf->pos += len;
 	return (1);
 }
 

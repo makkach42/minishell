@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:11:30 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 14:02:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 13:04:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	add_quotes(t_list **tmp2)
 	tmp_char = (*tmp2)->data;
 	(*tmp2)->data = ft_strjoin_three(
 			"\"", (*tmp2)->data, "\"");
+	if (!(*tmp2)->data)
+		return ;
 	free(tmp_char);
 }
 
@@ -120,6 +122,8 @@ void	change_current_string(char **str)
 		printf("=========%s\n", tmp->data);
 		tmp_char = new_str;
 		new_str = ft_strjoin(new_str, tmp->data);
+		if (!new_str)
+			return ;
 		free(tmp_char);
 		tmp = tmp->next;
 	}

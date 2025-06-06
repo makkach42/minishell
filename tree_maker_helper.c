@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:00:03 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/03 13:15:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 13:05:39 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,13 @@ char	*side_maker(t_list **head, int number, int j)
 	{
 		tmp_char = tmp2;
 		tmp2 = ft_strjoin(tmp2, tmp->data);
+		if (!tmp2)
+			return (NULL);
 		free(tmp_char);
 		tmp_char = tmp2;
 		tmp2 = ft_strjoin(tmp2, " ");
+		if (!tmp2)
+			return (NULL);
 		free(tmp_char);
 		i++;
 		tmp = tmp->next;

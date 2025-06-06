@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:35:48 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/05 09:40:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 13:05:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	redirections_handle(char **original_redirs, t_tree **tree)
 		temp = *original_redirs;
 		*original_redirs = ft_strjoin(
 				*original_redirs, (*tree)->redirections);
+		if (!*original_redirs)
+			return ;
 		free(temp);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:07:51 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 14:38:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 12:43:54 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,19 @@ void	new_operator_word_extractor(char **word, char **str)
 
 	tmp_char = *word;
 	*word = ft_strtrim(*word, " ");
+	if (!*word)
+		return ;
 	free(tmp_char);
 	tmp_char = *str;
 	*str = ft_substr(*str, ft_strlen(*word),
 			ft_strlen(*str) - ft_strlen(*word));
+	if (!*str)
+		return ;
 	free(tmp_char);
 	tmp_char = *str;
 	*str = ft_strtrim(*str, " ");
+	if (!str)
+		return ;
 	free(tmp_char);
 }
 
@@ -34,14 +40,22 @@ void	equal_handle(char **str, char **word)
 
 	tmp_char = *word;
 	*word = ft_substr(*str, 0, 1);
+	if (!*word)
+		return ;
 	free(tmp_char);
 	tmp_char = *word;
 	*word = ft_strtrim(*word, " ");
+	if (!*word)
+		return ;
 	free(tmp_char);
 	tmp_char = *str;
 	*str = ft_substr(*str, 1, ft_strlen(*str) - 1);
+	if (!*str)
+		return ;
 	free(tmp_char);
 	tmp_char = *str;
 	*str = ft_strtrim(*str, " ");
+	if (!*str)
+		return ;
 	free(tmp_char);
 }

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 10:10:40 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/02 11:32:43 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 13:07:20 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,13 @@ void	join_entry(char **str, char *str2)
 
 	tmp_char = (*str);
 	(*str) = ft_strjoin((*str), str2);
+	if (!(*str))
+		return ;
 	free(tmp_char);
 	tmp_char = (*str);
 	(*str) = ft_strjoin((*str), " ");
+	if (!(*str))
+		return ;
 	free(tmp_char);
 }
 
@@ -31,6 +35,8 @@ void	join_to_node_name(t_list_fd **node, char **str)
 	free((*node)->name);
 	tmp_char = (*str);
 	(*str) = ft_strtrim((*str), " ");
+	if (!(*str))
+		return ;
 	free(tmp_char);
 	(*node)->name = (*str);
 	(*node)->name_split = ft_split((*str), 32);

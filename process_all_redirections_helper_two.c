@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:10:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 14:51:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 13:01:31 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,20 @@ void	cleanup_and_assign(t_dynbuf *command_buf, t_dynbuf *redir_buf,
 	dyn_buf_finalize(command_buf);
 	dyn_buf_finalize(redir_buf);
 	*cmd_part = ft_strtrim(command_buf->data, " ");
+	if (!*cmd_part)
+		return ;
 	if (redir_buf->pos > 0)
+	{
 		*redir_part = ft_strtrim(redir_buf->data, " ");
+		if (!*redir_part)
+			return ;
+	}
 	else
+	{
 		*redir_part = ft_strdup("");
+		if (!*redir_part)
+			return ;
+	}
 	dyn_buf_free(command_buf);
 	dyn_buf_free(redir_buf);
 }
