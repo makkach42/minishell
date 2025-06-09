@@ -29,6 +29,7 @@ void	ft_cmd_helper(t_cmd *com, int i, char *env, char *s)
 		if (com->t == NULL || com->t[0] == NULL)
 			exit (1);
 		com->str = ft_strmcpy(com->t[0]);
+		// dprintf(2, "this is the command_arr: %s\n", com->str);
 	}
 	if (i == 1)
 	{
@@ -50,7 +51,6 @@ char	*ft_cmd_check(char *env, char *s)
 	if (ft_strchr(s, '/') != NULL || env == NULL || env[0] == '\0')
 	{
 		// ft_is_dir(s);
-		dprintf(2, "in here\n");
 		fd = open(s, O_DIRECTORY);
 		if (fd != -1)
 		{
@@ -70,12 +70,11 @@ char	*ft_cmd_check(char *env, char *s)
 				exit (127);
 			else if (errno == 13 || errno == 20)
 				exit (126);
-			// else if ()
-			// dprintf(2, "this is errno: %d\n", errno);
 			exit (1);
 		}
 		return (NULL);
 	}
+	// dprintf(2, "this is the command_arr: %s\n", s);
 	ft_cmd_helper(&com, 0, env, s);
 	while (com.p[com.i] != NULL)
 	{
@@ -380,11 +379,6 @@ void	ft_putstr_fd(int fd, char *s)
 	i = 0;
 	if (s == NULL || fd < 0)
 		return ;
-	// while (s[i] != '\0')
-	// {
-	// 	write(fd, &s[i], 1);// tktb write mra w7da bstrlen
-	// 	i++;
-	// }
 	write(fd, s, ft_strlen(s));
 }
 

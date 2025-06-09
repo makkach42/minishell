@@ -723,3 +723,5 @@ minishell$> > oyt
 test export with HOLA="bonjour        " the spaces must stay
 in this test "$> export HOLA=""s -la"" 
 $> l""$HOLA""" it must not be splitted
+
+minishell$> "ls -la katsegfaulti

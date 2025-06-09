@@ -3,6 +3,8 @@
   "files.associations": {
     "stdio.h": "c",
     "typeinfo": "c",
-    "sstream": "c"
+    "sstream": "c",
+    "out[ut2": "c",
+    "output": "c"
   }
 }

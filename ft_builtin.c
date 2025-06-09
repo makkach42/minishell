@@ -31,14 +31,14 @@ int    ft_cd(char **s, t_env *h)
             perror("");
             return (1);
         }
-        if (!PWD || !PWD->value)
-            return (0);
-        else
-        {
-            if (OLD_PWD)
-                OLD_PWD->value = PWD->value;
-            PWD->value = home->value;
-        }
+        // if (!PWD || !PWD->value)
+        //     return (0);
+        // else
+        // {
+        //     if (OLD_PWD)
+        //         OLD_PWD->value = PWD->value;
+        //     PWD->value = home->value;
+        // }
     }
     else
     {
@@ -51,7 +51,6 @@ int    ft_cd(char **s, t_env *h)
         }
         if (!PWD)
         {
-            dprintf(2, "rneter in\n");
             t = getcwd(NULL, 0);
             if (t)
                 n->value = t;
@@ -113,31 +112,60 @@ int    ft_echo(char **s)
 {
     int     flag;
     int     i;
+    char    *buff;
+    char    *tmp;
 
     i = 1;
 	flag = 1;
+    if (!s[i])
+        return (1);
+	if (ft_nline_check(s[i]) == 0)
+	{
+		while (ft_nline_check(s[i]) == 0)
+			i++;
+		flag = 0;
+	}
+    // dprintf(2, "this is i: %d\n", i);
+    if (s[i])
+        buff = s[i];
 	while (s[i] != NULL)
 	{
-        // puts("True");
-		if (ft_nline_check(s[i]) == 0)
-		{
-			while (ft_nline_check(s[i]) == 0)
-				i++;
-			flag = 0;
-		}
-		while (s[i] != NULL)
-		{
-            ft_putstr_fd(1, s[i]);
-			if (s[i + 1] != NULL)
-				ft_putstr_fd(1, " ");
-			i++;
-		}
-		if (s[i] == NULL)
-			break ;
+        if (s[i + 1])
+        {
+            tmp = buff;
+            buff = ft_strjoin(buff, " ");
+            if (buff == NULL)
+                return (1);
+            free (tmp);
+            tmp = buff;
+            buff = ft_strjoin(buff, s[i + 1]);
+            if (buff == NULL)
+                return (1);
+            free (tmp);
+        }
+        else
+        {
+            tmp = buff;
+            buff = ft_strjoin(buff, NULL);
+            if (buff == NULL)
+                return (1);
+            // free (tmp);
+        }
 		i++;
 	}
-	if (flag == 1)
-		ft_putstr_fd(1, "\n");
+    if (buff)
+    {
+        if (flag == 1)
+        {
+            tmp = buff;
+            buff = ft_strjoin(buff, "\n");
+            free (tmp);
+        }
+        ft_putstr_fd(1, buff);
+        free (buff);
+    }
+	// if (flag == 1)
+	// 	ft_putstr_fd(1, "\n");
     return (0);
 }
 
@@ -152,8 +180,42 @@ int ft_check_act(t_env *h)
     return (1);
 }
 
+char *ft_str_env(t_env *h)
+{
+    char *buff;
+    char *tmp;
+    
+    buff = ft_strjoin(h->key, "=");
+    if (!buff)
+        return (NULL);
+    tmp = buff;
+    buff = ft_strjoin(buff, h->value);
+    if (!buff)
+    {
+        free (tmp);
+        return (NULL);
+    }
+    free (tmp);
+    tmp = buff;
+    buff = ft_strjoin(buff, "\n");
+    if (!buff)
+    {
+        free (tmp);
+        return (NULL);
+    }
+    free (tmp);
+    return (buff);
+}
+
 int ft_env(t_env *h)
 {
+    char *buff;
+    char *str;
+    char *tmp;
+    t_env *start;
+
+    start = h;
+    buff = NULL;
     if (h == NULL || ft_check_act(h))
     {
         ft_putstr_fd(2, "minishell: env: No such file or directory\n");
@@ -162,8 +224,35 @@ int ft_env(t_env *h)
     while (h != NULL)
     {
         if (h->active == 0)
-            printf("%s=%s\n", h->key, h->value);
+        {
+            if (h == start)
+            {
+                str = ft_str_env(h);
+                if (!str)
+                    return (1);
+                buff = str;
+            }
+            else
+            {
+                tmp = buff;
+                str = ft_str_env(h);
+                buff = ft_strjoin(buff, str);
+                if (!buff)
+                {
+                    free (str);
+                    return (1);
+                }
+                free (str);
+                free (tmp);
+            }
+            // printf("%s=%s\n", h->key, h->value);
+        }
         h = h->next;
+    }
+    if (buff)
+    {
+        ft_putstr_fd(1, buff);
+        free (buff);
     }
     return (0);
 }
@@ -202,13 +291,13 @@ int ft_modulo(char *str)
 }
 
 
-void    ft_exit(char **s, t_env **h)
+void    ft_exit(char **s, t_env **h, int status)
 {
     int m;
 
     ft_putstr_fd(1, "exit\n");
     if (s[1] == NULL)
-        exit (0);
+        exit (status);
     else
     {
         if (ft_check_string(s[1]) != 0)
@@ -353,9 +442,7 @@ char **ft_equal_str(char *str)
     {
         if (str[i] == '=' && flag == 0)
         {
-            // dprintf(2, "this is i: %d\n", i);
             p[0] = ft_substr(str, 0, i);
-            // dprintf(2, "this is the first: %s\n", p[0]);
             if (p[0] == NULL)
             {
                 free (p);
@@ -377,6 +464,43 @@ char **ft_equal_str(char *str)
     return (p);
 }
 
+char *ft_str_export(t_env *h)
+{
+    char *buff;
+    char *tmp;
+    
+    buff = ft_strjoin("declare -x ", NULL);
+    if (!buff)
+        return (NULL);
+    tmp = buff;
+    buff = ft_strjoin(buff, h->key);
+    if (!buff)
+        return (NULL);
+    free (tmp);
+    tmp = buff;
+    buff = ft_strjoin(buff, "=");
+    if (!buff)
+        return (NULL);
+    free (tmp);
+    tmp = buff;
+    buff = ft_strjoin(buff, h->value);
+    if (!buff)
+    {
+        free (tmp);
+        return (NULL);
+    }
+    free (tmp);
+    tmp = buff;
+    buff = ft_strjoin(buff, "\n");
+    if (!buff)
+    {
+        free (tmp);
+        return (NULL);
+    }
+    free (tmp);
+    return (buff);
+}
+
 int    ft_export(char  **s, t_env *h, t_tree *tree)
 {
     char    **v;
@@ -386,8 +510,12 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
     int     i;
     int     act;
     int     status;
-    // t_env *temp;
-    
+    char    *buff;
+    t_env *start;
+    char    *str;
+
+    start = h;
+    buff = NULL;
     i = 1;
     status = 0;
     while (s[i] != NULL && (check_empty(s[i]) == 1 && tree->var == 1))
@@ -398,8 +526,35 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
         while (h != NULL)
         {
             if ((h)->h == 0)
-                printf("%s=%s\n", (h)->key, (h)->value);
+            {
+                if (h == start)
+                {
+                    str = ft_str_export(h);
+                    if (!str)
+                        return (1);
+                    buff = str;
+                }
+                else
+                {
+                    tmp = buff;
+                    str = ft_str_export(h);
+                    buff = ft_strjoin(buff, str);
+                    if (!buff)
+                    {
+                        free (str);
+                        return (1);
+                    }
+                    free (str);
+                    free (tmp);
+                }
+                // printf("%s=%s\n", (h)->key, (h)->value);
+            }
             h = (h)->next;
+        }
+        if (buff)
+        {
+            ft_putstr_fd(1, buff);
+            free (buff);
         }
     }
     while (s[i] != NULL)
