@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/08 18:37:28 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/09 15:08:52 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,26 @@ void	ft_exec(t_tree *tree, t_env *h, char **e)
 
 void	ft_execute(t_tree *tree, t_env **h, char **e, int *check);
 
+void	ft_close_handle(t_list_fd *head)
+{
+	if (!head)
+		return ;
+	while (head)
+	{
+		close (head->fd1);
+		head = head->next; 
+	}
+}
+
+void	ft_close_fd(t_tree *tree)
+{
+	if (tree->left)
+		ft_close_fd(tree->left);
+	if (tree->right)
+		ft_close_fd(tree->right);
+	ft_close_handle(tree->fd_list);
+}
+
 int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 {
 	int	fd[2];
@@ -225,6 +245,7 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 		perror("minishell: pipe: ");
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
+	// ft_close_fd();
 	id1 = fork();
 	if (id1 == -1)
 	{
@@ -260,16 +281,11 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 		// dprintf(2, "this si the tree status : %d\n", tree->status);
 		exit(tree->status);
 	}
-	// signal(SIGINT, SIG_IGN);
-	// signal(SIGQUIT, SIG_IGN);
-	// waitpid(id1, NULL, 0);
 	close (fd[0]);
 	close (fd[1]);
+	ft_close_fd(tree);
 	waitpid(id1, &status1, 0);
 	waitpid(id2, &(status), 0);
-	// if (WIFEXITED(status) && WIFEXITED(status1))
-	// {
-	// }
 	if (WIFSIGNALED(status))
 	{
 		status = WTERMSIG(status);
@@ -461,7 +477,7 @@ void	ft_hdoc(char *limiter, int fd, t_env **env, int status)
 		free(tmp);
 	}
 	ft_hdoc_free(&str, &limiter, fd);
-	exit (0);
+	// exit (0);
 }
 
 int	ft_exec_redir(t_tree *tree, t_env **h, char **env)
@@ -788,6 +804,14 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 		free_env(h);
 		exit (1);
 	}
+	// t_list_fd *tmp = tree->fd_list;
+	// if (!tmp)
+	// 	dprintf(2, "this is it\n");
+	// while (tmp)
+	// {
+	// 	dprintf(2, "this is the remaining fd: %d\n", tmp->fd1);
+	// 	tmp = tmp->next;
+	// }
 	if ((ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections == NULL) || (ft_strcmp("WORD", tree->type) == 0 && cmd_check(tree) == 0))
 	{
 		reset_vars(&tree, h);
@@ -831,6 +855,7 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 	}
 	if ((tree->redirections != NULL && ft_strcmp("WORD", tree->type) == 0) || (ft_strcmp("REDIRECTION", tree->type) == 0 && cmd_check(tree) == 1))
 	{
+		// dprintf(2, "enterd in qoed redir\n");
 		display_terminal_control_chars();
 		id = fork();
 		if (id == 0)
@@ -843,6 +868,8 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 				(write(2, "ambiguous redirect\n", 19));
 			if (ambiguous_syntax_error(&tree, h) == 2)
 				(write(2, "No such file or directory\n", 26));
+			// dprintf(2, "this is fd; %d\n", tree->fd_list->fd);
+			// dprintf(2, "this is fd1; %d\n", tree->fd_list->fd1);
 			ft_exec_redir(tree, h, e);
 		}
 		signal(SIGINT, SIG_IGN);
@@ -864,7 +891,6 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 	}
 	if (ft_strcmp("PIPE", tree->type) == 0)
 	{
-		// dprintf(2, "this is it\n");
 		tree->status = ft_pip(tree, h, e, check);
 	}
 }
@@ -895,8 +921,6 @@ void	 ft_hdoc_check(t_tree *tree, int *sig_flag, t_env **env, int status)
 	int		id;
 	int		prev_fd;
 
-	if (!tree)
-		return ;
 	prev_fd = -1;
 	tmp = tree->fd_list;
 	while (tmp != NULL)
@@ -919,9 +943,13 @@ void	 ft_hdoc_check(t_tree *tree, int *sig_flag, t_env **env, int status)
 					signal(SIGINT, SIG_DFL);
 					ft_hdoc(ft_strdup(tmp->name), tmp->fd, env, status);
 					close (tmp->fd1);
+					exit (0);
 				}
 				else if (id < 0)
+				{
 					perror("fork");
+					return ;
+				}
 				signal(SIGINT, SIG_IGN);
 				waitpid(id, &(tree->status), 0);
 				if (WIFSIGNALED(tree->status))
@@ -940,11 +968,46 @@ void	 ft_hdoc_check(t_tree *tree, int *sig_flag, t_env **env, int status)
 	// return (tree->sig_flag);
 }
 
+int	ft_hdoc_count_second(t_tree *tree)
+{
+	t_list_fd *tmp;
+	int 	lent;
+
+	lent = 0;
+	tmp = tree->fd_list;
+	while (tmp != NULL)
+	{
+		if (ft_redir_check(tmp->redir) == 3)
+			lent++;
+		tmp = tmp->next;
+	}
+	// dprintf(2, "this is it %d\n", lent);
+	return (lent);
+}
+
+int	ft_hdoc_count(t_tree *tree)
+{
+	int lent;
+	int	left_lent;
+	int	right_lent;
+
+	lent = 0;
+	left_lent = 0;
+	right_lent = 0;
+	if (!tree)
+		return (-1);
+	if (tree->left)
+		left_lent += ft_hdoc_count(tree->left);
+	if (tree->right)
+		right_lent += ft_hdoc_count(tree->right);
+	lent += ft_hdoc_count_second(tree);
+	return (lent + left_lent+ right_lent);
+}
+
 void	ft_hdoc_handle(t_tree *tree, int *sig_flag, t_env **env, int status)
 {
 	if (!tree)
 		return ;
-	// dprintf(2, "got out here\n");
 	if (tree->left)
 		ft_hdoc_handle(tree->left, sig_flag, env, status);
 	if (tree->right)
@@ -1022,6 +1085,7 @@ int	main(int argc, char **argv, char **argev)
 	t_env 		*tmp;
 	int			status;
 	int			sig_flag;
+	int			hdoc_num;
 	struct termios	termios_a;
 	int check;
 
@@ -1032,6 +1096,7 @@ int	main(int argc, char **argv, char **argev)
 	((void)argc, (void)argv, inits_main(&env, &tree, argev));
 	e = ft_env_str(env);
 	tmp = env;
+	hdoc_num = 0;
 	tcgetattr(0, &termios_a);
 	while (1)
 	{
@@ -1079,8 +1144,15 @@ int	main(int argc, char **argv, char **argev)
 		if (!flag)
 		{
 			tree->status = status;
+			hdoc_num = ft_hdoc_count(tree);
+			dprintf(2, "this is hdoc_num: %d\n", hdoc_num);
+			if (hdoc_num > 16)
+			{
+				ft_putstr_fd(2, "minishell: maximum here-document count exceeded\n");
+				exit (2);
+			}
 			ft_hdoc_handle(tree, &sig_flag, &env, tree->status);
-			ft_st(tree, sig_flag);
+ 			ft_st(tree, sig_flag);
 			if (sig_flag)
 			{
 				ft_execute(tree, &env, e, &check);

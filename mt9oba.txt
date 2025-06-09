@@ -725,3 +725,4 @@ in this test "$> export HOLA=""s -la""
 $> l""$HOLA""" it must not be splitted
 
 minishell$> "ls -la katsegfaulti
+<<p | <<m leaks in file descriptor
