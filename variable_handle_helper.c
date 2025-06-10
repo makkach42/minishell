@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/05 16:15:27 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/09 19:34:38 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	variable_expantion_para(t_tree **tree, t_env **env)
 					// dprintf(2, "enterd in the right place\n");
 					// if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
 					// 	break ;
-					if (process_array_variable(&tmp->name, 0, i, env) == -1)
+					if (process_array_variable(&tmp->name, 0, &i, env) == -1)
 						break ;
 					if (tmp->name && countwords(tmp->name, 32) != 1)
 						tmp->name_split = ft_split(tmp->name, 32);
@@ -145,10 +145,10 @@ void	variable_expantion_para(t_tree **tree, t_env **env)
 void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env)
 {
 	t_list_fd	*tmp;
-	int			i;
-	int			in_quotes;
-	int			flag;
-	char		quote_type;
+	// int			i;
+	// int			in_quotes;
+	// int			flag;
+	// char		quote_type;
 
 	// if ((*tree)->left)
 	// 	variable_expantion_inlnkedlst(&(*tree)->left, env);

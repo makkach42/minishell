@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/05 17:15:01 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/09 19:34:05 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	variable_search_instr(char *str)
 void	lexer_to_tree(char *str, t_tree **tree, int *flag)
 {
 	t_list	*head;
-	t_list	*tmp;
+	// t_list	*tmp;
 
 	head = list_init(str);
 	lexer(&head);

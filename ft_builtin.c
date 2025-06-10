@@ -424,6 +424,7 @@ int     ft_equal_count(char *str)
             count++;
         i++;
     }
+    // dprintf(2, "this is it : %d\n", count);
     return (count);
 }
 
@@ -450,7 +451,6 @@ char **ft_equal_str(char *str)
             }
             i++;
             p[1] = ft_substr(str, i, ft_strlen(&str[i]));
-            // dprintf(2, "this is the second : %s\n", p[1]);
             if (p[1] == NULL)
             {
                 free (p[0]);
@@ -547,7 +547,6 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                     free (str);
                     free (tmp);
                 }
-                // printf("%s=%s\n", (h)->key, (h)->value);
             }
             h = (h)->next;
         }
@@ -666,7 +665,10 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                         }
                         else
                         {
-                            v = ft_split(s[i], '=');
+                            if (ft_equal_count(s[i]) > 1)
+                                v = ft_equal_str(s[i]);//must be checked for leaks
+                            else
+                                v = ft_split(s[i], '=');
                             if (v == NULL)
                                 return (1);
                             ft_remove_sign(v[0]);

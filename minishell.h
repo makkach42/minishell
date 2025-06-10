@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/07 17:15:35 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:38:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_tree
 	t_list_fd		*fd_list;
 	int				status;
 	int				sig_flag;
+	int				fd[2];
 }	t_tree;
 
 typedef struct s_dynbuf
@@ -89,21 +90,21 @@ typedef struct s_extract
 	int			paren_count;
 }	t_extract;
 
-typedef struct s_pip
-{
-	char	*e;
-	int		input_fd;
-	int		output_fd;
-	int		fd[2];
-	int		id;
-	int		flag;
-	char	**cmd;
-	int		i;
-	int		prev_fd;
-	char	*temp;
-	char	*str;
-	int		j;
-}	t_pip;
+// typedef struct s_pip
+// {
+// 	char	*e;
+// 	int		input_fd;
+// 	int		output_fd;
+// 	int		fd[2];
+// 	int		id;
+// 	int		flag;
+// 	char	**cmd;
+// 	int		i;
+// 	int		prev_fd;
+// 	char	*temp;
+// 	char	*str;
+// 	int		j;
+// }	t_pip;
 
 typedef struct s_cmd
 {
@@ -579,6 +580,52 @@ void	ft_new_handler_pip(int sig);
 void	ft_free_array(char **p);
 void	if_question_mark(t_tmp_tree **tmp, int n);
 void	if_question_mark_two(char **line, int status, int n);
-// void	protected_extraction(char **word, char **str);
+void	command_arr_fill_helper(t_tree **tree, char **str);
+void	command_arr_fill(t_tree **tree);
+void	env_fill_helper(t_env **node, int *i, int *j, char **argev);
+void	env_fill_empty(t_env **node, int *i, int *j);
+t_env	*env_fill(char **argev);
+void	free_array(char **s);
+int	ft_space_check(char *str);
+void	ft_exec(t_tree *tree, t_env *h, char **e);
+void	ft_close_handle(t_list_fd *head);
+void	ft_close_fd(t_tree *tree);
+int	ft_pip(t_tree *tree, t_env **h, char **e, int *check);
+int	cmd_check(t_tree *tree);
+int	ft_cmd_exec(t_tree *tree, t_env **h);
+int	ft_redir_check(char *str);
+void	ft_hdoc_free(char **str, char **limiter, int fd);
+char	*ft_name_check(char *name);
+void	ft_hdoc_signal(int sig);
+void	ft_hdoc_expand(char **line, t_env **env, int status);
+void	ft_hdoc(char *limiter, int fd, t_env **env, int status);
+void	ft_exec_redir(t_tree *tree, t_env **h, char **env);
+int ft_cmd_redir(t_tree *tree, t_env **h);
+int	ft_variable(t_tree *tree, t_env **h, char **e, int *check);
+int	check_amb(t_tree *tree);
+int ft_para_redir(t_tree *tree, t_env **h);
+int	ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check);
+void	ft_is_dir(char *s);
+void	ft_new_handler(int sig);
+void	ft_new_handler_pip(int sig);
+void	display_terminal_control_chars(void);
+void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check);
+void	ft_execute(t_tree *tree, t_env **h, char **e, int *check);
+int	ft_hdoc_first(t_list_fd *tmp);
+void	 ft_hdoc_check(t_tree *tree, int *sig_flag, t_env **env, int status);
+int	ft_hdoc_count_second(t_tree *tree);
+int	ft_hdoc_count(t_tree *tree);
+void	ft_hdoc_handle(t_tree *tree, int *sig_flag, t_env **env, int status);
+char	*ft_node_joint(t_env *h);
+char **ft_env_str(t_env *h);
+void	ft_st(t_tree *tree, int stat_flag);
+void	ft_signal_exec(void);
+t_env	*env_fill(char **argev);
+void	*env_fill_pwd(t_env *head);
+void	ft_close_handle(t_list_fd *head);
+int	ft_wait_for_child(int status, int status1);
+void	ft_second_child(t_tree *tree, int *check, char **e, t_env **h);
+void	ft_first_child(t_tree *tree, int *check, char **e, t_env **h);
+void	ft_pip_signal(void);
 
 #endif
