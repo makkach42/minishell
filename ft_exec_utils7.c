@@ -54,21 +54,21 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 	}
 	if ((tree->redirections != NULL && ft_strcmp("WORD", tree->type) == 0) || (ft_strcmp("REDIRECTION", tree->type) == 0 && cmd_check(tree) == 1))
 	{
-		display_terminal_control_chars();
-		if (variable_search_inlnkedlst(&tree) == 1)
-			variable_expantion_inlnkedlst(&tree, h);
-		ambiguous_set(&tree);
-		quote_remove_lst(&tree);
-		if (ambiguous_syntax_error(&tree, h) == 1)
-			(write(2, "ambiguous redirect\n", 19));
-		if (ambiguous_syntax_error(&tree, h) == 2)
-		{
-			(write(2, "No such file or directory\n", 26));
-		}
-		ft_exec_redir(tree, h, e);
 		id = fork();
 		if (id == 0)
 		{
+			display_terminal_control_chars();
+			if (variable_search_inlnkedlst(&tree) == 1)
+				variable_expantion_inlnkedlst(&tree, h);
+			ambiguous_set(&tree);
+			quote_remove_lst(&tree);
+			if (ambiguous_syntax_error(&tree, h) == 1)
+				(write(2, "ambiguous redirect\n", 19));
+			if (ambiguous_syntax_error(&tree, h) == 2)
+			{
+				(write(2, "No such file or directory\n", 26));
+			}
+			ft_exec_redir(tree, h, e);
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			if (tree->command_arr[0] && check_empty(tree->command_arr[0]) == 0)
