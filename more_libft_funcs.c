@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_libft_funcs.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:21:55 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/20 10:11:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 13:12:36 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ size_t	ft_strlen(char *str)
 	size_t	i;
 
 	i = 0;
+	// dprintf(2, "this is the str: %s\n", str);
 	while (str[i] != '\0')
 		i++;
 	return (i);

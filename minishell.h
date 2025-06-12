@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:11:14 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:16:57 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,7 +315,7 @@ int		ft_cd(char **s, t_env *h);
 int		ft_echo(char **s);
 int		ft_env(t_env *h);
 int		ft_check_string(char *str);
-void	ft_exit(char **s, t_env **h);
+void	ft_exit(char **s, t_env **h, int status);
 int		ft_export(char  **s, t_env *h, t_tree *tree);
 int		ft_pwd(t_env *h);
 void	ft_unset(t_env **h, char **s);
@@ -588,6 +588,7 @@ void	ft_new_handler_pip(int sig);
 void	ft_free_array(char **p);
 void	if_question_mark(t_tmp_tree **tmp, int n);
 int		underscore_case_check(char *var_name, char **command_arr, int arr_idx);
+void	if_question_mark_two(char **line, int status, int n);
 // void	protected_extraction(char **word, char **str);
 
 #endif

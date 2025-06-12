@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:56:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:13:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:18:44 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	extract_var_value(t_env **env, char *var_name, char **var_value)
 		{
 			(*var_value) = ft_strdup(tmp_env->value);
 			i = 0;
-			while ((*var_value)[i])
+			while (var_value && *var_value && (*var_value)[i])
 			{
 				if ((*var_value)[i] == '"')
 					(*var_value)[i] = 10;

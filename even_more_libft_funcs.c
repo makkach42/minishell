@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   even_more_libft_funcs.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:26:40 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/16 14:08:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 13:22:16 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static char	*cases(char *s1, char *s2)
 		return (ft_strdup(s2));
 	if (!s2)
 		return (ft_strdup(s1));
+	// dprintf(2, "this is the str: %s\n", s2);
 	len3 = ft_strlen(s1) + ft_strlen(s2);
 	return (malloc((len3 + 1) * sizeof(char)));
 }

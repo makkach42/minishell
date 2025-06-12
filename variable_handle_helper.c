@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:14:30 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:18:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	variable_expantion_para(t_tree **tree, t_env **env)
 				if (tmp->name[i] == '$' && (
 						!in_quotes || (in_quotes && quote_type == '"')))
 				{
-					dprintf(2, "enterd in the right place\n");
+					// dprintf(2, "enterd in the right place\n");
 					// if (variable_expantion_two(&tmp->name, i, env, &flag) == -1)
 					// 	break ;
 					if (process_array_variable(&tmp->name, 0, i, env) == -1)

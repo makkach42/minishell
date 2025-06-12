@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:09:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:18:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ int	new_str_fill(char *var_value, char **str, char *before, char *after)
 	(free(before), free(after), free(var_value));
 	if (!new_str)
 		return (-1);
-	free((*str));
+	// free((*str));
 	(*str) = new_str;
+	// dprintf(2, "this is the new_str: %s\n", new_str);
+	// dprintf(2, "this is the new_str: %s\n", (*str));
 	return (0);
 }
 
