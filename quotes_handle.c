@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/06 12:54:44 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:44:16 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ static void	process_lnked_lst(t_tree **tree)
 	t_list_fd	*tmp;
 	int			i;
 
-	i = 0;
 	tmp = (*tree)->fd_list;
 	while (tmp)
 	{
+		i = 0;
 		process_lst(&tmp);
 		while (tmp->name[i])
 		{
