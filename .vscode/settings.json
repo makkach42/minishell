@@ -1,7 +1,3 @@
 {
-  "C_Cpp_Runner.msvcBatchPath": "",
-  "files.associations": {
-    "stdio.h": "c",
-    "typeinfo": "c"
-  }
+  "C_Cpp_Runner.msvcBatchPath": ""
 }

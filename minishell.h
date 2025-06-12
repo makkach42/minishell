@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 16:51:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:11:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ void		redirections_in_par_handle(t_tree **tree, char **cmd_part,
 				char **original_redirs, char **content);
 int			still_has_parentheses(t_tree **tree);
 void		redirections_handle(char **original_redirs, t_tree **tree);
-void		print_syntax_error(char *str2);
+// void		print_syntax_error(char *str2);
 void		syntax_error_parentheses_while_loop_parentheses(t_list *tmp,
 				int *i, int *open_par, int *closed_par);
 void		syntax_error_parentheses_while_loop(t_list *tmp,
@@ -371,6 +371,15 @@ int			process_array_variable(char **command_arr,
 // int			count_filtered_length(char *old_str, int *var_flag, int l, int k);
 // char		*create_filtered_string(char *old_str, int final_len, int l, int k);
 void    reset_vars(t_tree **tree, t_env **env);
+typedef struct s_expand
+{
+	int		var_end;
+	char	*var_name;
+	char	*var_value;
+	char	*before;
+	char	*after;
+}	t_expand;
+
 void	print_tree_visual(t_tree *tree, int level, int is_left);
 int		ft_strcmp(char *s1, char *s2);
 size_t	ft_strlen(char *str);
@@ -457,7 +466,7 @@ void	dyn_buf_free(t_dynbuf *buf);
 void	cleanup_and_assign(t_dynbuf *command_buf, t_dynbuf *redir_buf,
 			char **cmd_part, char **redir_part);
 void	init_list_fd_node(t_list_fd *node);
-void	print_syntax_error(char *str2);
+void	print_syntax_error(void);
 void	syntax_error_parentheses_while_loop(t_list *tmp,
 			int *i, int *flag, int *open_par);
 int		check_quotes(char *str, int *flag);
@@ -578,6 +587,7 @@ void	ft_new_handler(int sig);
 void	ft_new_handler_pip(int sig);
 void	ft_free_array(char **p);
 void	if_question_mark(t_tmp_tree **tmp, int n);
+int		underscore_case_check(char *var_name, char **command_arr, int arr_idx);
 // void	protected_extraction(char **word, char **str);
 
 #endif

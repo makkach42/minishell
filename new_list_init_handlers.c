@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:45:05 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/29 08:59:36 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 12:46:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,7 @@ void	new_operator_handle(char **str, char **word)
 		*word = ft_substr(*str, 0, 2);
 	else if (*str[0] == '<' && *str[1] && *str[1] == '<')
 		*word = ft_substr(*str, 0, 2);
+	if (!*word)
+		return ;
 	new_operator_word_extractor(word, str);
 }

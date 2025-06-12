@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 12:42:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:09:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,30 +57,29 @@ int	fill_after(char **after, char **str, int var_end)
 int	process_array_variable(char **command_arr,
 		int arr_idx, int *var_pos, t_env **env)
 {
-	int		var_end;
-	char	*var_name;
-	char	*var_value;
-	char	*before;
-	char	*after;
+	t_expand	tmp;
 
 	if (first_return_check(command_arr, arr_idx, var_pos))
 		return (-1);
-	var_end = (*var_pos) + 1;
-	if (command_arr[arr_idx][var_end] == '$')
-		return (if_var_end_is_dollar(command_arr, var_pos, arr_idx, var_end));
-	var_end_set(command_arr, arr_idx, &var_end);
-	var_name = ft_substr(command_arr[arr_idx],
-			(*var_pos) + 1, var_end - (*var_pos) - 1);
-	if (!var_name)
+	tmp.var_end = (*var_pos) + 1;
+	if (command_arr[arr_idx][tmp.var_end] == '$')
+		return (if_var_end_is_dollar(command_arr,
+				var_pos, arr_idx, tmp.var_end));
+	var_end_set(command_arr, arr_idx, &tmp.var_end);
+	tmp.var_name = ft_substr(command_arr[arr_idx],
+			(*var_pos) + 1, tmp.var_end - (*var_pos) - 1);
+	if (!tmp.var_name)
 		return (-1);
-	if (!ft_strcmp(var_name, "?"))
-		return (free(var_name), *var_pos = -1, 0);
-	var_value = NULL;
-	extract_var_value(env, var_name, &var_value);
-	if (fill_before(&before, &command_arr[arr_idx], var_pos, var_name) == -1)
+	if (underscore_case_check(tmp.var_name, command_arr, arr_idx))
+		return (0);
+	tmp.var_value = NULL;
+	extract_var_value(env, tmp.var_name, &tmp.var_value);
+	if (fill_before(&tmp.before, &command_arr[arr_idx],
+			var_pos, tmp.var_name) == -1)
 		return (-1);
-	if (fill_after(&after, &command_arr[arr_idx], var_end) == -1)
-		return (free(var_name), free(before), -1);
-	free(var_name);
-	return (new_str_fill(var_value, &command_arr[arr_idx], before, after), 0);
+	if (fill_after(&tmp.after, &command_arr[arr_idx], tmp.var_end) == -1)
+		return (free(tmp.var_name), free(tmp.before), -1);
+	free(tmp.var_name);
+	return (new_str_fill(tmp.var_value, &command_arr[arr_idx],
+			tmp.before, tmp.after), 0);
 }

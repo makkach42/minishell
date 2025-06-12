@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:47:08 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 11:23:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 12:56:10 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,17 @@ static void	extract_redir_token(char **old_redirs, char **target_redir)
 			*old_redirs)[i] == '<' || (*old_redirs)[i] == 32))
 		i++;
 	*target_redir = ft_substr(*old_redirs, 0, i);
+	if (!*target_redir)
+		return ;
 	tmp_char = *target_redir;
 	*target_redir = ft_strtrim(*target_redir, " ");
+	if (!*target_redir)
+		return ;
 	free(tmp_char);
 	tmp_char = *old_redirs;
 	*old_redirs = ft_substr(*old_redirs, i, (int)ft_strlen(*old_redirs) - i);
+	if (!*old_redirs)
+		return ;
 	free(tmp_char);
 }
 
@@ -41,8 +47,12 @@ static void	extract_filename(char **old_redirs, char **target_name)
 	while ((*old_redirs)[i] && (*old_redirs)[i] != 32)
 		i++;
 	*target_name = ft_substr(*old_redirs, 0, i);
+	if (!*target_name)
+		return ;
 	tmp_char = *old_redirs;
 	*old_redirs = ft_substr(*old_redirs, i, (int)ft_strlen(*old_redirs) - i);
+	if (!*old_redirs)
+		return ;
 	free(tmp_char);
 }
 

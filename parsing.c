@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 14:39:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:13:03 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	env_fill_helper(t_env **node, int *i, int *j, char **argev)
 	while (argev[*i] && argev[*i][*j] != '=')
 		(*j)++;
 	(*node)->key = ft_substr(argev[*i], 0, *j);
+	if (!(*node)->key)
+		return ;
 	(*node)->value = ft_substr(argev[*i],
 			(*j + 1), ft_strlen(argev[*i]) - (*j + 1));
 		*j = 0;

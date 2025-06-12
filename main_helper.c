@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 11:09:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:09:31 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,15 @@ void	lexer_to_tree(char *str, t_tree **tree, int *flag)
 	head = list_init(str);
 	lexer(&head);
 	if (new_syntax_error(&head))
-		(print_syntax_error("("), *flag = 1);
-	// tmp = head;
-	// while (tmp)
-	// {
-	// 	printf("%s\n", tmp->data);
-	// 	printf("%s\n", tmp->token);
-	// 	printf("\n");
-	// 	tmp = tmp->next;
-	// }
-	// dprintf(2, "this is stat: %d\n", (*tree)->status);
+		(print_syntax_error(), *flag = 1);
+	tmp = head;
+	while (tmp)
+	{
+		printf("%s\n", tmp->data);
+		printf("%s\n", tmp->token);
+		printf("\n");
+		tmp = tmp->next;
+	}
 	syntax_error(&head, flag);
 	if (syntax_error_parentheses(&head))
 		*flag = 1;

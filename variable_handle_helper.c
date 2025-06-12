@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 11:14:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:14:30 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	expand_in_lnkdlst(t_list_fd **tmp, t_env **env, int *i, int *in_quotes)
 		process_array_variable(&(*tmp)->name, 0, i, env);
 		tmp_char = (*tmp)->name;
 		(*tmp)->name = ft_strtrim((*tmp)->name, " ");
+		if (!(*tmp)->name)
+			return ;
 		free(tmp_char);
 		if ((*tmp)->name && countwords((*tmp)->name, 32) != 1)
 			(*tmp)->name_split = ft_split((*tmp)->name, 32);
