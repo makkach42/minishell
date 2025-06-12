@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/02 11:20:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:05:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ void	analyze_fd_list(t_tree **tree)
 		process_quotes_and_words(tmp->name, &count, &flag, i);
 		if (count != 1)
 			(*tree)->ambiguous = 1;
-		else if (count == 1 && flag == 0 && ft_strcmp(tmp->redir, "<<"))
-			(*tree)->quotes = 1;
+		// else if (count == 1 && flag == 0 && ft_strcmp(tmp->redir, "<<"))
+		// 	(*tree)->quotes = 1;
 		tmp = tmp->next;
 	}
 }

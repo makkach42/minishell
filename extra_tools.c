@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:28:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 13:43:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:06:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	print_tree_visual(t_tree *tree, int level, int is_left)
 		printf(" (Ambiguous: %d)", tree->ambiguous);
 	else
 		printf(" (Ambiguous: 0)");
-	if (tree->quotes)
-		printf(" (Quotes: %d)", tree->quotes);
-	else
-		printf(" (Quotes: 0)");
+	// if (tree->quotes)
+	// 	printf(" (Quotes: %d)", tree->quotes);
+	// else
+	// 	printf(" (Quotes: 0)");
 	if (tree->var)
 		printf(" (Var: %d)", tree->var);
 	else
