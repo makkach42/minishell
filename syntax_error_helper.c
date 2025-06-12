@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:18:41 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:57:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,9 @@ void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 				ft_strcmp(tmp->token, "OPERATION_&&") == 0 || ft_strcmp(
 					tmp->token, "OPERATION_||") == 0)))
 		(print_syntax_error(), *flag = 1, i = 1);
-	// if (!i && ((ft_strcmp("OPERATION_&&", prev_token) == 0 || ft_strcmp(
-	// 				"OPERATION_||", prev_token) == 0) && ft_strcmp(
-	// 			tmp->token, "REDIRECTION") == 0))
-	// 	(print_syntax_error(), *flag = 1, i = 1);
+	if (!i && (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
+				tmp->token, "PARENTHASIS") == 0))
+		(print_syntax_error(), *flag = 1, i = 1);
 	if (!i && (!ft_strcmp("REDIRECTION", prev_token) && !ft_strcmp(
 				"<<", prev_data) && !ft_strcmp(tmp->token, "PARENTHASIS")))
 		(print_syntax_error(), *flag = 1);
