@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:09:53 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/05 15:16:47 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 15:52:20 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,16 @@ void	dyn_buf_free(t_dynbuf *buf)
 	buf->data = NULL;
 	buf->size = 0;
 	buf->pos = 0;
+}
+
+int	underscore_case_check(char *var_name, char **command_arr, int arr_idx)
+{
+	if (!ft_strcmp(var_name, "_"))
+	{
+		free(command_arr[arr_idx]);
+		command_arr[arr_idx] = NULL;
+		free(var_name);
+		return (1);
+	}
+	return (0);
 }

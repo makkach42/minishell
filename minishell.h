@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/05 11:15:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 15:54:08 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_tree
 	struct s_tree	*right;
 	char			*command;
 	char			**command_arr;
-	// char			***command_arr_expanded;
 	char			*redirections;
 	int				ambiguous;
 	int				quotes;
@@ -86,6 +85,15 @@ typedef struct s_idx
 	int	j;
 	int	original_size;
 }	t_idx;
+
+typedef struct s_expand
+{
+	int		var_end;
+	char	*var_name;
+	char	*var_value;
+	char	*before;
+	char	*after;
+}	t_expand;
 
 void	print_tree_visual(t_tree *tree, int level, int is_left);
 int		ft_strcmp(char *s1, char *s2);
@@ -154,11 +162,11 @@ void	free_cmd_list(t_list *cmd_list);
 void	lexer(t_list **head);
 void	process_command_with_pipes_inits(t_list **cmd_list, char **cmd_copy);
 t_tree	*handle_operation_token(t_list **head, t_list *pipe_pos);
-// t_tree	*handle_pipe_token(t_list **head, char *left_cmd,
-			// t_list *pipe_pos);
-// void	free_list_to_position(t_list **head, t_list *position);
-// t_tree	*create_tree_node(void *command, char *type);
-// void	build_command_str(char **command_str, t_list *current);
+t_tree	*handle_pipe_token(t_list **head, char *left_cmd,
+			t_list *pipe_pos);
+void	free_list_to_position(t_list **head, t_list *position);
+t_tree	*create_tree_node(void *command, char *type);
+void	build_command_str(char **command_str, t_list *current);
 void	redirections_in_par_handle(t_tree **tree, char **cmd_part,
 			char **original_redirs, char **content);
 void	sub_tree_creation(t_tree **sub_tree, char **content, t_list **sub_list);
@@ -214,7 +222,7 @@ void	cleanup_left_nodes(t_list *nodes);
 void	if_prev(t_list *tmp, t_list **prev_part, t_tree **tree, t_list **head);
 void	handle_operation_command(t_tree **tree, t_list *tmp,
 			int total_nodes, int i);
-// t_tree	*build_pipe_tree(t_list **head);
+t_tree	*build_pipe_tree(t_list **head);
 t_list	*copy_list_segment(t_list *head, t_list *end_pos);
 int		dyn_buf_add_char(t_dynbuf *buf, char c);
 int		process_redirection_helper(char *cmd_str, int *i, t_dynbuf *redir_buf);
@@ -287,6 +295,7 @@ char	**get_matches(const char *pattern, char *dir_path, int *match_count);
 void	process_wildcard_node_fd(t_list_fd *node, char *dir_path);
 void	handle_wildcards_in_fdlst(t_tree **tree);
 int		has_wild_cards_fdlst(t_tree **tree);
+int		underscore_case_check(char *var_name, char **command_arr, int arr_idx);
 // void	protected_extraction(char **word, char **str);
 
 #endif

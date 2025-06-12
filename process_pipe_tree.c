@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 10:14:49 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 14:59:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static char	*extract_command_with_redirects(t_list **head, t_list **pipe_pos)
 	}
 	if (!command_str)
 		command_str = ft_strdup("");
-	printf("-------------%s\n", command_str);
 	return (command_str);
 }
 
@@ -51,7 +50,7 @@ t_tree	*build_pipe_tree(t_list **head)
 	left_cmd = extract_command_with_redirects(head, &pipe_pos);
 	if (!pipe_pos)
 	{
-		root = create_tree_node(left_cmd, "COMMAND");
+		root = create_tree_node(left_cmd, (*head)->token);
 		free_list_to_position(head, NULL);
 		return (root);
 	}
