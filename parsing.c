@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/10 16:21:58 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:41:12 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1048,6 +1048,14 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check);
 // 	}
 // }
 
+void	ft_free_data(t_hdoc_data *h_data)
+{
+	free (h_data->sig_flag);
+	h_data->sig_flag = NULL;
+	free (h_data);
+	h_data = NULL;
+}
+
 int	main(int argc, char **argv, char **argev)
 {
 	char		*str;
@@ -1061,26 +1069,32 @@ int	main(int argc, char **argv, char **argev)
 	int			hdoc_num;
 	struct termios	termios_a;
 	int check;
-	int	org_stdout;
-	int	org_stdin;
+	t_hdoc_data	*h_data;
 
 	if (!isatty(0) || !isatty(1))
-		return (0);
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
-		return 0;
+		return (1);
+	// if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+	// 	return 0;
 	((void)argc, (void)argv, inits_main(&env, &tree, argev));
 	e = ft_env_str(env);
 	tmp = env;
 	hdoc_num = 0;
-	if (dup2(org_stdout, 1) == -1 )
+	h_data = malloc(sizeof(t_hdoc_data));
+	if (!h_data)
+		return (1);
+	h_data->env = &env;
+	h_data->sig_flag = malloc(sizeof(int));
+	if (!h_data->sig_flag)
 	{
-		dprintf(2, "fai;ed\n");
-		exit (1);
+		ft_free_array(e);
+		free_env(&env);
+		free (h_data);
+		return (1);
 	}
 	tcgetattr(0, &termios_a);
 	while (1)
 	{
-		sig_flag = 1;
+		*(h_data->sig_flag) = 1;
 		global_status = 0;
 		check = 0;
 		hide_terminal_control_chars();
@@ -1090,11 +1104,10 @@ int	main(int argc, char **argv, char **argev)
 		str = readline("minishell$> ");
 		if (!str)
 		{
-			// dprintf(2, "debug muy boyyyy after\n");
 			ft_putstr_fd(1, "exit\n");
 			ft_free_array(e);
-			//YOU MUST PRINT EXIT
 			free_env(&env);
+			ft_free_data(h_data);
 			break ;
 		}
 		else if (!*str || check_empty(str))
@@ -1102,13 +1115,12 @@ int	main(int argc, char **argv, char **argev)
 			free(str);
 			continue ;
 		}
-		flag = 0;
 		add_history(str);
 		quote_parse(&str, &flag);
-		lexer_to_tree(str, &tree, &flag);
-		tree_to_rediropen(tree, &flag);
 		if (!flag)
 		{
+			lexer_to_tree(str, &tree, &flag);
+			tree_to_rediropen(tree, &flag);
 			export_cases(&tree);
 			redirections_list_maker(&tree);
 		}
@@ -1116,9 +1128,9 @@ int	main(int argc, char **argv, char **argev)
 			handle_wildcards_in_cmdarr(&tree);
 		if (!flag && has_wild_cards_fdlst(&tree) == 1)
 			handle_wildcards_in_fdlst(&tree);
-		if (flag != 1)
-			print_tree_visual(tree, 1, 1);
-		printf("*******************%d\n", flag);
+		// if (flag != 1)
+		// 	print_tree_visual(tree, 1, 1);
+		// printf("*******************%d\n", flag);
 		if (!flag)
 		{
 			tree->status = status;
@@ -1128,33 +1140,32 @@ int	main(int argc, char **argv, char **argev)
 				ft_putstr_fd(2, "minishell: maximum here-document count exceeded\n");
 				exit (2);
 			}
-			// dprintf(2, "debug muy boyyyy before\n");
-			quote_remove_lst(&tree);
-			ft_hdoc_handle(tree, &sig_flag, &env, tree->status);
- 			ft_st(tree, sig_flag);
-			if (sig_flag)
+			// dprintf(2, "before amb\n");
+			ft_hdoc_handle(tree, h_data, tree->status);
+			// dprintf(2, "after amb\n");
+ 			ft_st(tree, *(h_data->sig_flag));
+			if (*(h_data->sig_flag))
 			{
-				ft_execute(tree, &env, e, &check);
+				ft_execute(tree, h_data->env, e, &check);
 				ft_signal_exec();
-				
 			}
 			status = tree->status;
 		}
 		tcsetattr(0, TCSANOW, &termios_a);
 		if (tree && flag != 1)
 			free_tree(tree);
-		// dprintf(2, "debug muy boyyyy\n");
 	}
-	free_env(&env);
+	// free_env(&env);
 	exit (status);
-	// dprintf(2, "debug muy boyyyy after\n");
 }
 //(cat << EOF | grep "hello ") && (echo "skimi7a" || echo "fails") > infile.txt
-//((ls > file) && echo | la > file2) > file3
+//((ls > file) && echo | la > file2) > file3 kisift liya la bcommande node machi bword
 
 //((ls)>file2) > file
 // "((ls)>file2) > file"
 // >file4(>file5 ls>file>file2>file3 -la>file6)>file7>file8
 //> file4 (>file5 ls>file>file2>file3 -la>file6)>file7>file8make
+
+// syntax error has an erro status
 
 //"*"

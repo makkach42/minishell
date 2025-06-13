@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   some_other_helpers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 10:30:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 10:55:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:22:08 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,10 @@ void	analyze_fd_list(t_tree **tree)
 	while (tmp)
 	{
 		process_quotes_and_words(tmp->name, &count, &flag, i);
-		if (count != 1)
+		if (count != 1 && ft_strcmp(tmp->redir, "<<"))
 			(*tree)->ambiguous = 1;
-		else if (count == 1 && flag == 0 && ft_strcmp(tmp->redir, "<<"))
-			(*tree)->quotes = 1;
+		// else if (count == 1 && flag == 0 && ft_strcmp(tmp->redir, "<<"))
+		// 	(*tree)->quotes = 1;
 		tmp = tmp->next;
 	}
 }

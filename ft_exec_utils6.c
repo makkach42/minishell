@@ -1,8 +1,20 @@
-# include <minishell.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exec_utils6.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/11 14:03:06 by aakroud           #+#    #+#             */
+/*   Updated: 2025/06/11 19:47:45 by aakroud          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <minishell.h>
 
 void	ft_is_dir(char *s)
 {
-	struct stat buf;
+	struct stat	buf;
 
 	stat(s, &buf);
 	if (S_ISDIR(buf.st_mode) != 0)
@@ -14,16 +26,9 @@ void	ft_is_dir(char *s)
 	}
 }
 
-void	ft_new_handler(int sig)
-{
-	(void)sig;
-	printf("\n");
-}
-
 void	ft_new_handler_pip(int sig)
 {
 	(void)sig;
-	// printf("\n");
 	hide_terminal_control_chars();
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -38,35 +43,10 @@ void	display_terminal_control_chars(void)
 	tcsetattr(0, TCSANOW, &terminos_p);
 }
 
-void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check)
+void	ft_word_handle_signal(t_tree *tree, int *check)
 {
-	int id;
-
-	display_terminal_control_chars();
-	id = fork();
-	if (id == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		ft_exec(tree, *h, e);
-	}
-	else if (id < 0)
-	{
-		perror("fork");
-		tree->status = 1;
-		return ;
-	}
-	if (*check == 0)
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-	}
-	if (waitpid(id, &(tree->status), 0) == -1)
-		tree->status = 1;
-	else if (WIFEXITED(tree->status))
-	{
+	if (WIFEXITED(tree->status))
 		tree->status = WEXITSTATUS(tree->status);
-	}
 	else if (WIFSIGNALED(tree->status))
 	{
 		tree->status = WTERMSIG(tree->status);
@@ -78,4 +58,26 @@ void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check)
 	}
 	if (*check)
 		exit (tree->status);
+}
+
+void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check)
+{
+	int	id;
+
+	display_terminal_control_chars();
+	id = fork();
+	if (id == 0)
+		ft_exec(tree, *h, e);
+	else if (id < 0)
+	{
+		perror("fork");
+		tree->status = 1;
+		return ;
+	}
+	if (*check == 0)
+		ft_signal_ign();
+	if (waitpid(id, &(tree->status), 0) == -1)
+		tree->status = 1;
+	else
+		ft_word_handle_signal(tree, check);
 }

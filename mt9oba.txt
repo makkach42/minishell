@@ -726,3 +726,862 @@ $> l""$HOLA""" it must not be splitted
 
 minishell$> "ls -la katsegfaulti
 <<p | <<m leaks in file descriptor
+
+minishell$> $? $? | $? > ls < hello 
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==59770==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000100c1a06e bp 0x7ffeef034b50 sp 0x7ffeef034a50 T0)
+==59770==The signal is caused by a READ memory access.
+==59770==Hint: address points to the zero page.
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==59771==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000100c1a06e bp 0x7ffeef034b50 sp 0x7ffeef034a50 T0)
+==59771==The signal is caused by a READ memory access.
+==59771==Hint: address points to the zero page.
+    #0 0x100c1a06e in ft_exec ft_exec_utils2.c:71
+    #0 0x100c1a06e in ft_exec ft_exec_utils2.c:71
+    #1 0x100c1ef2a in ft_word_handle ft_exec_utils6.c:70
+    #1 0x100c1ef2a in ft_word_handle ft_exec_utils6.c:70
+    #2 0x100c1e1ee in ft_variable ft_exec_utils5.c:103
+    #2 0x100c1e1ee in ft_variable ft_exec_utils5.c:103
+    #3 0x100c1f5fc in ft_var_helper ft_exec_utils7.c:47
+    #3 0x100c1f5fc in ft_var_helper ft_exec_utils7.c:47
+    #4 0x100c202c0 in ft_execute ft_exec_utils7.c:92
+    #4 0x100c202c0 in ft_execute ft_exec_utils7.c:92
+    #5 0x100c237b0 in ft_second_child ft_exec_utils9.c:87
+    #5 0x100c234dd in ft_first_child ft_exec_utils9.c:76
+    #6 0x100c1a813 in ft_pip ft_exec_utils3.c:31
+    #6 0x100c1a87e in ft_pip ft_exec_utils3.c:36
+    #7 0x100c20948 in ft_execute ft_exec_utils7.c:116
+    #7 0x100c20948 in ft_execute ft_exec_utils7.c:116
+    #8 0x100bcf14e in main parsing.c:1149
+    #8 0x100bcf14e in main parsing.c:1149
+    #9 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+    #9 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+==59770==Register values:
+
+rax = 0x0000000000000000  ==59771==Register values:
+rbx = 0x00007ffeef034ce0  rax = 0x0000000000000000  rcx = 0x0000000000000000  rbx = 0x00007ffeef034ce0  rdx = 0x0000100000000000  rcx = 0x0000000000000000  
+rdx = 0x0000100000000000  rdi = 0x00006110000002c0  
+rsi = 0x0000100000000000  rbp = 0x00007ffeef034b50  rdi = 0x00006110000002c0  rsp = 0x00007ffeef034a50  rsi = 0x0000100000000000  
+rbp = 0x00007ffeef034b50   rsp = 0x00007ffeef034a50  r8 = 0x0000000000000405  
+ r9 = 0x0000000000000000   r10 = 0x0000000000000402  r8 = 0x0000000000000405   r11 = 0x0000000000000202  r9 = 0x0000000000000000  
+r10 = 0x0000000000000402  r12 = 0x0000000000000000  r11 = 0x0000000000000202  r13 = 0x0000000000000000  
+r14 = 0xf2f2f2f2f2f8f8f8  r12 = 0x0000000000000000  r15 = 0x0000000000000000  r13 = 0x0000000000000000  
+r14 = 0xf2f2f2f2f2f8f8f8  AddressSanitizer can not provide additional info.
+r15 = 0x0000000000000000  
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV ft_exec_utils2.c:71 in ft_exec
+SUMMARY: AddressSanitizer: SEGV ft_exec_utils2.c:71 in ft_exec
+==59771==ABORTING
+==59770==ABORTING
+
+minishell$> $$
+=================================================================
+==60095==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000007af2 at pc 0x00010a96147d bp 0x7ffee52dbad0 sp 0x7ffee52dbac8
+READ of size 1 at 0x602000007af2 thread T0
+    #0 0x10a96147c in reset_var_expand reset_vars_helper.c:46
+    #1 0x10a96322d in expanding reset_vars_helper.c:77
+    #2 0x10a962e88 in reset_var_expand_var reset_vars_helper.c:104
+    #3 0x10a95bd0a in reset_vars reset_vars.c:113
+    #4 0x10a978604 in ft_var_helper ft_exec_utils7.c:46
+    #5 0x10a9792e0 in ft_execute ft_exec_utils7.c:92
+    #6 0x10a92816e in main parsing.c:1149
+    #7 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x602000007af2 is located 0 bytes to the right of 2-byte region [0x602000007af0,0x602000007af2)
+allocated by thread T0 here:
+    #0 0x10aa3c17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x10a929de6 in cases even_more_libft_funcs.c:27
+    #2 0x10a9299bf in ft_strjoin even_more_libft_funcs.c:36
+    #3 0x10a94fed6 in if_var_end_is_dollar variable_handle_helper_two.c:43
+    #4 0x10a9350d1 in process_array_variable variables_handle.c:72
+    #5 0x10a9629ed in expand_dollar reset_vars_helper.c:29
+    #6 0x10a961eaa in reset_var_expand reset_vars_helper.c:58
+    #7 0x10a96322d in expanding reset_vars_helper.c:77
+    #8 0x10a962e88 in reset_var_expand_var reset_vars_helper.c:104
+    #9 0x10a95bd0a in reset_vars reset_vars.c:113
+    #10 0x10a978604 in ft_var_helper ft_exec_utils7.c:46
+    #11 0x10a9792e0 in ft_execute ft_exec_utils7.c:92
+    #12 0x10a92816e in main parsing.c:1149
+    #13 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow reset_vars_helper.c:46 in reset_var_expand
+Shadow bytes around the buggy address:
+  0x1c0400000f00: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c0400000f10: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c0400000f20: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c0400000f30: fa fa 00 00 fa fa 03 fa fa fa fd fa fa fa 00 00
+  0x1c0400000f40: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+=>0x1c0400000f50: fa fa fd fa fa fa fd fa fa fa fd fa fa fa[02]fa
+  0x1c0400000f60: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000f70: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000f80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000f90: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000fa0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==60095==ABORTING
+[1]    60095 abort      ./minishell
+
+minishell$> '"'        "'
+Syntax error: open quotes.
+=================================================================
+==60258==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000004693 at pc 0x00010ece84c3 bp 0x7ffee0f2eac0 sp 0x7ffee0f2eab8
+READ of size 1 at 0x602000004693 thread T0
+    #0 0x10ece84c2 in str_extractor_helper quotes_handle.c:23
+    #1 0x10ecd9e9f in str_extractor str_extraction.c:111
+    #2 0x10ecee69e in handle_quotes list_init_handlers.c:25
+    #3 0x10ecdd15f in cut_and_slice list_init.c:29
+    #4 0x10ecddc1e in list_init list_init.c:75
+    #5 0x10eceb199 in lexer_to_tree main_helper.c:38
+    #6 0x10ecd4b65 in main parsing.c:1121
+    #7 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x602000004693 is located 0 bytes to the right of 3-byte region [0x602000004690,0x602000004693)
+allocated by thread T0 here:
+    #0 0x10ede517d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x10ecd3ac7 in ft_strtrim ft_strtrim.c:72
+    #2 0x10ecee5d0 in handle_quotes list_init_handlers.c:20
+    #3 0x10ecdd15f in cut_and_slice list_init.c:29
+    #4 0x10ecddc1e in list_init list_init.c:75
+    #5 0x10eceb199 in lexer_to_tree main_helper.c:38
+    #6 0x10ecd4b65 in main parsing.c:1121
+    #7 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow quotes_handle.c:23 in str_extractor_helper
+Shadow bytes around the buggy address:
+  0x1c0400000880: fa fa fd fa fa fa fd fa fa fa 00 05 fa fa 00 05
+  0x1c0400000890: fa fa 00 fa fa fa 00 04 fa fa 01 fa fa fa fd fd
+  0x1c04000008a0: fa fa fd fa fa fa 00 05 fa fa 01 fa fa fa fd fd
+  0x1c04000008b0: fa fa 00 04 fa fa 00 06 fa fa fd fd fa fa fd fd
+  0x1c04000008c0: fa fa fd fa fa fa 04 fa fa fa fd fd fa fa fd fa
+=>0x1c04000008d0: fa fa[03]fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000008e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000008f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000900: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000910: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000920: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==60258==ABORTING
+[1]    60258 abort      ./minishell
+
+minishell$> $a
+=================================================================
+==60309==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000003492 at pc 0x000107fa4c5a bp 0x7ffee7caaf00 sp 0x7ffee7caaef8
+READ of size 8 at 0x602000003492 thread T0
+    #0 0x107fa4c59 in cmd_check ft_exec_utils3.c:48
+    #1 0x107fa81f0 in ft_variable ft_exec_utils5.c:102
+    #2 0x107fa961c in ft_var_helper ft_exec_utils7.c:47
+    #3 0x107faa2e0 in ft_execute ft_exec_utils7.c:92
+    #4 0x107f5916e in main parsing.c:1149
+    #5 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x602000003494 is located 0 bytes to the right of 4-byte region [0x602000003490,0x602000003494)
+allocated by thread T0 here:
+    #0 0x10806c17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x107f5ade6 in cases even_more_libft_funcs.c:27
+    #2 0x107f5a9bf in ft_strjoin even_more_libft_funcs.c:36
+    #3 0x107f78121 in side_maker tree_maker_helper.c:31
+    #4 0x107f6284a in process_regular_node tree_maker.c:33
+    #5 0x107f620a4 in tree_maker tree_maker.c:115
+    #6 0x107f6f34c in lexer_to_tree main_helper.c:55
+    #7 0x107f58b65 in main parsing.c:1121
+    #8 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow ft_exec_utils3.c:48 in cmd_check
+Shadow bytes around the buggy address:
+  0x1c0400000640: fa fa fd fd fa fa fd fd fa fa fd fd fa fa fd fd
+  0x1c0400000650: fa fa fd fd fa fa fd fd fa fa fd fd fa fa fd fd
+  0x1c0400000660: fa fa fd fd fa fa 00 00 fa fa fd fa fa fa 00 04
+  0x1c0400000670: fa fa 03 fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c0400000680: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+=>0x1c0400000690: fa fa[04]fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c04000006a0: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c04000006b0: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c04000006c0: fa fa fd fa fa fa fd fd fa fa fd fa fa fa fd fa
+  0x1c04000006d0: fa fa fd fd fa fa fd fa fa fa fd fa fa fa 03 fa
+  0x1c04000006e0: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==60309==ABORTING
+[1]    60309 abort      ./minishell
+
+minishell$> $>ls
+=================================================================
+==60350==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000003cf2 at pc 0x00010f04047d bp 0x7ffee0bfcad0 sp 0x7ffee0bfcac8
+READ of size 1 at 0x602000003cf2 thread T0
+    #0 0x10f04047c in reset_var_expand reset_vars_helper.c:46
+    #1 0x10f04222d in expanding reset_vars_helper.c:77
+    #2 0x10f041e88 in reset_var_expand_var reset_vars_helper.c:104
+    #3 0x10f03ad0a in reset_vars reset_vars.c:113
+    #4 0x10f057604 in ft_var_helper ft_exec_utils7.c:46
+    #5 0x10f0582e0 in ft_execute ft_exec_utils7.c:92
+    #6 0x10f00716e in main parsing.c:1149
+    #7 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x602000003cf2 is located 0 bytes to the right of 2-byte region [0x602000003cf0,0x602000003cf2)
+allocated by thread T0 here:
+    #0 0x10f11417d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x10f005ac7 in ft_strtrim ft_strtrim.c:72
+    #2 0x10f021225 in variable_handle list_init_handlers.c:85
+    #3 0x10f00f2a8 in cut_and_slice list_init.c:33
+    #4 0x10f00fa99 in list_init list_init.c:68
+    #5 0x10f04209a in expanding reset_vars_helper.c:72
+    #6 0x10f041e88 in reset_var_expand_var reset_vars_helper.c:104
+    #7 0x10f03ad0a in reset_vars reset_vars.c:113
+    #8 0x10f057604 in ft_var_helper ft_exec_utils7.c:46
+    #9 0x10f0582e0 in ft_execute ft_exec_utils7.c:92
+    #10 0x10f00716e in main parsing.c:1149
+    #11 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow reset_vars_helper.c:46 in reset_var_expand
+Shadow bytes around the buggy address:
+  0x1c0400000740: fa fa 02 fa fa fa 05 fa fa fa fd fa fa fa fd fa
+  0x1c0400000750: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c0400000760: fa fa fd fa fa fa 00 00 fa fa 02 fa fa fa fd fa
+  0x1c0400000770: fa fa fd fa fa fa 02 fa fa fa fd fa fa fa fd fa
+  0x1c0400000780: fa fa fd fa fa fa 02 fa fa fa 03 fa fa fa fd fa
+=>0x1c0400000790: fa fa 00 00 fa fa fd fa fa fa fd fa fa fa[02]fa
+  0x1c04000007a0: fa fa fd fa fa fa fd fa fa fa fa fa fa fa fa fa
+  0x1c04000007b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000007c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000007d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000007e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==60350==ABORTING
+[1]    60350 abort      ./minishell
+
+exit check variable *check
+
+minishell$> $_
+=================================================================
+==62175==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000003492 at pc 0x00010166bcb1 bp 0x7ffeee5e3f00 sp 0x7ffeee5e3ef8
+READ of size 8 at 0x602000003492 thread T0
+    #0 0x10166bcb0 in cmd_check ft_exec_utils3.c:50
+    #1 0x10166f250 in ft_variable ft_exec_utils5.c:102
+    #2 0x10167067c in ft_var_helper ft_exec_utils7.c:47
+    #3 0x101671340 in ft_execute ft_exec_utils7.c:92
+    #4 0x1016201fe in main parsing.c:1149
+    #5 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x602000003494 is located 0 bytes to the right of 4-byte region [0x602000003490,0x602000003494)
+allocated by thread T0 here:
+    #0 0x10172e17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x101621e66 in cases even_more_libft_funcs.c:27
+    #2 0x101621a3f in ft_strjoin even_more_libft_funcs.c:36
+    #3 0x10163f1a1 in side_maker tree_maker_helper.c:31
+    #4 0x1016298ca in process_regular_node tree_maker.c:33
+    #5 0x101629124 in tree_maker tree_maker.c:115
+    #6 0x1016363cc in lexer_to_tree main_helper.c:55
+    #7 0x10161fbf5 in main parsing.c:1121
+    #8 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow ft_exec_utils3.c:50 in cmd_check
+Shadow bytes around the buggy address:
+  0x1c0400000640: fa fa fd fd fa fa fd fd fa fa fd fd fa fa fd fd
+  0x1c0400000650: fa fa fd fd fa fa fd fd fa fa fd fd fa fa fd fd
+  0x1c0400000660: fa fa fd fd fa fa 00 00 fa fa fd fa fa fa 00 04
+  0x1c0400000670: fa fa 03 fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c0400000680: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+=>0x1c0400000690: fa fa[04]fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c04000006a0: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c04000006b0: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c04000006c0: fa fa fd fa fa fa fd fd fa fa fd fa fa fa fd fa
+  0x1c04000006d0: fa fa fd fd fa fa fd fa fa fa fd fa fa fa 03 fa
+  0x1c04000006e0: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==62175==ABORTING
+[1]    62175 abort      ./minishell
+
+minishell$> $? $? | > ls < $a
+minishell: 0: command not found
+=================================================================
+==82890==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000c752 at pc 0x0001025262ab bp 0x7ffeed6f1990 sp 0x7ffeed6f1988
+READ of size 1 at 0x60200000c752 thread T0
+    #0 0x1025262aa in process_lnked_lst quotes_handle.c:67
+    #1 0x102525fc2 in quote_remove_lst quotes_handle.c:108
+    #2 0x102562549 in ft_execute_redir ft_exec_utils7.c:35
+    #3 0x1025636fd in ft_execute ft_exec_utils7.c:107
+    #4 0x1025667f0 in ft_second_child ft_exec_utils9.c:87
+    #5 0x10255d77e in ft_pip ft_exec_utils3.c:36
+    #6 0x1025639a8 in ft_execute ft_exec_utils7.c:117
+    #7 0x102511e99 in main parsing.c:1148
+    #8 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x60200000c752 is located 1 bytes to the right of 1-byte region [0x60200000c750,0x60200000c751)
+allocated by thread T0 here:
+    #0 0x10262617d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x102541b77 in create_filtered_string quote_handle_two.c:32
+    #2 0x1025267c8 in process_lst quotes_handle.c:50
+    #3 0x1025261e6 in process_lnked_lst quotes_handle.c:66
+    #4 0x102525fc2 in quote_remove_lst quotes_handle.c:108
+    #5 0x102562549 in ft_execute_redir ft_exec_utils7.c:35
+    #6 0x1025636fd in ft_execute ft_exec_utils7.c:107
+    #7 0x1025667f0 in ft_second_child ft_exec_utils9.c:87
+    #8 0x10255d77e in ft_pip ft_exec_utils3.c:36
+    #9 0x1025639a8 in ft_execute ft_exec_utils7.c:117
+    #10 0x102511e99 in main parsing.c:1148
+    #11 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow quotes_handle.c:67 in process_lnked_lst
+Shadow bytes around the buggy address:
+  0x1c0400001890: fa fa fd fa fa fa fd fa fa fa fd fa fa fa 01 fa
+  0x1c04000018a0: fa fa fd fa fa fa 02 fa fa fa fd fa fa fa fd fa
+  0x1c04000018b0: fa fa fd fa fa fa 01 fa fa fa fd fa fa fa 03 fa
+  0x1c04000018c0: fa fa 00 00 fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c04000018d0: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+=>0x1c04000018e0: fa fa 00 fa fa fa 03 fa fa fa[01]fa fa fa fa fa
+  0x1c04000018f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400001900: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400001910: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400001920: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400001930: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==82890==ABORTING
+
+minishell$> ("$a")
+=================================================================
+==82936==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000007bcf at pc 0x0001088ba29d bp 0x7ffee7374f70 sp 0x7ffee7374f68
+READ of size 1 at 0x602000007bcf thread T0
+    #0 0x1088ba29c in no_words_beside ft_split.c:26
+    #1 0x1088a1400 in syntax_error syntax_error.c:88
+    #2 0x1088a4fe0 in lexer_to_tree main_helper.c:53
+    #3 0x10888e8f8 in main parsing.c:1122
+    #4 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x602000007bcf is located 1 bytes to the left of 7-byte region [0x602000007bd0,0x602000007bd7)
+allocated by thread T0 here:
+    #0 0x1089a217d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x10888d857 in ft_strtrim ft_strtrim.c:72
+    #2 0x1088a94e5 in handle_parenthases list_init_handlers.c:113
+    #3 0x108897070 in cut_and_slice list_init.c:35
+    #4 0x1088977b9 in list_init list_init.c:68
+    #5 0x1088a4f12 in lexer_to_tree main_helper.c:39
+    #6 0x10888e8f8 in main parsing.c:1122
+    #7 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow ft_split.c:26 in no_words_beside
+Shadow bytes around the buggy address:
+  0x1c0400000f20: fa fa fd fa fa fa fd fd fa fa fd fa fa fa fd fd
+  0x1c0400000f30: fa fa fd fa fa fa fd fa fa fa 00 05 fa fa 00 05
+  0x1c0400000f40: fa fa 00 fa fa fa 00 04 fa fa 01 fa fa fa fd fa
+  0x1c0400000f50: fa fa fd fa fa fa fd fa fa fa 05 fa fa fa 01 fa
+  0x1c0400000f60: fa fa fd fa fa fa 00 04 fa fa 07 fa fa fa fd fa
+=>0x1c0400000f70: fa fa fd fa fa fa fd fa fa[fa]07 fa fa fa fd fa
+  0x1c0400000f80: fa fa fd fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000f90: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000fa0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000fb0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000fc0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==82936==ABORTING
+[1]    82936 abort      ./minishell
+
+minishell$> ""(
+=================================================================
+==83041==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000338f at pc 0x000102b8129d bp 0x7ffeed0adf70 sp 0x7ffeed0adf68
+READ of size 1 at 0x60200000338f thread T0
+    #0 0x102b8129c in no_words_beside ft_split.c:26
+    #1 0x102b68400 in syntax_error syntax_error.c:88
+    #2 0x102b6bfe0 in lexer_to_tree main_helper.c:53
+    #3 0x102b558f8 in main parsing.c:1122
+    #4 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x60200000338f is located 1 bytes to the left of 4-byte region [0x602000003390,0x602000003394)
+allocated by thread T0 here:
+    #0 0x102c6e17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x102b54857 in ft_strtrim ft_strtrim.c:72
+    #2 0x102b6f4f2 in handle_quotes list_init_handlers.c:29
+    #3 0x102b5de7f in cut_and_slice list_init.c:29
+    #4 0x102b5e7b9 in list_init list_init.c:68
+    #5 0x102b6bf12 in lexer_to_tree main_helper.c:39
+    #6 0x102b558f8 in main parsing.c:1122
+    #7 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow ft_split.c:26 in no_words_beside
+Shadow bytes around the buggy address:
+  0x1c0400000620: fa fa fd fd fa fa fd fd fa fa fd fd fa fa fd fd
+  0x1c0400000630: fa fa fd fd fa fa fd fd fa fa fd fd fa fa fd fd
+  0x1c0400000640: fa fa fd fd fa fa fd fd fa fa fd fd fa fa fd fd
+  0x1c0400000650: fa fa fd fd fa fa 00 00 fa fa fd fa fa fa 00 04
+  0x1c0400000660: fa fa 04 fa fa fa fd fa fa fa fd fa fa fa fd fa
+=>0x1c0400000670: fa[fa]04 fa fa fa fd fa fa fa fd fa fa fa fa fa
+  0x1c0400000680: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000690: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000006a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000006b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000006c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==83041==ABORTING
+[1]    83041 abort      ./minishell
+
+minishell$> $a || $b $&&
+syntax error near unexpected token `&&'
+=================================================================
+==83167==ERROR: AddressSanitizer: heap-use-after-free on address 0x608000000528 at pc 0x00010f2d5f15 bp 0x7ffee0963170 sp 0x7ffee0963168
+READ of size 8 at 0x608000000528 thread T0
+    #0 0x10f2d5f14 in export_cases export_cases.c:135
+    #1 0x10f2a0949 in main parsing.c:1124
+    #2 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x608000000528 is located 8 bytes inside of 88-byte region [0x608000000520,0x608000000578)
+freed by thread T0 here:
+    #0 0x10f3b62c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x10f2ad456 in free_tree free_everything.c:94
+    #2 0x10f2a102b in main parsing.c:1156
+    #3 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x10f3b617d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x10f2bff2c in init_tree_node tree_maker_helper.c:41
+    #2 0x10f2c151d in process_operation_node tree_maker_helper_three.c:20
+    #3 0x10f2aa0e4 in find_and_process_operation tree_maker.c:64
+    #4 0x10f2a9ca9 in tree_maker tree_maker.c:107
+    #5 0x10f2b70c5 in lexer_to_tree main_helper.c:57
+    #6 0x10f2a08f8 in main parsing.c:1122
+    #7 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-use-after-free export_cases.c:135 in export_cases
+Shadow bytes around the buggy address:
+  0x1c1000000050: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1c1000000060: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 03 fa
+  0x1c1000000070: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+  0x1c1000000080: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+  0x1c1000000090: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+=>0x1c10000000a0: fa fa fa fa fd[fd]fd fd fd fd fd fd fd fd fd fa
+  0x1c10000000b0: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+  0x1c10000000c0: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+  0x1c10000000d0: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+  0x1c10000000e0: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+  0x1c10000000f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==83167==ABORTING
+[1]    83167 abort      ./minishell
+
+minishell$> ""$<$>""
+=================================================================
+==83243==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000043d1 at pc 0x00010c3872ab bp 0x7ffee3891050 sp 0x7ffee3891048
+READ of size 1 at 0x6020000043d1 thread T0
+    #0 0x10c3872aa in process_lnked_lst quotes_handle.c:67
+    #1 0x10c386fc2 in quote_remove_lst quotes_handle.c:108
+    #2 0x10c372bdf in main parsing.c:1143
+    #3 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x6020000043d1 is located 0 bytes to the right of 1-byte region [0x6020000043d0,0x6020000043d1)
+allocated by thread T0 here:
+    #0 0x10c48917d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x10c3a2b77 in create_filtered_string quote_handle_two.c:32
+    #2 0x10c3877c8 in process_lst quotes_handle.c:50
+    #3 0x10c3871e6 in process_lnked_lst quotes_handle.c:66
+    #4 0x10c386fc2 in quote_remove_lst quotes_handle.c:108
+    #5 0x10c372bdf in main parsing.c:1143
+    #6 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow quotes_handle.c:67 in process_lnked_lst
+Shadow bytes around the buggy address:
+  0x1c0400000820: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c0400000830: fa fa fd fa fa fa fd fa fa fa 00 00 fa fa 04 fa
+  0x1c0400000840: fa fa fd fd fa fa fd fa fa fa 02 fa fa fa fd fa
+  0x1c0400000850: fa fa fd fa fa fa fd fa fa fa 04 fa fa fa fd fa
+  0x1c0400000860: fa fa 02 fa fa fa fd fa fa fa fd fa fa fa fd fa
+=>0x1c0400000870: fa fa 04 fa fa fa 02 fa fa fa[01]fa fa fa fa fa
+  0x1c0400000880: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000890: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000008a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000008b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000008c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==83243==ABORTING
+[1]    83243 abort      ./minishell
+
+minishell$> echo -nnnnnn ()
+syntax error near unexpected token `-nnnnnn'
+=================================================================
+==83501==ERROR: AddressSanitizer: heap-use-after-free on address 0x608000000628 at pc 0x00010702eeb5 bp 0x7ffee8c0a170 sp 0x7ffee8c0a168
+READ of size 8 at 0x608000000628 thread T0
+    #0 0x10702eeb4 in export_cases export_cases.c:135
+    #1 0x106ff98e9 in main parsing.c:1124
+    #2 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x608000000628 is located 8 bytes inside of 88-byte region [0x608000000620,0x608000000678)
+freed by thread T0 here:
+    #0 0x10749f2c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x1070063f6 in free_tree free_everything.c:94
+    #2 0x106ff9fcb in main parsing.c:1156
+    #3 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x10749f17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x107018ecc in init_tree_node tree_maker_helper.c:41
+    #2 0x1070034a5 in process_regular_node tree_maker.c:29
+    #3 0x107002d64 in tree_maker tree_maker.c:115
+    #4 0x107010065 in lexer_to_tree main_helper.c:57
+    #5 0x106ff9898 in main parsing.c:1122
+    #6 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-use-after-free export_cases.c:135 in export_cases
+Shadow bytes around the buggy address:
+  0x1c1000000070: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+  0x1c1000000080: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+  0x1c1000000090: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+  0x1c10000000a0: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+  0x1c10000000b0: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+=>0x1c10000000c0: fa fa fa fa fd[fd]fd fd fd fd fd fd fd fd fd fa
+  0x1c10000000d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c10000000e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c10000000f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c1000000100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c1000000110: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==83501==ABORTING
+[1]    83501 abort      ./minishell
+
+<< ""
+ambiguous redirect it must enter here_doc and delimiter empty 
+
+minishell$> ($?)
+=================================================================
+==84024==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000003a4f at pc 0x000101eab23d bp 0x7ffeedd83f70 sp 0x7ffeedd83f68
+READ of size 1 at 0x602000003a4f thread T0
+    #0 0x101eab23c in no_words_beside ft_split.c:26
+    #1 0x101e923a0 in syntax_error syntax_error.c:88
+    #2 0x101e95f80 in lexer_to_tree main_helper.c:53
+    #3 0x101e7f898 in main parsing.c:1122
+    #4 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x602000003a4f is located 1 bytes to the left of 5-byte region [0x602000003a50,0x602000003a55)
+allocated by thread T0 here:
+    #0 0x101f9017d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x101e7e7f7 in ft_strtrim ft_strtrim.c:72
+    #2 0x101e9a485 in handle_parenthases list_init_handlers.c:113
+    #3 0x101e88010 in cut_and_slice list_init.c:35
+    #4 0x101e88759 in list_init list_init.c:68
+    #5 0x101e95eb2 in lexer_to_tree main_helper.c:39
+    #6 0x101e7f898 in main parsing.c:1122
+    #7 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow ft_split.c:26 in no_words_beside
+Shadow bytes around the buggy address:
+  0x1c04000006f0: fa fa fd fd fa fa fd fa fa fa fd fa fa fa fd fa
+  0x1c0400000700: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fd
+  0x1c0400000710: fa fa fd fa fa fa fd fd fa fa fd fa fa fa 00 05
+  0x1c0400000720: fa fa 00 05 fa fa 00 fa fa fa 00 04 fa fa fd fa
+  0x1c0400000730: fa fa fd fa fa fa 00 04 fa fa 05 fa fa fa fd fa
+=>0x1c0400000740: fa fa fd fa fa fa fd fa fa[fa]05 fa fa fa fd fa
+  0x1c0400000750: fa fa fd fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000760: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000770: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000780: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400000790: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==84024==ABORTING
+[1]    84024 abort      ./minishell
+
+minishell$> ""ls ($"")
+syntax error near unexpected token `""ls'
+=================================================================
+==84093==ERROR: AddressSanitizer: heap-use-after-free on address 0x608000000428 at pc 0x00010677feb5 bp 0x7ffee94b9170 sp 0x7ffee94b9168
+READ of size 8 at 0x608000000428 thread T0
+    #0 0x10677feb4 in export_cases export_cases.c:135
+    #1 0x10674a8e9 in main parsing.c:1124
+    #2 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x608000000428 is located 8 bytes inside of 88-byte region [0x608000000420,0x608000000478)
+freed by thread T0 here:
+    #0 0x1068632c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x1067573f6 in free_tree free_everything.c:94
+    #2 0x10674afcb in main parsing.c:1156
+    #3 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+previously allocated by thread T0 here:
+    #0 0x10686317d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x106769ecc in init_tree_node tree_maker_helper.c:41
+    #2 0x1067544a5 in process_regular_node tree_maker.c:29
+    #3 0x106753d64 in tree_maker tree_maker.c:115
+    #4 0x106761065 in lexer_to_tree main_helper.c:57
+    #5 0x10674a898 in main parsing.c:1122
+    #6 0x7fff6ee16cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-use-after-free export_cases.c:135 in export_cases
+Shadow bytes around the buggy address:
+  0x1c1000000030: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 03
+  0x1c1000000040: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1c1000000050: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 00 00
+  0x1c1000000060: fa fa fa fa 00 00 00 00 00 00 00 00 00 00 03 fa
+  0x1c1000000070: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fa
+=>0x1c1000000080: fa fa fa fa fd[fd]fd fd fd fd fd fd fd fd fd fa
+  0x1c1000000090: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c10000000a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c10000000b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c10000000c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c10000000d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==84093==ABORTING
+[1]    84093 abort      ./minishell
+
+ $? | $?
+minishell: 0: command not found
+minishell: 0: command not found
+
+minishell$> cat | ls | cat | cat | cat | ls | cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls |cat | ls | cat | cat | cat | ls | sleep 10000
+
+sleep 10000 must not work
+
+< makefile  echo hello
+
+minishell$> < ()
+minishell: : No such file or directory
+
+export a=$a$a$a$a$a$a$a$a$a
+
+minishell$> * > ""
+ambiguous redirect it must display no such file or directory
+
+

@@ -1,14 +1,14 @@
 # include <minishell.h>
 
-void	ft_hdoc_handle(t_tree *tree, int *sig_flag, t_env **env, int status)
+void	ft_hdoc_handle(t_tree *tree, t_hdoc_data *h_data, int status)
 {
 	if (!tree)
 		return ;
 	if (tree->left)
-		ft_hdoc_handle(tree->left, sig_flag, env, status);
+		ft_hdoc_handle(tree->left, h_data, status);
 	if (tree->right)
-		ft_hdoc_handle(tree->right, sig_flag, env, status);
-	ft_hdoc_check(tree, sig_flag, env, status);
+		ft_hdoc_handle(tree->right, h_data, status);
+	ft_hdoc_check(tree, h_data, status);
 }
 
 char	*ft_node_joint(t_env *h)
@@ -56,7 +56,10 @@ char **ft_env_str(t_env *h)
 void	ft_st(t_tree *tree, int stat_flag)
 {
 	if (stat_flag == 0)
+	{
+		ft_close_fd(tree);
 		tree->status = 1;
+	}
 }
 
 void	ft_signal_exec(void)

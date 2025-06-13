@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   some_new_other_helpers.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/03 13:11:18 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:19:06 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,25 @@ int	ambiguous_syntax_error(t_tree **tree, t_env **env)
 	t_list_fd	*tmplst;
 
 	i = 0;
-	if ((*tree) && (*tree)->quotes)
-	{
-		tmplst = (*tree)->fd_list;
-		while (tmplst)
-		{
-			if (countwords(tmplst->name, 32) > 1)
-				(*tree)->quotes = 0;
-			tmplst = tmplst->next;
-		}
-	}
-	if ((*tree) && (*tree)->quotes == 1)
-		i = 2;
+	// if ((*tree) && (*tree)->quotes)
+	// {
+	// 	tmplst = (*tree)->fd_list;
+	// 	while (tmplst)
+	// 	{
+	// 		if (countwords(tmplst->name, 32) > 1)
+	// 			(*tree)->quotes = 0;
+	// 		tmplst = tmplst->next;
+	// 	}
+	// }
+	// if ((*tree) && (*tree)->quotes == 1)
+	// 	i = 2;
 	if ((*tree) && (*tree)->ambiguous == 1)
+	{
+		printf("******************************\n");
+		print_tree_visual((*tree), 1, 1);
+		printf("******************************\n");
 		i = 1;
+	}
 	if ((*tree) && (*tree)->left)
 		i = ambiguous_syntax_error(&(*tree)->left, env);
 	if ((*tree) && (*tree)->right)

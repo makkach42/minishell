@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_cards_helper_six.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 10:10:40 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/02 11:32:43 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:54:31 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	join_to_node_name(t_list_fd **node, char **str)
 	(*str) = ft_strtrim((*str), " ");
 	free(tmp_char);
 	(*node)->name = (*str);
-	(*node)->name_split = ft_split((*str), 32);
+	// (*node)->name_split = ft_split((*str), 32);
 }
 
 void	process_wildcard_node_fd(t_list_fd *node, char *dir_path)

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:08:07 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/29 08:51:18 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 09:32:32 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,10 @@ void	reset_vars(t_tree **tree, t_env **env)
 		head = NULL;
 		reset_var_expand_var(tree, env);
 		reset_var_cmd_split(tree);
+		if (has_wild_cards_comarr(tree) == 1)
+			handle_wildcards_in_cmdarr(tree);
+		if (has_wild_cards_fdlst(tree) == 1)
+			handle_wildcards_in_fdlst(tree);
 		reset_var_remove_quotes(tree);
 	}
 }

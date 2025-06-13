@@ -118,14 +118,15 @@ int    ft_echo(char **s)
     i = 1;
 	flag = 1;
     if (!s[i])
-        return (1);
+        return (0);
 	if (ft_nline_check(s[i]) == 0)
 	{
 		while (ft_nline_check(s[i]) == 0)
 			i++;
 		flag = 0;
 	}
-    // dprintf(2, "this is i: %d\n", i);
+    if (!s[i])
+        return (0);
     if (s[i])
         buff = s[i];
 	while (s[i] != NULL)
@@ -149,7 +150,6 @@ int    ft_echo(char **s)
             buff = ft_strjoin(buff, NULL);
             if (buff == NULL)
                 return (1);
-            // free (tmp);
         }
 		i++;
 	}
@@ -216,11 +216,11 @@ int ft_env(t_env *h)
 
     start = h;
     buff = NULL;
-    if (h == NULL || ft_check_act(h))
-    {
-        ft_putstr_fd(2, "minishell: env: No such file or directory\n");
-        return (127);
-    }
+    // if (h == NULL || ft_check_act(h))
+    // {
+    //     ft_putstr_fd(2, "minishell: env: No such file or directory\n");
+    //     return (127);
+    // }
     while (h != NULL)
     {
         if (h->active == 0)
@@ -295,7 +295,8 @@ void    ft_exit(char **s, t_env **h, int status)
 {
     int m;
 
-    ft_putstr_fd(1, "exit\n");
+    if (isatty(0) && isatty(1))
+        ft_putstr_fd(1, "exit\n");
     if (s[1] == NULL)
         exit (status);
     else
@@ -555,6 +556,7 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
             ft_putstr_fd(1, buff);
             free (buff);
         }
+        return (0);
     }
     while (s[i] != NULL)
     {
@@ -745,18 +747,17 @@ int    ft_pwd(t_env *h)
     t_env *n;
     
     n = ft_check(h, "1PWD");
-    // dprintf(2, "this is the pwd: %s\n", n->value);
     path = getcwd(NULL, 0);
     if (path)
     {
-        dprintf(2, "entered in path not NULL\n");
+        // dprintf(2, "entered in path not NULL\n");
         temp = n->value;
         n->value = path;
         free (temp);// to free 1PWD when it is allocated in cd
     }
     else if (!path)
     {
-        dprintf(2, "entered in path NULL\n");
+        // dprintf(2, "entered in path NULL\n");
         path = n->value;
         // perror("pwd: ");
         // return (0);
@@ -789,7 +790,6 @@ void    ft_unset(t_env **h, char **s)
         return ;
     while (s[i] != NULL)
     {
-        // dprintf(2, "this is the string: %s\n", s[i]);
         if (ft_parse(s[i]) == 1)
         {
             write(2, "unset: ", 8);

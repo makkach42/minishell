@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_pipe_tree.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/26 11:05:35 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:11:35 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_tree	*build_pipe_tree(t_list **head)
 	left_cmd = extract_command_with_redirects(head, &pipe_pos);
 	if (!pipe_pos)
 	{
-		root = create_tree_node(left_cmd, "COMMAND");
+		root = create_tree_node(left_cmd, (*head)->token);
 		free_list_to_position(head, NULL);
 		return (root);
 	}

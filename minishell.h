@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/10 14:38:41 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/12 15:24:36 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,12 @@ typedef struct s_extract
 	int			paren_count;
 }	t_extract;
 
-// typedef struct s_pip
-// {
-// 	char	*e;
-// 	int		input_fd;
-// 	int		output_fd;
-// 	int		fd[2];
-// 	int		id;
-// 	int		flag;
-// 	char	**cmd;
-// 	int		i;
-// 	int		prev_fd;
-// 	char	*temp;
-// 	char	*str;
-// 	int		j;
-// }	t_pip;
+typedef struct s_hdoc_data
+{
+	t_env	**env;
+	int		*sig_flag;
+	int		prev_fd;	
+} t_hdoc_data;
 
 typedef struct s_cmd
 {
@@ -612,10 +603,10 @@ void	display_terminal_control_chars(void);
 void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check);
 void	ft_execute(t_tree *tree, t_env **h, char **e, int *check);
 int	ft_hdoc_first(t_list_fd *tmp);
-void	 ft_hdoc_check(t_tree *tree, int *sig_flag, t_env **env, int status);
+void	 ft_hdoc_check(t_tree *tree, t_hdoc_data *h_data, int status);
 int	ft_hdoc_count_second(t_tree *tree);
 int	ft_hdoc_count(t_tree *tree);
-void	ft_hdoc_handle(t_tree *tree, int *sig_flag, t_env **env, int status);
+void	ft_hdoc_handle(t_tree *tree, t_hdoc_data *h_data, int status);
 char	*ft_node_joint(t_env *h);
 char **ft_env_str(t_env *h);
 void	ft_st(t_tree *tree, int stat_flag);
@@ -627,5 +618,13 @@ int	ft_wait_for_child(int status, int status1);
 void	ft_second_child(t_tree *tree, int *check, char **e, t_env **h);
 void	ft_first_child(t_tree *tree, int *check, char **e, t_env **h);
 void	ft_pip_signal(void);
+void	ft_exec_redir(t_tree *tree, t_env **h, char **env);
+void	ft_exec_redir_helper(t_tree *tree, int i);
+void	ft_exec_redir_support(t_tree *tree, int i);
+int	check_amb(t_tree *tree);
+int	ft_para_redir(t_tree *tree, t_env **h);
+int	ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check);
+void	ft_signal_ign(void);
+void	ft_word_handle_signal(t_tree *tree, int *check);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:17:14 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/10 16:18:04 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:35:51 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ char	*ft_name_check(char *name)
 	tmp = NULL;
 	if (name == NULL)
 		return (NULL);
+	// if (check_empty(name))
+	// {
+	tmp = name;
+	name = ft_strdup("e");
+	if (!name)
+		return (NULL);
+	free (tmp);
+	// }
 	while (access(name, F_OK) == 0)
 	{
 		tmp = name;
@@ -73,6 +81,22 @@ void	ft_hdoc_expand(char **line, t_env **env, int status)
 	}
 }
 
+int	ft_space_count(char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == 32 || str[i] == 9)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
 void	ft_hdoc(char *limiter, int fd, t_env **env, int status)
 {
 	char	*str;
@@ -91,52 +115,48 @@ void	ft_hdoc(char *limiter, int fd, t_env **env, int status)
 	ft_hdoc_free(&str, &limiter, fd);
 }
 
-void	ft_exec_redir(t_tree *tree, t_env **h, char **env)
+void	ft_exec_redir_support(t_tree *tree, int i)
 {
-	while (tree->fd_list != NULL && tree->ambiguous == 0)
+	if (i == 1)
 	{
-		if (ft_redir_check(tree->fd_list->redir) == 3)
-		{
-			dup2(tree->fd_list->fd1, 0);
-			close (tree->fd_list->fd1);
-		}
-		else if (ft_redir_check(tree->fd_list->redir) == 2)
-		{
-			tree->fd_list->fd = ft_file_create(tree->fd_list->name, 1);
-			if (tree->fd_list ->fd == -1)
-			{
-				perror("minishell: ");
-				return ;
-			}
-			dup2(tree->fd_list->fd, 1);
-			close (tree->fd_list->fd);
-		}
-		else if (ft_redir_check(tree->fd_list->redir) == 1)
-		{
-			tree->fd_list->fd = ft_file_check(tree->fd_list->name);
-			if (tree->fd_list ->fd == -1)
-			{
-				perror("minishell: ");
-				return ;
-			}
-			dup2(tree->fd_list->fd, 0);
-			close (tree->fd_list->fd);
-		}
-		else if (ft_redir_check(tree->fd_list->redir) == 4)
-		{
-			tree->fd_list->fd = ft_file_create(tree->fd_list->name, 2);
-			if (tree->fd_list ->fd == -1)
-			{
-				perror("minishell: ");
-				return ;
-			}
-			dup2(tree->fd_list->fd, 1);
-			close (tree->fd_list->fd);
-		}
-		tree->fd_list = tree->fd_list->next;
+		dup2(tree->fd_list->fd, 0);
+		close (tree->fd_list->fd);
 	}
-	if (tree->ambiguous == 1)
-		return ;
-	// if (tree->command_arr[0] && check_empty(tree->command_arr[0]) == 0)
-	// 	ft_exec(tree, *h, env);
+	else if (i == 2)
+	{
+		dup2(tree->fd_list->fd, 1);
+		close (tree->fd_list->fd);
+	}
+	else if (i == 4)
+	{
+		dup2(tree->fd_list->fd, 1);
+		close (tree->fd_list->fd);
+	}
+}
+
+void	ft_exec_redir_helper(t_tree *tree, int i)
+{
+	if (i == 3)
+	{
+		dup2(tree->fd_list->fd1, 0);
+		close (tree->fd_list->fd1);
+	}
+	else if (i == 1)
+	{
+		if (tree->fd_list ->fd == -1)
+			return (perror(""), exit (1));
+		ft_exec_redir_support(tree, 1);
+	}
+	else if (i == 2)
+	{
+		if (tree->fd_list ->fd == -1)
+			return (perror(""), exit (1));
+		ft_exec_redir_support(tree, 2);
+	}
+	else if (i == 4)
+	{
+		if (tree->fd_list ->fd == -1)
+			return (perror(""), exit (1));
+		ft_exec_redir_support(tree, 4);
+	}
 }

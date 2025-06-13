@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:01:55 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/10 13:08:32 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/11 14:04:50 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	ft_exec(t_tree *tree, t_env *h, char **e)
 	int		flag;
 
 	flag = 0;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	path = ft_check(h, "PATH");
 	if (path == NULL || path->value == NULL || check_empty(path->value) == 1)
 		env = NULL;

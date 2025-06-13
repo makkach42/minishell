@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/09 19:34:38 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:55:02 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	expand_in_lnkdlst(t_list_fd **tmp, t_env **env, int *i, int *in_quotes)
 		tmp_char = (*tmp)->name;
 		(*tmp)->name = ft_strtrim((*tmp)->name, " ");
 		free(tmp_char);
-		if ((*tmp)->name && countwords((*tmp)->name, 32) != 1)
-			(*tmp)->name_split = ft_split((*tmp)->name, 32);
+		// if ((*tmp)->name && countwords((*tmp)->name, 32) != 1)
+		// 	(*tmp)->name_split = ft_split((*tmp)->name, 32);
 		*in_quotes = 0;
 		*i = -1;
 	}
@@ -129,8 +129,8 @@ void	variable_expantion_para(t_tree **tree, t_env **env)
 					// 	break ;
 					if (process_array_variable(&tmp->name, 0, &i, env) == -1)
 						break ;
-					if (tmp->name && countwords(tmp->name, 32) != 1)
-						tmp->name_split = ft_split(tmp->name, 32);
+					// if (tmp->name && countwords(tmp->name, 32) != 1)
+					// 	tmp->name_split = ft_split(tmp->name, 32);
 					if (flag == 1)
 						(*tree)->ambiguous = 1;
 					if (!variable_search_inlnkedlst(tree))

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/10 16:21:33 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/12 14:19:13 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 
 int	cmd_check(t_tree *tree)
 {
+	if (!tree)
+		return (1);
 	if (!tree->command_arr || !tree->command_arr[0])
 		return (1);
 	if (ft_strcmp(tree->command_arr[0], "cd") == 0)
