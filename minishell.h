@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:35:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:52:20 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -589,6 +589,7 @@ void	ft_free_array(char **p);
 void	if_question_mark(t_tmp_tree **tmp, int n);
 int		underscore_case_check(char *var_name, char **command_arr, int arr_idx);
 void	if_question_mark_two(char **line, int status, int n);
+void	quote_check_filename(char **old_redirs, int *i);
 // void	protected_extraction(char **word, char **str);
 
 #endif
