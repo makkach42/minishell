@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:47:08 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:32:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:51:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,12 @@ static void	extract_redir_token(char **old_redirs, char **target_redir)
 static void	extract_filename(char **old_redirs, char **target_name)
 {
 	int		i;
-	int		in_quotes;
 	char	*tmp_char;
-	char	quote_type;
 
 	i = 0;
-	in_quotes = 0;
 	while ((*old_redirs)[i] && (*old_redirs)[i] == 32)
 		i++;
-	while ((*old_redirs)[i])
-	{
-		if (!in_quotes && ((*old_redirs)[i] == '"' || (*old_redirs)[i] == '\''))
-		{
-			in_quotes = 1;
-			quote_type = (*old_redirs)[i];
-		}
-		else if (in_quotes && (*old_redirs)[i] == quote_type)
-			in_quotes = 0;
-		if ((!in_quotes) && (*old_redirs)[i] == 32)
-			break ;
-		i++;
-	}
+	quote_check_filename(old_redirs, &i);
 	*target_name = ft_substr(*old_redirs, 0, i);
 	if (!*target_name)
 		return ;

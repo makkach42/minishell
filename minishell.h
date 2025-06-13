@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 18:05:24 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:51:27 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,6 +296,7 @@ void	process_wildcard_node_fd(t_list_fd *node, char *dir_path);
 void	handle_wildcards_in_fdlst(t_tree **tree);
 int		has_wild_cards_fdlst(t_tree **tree);
 int		underscore_case_check(char *var_name, char **command_arr, int arr_idx);
+void	quote_check_filename(char **old_redirs, int *i);
 // void	protected_extraction(char **word, char **str);
 
 #endif
