@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:39:46 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 10:55:59 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:13:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ char	*handle_direct_extraction(char *str, int i)
 	char	*word;
 
 	word = ft_substr(str, 0, i + 1);
+	if (!word)
+		return (NULL);
 	return (word);
 }
 
@@ -124,5 +126,7 @@ char	*str_remover(char *str, char *word)
 	strlenth = ft_strlen(str);
 	word_len = ft_strlen(word);
 	new_str = ft_substr(str, word_len, strlenth - word_len);
+	if (!new_str)
+		return (NULL);
 	return (new_str);
 }

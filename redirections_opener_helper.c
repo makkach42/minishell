@@ -6,20 +6,32 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 11:38:31 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/10 17:04:44 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:59:01 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	if_env_value(t_list *tmp, char **env_value)
-// {
-// 	char	*tmp_char;
+void	quote_check_filename(char **old_redirs, int *i)
+{
+	int		in_quotes;
+	char	quote_type;
 
-// 	tmp_char = tmp->data;
-// 	tmp->data = *env_value;
-// 	free(tmp_char);
-// }
+	in_quotes = 0;
+	while ((*old_redirs)[(*i)])
+	{
+		if (!in_quotes && ((*old_redirs)[(*i)] == '"' || (*old_redirs)[(*i)] == '\''))
+		{
+			in_quotes = 1;
+			quote_type = (*old_redirs)[(*i)];
+		}
+		else if (in_quotes && (*old_redirs)[(*i)] == quote_type)
+			in_quotes = 0;
+		if ((!in_quotes) && (*old_redirs)[(*i)] == 32)
+			break ;
+		(*i)++;
+	}
+}
 
 void	init_list_fd_node(t_list_fd *node)
 {

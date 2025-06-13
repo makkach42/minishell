@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:09:53 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/04 15:15:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/12 15:52:20 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	dyn_buf_ensure_capacity(t_dynbuf *buf, size_t additional_bytes)
 	if (buf->pos + additional_bytes >= buf->size)
 	{
 		new_size = buf->size * 2;
-		if (buf->pos + additional_bytes >= new_size)
-			new_size = buf->pos + additional_bytes + 1;
 		new_data = malloc(new_size);
 		if (!new_data)
 			return (0);
@@ -47,22 +45,6 @@ int	dyn_buf_add_char(t_dynbuf *buf, char c)
 	return (1);
 }
 
-int	dyn_buf_add_str(t_dynbuf *buf, const char *str, size_t len)
-{
-	size_t	i;
-
-	if (!dyn_buf_ensure_capacity(buf, len))
-		return (0);
-	i = 0;
-	while (i < len)
-	{
-		buf->data[buf->pos + i] = str[i];
-		i++;
-	}
-	buf->pos += len;
-	return (1);
-}
-
 void	dyn_buf_finalize(t_dynbuf *buf)
 {
 	dyn_buf_ensure_capacity(buf, 1);
@@ -76,4 +58,16 @@ void	dyn_buf_free(t_dynbuf *buf)
 	buf->data = NULL;
 	buf->size = 0;
 	buf->pos = 0;
+}
+
+int	underscore_case_check(char *var_name, char **command_arr, int arr_idx)
+{
+	if (!ft_strcmp(var_name, "_"))
+	{
+		free(command_arr[arr_idx]);
+		command_arr[arr_idx] = NULL;
+		free(var_name);
+		return (1);
+	}
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_handle_helper_two.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:56:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/08 18:31:12 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:18:44 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 	if (!temp)
 		return (NULL);
 	result = ft_strjoin(temp, s3);
+	if (!result)
+		return (free(temp), NULL);
 	free(temp);
 	return (result);
 }

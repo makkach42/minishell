@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:42:38 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/27 16:15:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/06 13:09:24 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,17 @@ static void	extract_parenthesis_helper_two(char *str, int *i,
 			(*flag) = 1;
 	}
 	*word = ft_substr(str, 0, (*i));
+	if (!*word)
+		return ;
+}
+
+void	extract_parenthesis_inits(int *i, int
+		*flag, int *open_par, int *closed_par)
+{
+	*i = 0;
+	*flag = 0;
+	*open_par = 0;
+	*closed_par = 0;
 }
 
 char	*extract_parenthesis(char *str)
@@ -64,10 +75,7 @@ char	*extract_parenthesis(char *str)
 	int		closed_par;
 	char	*word;
 
-	i = 0;
-	flag = 0;
-	open_par = 0;
-	closed_par = 0;
+	extract_parenthesis_inits(&i, &flag, &open_par, &closed_par);
 	word = NULL;
 	if (!str || !*str)
 		return (NULL);
@@ -77,6 +85,8 @@ char	*extract_parenthesis(char *str)
 	if ((str[i] == '\0' || str[i] == 32))
 	{
 		word = ft_substr(str, 0, i);
+		if (!word)
+			return (NULL);
 		return (word);
 	}
 	else
@@ -95,5 +105,7 @@ char	*parenthesis_remover(char *str, char *word)
 	strlenth = ft_strlen(str);
 	word_len = ft_strlen(word);
 	new_str = ft_substr(str, word_len, strlenth - word_len);
+	if (!new_str)
+		return (NULL);
 	return (new_str);
 }

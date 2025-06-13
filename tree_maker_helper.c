@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:00:03 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/04 14:40:55 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:36:43 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,13 @@ char	*side_maker(t_list **head, int number, int j)
 	{
 		tmp_char = tmp2;
 		tmp2 = ft_strjoin(tmp2, tmp->data);
+		if (!tmp2)
+			return (NULL);
 		free(tmp_char);
 		tmp_char = tmp2;
 		tmp2 = ft_strjoin(tmp2, " ");
+		if (!tmp2)
+			return (NULL);
 		free(tmp_char);
 		i++;
 		tmp = tmp->next;
@@ -47,7 +51,7 @@ void	init_tree_node(t_tree **node, char *type)
 	(*node)->redirections = NULL;
 	(*node)->fd_list = NULL;
 	(*node)->ambiguous = 0;
-	(*node)->quotes = 0;
+	// (*node)->quotes = 0;
 	(*node)->status = 0;
 	(*node)->var = 0;
 }

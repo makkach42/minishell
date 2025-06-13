@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:52:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:41:28 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:58:51 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	str_extractor_helper(char *str, int *i, int *flag, char **word)
 		(*i)++;
 	}
 	*word = ft_substr(str, 0, *i);
+	if (!*word)
+		return ;
 }
 
 static void	process_lst(t_list_fd **node)
@@ -59,10 +61,10 @@ static void	process_lnked_lst(t_tree **tree)
 	t_list_fd	*tmp;
 	int			i;
 
-	i = 0;
 	tmp = (*tree)->fd_list;
 	while (tmp)
 	{
+		i = 0;
 		process_lst(&tmp);
 		while (tmp->name[i])
 		{

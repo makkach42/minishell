@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "C_Cpp_Runner.msvcBatchPath": "",
   "files.associations": {
     "stdio.h": "c",
@@ -13,4 +14,7 @@
     "string_view": "c",
     "vector": "c"
   }
+=======
+  "C_Cpp_Runner.msvcBatchPath": ""
+>>>>>>> 9a5ae1d20bb1421b577cab98657b0f454eb0f797
 }

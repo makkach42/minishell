@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_init_handlers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:27:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/05 18:52:21 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:15:12 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	handle_quotes(char **word, char **str)
 	if (!*str)
 		return ;
 	free(tmp_char);
-	// protected_extraction(word, str);
 	*word = str_extractor(*str);
 	if (!word)
 		return ;

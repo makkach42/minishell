@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_list_init_handlers_helper.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:34:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/05 18:52:39 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:18:24 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,23 @@ void	new_word_word_extractor(char **word, char **str, int i)
 
 	tmp_char = *word;
 	*word = ft_substr(*str, 0, i);
+	if (!*word)
+		return ;
 	free(tmp_char);
 	tmp_char = *word;
 	*word = ft_strtrim(*word, " ");
+	if (!*word)
+		return ;
 	free(tmp_char);
 	tmp_char = *str;
 	*str = ft_substr(*str, i, ft_strlen(*str) - (i));
+	if (!*str)
+		return ;
 	free(tmp_char);
 	tmp_char = *str;
 	*str = ft_strtrim(*str, " ");
+	if (!*str)
+		return ;
 	free(tmp_char);
 }
 
@@ -56,15 +64,23 @@ void	new_parenthasis_word_extractor(char **word, int i, char **str)
 
 	tmp_char = *word;
 	*word = ft_substr(*str, 0, i + 1);
+	if (!*word)
+		return ;
 	free(tmp_char);
 	tmp_char = *word;
 	*word = ft_strtrim(*word, " ");
+	if (!*word)
+		return ;
 	free(tmp_char);
 	tmp_char = *str;
 	*str = ft_substr(*str, i + 1, ft_strlen(*str) - (i + 1));
+	if (!*str)
+		return ;
 	free(tmp_char);
 	tmp_char = *str;
 	*str = ft_strtrim(*str, " ");
+	if (!*str)
+		return ;
 	free(tmp_char);
 }
 
@@ -74,15 +90,23 @@ void	new_variable_word_extractor(char **str, char **word, int i)
 
 	tmp_char = *word;
 	*word = ft_substr(*str, 0, i);
+	if (!*word)
+		return ;
 	free(tmp_char);
 	tmp_char = *word;
 	*word = ft_strtrim(*word, " ");
+	if (!*word)
+		return ;
 	free(tmp_char);
 	tmp_char = *str;
 	*str = ft_substr(*str, i, ft_strlen(*str) - (i));
+	if (!*str)
+		return ;
 	free(tmp_char);
 	tmp_char = *str;
 	*str = ft_strtrim(*str, " ");
+	if (!*str)
+		return ;
 	free(tmp_char);
 }
 
