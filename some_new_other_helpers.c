@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 18:02:58 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:36:05 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ambiguous_syntax_error(t_tree **tree, t_env **env)
 {
 	int			i;
-	t_list_fd	*tmplst;
+	// t_list_fd	*tmplst;
 
 	i = 0;
 	// if ((*tree) && (*tree)->quotes)
