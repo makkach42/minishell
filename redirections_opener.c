@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:47:08 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:51:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:52:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ static t_list_fd	*create_redir_node(char **old_redirs, char *command)
 		return (NULL);
 	init_list_fd_node(node);
 	extract_redir_token(old_redirs, &node->redir);
-	// printf("-------------%s\n", node->redir);
 	extract_filename(old_redirs, &node->name);
-	// printf("-------------%s\n", node->name);
 	if (command)
 		node->command = ft_strdup(command);
 	else
