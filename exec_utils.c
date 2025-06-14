@@ -24,12 +24,11 @@ void	ft_cmd_helper(t_cmd *com, int i, char *env, char *s)
 	{
 		com->p = ft_split(env, ':');
 		if (com->p == NULL)
-			exit (1);
+			return ;
 		com->t = ft_split(s, 32);
 		if (com->t == NULL || com->t[0] == NULL)
-			exit (1);
+			return ;
 		com->str = ft_strmcpy(com->t[0]);
-		// dprintf(2, "this is the command_arr: %s\n", com->str);
 	}
 	if (i == 1)
 	{

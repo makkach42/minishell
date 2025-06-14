@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   some_new_other_helpers.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:36:05 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:56:52 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@ int	ambiguous_syntax_error(t_tree **tree, t_env **env)
 	// if ((*tree) && (*tree)->quotes == 1)
 	// 	i = 2;
 	if ((*tree) && (*tree)->ambiguous == 1)
+	{
+		printf("******************************\n");
+		print_tree_visual((*tree), 1, 1);
+		printf("******************************\n");
 		i = 1;
+	}
 	if ((*tree) && (*tree)->left)
 		i = ambiguous_syntax_error(&(*tree)->left, env);
 	if ((*tree) && (*tree)->right)

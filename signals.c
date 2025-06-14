@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:22:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/05 17:11:48 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/10 15:00:55 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,11 @@ void	handle_signal(int sig)
 	if (sig == SIGINT)
 	{
 		printf("\n");
-		// hide_terminal_control_chars();
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		global_status = 1;
+		// global_status = 1;
 	}
-	// else if (sig == SIGQUIT)
-	// {
-	// 	rl_redisplay();
-	// }
 }
 
 void	process_regular_element(char ***new_cmd_arr, char *element, int *j)

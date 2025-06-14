@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:15:18 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:58:21 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ void	lexer_to_tree(char *str, t_tree **tree, int *flag)
 {
 	t_list	*head;
 	t_list	*tmp;
-
-	head = list_init(str);
-	lexer(&head);
+	if (!*flag)
+	{
+		head = list_init(str);
+		lexer(&head);
+	}
 	if (new_syntax_error(&head))
 		(print_syntax_error(), *flag = 1);
 	tmp = head;
@@ -61,7 +63,7 @@ void	tree_to_rediropen(t_tree *tree, int *flag)
 	if (!*flag)
 	{
 		process_nested_parentheses(&tree);
-		// process_pipe_trees(tree);
+		process_pipe_trees(tree);
 		process_all_redirections(&tree);
 		command_arr_fill(&tree);
 		syntax_error_two(&tree, flag);

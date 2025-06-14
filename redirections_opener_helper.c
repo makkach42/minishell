@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_opener_helper.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 11:38:31 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:51:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:59:01 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ void	init_list_fd_node(t_list_fd *node)
 	node->in_quotes = 0;
 	node->name_split = NULL;
 	node->fd = -1;
+	node->fd1 = -1;
 }
