@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/13 11:12:53 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/15 15:33:36 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,14 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 		|| (ft_strcmp("REDIRECTION", tree->type) == 0 && cmd_check(tree) == 1))
 	{
 		display_terminal_control_chars();
-		id = fork();
-		if (id == 0)
-			ft_execute_redir(tree, h, e);
-		if (*check == 0)
+		if (!*check)
+		{
+			id = fork();
+			if (id == 0)
+				ft_execute_redir(tree, h, e);
 			ft_signal_ign();
+		}
+		// if (*check == 0)
 		close (tree->fd_list->fd1);
 		waitpid(id, &(tree->status), 0);
 		ft_word_handle_signal(tree, check);
