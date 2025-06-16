@@ -6,11 +6,63 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/12 14:19:13 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/16 10:07:59 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+t_id	*ft_lst_new_id(int x)
+{
+	t_id *newnode;
+	
+	newnode = malloc(sizeof(t_id));
+	if (!newnode)
+		return (NULL);
+	newnode->id = x;
+	newnode->next = NULL;
+	return (newnode);
+}
+
+void	ft_lstadd_back2(t_id **lst, t_id *new)
+{
+	t_id	*help;
+
+	if (lst == NULL || new == NULL)
+		return ;
+	if (*lst == NULL)
+	{
+		new -> next = *lst;
+		*lst = new;
+		return ;
+	}
+	help = *lst;
+	while (help -> next != NULL)
+	{
+		help = help -> next;
+	}
+	help -> next = new;
+}
+
+int	ft_id_creation(t_id **lst, int id1)
+{
+	t_id	*new1;
+	
+	new1 = ft_lst_new_id(id1);
+	if (!new1)
+		return (1);
+	ft_lstadd_back2(lst, new1);
+	return (0);
+}
+
+void	ft_kill(t_id *head)
+{
+	while (head)
+	{
+		kill(head->id, SIGKILL);
+		head = head->next;
+	}
+}
 
 int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 {
@@ -18,6 +70,7 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 	int	id2;
 	int	status;
 	int	status1;
+	static t_id *head;
 
 	status = 0;
 	status1 = 0;
@@ -25,13 +78,23 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 		perror("minishell: pipe: ");
 	ft_pip_signal();
 	id1 = fork();
+	if (id1 > 0)
+		ft_id_creation(&head, id1);
 	if (id1 == -1)
+	{
+		ft_kill(head);
 		return (perror("minishell: fork: "), 1);
+	}
 	if (id1 == 0)
 		ft_first_child(tree, check, e, h);
 	id2 = fork();
+	if (id2 > 0)
+		ft_id_creation(&head, id2);
 	if (id2 == -1)
+	{
+		ft_kill(head);
 		return (perror("minishell: fork: "), 1);
+	}
 	if (id2 == 0)
 		ft_second_child(tree, check, e, h);
 	close (tree->fd[0]);
@@ -40,6 +103,11 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 	if (waitpid(id1, &status1, 0) == -1 || waitpid(id2, &(status), 0) == -1)
 		return (1);
 	status = ft_wait_for_child(status, status1);
+	// while (head)
+	// {
+	// 	dprintf(2, "thiis is id: %d\n", head->id);
+	// 	head = head->next;
+	// }
 	return (status);
 }
 

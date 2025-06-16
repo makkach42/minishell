@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:56:34 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/15 15:53:31 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,12 @@ typedef struct s_idx
 	int	j;
 	int	original_size;
 }	t_idx;
+
+typedef struct s_id
+{
+	int id;
+	struct s_id *next;
+} t_id;
 
 typedef	struct s_tmp_tree
 {
@@ -637,6 +643,10 @@ int	ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check);
 void	ft_signal_ign(void);
 void	ft_word_handle_signal(t_tree *tree, int *check);
 void	quote_check_filename(char **old_redirs, int *i);
+// char	*ft_cmd_check(char *env, char *s);
+// int	ft_cmd_exec(t_tree *tree, t_env **h);
+// void	ft_hdoc_free(char **str, char **limiter, int fd);
+// int	ft_pip(t_tree *tree, t_env **h, char **e, int *check);
 // void	protected_extraction(char **word, char **str);
 
 #endif
