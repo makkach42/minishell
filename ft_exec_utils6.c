@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:03:06 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/15 16:04:39 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/15 17:10:07 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check)
 			return ;
 		}
 		ft_signal_ign();
-		
 	}
 	else
 		ft_exec(tree, *h, e);

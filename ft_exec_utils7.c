@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/15 15:33:36 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/15 17:08:37 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ void	ft_hdoc_check(t_tree *tree, t_hdoc_data *h_data, int status)
 		if (ft_redir_check(tmp->redir) == 3 && *(h_data->sig_flag) == 1)
 		{
 			quote_remove_lst(&tree);
-			print_tree_visual(tree, 1, 1);
+			// print_tree_visual(tree, 1, 1);
 			if (ft_hdoc_process(tmp, tree, h_data, status))
 				return ;
 			// ft_hdoc_process(tmp, tree, h_data, status);
