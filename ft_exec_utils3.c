@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/15 17:08:04 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/16 10:07:59 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 		ft_id_creation(&head, id2);
 	if (id2 == -1)
 	{
-		dprintf(2, "entered in second\n");
 		ft_kill(head);
 		return (perror("minishell: fork: "), 1);
 	}
