@@ -1585,3 +1585,62 @@ minishell$> * > ""
 ambiguous redirect it must display no such file or directory
 
 
+minishell$> ((export a=lsls) || ls && echo ufhtu | catt)
+((export a=lsls) || ls && echo ufhtu | catt)
+PARENTHASIS
+
+=================================================================
+==89416==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60400000098f at pc 0x00010480558d bp 0x7ffeeb42aee0 sp 0x7ffeeb42aed8
+READ of size 1 at 0x60400000098f thread T0
+    #0 0x10480558c in no_words_beside ft_split.c:26
+    #1 0x1047ec620 in syntax_error syntax_error.c:88
+    #2 0x1047f0318 in lexer_to_tree main_helper.c:52
+    #3 0x1047d907c in main parsing.c:1134
+    #4 0x7fff713bacc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+0x60400000098f is located 1 bytes to the left of 45-byte region [0x604000000990,0x6040000009bd)
+allocated by thread T0 here:
+    #0 0x1048f117d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x1047d8017 in ft_strtrim ft_strtrim.c:72
+    #2 0x1047f4825 in handle_parenthases list_init_handlers.c:112
+    #3 0x1047e1b10 in cut_and_slice list_init.c:35
+    #4 0x1047e2259 in list_init list_init.c:68
+    #5 0x1047f0117 in lexer_to_tree main_helper.c:39
+    #6 0x1047d907c in main parsing.c:1134
+    #7 0x7fff713bacc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow ft_split.c:26 in no_words_beside
+Shadow bytes around the buggy address:
+  0x1c08000000e0: fa fa fd fd fd fd fd fd fa fa fd fd fd fd fd fa
+  0x1c08000000f0: fa fa fd fd fd fd fd fa fa fa fd fd fd fd fd fd
+  0x1c0800000100: fa fa 00 00 00 00 00 03 fa fa fd fd fd fd fd fd
+  0x1c0800000110: fa fa 00 00 00 00 00 05 fa fa fd fd fd fd fd fd
+  0x1c0800000120: fa fa fd fd fd fd fd fd fa fa fd fd fd fd fd fd
+=>0x1c0800000130: fa[fa]00 00 00 00 00 05 fa fa fa fa fa fa fa fa
+  0x1c0800000140: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0800000150: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0800000160: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0800000170: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0800000180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==89416==ABORTING
+[1]    89416 abort      ./minishell

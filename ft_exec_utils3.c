@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/16 10:07:59 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:58:25 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,28 @@ int	ft_id_creation(t_id **lst, int id1)
 
 void	ft_kill(t_id *head)
 {
+	if (!head)
+		return ;
 	while (head)
 	{
 		kill(head->id, SIGKILL);
 		head = head->next;
 	}
+}
+
+void	ft_free_kill(t_id **head)
+{
+	t_id *tmp;
+
+	if (!head || !*head)
+		return ;
+	while (*head)
+	{
+		tmp = (*head)->next;
+		free (*head);
+		*head = tmp;
+	}
+	*head = NULL;
 }
 
 int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
@@ -82,7 +99,8 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 		ft_id_creation(&head, id1);
 	if (id1 == -1)
 	{
-		ft_kill(head);
+		// ft_kill(head);
+		dprintf(2, "entered in the left\n");
 		return (perror("minishell: fork: "), 1);
 	}
 	if (id1 == 0)
@@ -92,7 +110,8 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 		ft_id_creation(&head, id2);
 	if (id2 == -1)
 	{
-		ft_kill(head);
+		dprintf(2, "entered in the right\n");
+		// ft_kill(head);
 		return (perror("minishell: fork: "), 1);
 	}
 	if (id2 == 0)
@@ -102,11 +121,23 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 	ft_close_fd(tree);
 	if (waitpid(id1, &status1, 0) == -1 || waitpid(id2, &(status), 0) == -1)
 		return (1);
+	if (*check)
+	{
+		if (WIFSIGNALED(status))
+		{
+			status = WTERMSIG(status);
+			signal(status, SIG_DFL);
+			dprintf(2, "entered with this status: %d\n", status);
+			kill(0, status);
+		}
+	}
 	status = ft_wait_for_child(status, status1);
-	// while (head)
+	dprintf(2, "entered in pipe with status: %d\n", status);
+	if (*check)
+		exit (status);
+	// if (!*check)
 	// {
-	// 	dprintf(2, "thiis is id: %d\n", head->id);
-	// 	head = head->next;
+	// 	ft_free_kill(&head);
 	// }
 	return (status);
 }

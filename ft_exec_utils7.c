@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/15 17:08:37 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:14:39 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,34 @@ void	ft_var_helper(t_tree **tree, t_env **h, char **e, int *check)
 	(*tree)->status = ft_variable(*tree, h, e, check);
 }
 
-void	ft_op_and(t_tree *tree, t_env **h, char **e, int *check)
+int	ft_op_and(t_tree *tree, t_env **h, char **e, int *check)
 {
-	ft_execute(tree->left, h, e, check);
+	int x;
+
+	x = 0;
+	ft_execute(tree->left, h, e, &x);
+		dprintf(2, "entered in end right && %d\n", tree->left->status);
 	if (tree->left->status == 0)
-		ft_execute(tree->right, h, e, check);
+	{
+		ft_execute(tree->right, h, e, &x);
+		return (tree->right->status);
+	}
+	return (tree->left->status);
 }
 
-void	ft_op_or(t_tree *tree, t_env **h, char **e, int *check)
+int	ft_op_or(t_tree *tree, t_env **h, char **e, int *check)
 {
-	ft_execute(tree->left, h, e, check);
+	int x;
+
+	x = 0;
+	ft_execute(tree->left, h, e, &x);
+	dprintf(2, "entered in left || %d\n", tree->left->status);
 	if (tree->left->status != 0)
-		ft_execute(tree->right, h, e, check);
+	{
+		ft_execute(tree->right, h, e, &x);
+		return (tree->right->status);
+	}
+	return (tree->left->status);
 }
 
 void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
@@ -77,6 +93,8 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 	{
 		reset_vars(&tree, h);
 		tree->status = ft_cmd_exec(tree, h);
+		if (*check)
+			exit (tree->status);
 	}
 	if (ft_strcmp("PARENTHASIS", tree->type) == 0)
 		tree->status = ft_parenthasis(tree, h, e, check);
@@ -84,9 +102,21 @@ void	ft_execute(t_tree *tree, t_env **h, char **e, int *check)
 		|| (cmd_check(tree) == 0 && ft_strcmp("REDIRECTION", tree->type) == 0))
 		ft_execute_com(tree, h); 
 	if (ft_strcmp("OPERATION_&&", tree->type) == 0)
-		ft_op_and(tree, h, e, check);
+	{
+		tree->status = ft_op_and(tree, h, e, check);
+		if (*check)
+			exit (tree->status);
+	}
 	if (ft_strcmp("OPERATION_||", tree->type) == 0)
-		ft_op_or(tree, h, e, check);
+	{
+		dprintf(2, "this is check in }|| %d\n", *check);
+		tree->status = ft_op_or(tree, h, e, check);
+		if (*check)
+		{
+			dprintf(2, "entered in the wrong place\n");
+			exit (tree->status);
+		}
+	}
 	if (ft_strcmp("VARIABLE", tree->type) == 0)
 	{
 		// reset_vars(&tree, h);

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:59:37 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:20:45 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1140,9 +1140,9 @@ int	main(int argc, char **argv, char **argev)
 			handle_wildcards_in_cmdarr(&tree);
 		if (!flag && has_wild_cards_fdlst(&tree) == 1)
 			handle_wildcards_in_fdlst(&tree);
-		// if (flag != 1)
-		// 	print_tree_visual(tree, 1, 1);
-		// printf("*******************%d\n", flag);
+		if (flag != 1)
+			print_tree_visual(tree, 1, 1);
+		printf("*******************%d\n", flag);
 		if (!flag)
 		{
 			tree->status = status;
@@ -1162,6 +1162,7 @@ int	main(int argc, char **argv, char **argev)
 				ft_signal_exec();
 			}
 			status = tree->status;
+			dprintf(2, "this is status: %d\n", status);
 		}
 		tcsetattr(0, TCSANOW, &termios_a);
 		if (tree && flag != 1)

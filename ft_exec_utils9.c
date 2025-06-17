@@ -217,8 +217,14 @@ int	ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check)
 	int	org_stdout;
 	int	org_stdin;
 	int	n;
+	int	id1;
+	int	status;
 
 	n = 0;
+	id1 = 0;
+	status = 0;
+	*check = 1;
+	ft_pip_signal();
 	org_stdout = dup(1);
 	org_stdin = dup(0);
 	if (!tree)
@@ -226,13 +232,32 @@ int	ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check)
 	n = ft_para_redir(tree, h);
 	if (n)
 		return (1);
-	if (tree->left)
-		ft_execute(tree->left, h, e, check);
-	if (tree->right)
-		ft_execute(tree->right, h, e, check);
+	id1 = fork();
+	if (id1 == 0)
+	{
+		// if (tree->left)
+		signal(SIGINT, SIG_DFL);
+		if (tree->left)
+			ft_execute(tree->left, h, e, check);
+		if (tree->right)
+			ft_execute(tree->right, h, e, check);
+	}
+	waitpid(id1, &status, 0);
+	if (WIFSIGNALED(status))
+	{
+		status = WTERMSIG(status);
+		if (status == 2)
+			global_status = SIGINT;
+		else if (status == 3)
+			global_status = SIGQUIT;
+		status += 128;
+	}
+	else
+		status = WEXITSTATUS(status);
+	// waitpid(id2, NULL, 0
 	dup2(org_stdout, 1);
 	dup2(org_stdin, 0);
-	return (0);
+	return (status);
 }
 
 void	ft_signal_ign(void)
