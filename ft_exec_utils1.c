@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:37:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/11 11:59:22 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/19 15:20:27 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	env_fill_empty_helper(t_env **node)
 	ft_lstadd_back(node, ft_lstnew("PATH",
 			"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));
 	ft_lstadd_back(node, ft_lstnew("1PWD", NULL));
+	ft_lstadd_back(node, ft_lstnew("2PWD", NULL));
 }
 
 void	env_fill_empty(t_env **node, int *i, int *j)
@@ -111,4 +112,3 @@ void	env_fill_empty(t_env **node, int *i, int *j)
 		tmp = tmp->next;
 	}
 }
-

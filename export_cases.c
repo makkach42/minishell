@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_cases.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:11:30 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/06 13:04:49 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:46:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	change_current_string(char **str)
 	tmp = head;
 	while (tmp)
 	{
-		printf("=========%s\n", tmp->data);
+		// printf("=========%s\n", tmp->data);
 		tmp_char = new_str;
 		new_str = ft_strjoin(new_str, tmp->data);
 		if (!new_str)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_handle.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:18:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/20 11:37:30 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	new_str_fill(char *var_value, char **str, char *before, char *after)
 	(free(before), free(after), free(var_value));
 	if (!new_str)
 		return (-1);
-	// free((*str));
+	free((*str));
 	(*str) = new_str;
 	// dprintf(2, "this is the new_str: %s\n", new_str);
 	// dprintf(2, "this is the new_str: %s\n", (*str));
@@ -72,10 +72,13 @@ int	process_array_variable(char **command_arr,
 			(*var_pos) + 1, tmp.var_end - (*var_pos) - 1);
 	if (!tmp.var_name)
 		return (-1);
+	if (!ft_strcmp(tmp.var_name, "?"))
+		return (*var_pos = -1, 0);
 	if (underscore_case_check(tmp.var_name, command_arr, arr_idx))
 		return (0);
 	tmp.var_value = NULL;
 	extract_var_value(env, tmp.var_name, &tmp.var_value);
+	dprintf(2, "------------------%p\n", command_arr[0]);
 	if (fill_before(&tmp.before, &command_arr[arr_idx],
 			var_pos, tmp.var_name) == -1)
 		return (-1);

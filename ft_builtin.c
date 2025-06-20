@@ -1,24 +1,46 @@
 #include "minishell.h"
 
+char    *ft_str_back(char *s)
+{
+    int lent;
+    int flag;
+    int i;
+    char *new;
+
+    flag = 0;
+    i = 0;
+    if (!s)
+        return (NULL);
+    lent = ft_strlen(s);
+    while (lent > 0)
+    {
+        if (s[lent] == '/')
+            break ;
+        lent--;   
+    }
+    new = ft_substr(s, 0, lent);
+    if (!new)
+        return (NULL);
+    return (new);
+}
+
 int    ft_cd(char **s, t_env *h)
 {
+    char **p;
     t_env   *PWD;
-    t_env   *OLD_PWD;
     t_env   *home;
     char    *t;
     t_env   *n;
-    // static char    *p;
     char        *temp;
+    char        *past;
+    int     lent;
 
     temp = NULL;
-    PWD = ft_check(h, "PWD");
-    OLD_PWD = ft_check(h, "OLDPWD");
+    lent = 0;
     n = ft_check(h, "1PWD");
-    if (PWD && PWD->value)
-        n->value = PWD->value;
+    past = ft_str_back(n->value);
     if (s[1] == NULL)
     {
-        // dprintf(2, "entered here\n");
         home = ft_check(h, "HOME");
         if (home == NULL || home ->value == NULL)
         {
@@ -31,61 +53,66 @@ int    ft_cd(char **s, t_env *h)
             perror("");
             return (1);
         }
-        // if (!PWD || !PWD->value)
-        //     return (0);
-        // else
-        // {
-        //     if (OLD_PWD)
-        //         OLD_PWD->value = PWD->value;
-        //     PWD->value = home->value;
-        // }
     }
     else
     {
         if (chdir(s[1]) == -1)
         {
-            write(2, "minishell: cd: ", 16);
-            write(2, s[1], ft_strlen(s[1]));
-            write(2, ": No such file or directory\n", 29);
+            int i;
+            i = 0;
+            p = ft_split(s[1], '/');
+            if (!p)
+            {
+                free (past);
+                return (1);
+            }
+            while (p[i])
+            {
+                if (!ft_strcmp(p[i], ".."))
+                {
+                    if (chdir(past) == -1)
+                    {
+                        ft_free_array(p);
+                        free (past);
+                        perror("");
+                        return (1);
+                    }
+                    free (past);
+                    ft_free_array(p);
+                    return (0);
+                }
+                i++;
+            }
+            free (past);
+            ft_free_array(p);
+            perror("");
             return (1);
         }
-        if (!PWD)
-        {
-            t = getcwd(NULL, 0);
-            if (t)
-                n->value = t;
-            else
-            {
-                temp = s[1];
-                s[1] = ft_strjoin("/", s[1]);
-                if (s[1] == NULL)
-                    return (1);
-                free (temp);
-                temp = n->value;
-                n->value = ft_strjoin(n->value, s[1]);
-                if (!n->value)
-                    return (1);
-                free (temp);
-            }
-            return (0);
-        }
+        t = getcwd(NULL, 0);
+        if (t)
+            n->value = t;
         else
         {
-            PWD->value = getcwd(NULL, 0);
-            if (PWD->value == NULL)
+            lent = ft_strlen(n->value);
+            if (n->value[lent - 1] != '/')
             {
                 temp = s[1];
                 s[1] = ft_strjoin("/", s[1]);
-                if (s[1] == NULL)
+                if (!s[1])
+                {
+                    free (past);
+                    ft_free_array(p);
                     return (1);
+                }
                 free (temp);
-                temp = n->value;
-                n->value = ft_strjoin(n->value, s[1]);
-                if (!n->value)
-                    return (1);
-                free (temp);
-                return (0);
             }
+            temp = n->value;
+            n->value = ft_strjoin(n->value, s[1]);
+            if (!n->value)
+                return (1);
+            free (temp);
+            free (past);
+            ft_free_array(p);
         }
     }
     return (0);
@@ -433,16 +460,17 @@ char **ft_equal_str(char *str)
 {
     int i;
     char    **p;
-    int     flag;
+    int     lent_first;
 
     i = 0;
-    flag = 0;
+    // flag = 0;
+    lent_first = 0;
     p = malloc(sizeof(char *) * 2);
     if (p == NULL)
         return (NULL);
     while (str[i])
     {
-        if (str[i] == '=' && flag == 0)
+        if (str[i] == '=')
         {
             p[0] = ft_substr(str, 0, i);
             if (p[0] == NULL)
@@ -450,6 +478,7 @@ char **ft_equal_str(char *str)
                 free (p);
                 return (NULL);
             }
+            lent_first = i;
             i++;
             p[1] = ft_substr(str, i, ft_strlen(&str[i]));
             if (p[1] == NULL)
@@ -458,10 +487,12 @@ char **ft_equal_str(char *str)
                 free (p);
                 return (NULL);
             }
-            flag = 1;
+            break ;
         }
         i++;
     }
+    p[0] = ft_strncpy(p[0], str, lent_first);
+    p[1] = ft_strcpy(p[1], &str[i]);
     return (p);
 }
 
@@ -588,6 +619,7 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                             v = ft_equal_str(s[i]);//must be checked for leaks
                         else
                             v = ft_split(s[i], '=');
+                        dprintf(2, "this is v0 %s and this is v1 %s\n", v[0], v[1]);
                         if (v == NULL)
                             return (1);
                         f = ft_check(h, v[0]);
@@ -595,14 +627,18 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                         {
                             if (v[1] == NULL && act == 0)
                             {
+                                dprintf(2, "entered in NULL\n");
+                                tmp = f->value;
                                 f->value = ft_strdup("");
                                 f->active = 0;
                                 f->h = 0;
                                 free (v[0]);
                                 free (v);
+                                free (tmp);
                             }
                             else if (v[1] != NULL)
                             {
+                                dprintf(2, "entered in not NULL\n");
                                 tmp = f->value;
                                 f->value = ft_strdup(v[1]);
                                 f->active = 0;
@@ -611,7 +647,12 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                                 free (v[0]);
                                 free (v);
                                 free (tmp);
-                            }    
+                            }
+                            if (!v[1] && act == 1)
+                            {
+                                free (v[0]);
+                                free (v);
+                            }
                         }
                         else
                         {
@@ -628,7 +669,10 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
                                 {
                                     if (v[1] == NULL)
                                     {
-                                        new = ft_lstnew(v[0], ft_strdup(""));
+                                        dprintf(2, "it entered in NULL again\n");
+                                        new = ft_lstnew(v[0], "");
+                                        if (!new)
+                                            return (1);
                                         free (v[0]);
                                         free (v);
                                         new->active = 0;
@@ -750,7 +794,7 @@ int    ft_pwd(t_env *h)
     path = getcwd(NULL, 0);
     if (path)
     {
-        // dprintf(2, "entered in path not NULL\n");
+        dprintf(2, "entered in path: in pwd\n");
         temp = n->value;
         n->value = path;
         free (temp);// to free 1PWD when it is allocated in cd

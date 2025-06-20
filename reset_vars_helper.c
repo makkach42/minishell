@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 07:46:27 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:56:48 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 11:31:51 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ static void	expand_dollar(t_tmp_tree *tmp, int *in_quotes, t_env **env, int *j)
 		*j = -1;
 		*in_quotes = 0;
 	}
-	if (*j >= ft_strlen(tmp->tmp->data))
-		*j = -2;
 }
 
 void	reset_var_expand(t_tmp_tree	*tmp, t_env **env)
@@ -58,8 +56,6 @@ void	reset_var_expand(t_tmp_tree	*tmp, t_env **env)
 		if (tmp->tmp->data[j] == '$' && (!in_quotes || (
 					in_quotes && quote_type == '"')))
 			expand_dollar(tmp, &in_quotes, env, &j);
-		if (j == -2)
-			break ;
 		j++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/15 15:53:31 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 12:19:17 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -643,6 +643,18 @@ int	ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check);
 void	ft_signal_ign(void);
 void	ft_word_handle_signal(t_tree *tree, int *check);
 void	quote_check_filename(char **old_redirs, int *i);
+int	ft_op_and(t_tree *tree, t_env **h, char **e, int *check);
+int	ft_op_or(t_tree *tree, t_env **h, char **e, int *check);
+void	ft_first_child(t_tree *tree, int *check, char **e, t_env **h);
+void	ft_second_child(t_tree *tree, int *check, char **e, t_env **h);
+int	ft_cmd_redir_support(t_tree *tree);
+int	ft_n_return(int org_stdin, int org_stdout, int *check);
+int	ft_para_signal(int status, int org_stdout, int org_stdin);
+void	ft_para_child(t_tree *tree, int *check, t_env **h, char **e);
+void	ft_exec_test2(t_tree *tree, int *test, t_hdoc_data *h_data);
+void	ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data);
+void	ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data);
+void	ft_free_data(t_hdoc_data *h_data);
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);
 // void	ft_hdoc_free(char **str, char **limiter, int fd);

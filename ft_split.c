@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:07:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/03 13:15:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:52:02 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int	no_words_beside(char *str)
 	int	flag;
 	int	closed_par;
 
-	i = -1;
+	i = 0;
 	open_par = 0;
 	closed_par = 0;
 	flag = 0;
-	if (str[i] != '(')
+	if (!str || str[i] != '(')
 		return (0);
 	while (str[++i])
 	{

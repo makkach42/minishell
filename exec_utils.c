@@ -10,6 +10,8 @@ void	ft_free_array(char **p)
 	int	i;
 
 	i = 0;
+	if (!p)
+		return ;
 	while (p[i] != NULL)
 	{
 		free (p[i]);

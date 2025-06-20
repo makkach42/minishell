@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:03:06 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/16 10:05:26 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/19 14:25:47 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check)
 	}
 	else
 		ft_exec(tree, *h, e);
-	// if (*check == 0)
 	if (waitpid(id, &(tree->status), 0) == -1)
 		tree->status = 1;
 	else
