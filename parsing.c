@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:23:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/20 16:23:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	command_arr_fill(t_tree **tree)
 void	env_fill_helper(t_env **node, int *i, int *j, char **argev)
 {
 	*node = malloc(sizeof(t_env));
+	if (!*node)
+		return ;
 	while (argev[*i] && argev[*i][*j] != '=')
 		(*j)++;
 	(*node)->key = ft_substr(argev[*i], 0, *j);
@@ -91,6 +93,8 @@ t_env	*env_fill(char **argev)
 	i = 0;
 	j = 0;
 	env_fill_helper(&head, &i, &j, argev);
+	if (!head)
+		return (NULL);
 	head->next = NULL;
 	tmp = head;
 	i++;

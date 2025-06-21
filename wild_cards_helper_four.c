@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:21:25 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/03 12:46:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/20 16:26:10 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	has_wild_cards_fdlst(t_tree **tree)
 	t_list_fd	*tmp;
 
 	i = 0;
-	if ((*tree)->fd_list)
+	if ((*tree) && (*tree)->fd_list)
 	{
 		tmp = (*tree)->fd_list;
 		while (tmp)
@@ -73,9 +73,9 @@ int	has_wild_cards_fdlst(t_tree **tree)
 			tmp = tmp->next;
 		}
 	}
-	if ((*tree)->left)
+	if ((*tree) && (*tree)->left)
 		i = has_wild_cards_fdlst(&(*tree)->left);
-	if ((*tree)->right)
+	if ((*tree) && (*tree)->right)
 		i = has_wild_cards_fdlst(&(*tree)->right);
 	return (i);
 }
