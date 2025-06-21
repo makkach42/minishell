@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/20 15:00:17 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/21 10:07:05 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 		(print_syntax_error(), *flag = 1, i = 1);
 	if (!i && (!ft_strcmp("REDIRECTION", prev_token) && !ft_strcmp(
 				"<<", prev_data) && !ft_strcmp(tmp->token, "PARENTHASIS")))
-		(print_syntax_error(), *flag = 1);
+		(print_syntax_error(), *flag = 1, i = 1);
 	if (!i && (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
 				tmp->token, prev_token) == 0))
 		(print_syntax_error(), *flag = 1, i = 1);
@@ -79,5 +79,9 @@ void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 		(print_syntax_error(), *flag = 1, i = 1);
 	if (!i && (ft_strcmp("PARENTHASIS", prev_token) == 0 && ft_strcmp(
 				tmp->token, "WORD") == 0))
-		(print_syntax_error(), *flag = 1);
+		(print_syntax_error(), *flag = 1, i = 1);
+	if (!i && (!ft_strcmp(tmp->token, "PARENTHASIS") &&
+				check_inside_parenths((tmp->data))))
+		(print_syntax_error(), *flag = 1, i = 1);
+
 }

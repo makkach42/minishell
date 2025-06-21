@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:07:51 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/06 12:43:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/21 08:04:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,18 @@ void	equal_handle(char **str, char **word)
 	if (!*str)
 		return ;
 	free(tmp_char);
+}
+
+int	check_inside_parenths(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '(' && str[i + 1] && str[i + 1] == ')')
+			return (1);
+		i++;
+	}
+	return (0);
 }

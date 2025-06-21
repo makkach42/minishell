@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/20 20:21:54 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/21 10:06:20 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	lexer_to_tree(char *str, t_tree **tree, int *flag, t_hdoc_data *h_data)
 	syntax_error(&head, flag);
 	if (*flag)
 		h_data->stat = 258;
-	if (syntax_error_parentheses(&head))
+	if (!*flag && syntax_error_parentheses(&head))
 	{
 		h_data->stat = 258;
 		*flag = 1;
