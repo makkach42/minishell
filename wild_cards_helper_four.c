@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:21:25 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/03 12:46:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/21 17:25:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_pattern_matches(const char *pattern, char *dir_path)
+int	count_pattern_matches(char *pattern, char *dir_path)
 {
 	DIR				*dir;
 	struct dirent	*entry;

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 12:12:14 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/21 17:27:04 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,9 +346,9 @@ void		quote_remove_lst_two(t_tree **tree);
 int			expandableornot(char *str);
 int     ft_equal_count(char *str);
 void		wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path);
-char		**get_matches(const char *pattern,
+char		**get_matches(char *pattern,
 				char *dir_path, int *match_count);
-int			match_pattern(const char *pattern, const char *string);
+int			match_pattern(char *pattern, char *string);
 char		*str_duplicate(const char *s);
 int			if_has_wildcards(char *str);
 void		sort_matches(char **arr, int count);
@@ -522,7 +522,7 @@ void	wild_cards_handle_cmdarr(char ***cmd_arr, char *dir_path);
 int		fd_list_size(t_list_fd **head);
 // void	sort_matches(char **arr, int count);
 int		copy_and_resize_matches(char ***matches, int match_count, int new_cap);
-int		match_pattern(const char *pattern, const char *string);
+int		match_pattern(char *pattern, char *string);
 char	*str_duplicate(const char *s);
 // char	*join_matches(char **matches, int match_count);
 char	*ft_strcpy(char *dest, char *src);
@@ -564,7 +564,7 @@ int		skip_stars(int *i, const char *pattern);
 void	update_vars(int *star_idx, int *i, int *str_idx, int *j, int in_quotes);
 void	back_track(int *i, int *j, int *star_idx, int *str_idx);
 void	update_vars_two(int *i, int *j);
-int		count_pattern_matches(const char *pattern, char *dir_path);
+int		count_pattern_matches(char *pattern, char *dir_path);
 int		new_size_calcs(int original_size, char ***cmd_arr,
 			char *dir_path, int *match_count);
 // void	if_expanded_matches(char ***new_cmd_arr,
@@ -575,7 +575,7 @@ void	process_wildcard_element(char ***new_cmd_arr, char *element,
 			char *dir_path, int *j);
 void	free_original_cmd_arr(char ***cmd_arr, int original_size);
 void	process_regular_element(char ***new_cmd_arr, char *element, int *j);
-char	**get_matches(const char *pattern, char *dir_path, int *match_count);
+char	**get_matches(char *pattern, char *dir_path, int *match_count);
 void	process_wildcard_node_fd(t_list_fd *node, char *dir_path);
 void	handle_wildcards_in_fdlst(t_tree **tree);
 int		has_wild_cards_fdlst(t_tree **tree);

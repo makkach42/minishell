@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:05:52 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 12:06:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/21 17:28:53 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	**cleanup_on_error(char ***matches, int match_count, DIR *dir)
 	return (NULL);
 }
 
-static char	**process_directory(DIR *dir, const char *pattern,
+static char	**process_directory(DIR *dir, char *pattern,
 		char ***matches, int *match_count)
 {
 	struct dirent	*entry;
@@ -67,7 +67,7 @@ static char	**process_directory(DIR *dir, const char *pattern,
 	return (*matches);
 }
 
-char	**get_matches(const char *pattern, char *dir_path, int *match_count)
+char	**get_matches(char *pattern, char *dir_path, int *match_count)
 {
 	DIR		*dir;
 	char	**matches;
