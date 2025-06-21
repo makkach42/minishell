@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 10:06:33 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/21 12:12:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -561,7 +561,7 @@ int		init_matches(char ***matches, DIR **dir,
 			char *dir_path, int *capacity);
 void	pattern_match_inits(int *i, int *j, int *star_idx, int *str_idx);
 int		skip_stars(int *i, const char *pattern);
-void	update_vars(int *star_idx, int *i, int *str_idx, int *j);
+void	update_vars(int *star_idx, int *i, int *str_idx, int *j, int in_quotes);
 void	back_track(int *i, int *j, int *star_idx, int *str_idx);
 void	update_vars_two(int *i, int *j);
 int		count_pattern_matches(const char *pattern, char *dir_path);
@@ -657,6 +657,7 @@ void	ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data);
 void	ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data);
 void	ft_free_data(t_hdoc_data *h_data);
 int		check_inside_parenths(char *str);
+int		parenth_case(char *str);
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);
 // void	ft_hdoc_free(char **str, char **limiter, int fd);
