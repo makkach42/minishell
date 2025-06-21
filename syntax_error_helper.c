@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:57:14 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/21 08:12:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_syntax_error(void)
 {
-	write(2, "syntax error near unexpected token\n", 37);
+	ft_putstr_fd(2, "syntax error near unexpected token\n");
 	// write(2, str2, ft_strlen(str2));
 	// write(2, "\'\n", 2);
 }
@@ -72,7 +72,7 @@ void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 		(print_syntax_error(), *flag = 1, i = 1);
 	if (!i && (!ft_strcmp("REDIRECTION", prev_token) && !ft_strcmp(
 				"<<", prev_data) && !ft_strcmp(tmp->token, "PARENTHASIS")))
-		(print_syntax_error(), *flag = 1);
+		(print_syntax_error(), *flag = 1, i = 1);
 	if (!i && (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
 				tmp->token, prev_token) == 0))
 		(print_syntax_error(), *flag = 1, i = 1);
@@ -81,5 +81,9 @@ void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 		(print_syntax_error(), *flag = 1, i = 1);
 	if (!i && (ft_strcmp("PARENTHASIS", prev_token) == 0 && ft_strcmp(
 				tmp->token, "WORD") == 0))
-		(print_syntax_error(), *flag = 1);
+		(print_syntax_error(), *flag = 1, i = 1);
+	if (!i && (!ft_strcmp(tmp->token, "PARENTHASIS") &&
+				check_inside_parenths((tmp->data))))
+		(print_syntax_error(), *flag = 1, i = 1);
+
 }

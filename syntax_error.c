@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:13:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/21 08:16:01 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 		(print_syntax_error(), *flag = 1);
 	if (!*flag && (ft_strcmp("PIPE", prev_token
 			) == 0 && ft_strcmp(prev_token, tmp->token) == 0))
-		(write(2, "syntax error near unexpected token `|'\n", 40), *flag = 1);
+		(print_syntax_error(), *flag = 1);
 	if (!*flag && ((ft_strcmp("OPERATION_&&", prev_token
 				) == 0 || ft_strcmp("OPERATION_||", prev_token) == 0
 			) && ft_strcmp(tmp->token, "PIPE") == 0))
@@ -33,7 +33,7 @@ void	more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 	if (!*flag && (ft_strcmp("PIPE", prev_token) == 0 && (
 				ft_strcmp(tmp->token, "OPERATION_&&") == 0 || ft_strcmp(
 					tmp->token, "OPERATION_||") == 0)))
-		(write(2, "syntax error near unexpected token `|'\n", 40), *flag = 1);
+		(print_syntax_error(), *flag = 1);
 	if (!*flag && (!ft_strcmp("REDIRECTION", prev_token) && !ft_strcmp(
 				tmp->token, "PIPE")))
 		(print_syntax_error(), *flag = 1);
@@ -52,12 +52,10 @@ void	while_loop_syntax_error(t_list *tmp,
 		if (!*flag && (ft_strcmp("REDIRECTION", prev_token) == 0 && !tmp))
 		{
 			if (ft_strcmp(prev_data, ">") == 0 && ft_strlen(prev_data) == 1)
-				(write(2, "syntax error near unexpected token `newline'\n",
-						45), *flag = 1);
+				(print_syntax_error(), *flag = 1);
 			else if (ft_strcmp(prev_data, "<") == 0 && ft_strlen(
 					prev_data) == 1)
-				(write(2, "syntax error near unexpected token `newline'\n",
-						45), *flag = 1);
+				(print_syntax_error(), *flag = 1);
 			else
 				(print_syntax_error(), *flag = 1);
 		}
