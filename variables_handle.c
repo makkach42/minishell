@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/20 11:37:30 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:25:31 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	process_array_variable(char **command_arr,
 	if (!tmp.var_name)
 		return (-1);
 	if (!ft_strcmp(tmp.var_name, "?"))
-		return (*var_pos = -1, 0);
+		return (free(tmp.var_name), *var_pos = -1, 0);
 	if (underscore_case_check(tmp.var_name, command_arr, arr_idx))
 		return (0);
 	tmp.var_value = NULL;

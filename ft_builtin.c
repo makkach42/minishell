@@ -160,11 +160,11 @@ int    ft_echo(char **s)
 	{
         if (s[i + 1])
         {
-            tmp = buff;
+            // tmp = buff;
             buff = ft_strjoin(buff, " ");
             if (buff == NULL)
                 return (1);
-            free (tmp);
+            // free (tmp);
             tmp = buff;
             buff = ft_strjoin(buff, s[i + 1]);
             if (buff == NULL)

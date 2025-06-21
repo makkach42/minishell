@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:13:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/20 18:24:28 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ void	syntax_error_two(t_tree **tree, int *flag)
 	if ((*tree)->right)
 		syntax_error_two(&(*tree)->right, flag);
 	if ((*tree)->command)
-		check_quotes((*tree)->command, flag);
+		if (check_quotes((*tree)->command, flag) == 1)
+			(*tree)->status = 258;
 }
 
 int	syntax_error_parentheses(t_list **head)

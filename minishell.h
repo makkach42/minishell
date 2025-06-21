@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/20 12:19:17 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 18:21:42 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ typedef struct s_hdoc_data
 {
 	t_env	**env;
 	int		*sig_flag;
-	int		prev_fd;	
+	int		prev_fd;
+	int		stat;
 } t_hdoc_data;
 
 typedef struct s_cmd
@@ -154,7 +155,7 @@ void		syntax_error_two(t_tree **tree, int *flag);
 void		syntax_error(t_list **head, int *flag);
 void		even_more_ifs(char *prev_token, char *prev_data,
 				t_list *tmp, int *flag);
-void		lexer_to_tree(char *str, t_tree **tree, int *flag);
+void		lexer_to_tree(char *str, t_tree **tree, int *flag, t_hdoc_data *data);
 void		tree_to_rediropen(t_tree *tree, int *flag);
 void		inits_main(t_env **env,
 				t_tree **tree, char **argev);
@@ -368,7 +369,7 @@ int			process_array_variable(char **command_arr,
 				int arr_idx, int *var_pos, t_env **env);
 // int			count_filtered_length(char *old_str, int *var_flag, int l, int k);
 // char		*create_filtered_string(char *old_str, int final_len, int l, int k);
-void    reset_vars(t_tree **tree, t_env **env);
+void    reset_vars(t_tree **tree, t_env **env, t_hdoc_data *h_data);
 typedef struct s_expand
 {
 	int		var_end;
@@ -395,7 +396,7 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strjoin_three(char *s1, char *s2, char *s3);
 void	redirections_list_maker(t_tree **tree);
 void	tree_to_rediropen(t_tree *tree, int *flag);
-void	lexer_to_tree(char *str, t_tree **tree, int *flag);
+void	lexer_to_tree(char *str, t_tree **tree, int *flag, t_hdoc_data *h_data);
 void	quote_parse(char **str, int *flag);
 int		check_empty(char *str);
 void	handle_signal(int sig);
@@ -529,7 +530,7 @@ void	quote_remove_two(t_tree **tree);
 void	process_command_array(t_tree **tree);
 // void	process_command_string(t_tree **tree, int k);
 t_list	*new_list_init(char *str);
-void	reset_vars(t_tree **tree, t_env **env);
+void	reset_vars(t_tree **tree, t_env **env, t_hdoc_data *h_data);
 int		isnt_valid(char *str);
 void	export_cases(t_tree **tree);
 // void	new_quote_handle(char **str, char **word);
@@ -544,8 +545,8 @@ void	new_variable_word_extractor(char **str, char **word, int i);
 // void	plus_handle_word_extractor(char **str, char **word);
 void	new_operator_word_extractor(char **word, char **str);
 void	equal_handle(char **str, char **word);
-void	reset_var_expand(t_tmp_tree	*tmp, t_env **env);
-void	reset_var_expand_var(t_tree **tree, t_env **env);
+void	reset_var_expand(t_tmp_tree	*tmp, t_env **env, t_hdoc_data *h_data);
+void	reset_var_expand_var(t_tree **tree, t_env **env, t_hdoc_data *h_data);
 void	process_no_list_size(t_list	*head, int list_size, char ***cmd2, int *i);
 char	***cmd2_fill(t_tree **tree);
 void	free_twod_char(char **arr);
@@ -584,7 +585,7 @@ void	display_terminal_control_chars(void);
 void	ft_new_handler(int sig);
 void	ft_new_handler_pip(int sig);
 void	ft_free_array(char **p);
-void	if_question_mark(t_tmp_tree **tmp, int n);
+void	if_question_mark(t_tmp_tree **tmp, int n, t_hdoc_data *h_data);
 int		underscore_case_check(char *var_name, char **command_arr, int arr_idx);
 void	if_question_mark_two(char **line, int status, int n);
 void	command_arr_fill_helper(t_tree **tree, char **str);
@@ -617,7 +618,7 @@ void	ft_new_handler(int sig);
 void	ft_new_handler_pip(int sig);
 void	display_terminal_control_chars(void);
 void	ft_word_handle(t_tree *tree, t_env **h, char **e, int *check);
-void	ft_execute(t_tree *tree, t_env **h, char **e, int *check);
+void	ft_execute(t_tree *tree, t_env **h, char **e, int *check, t_hdoc_data *h_data);
 int	ft_hdoc_first(t_list_fd *tmp);
 void	 ft_hdoc_check(t_tree *tree, t_hdoc_data *h_data, int status);
 int	ft_hdoc_count_second(t_tree *tree);

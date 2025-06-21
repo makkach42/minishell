@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:11:30 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/19 10:46:41 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 20:25:48 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ void	export_cases(t_tree **tree)
 {
 	int		i;
 
+	if(!tree)
+		return;
 	if ((*tree) && (*tree)->left)
 		export_cases(&(*tree)->left);
 	if ((*tree) && (*tree)->right)
@@ -147,6 +149,7 @@ void	export_cases(t_tree **tree)
 		{
 			while ((*tree)->command_arr[i])
 			{
+				// exit(1);
 				change_current_string(&(*tree)->command_arr[i]);
 				i++;
 			}

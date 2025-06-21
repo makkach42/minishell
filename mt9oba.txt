@@ -1644,3 +1644,22 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
   Shadow gap:              cc
 ==89416==ABORTING
 [1]    89416 abort      ./minishell
+
+-------------------------
+
+minishell$> echo
+minishell$> echo
+minishell$> echo
+minishell$> 
+
+exit status in ctrl c prompt == 1
+
+
+
+
+
+
+minishell$> ../../../minishell
+minishell$> pwd
+
+minishell$> ls

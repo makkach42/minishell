@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:19:50 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/20 12:14:04 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 21:01:54 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,11 @@ int	ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check)
 		return (ft_n_return(org_stdin, org_stdout, check));
 	id1 = fork();
 	if (id1 == 0)
+	{
+		close (org_stdout);
+		close (org_stdin);
 		ft_para_child(tree, check, h, e);
+	}
 	waitpid(id1, &status, 0);
 	return (ft_para_signal(status, org_stdout, org_stdin));
 }

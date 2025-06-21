@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error_helper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:57:14 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/20 15:00:17 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	print_syntax_error(void)
 {
-	write(2, "syntax error near unexpected token\n", 37);
-	// write(2, str2, ft_strlen(str2));
-	// write(2, "\'\n", 2);
+	ft_putstr_fd(2, "syntax error near unexpected token\n");
 }
 
 void	while_loop_parentheses(t_list *tmp,

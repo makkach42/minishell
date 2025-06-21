@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:26:36 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/19 15:44:59 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 17:55:20 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	*env_fill_pwd(t_env *head)
 
 void	ft_env_helper(t_env *new_node, t_env **tmp)
 {
+	if (!new_node || !tmp || !*tmp)
+		return ;
 	new_node->next = NULL;
 	(*tmp)->next = new_node;
 	*tmp = new_node;
@@ -43,6 +45,8 @@ void	ft_env_helper(t_env *new_node, t_env **tmp)
 void	ft_env_helper2(t_env **head, int *i, int *j, char **argev)
 {
 	env_fill_helper(head, i, j, argev);
+	if (!head || !*head)
+		return ;
 	(*head)->next = NULL;
 	(*head)->h = 0;
 	(*head)->active = 0;

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/19 10:44:17 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 20:21:54 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,21 @@ int	variable_search_instr(char *str)
 	return (0);
 }
 
-void	lexer_to_tree(char *str, t_tree **tree, int *flag)
+void	lexer_to_tree(char *str, t_tree **tree, int *flag, t_hdoc_data *h_data)
 {
 	t_list	*head;
-	t_list	*tmp;
+	// t_list	*tmp;
 	if (!*flag)
 	{
 		head = list_init(str);
 		lexer(&head);
 	}
 	if (new_syntax_error(&head))
+	{
+		h_data->stat = 258;
 		(print_syntax_error(), *flag = 1);
-	tmp = head;
+	}
+	// tmp = head;
 	// while (tmp)
 	// {
 	// 	printf("%s\n", tmp->data);
@@ -50,8 +53,14 @@ void	lexer_to_tree(char *str, t_tree **tree, int *flag)
 	// 	tmp = tmp->next;
 	// }
 	syntax_error(&head, flag);
+	if (*flag)
+		h_data->stat = 258;
 	if (syntax_error_parentheses(&head))
+	{
+		h_data->stat = 258;
 		*flag = 1;
+	}
+	// dprintf(2, "++++++++++++++++++++++%d\n", *flag)
 	if (!*flag)
 		tree_maker(&head, tree);
 	else

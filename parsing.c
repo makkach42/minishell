@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/20 12:33:36 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 20:46:02 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,58 @@
 
 int	global_status;
 
-void	f(void)
+void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data)
 {
-	system("leaks minishell");
+	quote_parse(str, flag);
+	if (!*flag)
+	{
+		lexer_to_tree(*str, tree, flag, h_data);
+		tree_to_rediropen(*tree, flag);
+		export_cases(tree);
+		redirections_list_maker(tree);
+	}
+	if (!*flag && has_wild_cards_comarr(tree) == 1)
+		handle_wildcards_in_cmdarr(tree);
+	if (!*flag && has_wild_cards_fdlst(tree) == 1)
+		handle_wildcards_in_fdlst(tree);
+
+}
+
+void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
+{
+	int			hdoc_num;
+	static int	status;
+	int			test;
+
+	hdoc_num = 0;
+	test = 0;
+	// if (h_data->stat == -1)
+	// {
+		tree->status = status;
+	// }
+	hdoc_num = ft_hdoc_count(tree);
+	if (hdoc_num > 16)
+	{
+		ft_putstr_fd(2, "minishell: maximum here-document count exceeded\n");
+		exit (2);
+	}
+	ft_hdoc_handle(tree, h_data, tree->status);
+ 	ft_st(tree, *(h_data->sig_flag));
+	ft_exec_test(tree, &test, h_data);
+	if (*(h_data->sig_flag))
+	{
+		ft_execute(tree, h_data->env, e, check, h_data);
+		ft_signal_exec();
+	}
+	status = tree->status;
+}
+
+void	ft_str_empty(t_env **env, char **e, t_hdoc_data *h_data)
+{
+	ft_putstr_fd(1, "exit\n");
+	ft_free_array(e);
+	free_env(env);
+	ft_free_data(h_data);
 }
 
 int	main(int argc, char **argv, char **argev)
@@ -41,6 +90,7 @@ int	main(int argc, char **argv, char **argev)
 	((void)argc, (void)argv, inits_main(&env, &tree, argev));
 	e = ft_env_str(env);
 	tmp = env;
+	tree = NULL;
 	hdoc_num = 0;
 	test = 0;
 	h_data = malloc(sizeof(t_hdoc_data));
@@ -48,6 +98,7 @@ int	main(int argc, char **argv, char **argev)
 		return (1);
 	h_data->env = &env;
 	h_data->sig_flag = malloc(sizeof(int));
+	h_data->stat = -1;
 	if (!h_data->sig_flag)
 	{
 		ft_free_array(e);
@@ -66,12 +117,15 @@ int	main(int argc, char **argv, char **argev)
 		signal(SIGQUIT, SIG_IGN);
 		flag = 0;
 		str = readline("minishell$> ");
+		// if (global_status == SIGINT)
+		// 	continue;
 		if (!str)
 		{
-			ft_putstr_fd(1, "exit\n");
-			ft_free_array(e);
-			free_env(&env);
-			ft_free_data(h_data);
+			// ft_putstr_fd(1, "exit\n");
+			// ft_free_array(e);
+			// free_env(&env);
+			// ft_free_data(h_data);
+			ft_str_empty(&env, e, h_data);
 			break ;
 		}
 		else if (!*str || check_empty(str))
@@ -80,36 +134,42 @@ int	main(int argc, char **argv, char **argev)
 			continue ;
 		}
 		add_history(str);
-		quote_parse(&str, &flag);
+		tree = NULL;
+		ft_parsing(&str, &flag, &tree, h_data);
+		// dprintf(2, "this is tree status after parsing %d\n", tree->status);
+		// quote_parse(&str, &flag);
+		// if (!flag)
+		// {
+		// 	lexer_to_tree(str, &tree, &flag);
+		// 	tree_to_rediropen(tree, &flag);
+		// 	export_cases(&tree);
+		// 	redirections_list_maker(&tree);
+		// }
+		// if (!flag && has_wild_cards_comarr(&tree) == 1)
+		// 	handle_wildcards_in_cmdarr(&tree);
+		// if (!flag && has_wild_cards_fdlst(&tree) == 1)
+		// 	handle_wildcards_in_fdlst(&tree);
 		if (!flag)
 		{
-			lexer_to_tree(str, &tree, &flag);
-			tree_to_rediropen(tree, &flag);
-			export_cases(&tree);
-			redirections_list_maker(&tree);
-		}
-		if (!flag && has_wild_cards_comarr(&tree) == 1)
-			handle_wildcards_in_cmdarr(&tree);
-		if (!flag && has_wild_cards_fdlst(&tree) == 1)
-			handle_wildcards_in_fdlst(&tree);
-		if (!flag)
-		{
-			tree->status = status;
-			hdoc_num = ft_hdoc_count(tree);
-			if (hdoc_num > 16)
-			{
-				ft_putstr_fd(2, "minishell: maximum here-document count exceeded\n");
-				exit (2);
-			}
-			ft_hdoc_handle(tree, h_data, tree->status);
- 			ft_st(tree, *(h_data->sig_flag));
-			ft_exec_test(tree, &test, h_data);
-			if (*(h_data->sig_flag))
-			{
-				ft_execute(tree, h_data->env, e, &check);
-				ft_signal_exec();
-			}
-			status = tree->status;
+			// hdoc_num = 0;
+			// test = 0;
+			// tree->status = status;
+			// hdoc_num = ft_hdoc_count(tree);
+			// if (hdoc_num > 16)
+			// {
+			// 	ft_putstr_fd(2, "minishell: maximum here-document count exceeded\n");
+			// 	exit (2);
+			// }
+			// ft_hdoc_handle(tree, h_data, tree->status);
+ 			// ft_st(tree, *(h_data->sig_flag));
+			// ft_exec_test(tree, &test, h_data);
+			// if (*(h_data->sig_flag))
+			// {
+			// 	ft_execute(tree, h_data->env, e, &check);
+			// 	ft_signal_exec();
+			// }
+			// status = tree->status;
+			ft_execution(tree, h_data, &check, e);
 		}
 		tcsetattr(0, TCSANOW, &termios_a);
 		if (tree && flag != 1)

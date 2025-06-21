@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:22:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/19 10:43:04 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 20:46:19 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_signal(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		// global_status = 1;
+		// global_status = SIGINT;
 	}
 }
 
@@ -48,7 +48,7 @@ void	free_original_cmd_arr(char ***cmd_arr, int original_size)
 	free(*cmd_arr);
 }
 
-void	if_question_mark(t_tmp_tree **tmp, int n)
+void	if_question_mark(t_tmp_tree **tmp, int n, t_hdoc_data *h_data)
 {
 	char	*before;
 	char	*after;
@@ -59,7 +59,10 @@ void	if_question_mark(t_tmp_tree **tmp, int n)
 	n++;
 	after = ft_substr((*tmp)->tmp->data, n + 1,
 			ft_strlen((*tmp)->tmp->data) - (n + 1));
-	num = ft_itoa((*tmp)->tree->status);
+	if (h_data->stat != -1)
+		num = ft_itoa(h_data->stat);
+	else
+		num = ft_itoa((*tmp)->tree->status);
 	new_str = ft_strjoin_three(before, num, after);
 	free((*tmp)->tmp->data);
 	(*tmp)->tmp->data = new_str;

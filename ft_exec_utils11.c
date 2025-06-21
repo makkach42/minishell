@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:21:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/20 12:14:23 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 15:32:15 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ int	ft_op_and(t_tree *tree, t_env **h, char **e, int *check)
 	int	x;
 
 	x = 0;
-	ft_execute(tree->left, h, e, &x);
+	ft_execute(tree->left, h, e, &x, NULL);//must be changed or else we all gona die
 	if (tree->left->status == 0)
 	{
-		ft_execute(tree->right, h, e, &x);
+		ft_execute(tree->right, h, e, &x, NULL);//must be changed or else we all gona die
 		return (tree->right->status);
 	}
 	return (tree->left->status);
@@ -83,10 +83,10 @@ int	ft_op_or(t_tree *tree, t_env **h, char **e, int *check)
 	int	x;
 
 	x = 0;
-	ft_execute(tree->left, h, e, &x);
+	ft_execute(tree->left, h, e, &x, NULL);//must be changed or else we all gona die
 	if (tree->left->status != 0)
 	{
-		ft_execute(tree->right, h, e, &x);
+		ft_execute(tree->right, h, e, &x, NULL);//must be changed or else we all gona die
 		return (tree->right->status);
 	}
 	return (tree->left->status);

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/19 14:51:43 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:53:37 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 		return (1);
 	if (*check)
 	{
-		if (WIFSIGNALED(status))
-		{
-			status = WTERMSIG(status);
-			signal(status, SIG_DFL);
-			kill(0, status);
-		}
+		// if (WIFSIGNALED(status))
+		// {
+		// 	dprintf(2, "entered in signal which is wrong\n");
+		// 	status = WTERMSIG(status);
+		// 	signal(status, SIG_DFL);
+		// 	kill(0, status);
+		// }
 	}
 	status = ft_wait_for_child(status, status1);
 	if (*check)
