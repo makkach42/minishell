@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 10:06:33 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/21 10:42:01 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_hdoc_data
 	int		*sig_flag;
 	int		prev_fd;
 	int		stat;
+	int		check_stat;
 } t_hdoc_data;
 
 typedef struct s_cmd

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:22:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/20 20:46:19 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/21 11:01:13 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_signal(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		// global_status = SIGINT;
+		global_status = SIGINT;
 	}
 }
 
