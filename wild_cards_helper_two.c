@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:16:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/03 12:25:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/21 12:43:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,50 @@ int	match_pattern(const char *pattern, const char *string)
 	int		j;
 	int		star_idx;
 	int		str_idx;
+	int		in_quotes;
+	int		quote_idx;
+	char	quote_type;
 
+	in_quotes = 0;
+	quote_idx = 0;
 	pattern_match_inits(&i, &j, &star_idx, &str_idx);
 	while (string[j])
 	{
-		if (pattern[i] == '*')
+		if ((!in_quotes && (pattern[i] == '"' || pattern[i] == '\'')) || ((pattern[i] == '"' || pattern[i] == '\'') && i == quote_idx))
+		{
+			in_quotes = 1;
+			quote_type = pattern[i];
+			quote_idx = i;
+			i++;
+		}
+		else if (in_quotes && pattern[i] == quote_type)
+		{
+			if (i != quote_idx)
+				in_quotes = 0;
+			i++;
+		}
+		if (!in_quotes && pattern[i] == quote_type && i == quote_idx)
+			i++;
+		if (pattern[i] == '*' && !in_quotes)
 		{
 			if (skip_stars(&i, pattern) == 1)
 				return (1);
-			update_vars(&star_idx, &i, &str_idx, &j);
+			update_vars(&star_idx, &i, &str_idx, &j, in_quotes);
 		}
 		else if (pattern[i] == string[j])
+		{
 			update_vars_two(&i, &j);
+			if (in_quotes && pattern[i] == quote_type)
+			{
+				if (i != quote_idx)
+					in_quotes = 0;
+				i++;
+			}
+		}
 		else if (star_idx >= 0)
+		{
 			back_track(&i, &j, &star_idx, &str_idx);
+		}
 		else
 			return (0);
 	}
