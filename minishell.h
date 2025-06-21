@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/21 17:27:04 by makkach          ###   ########.fr       */
+=======
+/*   Updated: 2025/06/21 15:17:23 by aakroud          ###   ########.fr       */
+>>>>>>> 58c902ded8916bad238307c00ef7347a1132d6fd
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +100,7 @@ typedef struct s_hdoc_data
 	int		*sig_flag;
 	int		prev_fd;
 	int		stat;
+	int		check_stat;
 } t_hdoc_data;
 
 typedef struct s_cmd

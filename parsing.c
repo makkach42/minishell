@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 17:53:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/21 17:54:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,7 @@ void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 
 	hdoc_num = 0;
 	test = 0;
-	// if (h_data->stat == -1)
-	// {
-		tree->status = status;
-	// }
+	tree->status = status;
 	hdoc_num = ft_hdoc_count(tree);
 	if (hdoc_num > 16)
 	{
@@ -84,6 +81,11 @@ void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 		ft_execute(tree, h_data->env, e, check, h_data);
 		ft_signal_exec();
 	}
+	if (tree->status > 0)
+		h_data->check_stat = 1;
+	else
+		h_data->check_stat = 0;
+	dprintf(2, "this is the status %d\n", tree->status);
 	status = tree->status;
 }
 
@@ -111,8 +113,7 @@ int	main(int argc, char **argv, char **argev)
 	t_hdoc_data	*h_data;
 	int	test;
 
-	// atexit(f);
-	if (!isatty(0) || !isatty(1))
+	if (!isatty(0) || !isatty(1) || !getcwd(NULL, 0))
 		return (1);
 	((void)argc, (void)argv, inits_main(&env, &tree, argev));
 	e = ft_env_str(env);
@@ -125,7 +126,6 @@ int	main(int argc, char **argv, char **argev)
 		return (1);
 	h_data->env = &env;
 	h_data->sig_flag = malloc(sizeof(int));
-	h_data->stat = -1;
 	if (!h_data->sig_flag)
 	{
 		ft_free_array(e);
@@ -133,25 +133,23 @@ int	main(int argc, char **argv, char **argev)
 		free (h_data);
 		return (1);
 	}
+	h_data->check_stat = 0;
+	h_data->stat = -1;
 	tcgetattr(0, &termios_a);
 	while (1)
 	{
+		if (h_data->check_stat)
+			h_data->stat = -1;
 		*(h_data->sig_flag) = 1;
 		global_status = 0;
 		check = 0;
+		flag = 0;
 		hide_terminal_control_chars();
 		signal(SIGINT, handle_signal);
 		signal(SIGQUIT, SIG_IGN);
-		flag = 0;
 		str = readline("minishell$> ");
-		// if (global_status == SIGINT)
-		// 	continue;
 		if (!str)
 		{
-			// ft_putstr_fd(1, "exit\n");
-			// ft_free_array(e);
-			// free_env(&env);
-			// ft_free_data(h_data);
 			ft_str_empty(&env, e, h_data);
 			break ;
 		}
@@ -160,44 +158,18 @@ int	main(int argc, char **argv, char **argev)
 			free(str);
 			continue ;
 		}
+		if (global_status == SIGINT)
+		{
+			h_data->stat = 1;
+			global_status = 0;
+		}
 		add_history(str);
 		tree = NULL;
 		ft_parsing(&str, &flag, &tree, h_data);
-		// dprintf(2, "this is tree status after parsing %d\n", tree->status);
-		// quote_parse(&str, &flag);
-		// if (!flag)
-		// {
-		// 	lexer_to_tree(str, &tree, &flag);
-		// 	tree_to_rediropen(tree, &flag);
-		// 	export_cases(&tree);
-		// 	redirections_list_maker(&tree);
-		// }
-		// if (!flag && has_wild_cards_comarr(&tree) == 1)
-		// 	handle_wildcards_in_cmdarr(&tree);
-		// if (!flag && has_wild_cards_fdlst(&tree) == 1)
-		// 	handle_wildcards_in_fdlst(&tree);
 		if (!flag)
-		{
-			// hdoc_num = 0;
-			// test = 0;
-			// tree->status = status;
-			// hdoc_num = ft_hdoc_count(tree);
-			// if (hdoc_num > 16)
-			// {
-			// 	ft_putstr_fd(2, "minishell: maximum here-document count exceeded\n");
-			// 	exit (2);
-			// }
-			// ft_hdoc_handle(tree, h_data, tree->status);
- 			// ft_st(tree, *(h_data->sig_flag));
-			// ft_exec_test(tree, &test, h_data);
-			// if (*(h_data->sig_flag))
-			// {
-			// 	ft_execute(tree, h_data->env, e, &check);
-			// 	ft_signal_exec();
-			// }
-			// status = tree->status;
 			ft_execution(tree, h_data, &check, e);
-		}
+		if (flag)
+			h_data->check_stat = 0;
 		tcsetattr(0, TCSANOW, &termios_a);
 		if (tree && flag != 1)
 			free_tree(tree);

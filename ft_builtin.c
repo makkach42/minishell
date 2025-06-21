@@ -93,6 +93,7 @@ int    ft_cd(char **s, t_env *h)
             n->value = t;
         else
         {
+            perror("");
             lent = ft_strlen(n->value);
             if (n->value[lent - 1] != '/')
             {
@@ -101,7 +102,6 @@ int    ft_cd(char **s, t_env *h)
                 if (!s[1])
                 {
                     free (past);
-                    ft_free_array(p);
                     return (1);
                 }
                 free (temp);
@@ -112,7 +112,6 @@ int    ft_cd(char **s, t_env *h)
                 return (1);
             free (temp);
             free (past);
-            ft_free_array(p);
         }
     }
     return (0);
@@ -144,16 +143,13 @@ int    ft_echo(char **s)
 
     i = 1;
 	flag = 1;
-    if (!s[i])
-        return (0);
-	if (ft_nline_check(s[i]) == 0)
+    buff = NULL;
+	if (!ft_nline_check(s[i]))
 	{
 		while (ft_nline_check(s[i]) == 0)
 			i++;
 		flag = 0;
 	}
-    if (!s[i])
-        return (0);
     if (s[i])
         buff = s[i];
 	while (s[i] != NULL)
@@ -180,19 +176,14 @@ int    ft_echo(char **s)
         }
 		i++;
 	}
-    if (buff)
+    if (flag == 1)
     {
-        if (flag == 1)
-        {
-            tmp = buff;
-            buff = ft_strjoin(buff, "\n");
-            free (tmp);
-        }
-        ft_putstr_fd(1, buff);
-        free (buff);
+        tmp = buff;
+        buff = ft_strjoin(buff, "\n");
+        free (tmp);
     }
-	// if (flag == 1)
-	// 	ft_putstr_fd(1, "\n");
+    ft_putstr_fd(1, buff);
+    free (buff);
     return (0);
 }
 
