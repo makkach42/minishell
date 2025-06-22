@@ -6,13 +6,38 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/22 15:44:38 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/22 17:52:33 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	global_status;
+
+void	protect_wild_card(t_tree **tree)
+{
+	int		i;
+	char	*tmp;
+
+	if ((*tree) && (*tree)->left)
+		protect_wild_card(&(*tree)->left);
+	if ((*tree) && (*tree)->right)
+		protect_wild_card(&(*tree)->right);
+	if ((*tree) && (*tree)->command_arr)
+	{
+		i = 1;
+		while ((*tree)->command_arr[i])
+		{
+			if (if_has_wildcards((*tree)->command_arr[i]))
+			{
+				tmp = (*tree)->command_arr[i];
+				(*tree)->command_arr[i] = ft_strjoin_three("\"", (*tree)->command_arr[i], "\"");
+				free(tmp);
+			}
+			i++;
+		}
+	}
+}
 
 void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data)
 {
@@ -28,6 +53,8 @@ void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data)
 		handle_wildcards_in_cmdarr(tree);
 	if (!*flag && has_wild_cards_fdlst(tree) == 1)
 		handle_wildcards_in_fdlst(tree);
+	if (!*flag && has_wild_cards_comarr(tree))
+		protect_wild_card(tree);
 
 }
 

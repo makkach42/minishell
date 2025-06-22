@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:15:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 12:38:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/21 17:17:34 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	pattern_match_inits(int *i, int *j, int *star_idx, int *str_idx)
 
 int	skip_stars(int *i, const char *pattern)
 {
-	// while (pattern[(*i) + 1] == '*' && (pattern[(*i) + 1] == '"' || pattern[(*i) + 1] == '\''))
 	while (pattern[(*i) + 1] == '*')
 		(*i)++;
 	if (!pattern[(*i) + 1])
@@ -32,8 +31,7 @@ int	skip_stars(int *i, const char *pattern)
 
 void	update_vars(int *star_idx, int *i, int *str_idx, int *j, int in_quotes)
 {
-	if (!in_quotes)
-		*star_idx = (*i)++;
+	*star_idx = (*i)++;
 	*str_idx = *j;
 }
 

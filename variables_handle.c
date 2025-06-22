@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_handle.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/20 14:25:31 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/21 17:53:43 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	process_array_variable(char **command_arr,
 		return (0);
 	tmp.var_value = NULL;
 	extract_var_value(env, tmp.var_name, &tmp.var_value);
-	dprintf(2, "------------------%p\n", command_arr[0]);
 	if (fill_before(&tmp.before, &command_arr[arr_idx],
 			var_pos, tmp.var_name) == -1)
 		return (-1);
