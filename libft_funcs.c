@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_funcs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:16:32 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/15 11:57:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/22 17:50:17 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ char	*ft_strdup(char *s1)
 	while (s1[i] != '\0')
 		i++;
 	i += 1;
-	j = (char *)malloc(i * sizeof(char));
+
+	j = malloc(i * sizeof(char));
 	if (!j)
 		return (0);
 	i = 0;

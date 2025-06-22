@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 15:15:20 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/22 15:44:38 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 		h_data->check_stat = 1;
 	else
 		h_data->check_stat = 0;
-	dprintf(2, "this is the status %d\n", tree->status);
 	status = tree->status;
 }
 
@@ -86,10 +85,13 @@ int	main(int argc, char **argv, char **argev)
 	t_hdoc_data	*h_data;
 	int	test;
 
-	if (!isatty(0) || !isatty(1) || !getcwd(NULL, 0))
+	tmp = getcwd(NULL, 0);
+	if (!isatty(0) || !isatty(1) || !tmp)
 		return (1);
 	((void)argc, (void)argv, inits_main(&env, &tree, argev));
 	e = ft_env_str(env);
+	free (tmp);
+	tmp = NULL;
 	tmp = env;
 	tree = NULL;
 	hdoc_num = 0;
