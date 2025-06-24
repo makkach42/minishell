@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 16:34:39 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/24 18:32:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 	ft_exec_test(tree, &test, h_data);
 	if (*(h_data->sig_flag))
 	{
-		ft_execute(tree, h_data->env, e, check, h_data);
+		ft_execute(tree, e, check, h_data);
 		ft_signal_exec();
 	}
 	if (tree->status > 0)

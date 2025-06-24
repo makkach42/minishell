@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/20 14:53:37 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:34:56 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,6 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 	ft_close_fd(tree);
 	if (waitpid(id1, &status1, 0) == -1 || waitpid(id2, &(status), 0) == -1)
 		return (1);
-	if (*check)
-	{
-		// if (WIFSIGNALED(status))
-		// {
-		// 	dprintf(2, "entered in signal which is wrong\n");
-		// 	status = WTERMSIG(status);
-		// 	signal(status, SIG_DFL);
-		// 	kill(0, status);
-		// }
-	}
 	status = ft_wait_for_child(status, status1);
 	if (*check)
 		exit (status);
@@ -97,7 +87,7 @@ int	ft_cmd_exec(t_tree *tree, t_env **h)
 	if (ft_strcmp(tree->command_arr[0], "pwd") == 0)
 		status = ft_pwd(*h);
 	if (ft_strcmp(tree->command_arr[0], "unset") == 0)
-		ft_unset(h, tree->command_arr);
+		status = ft_unset(h, tree->command_arr);
 	return (status);
 }
 
