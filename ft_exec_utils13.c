@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:15:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/20 21:11:55 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:58:05 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,11 @@ void	ft_exec_test2(t_tree *tree, int *test, t_hdoc_data *h_data)
 	int	id2;
 	int	status;
 	int	status1;
-	
+
 	id1 = 0;
 	id2 = 0;
 	status = 0;
 	status1 = 0;
-
 	id1 = fork();
 	if (id1 == -1)
 	{

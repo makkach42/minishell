@@ -1,8 +1,25 @@
 {
   "C_Cpp_Runner.msvcBatchPath": "",
   "files.associations": {
-    "sstream": "c"
-  },
+	"sstream": "c",
+	"__node_handle": "c",
+	"limits": "c",
+	"type_traits": "c",
+	"__bit_reference": "c",
+	"__functional_base": "c",
+	"algorithm": "c",
+	"bitset": "c",
+	"chrono": "c",
+	"__memory": "c",
+	"functional": "c",
+	"iterator": "c",
+	"memory": "c",
+	"optional": "c",
+	"ratio": "c",
+	"system_error": "c",
+	"tuple": "c",
+	"vector": "c"
+},
   "C_Cpp_Runner.cCompilerPath": "clang",
   "C_Cpp_Runner.cppCompilerPath": "clang++",
   "C_Cpp_Runner.debuggerPath": "lldb",

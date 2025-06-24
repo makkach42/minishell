@@ -208,7 +208,9 @@ int ft_parse(char *s)
 	// if (s == NULL)
 	// 	return (1);
     if (ft_isalpha(s[0]) != 0 && s[0] != '_')
-        return (1);
+    {
+		return (1);
+	}
     while (s[i] != '\0')
     {
         if (ft_isalpha(s[i]) != 0 && s[i] != '_' && ft_isdigit(s[i]) != 0)  
