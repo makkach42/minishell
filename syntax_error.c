@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 11:07:41 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/24 10:46:16 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 void	more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 {
-	int	i;
-
 	if (!tmp)
 		return ;
-	i = 0;
 	if ((!*flag && (ft_strcmp("OPERATION_&&", prev_token
 				) == 0 || ft_strcmp("OPERATION_||", prev_token) == 0
 			) && ft_strcmp(prev_token, tmp->token) == 0))
@@ -37,7 +34,7 @@ void	more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 	if (!*flag && (!ft_strcmp("REDIRECTION", prev_token) && !ft_strcmp(
 				tmp->token, "PIPE")))
 		(print_syntax_error(), *flag = 1);
-	if (!i)
+	if (!*flag)
 		(even_more_ifs(prev_token, prev_data, tmp, flag));
 }
 
@@ -122,6 +119,12 @@ int	parenth_case(char *str)
 			if (str[i] && (!is_operator(str[i]) || str[i] == '$'))
 				return (1);
 		}
+		if (is_operator(str[i]) && !in_quotes && str[i + 1] && str[i + 1] == ')')
+			return (1);
+		if (!in_quotes && str[i + 1] && str[i] == '(' && str[i + 1] == ')')
+			return (1);
+		if (!in_quotes && str[i + 1] && str[i] == '(' && is_operator(str[i + 1]))
+			return (1);
 		i++;
 	}
 	return (0);

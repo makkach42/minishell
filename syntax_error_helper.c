@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error_helper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 10:07:05 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 10:45:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,30 +58,29 @@ void	syntax_error_parentheses_while_loop(t_list *tmp,
 
 void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 {
-	int	i;
-
-	i = 0;
-	if (!i && (ft_strcmp("REDIRECTION", prev_token) == 0 && (
+	if (!*flag && (!ft_strcmp("REDIRECTION", prev_token) && (!ft_strcmp("WORD", tmp->token) || !ft_strcmp("COMMAND", tmp->token)) && tmp->next && (!ft_strcmp("WORD", tmp->next->token))))
+		(print_syntax_error(), *flag = 1);
+	if (prev_token && tmp && tmp->next)
+	if (!*flag && (ft_strcmp("REDIRECTION", prev_token) == 0 && (
 				ft_strcmp(tmp->token, "OPERATION_&&") == 0 || ft_strcmp(
 					tmp->token, "OPERATION_||") == 0)))
-		(print_syntax_error(), *flag = 1, i = 1);
-	if (!i && (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
+		(print_syntax_error(), *flag = 1);
+	if (!*flag && (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
 				tmp->token, "PARENTHASIS") == 0))
-		(print_syntax_error(), *flag = 1, i = 1);
-	if (!i && (!ft_strcmp("REDIRECTION", prev_token) && !ft_strcmp(
+		(print_syntax_error(), *flag = 1);
+	if (!*flag && (!ft_strcmp("REDIRECTION", prev_token) && !ft_strcmp(
 				"<<", prev_data) && !ft_strcmp(tmp->token, "PARENTHASIS")))
-		(print_syntax_error(), *flag = 1, i = 1);
-	if (!i && (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
+		(print_syntax_error(), *flag = 1);
+	if (!*flag && (ft_strcmp("REDIRECTION", prev_token) == 0 && ft_strcmp(
 				tmp->token, prev_token) == 0))
-		(print_syntax_error(), *flag = 1, i = 1);
-	if (!i && (ft_strcmp("WORD", prev_token) == 0 && ft_strcmp(
+		(print_syntax_error(), *flag = 1);
+	if (!*flag && (ft_strcmp("WORD", prev_token) == 0 && ft_strcmp(
 				tmp->token, "PARENTHASIS") == 0))
-		(print_syntax_error(), *flag = 1, i = 1);
-	if (!i && (ft_strcmp("PARENTHASIS", prev_token) == 0 && ft_strcmp(
+		(print_syntax_error(), *flag = 1);
+	if (!*flag && (ft_strcmp("PARENTHASIS", prev_token) == 0 && ft_strcmp(
 				tmp->token, "WORD") == 0))
-		(print_syntax_error(), *flag = 1, i = 1);
-	if (!i && (!ft_strcmp(tmp->token, "PARENTHASIS") &&
+		(print_syntax_error(), *flag = 1);
+	if (!*flag && (!ft_strcmp(tmp->token, "PARENTHASIS") &&
 				check_inside_parenths((tmp->data))))
-		(print_syntax_error(), *flag = 1, i = 1);
-
+		(print_syntax_error(), *flag = 1);
 }
