@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 10:47:03 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:21:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	variable_search_instr(char *str)
 void	lexer_to_tree(char *str, t_tree **tree, int *flag, t_hdoc_data *h_data)
 {
 	t_list	*head;
-	// t_list	*tmp;
+
 	if (!*flag)
 	{
 		head = list_init(str);
@@ -44,14 +44,6 @@ void	lexer_to_tree(char *str, t_tree **tree, int *flag, t_hdoc_data *h_data)
 		h_data->stat = 258;
 		(print_syntax_error(), *flag = 1);
 	}
-	// tmp = head;
-	// while (tmp)
-	// {
-	// 	printf("%s\n", tmp->data);
-	// 	printf("%s\n", tmp->token);
-	// 	printf("\n");
-	// 	tmp = tmp->next;
-	// }
 	syntax_error(&head, flag);
 	if (*flag)
 		h_data->stat = 258;
