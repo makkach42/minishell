@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 15:13:57 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 10:47:03 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	lexer_to_tree(char *str, t_tree **tree, int *flag, t_hdoc_data *h_data)
 		h_data->stat = 258;
 		*flag = 1;
 	}
-	// dprintf(2, "++++++++++++++++++++++%d\n", *flag)
 	if (!*flag)
 		tree_maker(&head, tree);
 	else
