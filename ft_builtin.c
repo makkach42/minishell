@@ -1,833 +1,132 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_builtin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/22 10:25:20 by aakroud           #+#    #+#             */
+/*   Updated: 2025/06/24 17:04:30 by aakroud          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int    ft_cd(char **s, t_env *h)
+// char	*ft_str_back(char *s)
+// {
+// 	int		lent;
+// 	int		flag;
+// 	int		i;
+// 	char	*new;
+
+// 	flag = 0;
+// 	i = 0;
+// 	if (!s)
+// 		return (NULL);
+// 	lent = ft_strlen(s);
+// 	while (lent > 0)
+// 	{
+// 		if (s[lent] == '/')
+// 			break ;
+// 		lent--;
+// 	}
+// 	new = ft_substr(s, 0, lent);
+// 	if (!new)
+// 		return (NULL);
+// 	return (new);
+// }
+
+int	ft_cd_helper(t_env *h)
 {
-    t_env   *PWD;
-    t_env   *OLD_PWD;
-    t_env   *home;
-    char    *t;
-    t_env   *n;
-    // static char    *p;
-    char        *temp;
+	t_env	*home;
 
-    temp = NULL;
-    PWD = ft_check(h, "PWD");
-    OLD_PWD = ft_check(h, "OLDPWD");
-    n = ft_check(h, "1PWD");
-    if (PWD && PWD->value)
-        n->value = PWD->value;
-    if (s[1] == NULL)
-    {
-        // dprintf(2, "entered here\n");
-        home = ft_check(h, "HOME");
-        if (home == NULL || home ->value == NULL)
-        {
-            ft_putstr_fd(2, "minishell: cd: HOME not set\n");
-            return (1); 
-        }
-        if (chdir(home->value) == -1)
-        {
-            ft_putstr_fd(2, "minishell: cd: ");
-            perror("");
-            return (1);
-        }
-        // if (!PWD || !PWD->value)
-        //     return (0);
-        // else
-        // {
-        //     if (OLD_PWD)
-        //         OLD_PWD->value = PWD->value;
-        //     PWD->value = home->value;
-        // }
-    }
-    else
-    {
-        if (chdir(s[1]) == -1)
-        {
-            write(2, "minishell: cd: ", 16);
-            write(2, s[1], ft_strlen(s[1]));
-            write(2, ": No such file or directory\n", 29);
-            return (1);
-        }
-        if (!PWD)
-        {
-            t = getcwd(NULL, 0);
-            if (t)
-                n->value = t;
-            else
-            {
-                temp = s[1];
-                s[1] = ft_strjoin("/", s[1]);
-                if (s[1] == NULL)
-                    return (1);
-                free (temp);
-                temp = n->value;
-                n->value = ft_strjoin(n->value, s[1]);
-                if (!n->value)
-                    return (1);
-                free (temp);
-            }
-            return (0);
-        }
-        else
-        {
-            PWD->value = getcwd(NULL, 0);
-            if (PWD->value == NULL)
-            {
-                temp = s[1];
-                s[1] = ft_strjoin("/", s[1]);
-                if (s[1] == NULL)
-                    return (1);
-                free (temp);
-                temp = n->value;
-                n->value = ft_strjoin(n->value, s[1]);
-                if (!n->value)
-                    return (1);
-                free (temp);
-                return (0);
-            }
-        }
-    }
-    return (0);
-}
-
-int ft_nline_check(char *str)
-{
-    int i;
-
-    if (str == NULL)
-        return (1);
-    if (str[0] == '-' && str[1] == 'n')
-    {
-        i = 1;
-        while (str[i] != '\0' && str[i] == 'n')
-            i++;
-        if (str[i] == '\0')
-            return (0);
-    }
-    return (1);
-}
-
-int    ft_echo(char **s)
-{
-    int     flag;
-    int     i;
-    char    *buff;
-    char    *tmp;
-
-    i = 1;
-	flag = 1;
-    if (!s[i])
-        return (0);
-	if (ft_nline_check(s[i]) == 0)
+	home = ft_check(h, "HOME");
+	if (home == NULL || home->value == NULL)
 	{
-		while (ft_nline_check(s[i]) == 0)
-			i++;
-		flag = 0;
+		ft_putstr_fd(2, "minishell: cd: HOME not set\n");
+		return (1);
 	}
-    if (!s[i])
-        return (0);
-    if (s[i])
-        buff = s[i];
-	while (s[i] != NULL)
+	if (chdir(home->value) == -1)
 	{
-        if (s[i + 1])
-        {
-            tmp = buff;
-            buff = ft_strjoin(buff, " ");
-            if (buff == NULL)
-                return (1);
-            free (tmp);
-            tmp = buff;
-            buff = ft_strjoin(buff, s[i + 1]);
-            if (buff == NULL)
-                return (1);
-            free (tmp);
-        }
-        else
-        {
-            tmp = buff;
-            buff = ft_strjoin(buff, NULL);
-            if (buff == NULL)
-                return (1);
-        }
+		ft_putstr_fd(2, "minishell: cd: ");
+		perror("");
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_chdir_helper(char **p, char *past)
+{
+	free (past);
+	ft_free_array(p);
+	perror("");
+	return (1);
+}
+
+int	ft_chdir_fail(char **s, char *past)
+{
+	char	**p;
+	int		i;
+
+	i = 0;
+	p = ft_split(s[1], '/');
+	if (!p)
+	{
+		free (past);
+		return (1);
+	}
+	while (p[i])
+	{
+		if (!ft_strcmp(p[i], ".."))
+		{
+			if (chdir(past) == -1)
+				return (ft_chdir_helper(p, past));
+			free (past);
+			ft_free_array(p);
+			return (0);
+		}
 		i++;
 	}
-    if (buff)
-    {
-        if (flag == 1)
-        {
-            tmp = buff;
-            buff = ft_strjoin(buff, "\n");
-            free (tmp);
-        }
-        ft_putstr_fd(1, buff);
-        free (buff);
-    }
-	// if (flag == 1)
-	// 	ft_putstr_fd(1, "\n");
-    return (0);
+	return (ft_chdir_helper(p, past));
 }
 
-int ft_check_act(t_env *h)
+int	ft_cd_fail_helper(char **s, char *past)
 {
-    while (h)
-    {
-        if (h->active == 0)
-            return (0);
-        h = h->next;
-    }
-    return (1);
+	char	*temp;
+
+	temp = NULL;
+	temp = s[1];
+	s[1] = ft_strjoin("/", s[1]);
+	if (!s[1])
+		return (free(past), 1);
+	free (temp);
+	return (0);
 }
 
-char *ft_str_env(t_env *h)
+int	ft_cd_fail(t_env *n, char **s, char *past)
 {
-    char *buff;
-    char *tmp;
-    
-    buff = ft_strjoin(h->key, "=");
-    if (!buff)
-        return (NULL);
-    tmp = buff;
-    buff = ft_strjoin(buff, h->value);
-    if (!buff)
-    {
-        free (tmp);
-        return (NULL);
-    }
-    free (tmp);
-    tmp = buff;
-    buff = ft_strjoin(buff, "\n");
-    if (!buff)
-    {
-        free (tmp);
-        return (NULL);
-    }
-    free (tmp);
-    return (buff);
+	int			lent;
+	char		*temp;
+	static char	*cd_path;
+
+	lent = 0;
+	temp = NULL;
+	if (cd_path)
+		free (cd_path);
+	cd_path = ft_strdup(n->value);
+	if (!cd_path)
+		return (1);
+	perror("");
+	lent = ft_strlen(n->value);
+	if (n->value[lent - 1] != '/')
+	{
+		if (ft_cd_fail_helper(s, past))
+			return (1);
+	}
+	temp = cd_path;
+	cd_path = ft_strjoin(cd_path, s[1]);
+	if (!cd_path)
+		return (free(temp), free(past), 1);
+	n->value = cd_path;
+	return (free(temp), free(past), 0);
 }
-
-int ft_env(t_env *h)
-{
-    char *buff;
-    char *str;
-    char *tmp;
-    t_env *start;
-
-    start = h;
-    buff = NULL;
-    // if (h == NULL || ft_check_act(h))
-    // {
-    //     ft_putstr_fd(2, "minishell: env: No such file or directory\n");
-    //     return (127);
-    // }
-    while (h != NULL)
-    {
-        if (h->active == 0)
-        {
-            if (h == start)
-            {
-                str = ft_str_env(h);
-                if (!str)
-                    return (1);
-                buff = str;
-            }
-            else
-            {
-                tmp = buff;
-                str = ft_str_env(h);
-                buff = ft_strjoin(buff, str);
-                if (!buff)
-                {
-                    free (str);
-                    return (1);
-                }
-                free (str);
-                free (tmp);
-            }
-            // printf("%s=%s\n", h->key, h->value);
-        }
-        h = h->next;
-    }
-    if (buff)
-    {
-        ft_putstr_fd(1, buff);
-        free (buff);
-    }
-    return (0);
-}
-
-int ft_check_string(char *str)
-{
-    int i;
-
-    i = 0;
-    if (str[i] != '\0' && (str[i] == '+' || str[i] == '-'))
-        i++;
-    while (str[i] != '\0')
-    {
-        if (ft_isdigit(str[i]) != 0)
-            return (1);
-        i++;
-    }
-    return (0);
-}
-
-int ft_modulo(char *str)
-{
-    long    n;
-    int     m;
-
-    n = ft_atoi(str);
-    if (ft_strcmp(str, "9223372036854775807") != 0 && n == LONG_MAX)
-    {
-        write (2, "minishell: exit: ", 18);
-        write(2, str, ft_strlen(str));
-        write(2, ": numeric argument required", 28);
-        exit (255);
-    }
-    m = n % 256;
-    return (m);
-}
-
-
-void    ft_exit(char **s, t_env **h, int status)
-{
-    int m;
-
-    if (isatty(0) && isatty(1))
-        ft_putstr_fd(1, "exit\n");
-    if (s[1] == NULL)
-        exit (status);
-    else
-    {
-        if (ft_check_string(s[1]) != 0)
-        {
-            write(2, "minishell: exit: ", 18);
-            write(2, s[1], ft_strlen(s[1]));
-            write(2, ": numeric argument required\n", 29);
-            exit (255);
-        }
-        else if (s[2] != NULL)
-        {
-            write(2, "minishell: exit: too many arguments\n", 37);
-        }
-        else
-        {
-            m = ft_modulo(s[1]);
-            if (m < 0)
-            {
-                free_env(h);
-                exit (m + 256);
-            }
-            else
-            {
-                free_env(h);
-                exit (m);
-            }
-        }
-    }
-}
-
-
-t_env   *ft_sort_list(t_env *h)
-{
-    char   *tmp_key;
-    char   *tmp_value;
-    int     active;
-    int     hidden;
-    t_env   *head;
-    t_env   *start;
-
-    head = h;
-    active = 0;
-    hidden = 0;
-    start = NULL;
-    while (h != NULL && h->next != NULL)
-    {
-        start = h->next;
-        while (start != NULL)
-        {
-            if (ft_strcmp(h->key, start->key) > 0)
-            {
-                tmp_key = h->key;
-                h->key = start->key;
-                start->key = tmp_key;
-                tmp_value = h->value;
-                h->value = start->value;
-                start->value = tmp_value;
-                active = h->active;
-                h->active = start->active;
-                start->active = active;
-                hidden = h->h;
-                h->h = start->h;
-                start->h = hidden;
-            }
-            else if (ft_strcmp(h->key, start->key) == 0 && ft_strcmp(h->value, start->value) > 0)
-            {
-                tmp_key = h->key;
-                h->key = start->key;
-                start->key = tmp_key;
-                tmp_value = h->value;
-                h->value = start->value;
-                start->value = tmp_value;
-                active = h->active;
-                h->active = start->active;
-                start->active = active;
-                hidden = h->h;
-                h->h = start->h;
-                start->h = hidden;
-            }
-            start = start->next;
-        }
-        h = h->next;
-    }
-    return (head);
-}
-
-int ft_equal_check(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i] != '\0')
-    {
-        if (str[i] == '=')
-            return (0);
-        i++;
-    }
-    return (1);
-}
-
-void    ft_remove_sign(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i] != '\0')
-    {
-        if (str[i] == '+' && str[i + 1] == '\0')
-            str[i] = '\0';
-        i++;
-    }
-}
-
-int     ft_equal_count(char *str)
-{
-    int i;
-    int count;
-
-    i = 0;
-    count = 0;
-    while (str[i])
-    {
-        if (str[i] == '=')
-            count++;
-        i++;
-    }
-    // dprintf(2, "this is it : %d\n", count);
-    return (count);
-}
-
-char **ft_equal_str(char *str)
-{
-    int i;
-    char    **p;
-    int     flag;
-
-    i = 0;
-    flag = 0;
-    p = malloc(sizeof(char *) * 2);
-    if (p == NULL)
-        return (NULL);
-    while (str[i])
-    {
-        if (str[i] == '=' && flag == 0)
-        {
-            p[0] = ft_substr(str, 0, i);
-            if (p[0] == NULL)
-            {
-                free (p);
-                return (NULL);
-            }
-            i++;
-            p[1] = ft_substr(str, i, ft_strlen(&str[i]));
-            if (p[1] == NULL)
-            {
-                free (p[0]);
-                free (p);
-                return (NULL);
-            }
-            flag = 1;
-        }
-        i++;
-    }
-    return (p);
-}
-
-char *ft_str_export(t_env *h)
-{
-    char *buff;
-    char *tmp;
-    
-    buff = ft_strjoin("declare -x ", NULL);
-    if (!buff)
-        return (NULL);
-    tmp = buff;
-    buff = ft_strjoin(buff, h->key);
-    if (!buff)
-        return (NULL);
-    free (tmp);
-    tmp = buff;
-    buff = ft_strjoin(buff, "=");
-    if (!buff)
-        return (NULL);
-    free (tmp);
-    tmp = buff;
-    buff = ft_strjoin(buff, h->value);
-    if (!buff)
-    {
-        free (tmp);
-        return (NULL);
-    }
-    free (tmp);
-    tmp = buff;
-    buff = ft_strjoin(buff, "\n");
-    if (!buff)
-    {
-        free (tmp);
-        return (NULL);
-    }
-    free (tmp);
-    return (buff);
-}
-
-int    ft_export(char  **s, t_env *h, t_tree *tree)
-{
-    char    **v;
-    t_env   *f;
-    t_env   *new;
-    char    *tmp;
-    int     i;
-    int     act;
-    int     status;
-    char    *buff;
-    t_env *start;
-    char    *str;
-
-    start = h;
-    buff = NULL;
-    i = 1;
-    status = 0;
-    while (s[i] != NULL && (check_empty(s[i]) == 1 && tree->var == 1))
-        i++;
-    if (s[i] == NULL)
-    {
-        h = ft_sort_list(h);
-        while (h != NULL)
-        {
-            if ((h)->h == 0)
-            {
-                if (h == start)
-                {
-                    str = ft_str_export(h);
-                    if (!str)
-                        return (1);
-                    buff = str;
-                }
-                else
-                {
-                    tmp = buff;
-                    str = ft_str_export(h);
-                    buff = ft_strjoin(buff, str);
-                    if (!buff)
-                    {
-                        free (str);
-                        return (1);
-                    }
-                    free (str);
-                    free (tmp);
-                }
-            }
-            h = (h)->next;
-        }
-        if (buff)
-        {
-            ft_putstr_fd(1, buff);
-            free (buff);
-        }
-        return (0);
-    }
-    while (s[i] != NULL)
-    {
-        if (s[i] != NULL)
-        {
-                act = 1;
-                if ((check_empty(s[i]) == 1 && tree->var == 0))
-                {
-                    write(2, "minishell: export: ", 20);
-                    write(2, s[i], ft_strlen(s[i]));
-                    write(2, ": not a valid identifier\n", 26);
-                    status = 1;
-                }
-                else if (check_empty(s[i]) != 1)
-                {
-                    if (ft_equal_check(s[i]) == 0)
-                        act = 0;
-                    if (s[i][0] == '=')
-                    {
-                        write(2, "minishell: export: ", 20);
-                        write(2, s[i], ft_strlen(s[i]));
-                        write(2, ": not a valid identifier\n", 26);
-                        status = 1;
-                    }
-                    else if (ft_strchr(s[i], '+') == NULL)
-                    {
-                        // dprintf(2, "this is : %s\n", s[i]);
-                        if (ft_equal_count(s[i]) > 1)
-                            v = ft_equal_str(s[i]);//must be checked for leaks
-                        else
-                            v = ft_split(s[i], '=');
-                        if (v == NULL)
-                            return (1);
-                        f = ft_check(h, v[0]);
-                        if (f != NULL && f->h == 0)
-                        {
-                            if (v[1] == NULL && act == 0)
-                            {
-                                f->value = ft_strdup("");
-                                f->active = 0;
-                                f->h = 0;
-                                free (v[0]);
-                                free (v);
-                            }
-                            else if (v[1] != NULL)
-                            {
-                                tmp = f->value;
-                                f->value = ft_strdup(v[1]);
-                                f->active = 0;
-                                f->h = 0;
-                                free (v[1]);
-                                free (v[0]);
-                                free (v);
-                                free (tmp);
-                            }    
-                        }
-                        else
-                        {
-                            if (ft_parse(v[0]) == 1)
-                            {
-                                    write(2, "minishell: export: not an identifier: ", 39);
-                                    write(2, s[i], ft_strlen(s[i]));
-                                    write(2, "\n", 1);
-                                    status = 1;
-                            }
-                            else
-                            {
-                                if (act == 0)
-                                {
-                                    if (v[1] == NULL)
-                                    {
-                                        new = ft_lstnew(v[0], ft_strdup(""));
-                                        free (v[0]);
-                                        free (v);
-                                        new->active = 0;
-                                        new->h = 0;
-                                    }
-                                    else
-                                    {
-                                        new = ft_lstnew(v[0], v[1]);
-                                        free (v[0]);
-                                        free (v[1]);
-                                        free (v);
-                                        new->active = 0;
-                                        new->h = 0;
-                                    }
-                                }
-                                else
-                                {
-                                    new = ft_lstnew(v[0], NULL);
-                                    free (v[0]);
-                                    free (v);
-                                    new->active = 1;
-                                    new->h = 0;
-                                }
-                                ft_lstadd_back(&h, new);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (ft_equal_check(s[i]) == 1)
-                        {
-                            write(2, "export: not valid in this context: ", 36);
-                            write(2, s[i], ft_strlen(s[i]));
-                            write(2, "\n", 1);
-                            status = 1;
-                        }
-                        else
-                        {
-                            if (ft_equal_count(s[i]) > 1)
-                                v = ft_equal_str(s[i]);//must be checked for leaks
-                            else
-                                v = ft_split(s[i], '=');
-                            if (v == NULL)
-                                return (1);
-                            ft_remove_sign(v[0]);
-                            f = ft_check(h, v[0]);
-                            if (f != NULL && f->h == 0)
-                            {
-                                tmp = f->value;
-                                f->value = ft_strjoin(f->value, v[1]);
-                                f->active = 0;
-                                f->h = 0;
-                                free (v[0]);
-                                free (tmp);
-                                free (v[1]);
-                                free (v);
-                            }
-                            else
-                            {
-                                if (ft_parse(v[0]) == 1)
-                                {
-                                    // if (i == 1)
-                                    // {
-                                        write(2, "minishell: export: not an identifier: ", 39);
-                                        write(2, s[i], ft_strlen(s[i]));
-                                        write(2, "\n", 1);
-                                        status = 1;
-                                    // }
-                                }
-                                else
-                                {
-                                    if (act == 0)
-                                    {
-                                        if (v[1] == NULL)
-                                        {
-                                            new = ft_lstnew(v[0], ft_strdup(""));
-                                            free (v[0]);
-                                            free (v);
-                                            new->active = 0;
-                                            new->h = 0;
-                                        }
-                                        else
-                                        {
-                                            new = ft_lstnew(v[0], v[1]);
-                                            free (v[0]);
-                                            free (v[1]);
-                                            free (v);
-                                            new->active = 0;
-                                            new->h = 0;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        new = ft_lstnew(v[0], NULL);
-                                        free (v[0]);
-                                        free (v);
-                                        new->active = 1;
-                                        new->h = 0;
-                                    }
-                                    ft_lstadd_back(&h, new);
-                                }
-                            }
-                        }
-                    }
-                }
-        }
-        i++;
-    }
-    return (status);
-}
-
-int    ft_pwd(t_env *h)
-{
-    char *path;
-    char *temp;
-    t_env *n;
-    
-    n = ft_check(h, "1PWD");
-    path = getcwd(NULL, 0);
-    if (path)
-    {
-        // dprintf(2, "entered in path not NULL\n");
-        temp = n->value;
-        n->value = path;
-        free (temp);// to free 1PWD when it is allocated in cd
-    }
-    else if (!path)
-    {
-        // dprintf(2, "entered in path NULL\n");
-        path = n->value;
-        // perror("pwd: ");
-        // return (0);
-    }
-    printf("%s\n", path);
-    // free (path);
-    return (0);
-}
-
-void    ft_f_node(t_env *node)
-{
-    free (node->key);
-    free (node->value);
-    free (node);
-    node = NULL;
-}
-
-
-void    ft_unset(t_env **h, char **s)
-{
-    t_env   *node;
-    int     flag;
-    t_env   *start;//parsing
-    int     i;
-
-    flag = 0;
-    i = 1;
-    start = NULL;
-    if (s == NULL)
-        return ;
-    while (s[i] != NULL)
-    {
-        if (ft_parse(s[i]) == 1)
-        {
-            write(2, "unset: ", 8);
-            write(2, s[i], ft_strlen(s[i]));
-            write(2, ": invalid parameter name\n", 26);
-        }
-        else
-        {
-            node = NULL;
-            node = ft_check(*h, s[i]);
-            if (node != NULL)
-            {
-                if (*h == node)
-                {
-                    *h = (*h)->next;
-                    node->next = NULL;
-                    ft_f_node(node);
-                    // return ;
-                }
-                else 
-                {
-                    start = *h;
-                    while (start != NULL)
-                    {
-                        if (start->next == node)
-                        {
-                            start->next = node->next;
-                            node->next = NULL;
-                            ft_f_node(node);
-                            break ;
-                        }
-                        start = start->next;
-                    }
-                }
-            }
-            // }
-        }
-        i++;
-    }
-}
-

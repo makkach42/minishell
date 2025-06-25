@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/12 14:19:13 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:34:56 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 
 	status = 0;
 	status1 = 0;
+	tree->left->status = tree->status;
 	if (pipe(tree->fd) == -1)
 		perror("minishell: pipe: ");
-	ft_pip_signal();
+	ft_signal_ign();
 	id1 = fork();
 	if (id1 == -1)
 		return (perror("minishell: fork: "), 1);
@@ -40,6 +41,8 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 	if (waitpid(id1, &status1, 0) == -1 || waitpid(id2, &(status), 0) == -1)
 		return (1);
 	status = ft_wait_for_child(status, status1);
+	if (*check)
+		exit (status);
 	return (status);
 }
 
@@ -84,7 +87,7 @@ int	ft_cmd_exec(t_tree *tree, t_env **h)
 	if (ft_strcmp(tree->command_arr[0], "pwd") == 0)
 		status = ft_pwd(*h);
 	if (ft_strcmp(tree->command_arr[0], "unset") == 0)
-		ft_unset(h, tree->command_arr);
+		status = ft_unset(h, tree->command_arr);
 	return (status);
 }
 
@@ -106,10 +109,4 @@ void	ft_hdoc_free(char **str, char **limiter, int fd)
 	free (*str);
 	free (*limiter);
 	close (fd);
-}
-
-void	ft_pip_signal(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 }

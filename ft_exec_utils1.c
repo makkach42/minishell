@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:37:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/11 11:59:22 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/20 18:39:59 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,17 @@ void	command_arr_fill(t_tree **tree)
 void	env_fill_helper(t_env **node, int *i, int *j, char **argev)
 {
 	*node = malloc(sizeof(t_env));
+	if (!*node)
+		return ;
 	while (argev[*i] && argev[*i][*j] != '=')
 		(*j)++;
 	(*node)->key = ft_substr(argev[*i], 0, *j);
+	if (!(*node)->key)
+		return ;
 	(*node)->value = ft_substr(argev[*i],
 			(*j + 1), ft_strlen(argev[*i]) - (*j + 1));
+	if (!(*node)->value)
+		return ;
 	*j = 0;
 }
 
@@ -111,4 +117,3 @@ void	env_fill_empty(t_env **node, int *i, int *j)
 		tmp = tmp->next;
 	}
 }
-

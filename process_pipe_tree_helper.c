@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 10:11:11 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:36:01 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:19:59 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +27,6 @@ t_tree	*create_tree_node(void *command, char *type)
 	node->fd_list = NULL;
 	node->command_arr = NULL;
 	node->ambiguous = 0;
-	// node->quotes = 0;
 	return (node);
 }
 

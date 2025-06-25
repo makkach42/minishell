@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   reset_vars_helper.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 07:46:27 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:56:48 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 17:10:22 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	expand_dollar(t_tmp_tree *tmp, int *in_quotes, t_env **env, int *j)
+static void	expand_dollar(t_tmp_tree *tmp, int *in_quotes,
+				t_env **env, int *j, t_hdoc_data *h_data)
 {
 	int		n;
 
@@ -28,15 +29,13 @@ static void	expand_dollar(t_tmp_tree *tmp, int *in_quotes, t_env **env, int *j)
 		n = *j;
 		process_array_variable(&tmp->tmp->data, 0, j, env);
 		if (*j == -1)
-			if_question_mark(&tmp, n);
+			if_question_mark(&tmp, n, h_data);
 		*j = -1;
 		*in_quotes = 0;
 	}
-	if (*j >= ft_strlen(tmp->tmp->data))
-		*j = -2;
 }
 
-void	reset_var_expand(t_tmp_tree	*tmp, t_env **env)
+void	reset_var_expand(t_tmp_tree	*tmp, t_env **env, t_hdoc_data *h_data)
 {
 	int		in_quotes;
 	int		j;
@@ -57,14 +56,12 @@ void	reset_var_expand(t_tmp_tree	*tmp, t_env **env)
 			in_quotes = 0;
 		if (tmp->tmp->data[j] == '$' && (!in_quotes || (
 					in_quotes && quote_type == '"')))
-			expand_dollar(tmp, &in_quotes, env, &j);
-		if (j == -2)
-			break ;
+			expand_dollar(tmp, &in_quotes, h_data->env, &j, h_data);
 		j++;
 	}
 }
 
-static void	expanding(t_tree **tree, int i, t_env **env)
+static void	expanding(t_tree **tree, int i, t_env **env, t_hdoc_data *h_data)
 {
 	char		*old_cmd;
 	char		*new_str;
@@ -77,7 +74,7 @@ static void	expanding(t_tree **tree, int i, t_env **env)
 	tmp.tree = (*tree);
 	while (tmp.tmp)
 	{
-		reset_var_expand(&tmp, env);
+		reset_var_expand(&tmp, env, h_data);
 		tmp.tmp = tmp.tmp->next;
 	}
 	tmp.tmp = head;
@@ -90,7 +87,7 @@ static void	expanding(t_tree **tree, int i, t_env **env)
 	free_list(&head);
 }
 
-void	reset_var_expand_var(t_tree **tree, t_env **env)
+void	reset_var_expand_var(t_tree **tree, t_env **env, t_hdoc_data *h_data)
 {
 	int		i;
 
@@ -103,7 +100,7 @@ void	reset_var_expand_var(t_tree **tree, t_env **env)
 			) || ft_strchr(
 				(*tree)->command_arr[i], '$'))
 		{
-			expanding(tree, i, env);
+			expanding(tree, i, env, h_data);
 		}
 		i++;
 	}

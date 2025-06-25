@@ -6,41 +6,47 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:17:14 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/13 11:35:51 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/19 14:24:37 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+char	*ft_name_helper(char *name, int i)
+{
+	char	*tmp;
+	char	*add;
+
+	add = NULL;
+	tmp = NULL;
+	tmp = name;
+	add = ft_itoa(i);
+	if (!add)
+		return (NULL);
+	name = ft_strjoin(name, add);
+	if (!name)
+		return (NULL);
+	free (tmp);
+	return (name);
+}
+
 char	*ft_name_check(char *name)
 {
 	int		i;
-	char	*add;
 	char	*tmp;
 
 	i = 0;
-	add = NULL;
 	tmp = NULL;
 	if (name == NULL)
 		return (NULL);
-	// if (check_empty(name))
-	// {
 	tmp = name;
 	name = ft_strdup("e");
 	if (!name)
 		return (NULL);
 	free (tmp);
-	// }
 	while (access(name, F_OK) == 0)
 	{
-		tmp = name;
-		add = ft_itoa(i);
-		if (!add)
-			return (NULL);
-		name = ft_strjoin(name, add);
-		if (!name)
-			return (NULL);
-		free (tmp);
+		name = ft_name_helper(name, i);
 		i++;
 	}
 	return (name);
@@ -113,50 +119,4 @@ void	ft_hdoc(char *limiter, int fd, t_env **env, int status)
 		free(tmp);
 	}
 	ft_hdoc_free(&str, &limiter, fd);
-}
-
-void	ft_exec_redir_support(t_tree *tree, int i)
-{
-	if (i == 1)
-	{
-		dup2(tree->fd_list->fd, 0);
-		close (tree->fd_list->fd);
-	}
-	else if (i == 2)
-	{
-		dup2(tree->fd_list->fd, 1);
-		close (tree->fd_list->fd);
-	}
-	else if (i == 4)
-	{
-		dup2(tree->fd_list->fd, 1);
-		close (tree->fd_list->fd);
-	}
-}
-
-void	ft_exec_redir_helper(t_tree *tree, int i)
-{
-	if (i == 3)
-	{
-		dup2(tree->fd_list->fd1, 0);
-		close (tree->fd_list->fd1);
-	}
-	else if (i == 1)
-	{
-		if (tree->fd_list ->fd == -1)
-			return (perror(""), exit (1));
-		ft_exec_redir_support(tree, 1);
-	}
-	else if (i == 2)
-	{
-		if (tree->fd_list ->fd == -1)
-			return (perror(""), exit (1));
-		ft_exec_redir_support(tree, 2);
-	}
-	else if (i == 4)
-	{
-		if (tree->fd_list ->fd == -1)
-			return (perror(""), exit (1));
-		ft_exec_redir_support(tree, 4);
-	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:58:14 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/06 12:41:56 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/20 18:23:43 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,6 @@ int	check_quotes(char *str, int *flag)
 		i++;
 	}
 	if (in_quotes)
-		return (write(2, "Syntax error: open quotes.\n", 28), *flag = 1, 1);
+		return (ft_putstr_fd(2, "Syntax error: open quotes.\n"), *flag = 1, 1);
 	return (0);
 }

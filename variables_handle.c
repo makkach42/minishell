@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:18:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/24 18:11:29 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,8 @@ int	new_str_fill(char *var_value, char **str, char *before, char *after)
 	(free(before), free(after), free(var_value));
 	if (!new_str)
 		return (-1);
-	// free((*str));
+	free((*str));
 	(*str) = new_str;
-	// dprintf(2, "this is the new_str: %s\n", new_str);
-	// dprintf(2, "this is the new_str: %s\n", (*str));
-	return (0);
-}
-
-int	first_return_check(char **command_arr, int arr_idx, int *var_pos)
-{
-	if (!command_arr || !command_arr[arr_idx
-		] || (*var_pos) < 0 || !command_arr[
-			arr_idx][(*var_pos)])
-		return (1);
 	return (0);
 }
 
@@ -56,13 +45,11 @@ int	fill_after(char **after, char **str, int var_end)
 	return (0);
 }
 
-int	process_array_variable(char **command_arr,
+int	process_variable_expantion(char **command_arr,
 		int arr_idx, int *var_pos, t_env **env)
 {
 	t_expand	tmp;
 
-	if (first_return_check(command_arr, arr_idx, var_pos))
-		return (-1);
 	tmp.var_end = (*var_pos) + 1;
 	if (command_arr[arr_idx][tmp.var_end] == '$')
 		return (if_var_end_is_dollar(command_arr,
@@ -72,6 +59,8 @@ int	process_array_variable(char **command_arr,
 			(*var_pos) + 1, tmp.var_end - (*var_pos) - 1);
 	if (!tmp.var_name)
 		return (-1);
+	if (!ft_strcmp(tmp.var_name, "?"))
+		return (free(tmp.var_name), *var_pos = -1, 0);
 	if (underscore_case_check(tmp.var_name, command_arr, arr_idx))
 		return (0);
 	tmp.var_value = NULL;

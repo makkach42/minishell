@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:22:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/10 15:00:55 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:17:35 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_signal(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		// global_status = 1;
+		global_status = SIGINT;
 	}
 }
 
@@ -48,7 +48,7 @@ void	free_original_cmd_arr(char ***cmd_arr, int original_size)
 	free(*cmd_arr);
 }
 
-void	if_question_mark(t_tmp_tree **tmp, int n)
+void	if_question_mark(t_tmp_tree **tmp, int n, t_hdoc_data *h_data)
 {
 	char	*before;
 	char	*after;
@@ -59,30 +59,13 @@ void	if_question_mark(t_tmp_tree **tmp, int n)
 	n++;
 	after = ft_substr((*tmp)->tmp->data, n + 1,
 			ft_strlen((*tmp)->tmp->data) - (n + 1));
-	num = ft_itoa((*tmp)->tree->status);
+	if (h_data->stat != -1)
+		num = ft_itoa(h_data->stat);
+	else
+		num = ft_itoa((*tmp)->tree->status);
 	new_str = ft_strjoin_three(before, num, after);
 	free((*tmp)->tmp->data);
 	(*tmp)->tmp->data = new_str;
-	free(before);
-	free(after);
-	free(num);
-}
-
-void	if_question_mark_two(char **line, int status, int n)
-{
-	char	*before;
-	char	*after;
-	char	*num;
-	char	*new_str;
-
-	before = ft_substr((*line), 0, n);
-	n++;
-	after = ft_substr((*line), n + 1,
-			ft_strlen((*line)) - (n + 1));
-	num = ft_itoa(status);
-	new_str = ft_strjoin_three(before, num, after);
-	free((*line));
-	(*line) = new_str;
 	free(before);
 	free(after);
 	free(num);

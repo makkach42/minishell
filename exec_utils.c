@@ -10,6 +10,8 @@ void	ft_free_array(char **p)
 	int	i;
 
 	i = 0;
+	if (!p)
+		return ;
 	while (p[i] != NULL)
 	{
 		free (p[i]);
@@ -59,9 +61,7 @@ char	*ft_cmd_check(char *env, char *s)
 			exit (126);
 		}
 		else if (access(s, X_OK) == 0)
-		{
 			return (ft_strdup(s));
-		}
 		else if (access(s, X_OK) == -1)
 		{
 			perror("");
@@ -73,7 +73,6 @@ char	*ft_cmd_check(char *env, char *s)
 		}
 		return (NULL);
 	}
-	// dprintf(2, "this is the command_arr: %s\n", s);
 	ft_cmd_helper(&com, 0, env, s);
 	while (com.p[com.i] != NULL)
 	{
@@ -209,7 +208,9 @@ int ft_parse(char *s)
 	// if (s == NULL)
 	// 	return (1);
     if (ft_isalpha(s[0]) != 0 && s[0] != '_')
-        return (1);
+    {
+		return (1);
+	}
     while (s[i] != '\0')
     {
         if (ft_isalpha(s[i]) != 0 && s[i] != '_' && ft_isdigit(s[i]) != 0)  

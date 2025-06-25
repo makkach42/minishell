@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:58:21 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:21:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,28 @@ int	variable_search_instr(char *str)
 	return (0);
 }
 
-void	lexer_to_tree(char *str, t_tree **tree, int *flag)
+void	lexer_to_tree(char *str, t_tree **tree, int *flag, t_hdoc_data *h_data)
 {
 	t_list	*head;
-	t_list	*tmp;
+
 	if (!*flag)
 	{
 		head = list_init(str);
 		lexer(&head);
 	}
 	if (new_syntax_error(&head))
-		(print_syntax_error(), *flag = 1);
-	tmp = head;
-	while (tmp)
 	{
-		printf("%s\n", tmp->data);
-		printf("%s\n", tmp->token);
-		printf("\n");
-		tmp = tmp->next;
+		h_data->stat = 258;
+		(print_syntax_error(), *flag = 1);
 	}
 	syntax_error(&head, flag);
-	if (syntax_error_parentheses(&head))
+	if (*flag)
+		h_data->stat = 258;
+	if (!*flag && syntax_error_parentheses(&head))
+	{
+		h_data->stat = 258;
 		*flag = 1;
+	}
 	if (!*flag)
 		tree_maker(&head, tree);
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_opener_helper.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 11:38:31 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:59:01 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 18:22:08 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	quote_check_filename(char **old_redirs, int *i)
 	in_quotes = 0;
 	while ((*old_redirs)[(*i)])
 	{
-		if (!in_quotes && ((*old_redirs)[(*i)] == '"' || (*old_redirs)[(*i)] == '\''))
+		if (!in_quotes && ((*old_redirs)[(*i
+				)] == '"' || (*old_redirs)[(*i)] == '\''))
 		{
 			in_quotes = 1;
 			quote_type = (*old_redirs)[(*i)];
@@ -43,4 +44,17 @@ void	init_list_fd_node(t_list_fd *node)
 	node->name_split = NULL;
 	node->fd = -1;
 	node->fd1 = -1;
+}
+
+void	syntax_error_two(t_tree **tree, int *flag)
+{
+	if (!tree || !*tree)
+		return ;
+	if ((*tree)->left)
+		syntax_error_two(&(*tree)->left, flag);
+	if ((*tree)->right)
+		syntax_error_two(&(*tree)->right, flag);
+	if ((*tree)->command)
+		if (check_quotes((*tree)->command, flag) == 1)
+			(*tree)->status = 258;
 }

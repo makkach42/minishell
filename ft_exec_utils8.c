@@ -1,4 +1,16 @@
-# include <minishell.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exec_utils8.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 15:18:39 by aakroud           #+#    #+#             */
+/*   Updated: 2025/06/19 15:19:30 by aakroud          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <minishell.h>
 
 void	ft_hdoc_handle(t_tree *tree, t_hdoc_data *h_data, int status)
 {
@@ -13,9 +25,9 @@ void	ft_hdoc_handle(t_tree *tree, t_hdoc_data *h_data, int status)
 
 char	*ft_node_joint(t_env *h)
 {
-	char *str;
-	char *temp;
-	
+	char	*str;
+	char	*temp;
+
 	str = ft_strjoin(h->key, "=");
 	if (!str)
 		return (NULL);
@@ -27,7 +39,7 @@ char	*ft_node_joint(t_env *h)
 	return (str);
 }
 
-char **ft_env_str(t_env *h)
+char	**ft_env_str(t_env *h)
 {
 	char	**p;
 	int		i;
@@ -65,11 +77,7 @@ void	ft_st(t_tree *tree, int stat_flag)
 void	ft_signal_exec(void)
 {
 	if (global_status == 2)
-	{
 		ft_putstr_fd(1, "\n");
-	}
 	else if (global_status == 3)
-	{
 		ft_putstr_fd(1, "Quit: 3\n");
-	}
 }
