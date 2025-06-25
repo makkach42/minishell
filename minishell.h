@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/25 11:26:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/25 13:28:51 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -687,9 +687,15 @@ void		ft_remove_sign(char *str);
 int			ft_equal_check(char *str);
 char		**ft_equal_str(char *str);
 t_env		*ft_sort_list(t_env *h);
-int			if_redir_in_para(char *str, int *i,
-				int *in_quotes, char *quote_type);
-int			return_error_cases(char *str, int *i, t_qfilter *qfil, t_par *par);
+void	ft_expo_equal_free(char **v, t_env *f, int check);
+void	ft_free_v(char **v, char *tmp);
+void	ft_expo_error(int *status, char *s);
+void	ft_expo_error2(int *status, char *s);
+int		ft_exp_print(t_env *h);
+void	ft_f_node(t_env *node);
+int    ft_export(char  **s, t_env *h, t_tree *tree);
+int	ft_act_helper(int act, char **v, t_env **new);
+void	ft_expo_equal_helper(char **v, int act, t_env *f);
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);
 // void	ft_hdoc_free(char **str, char **limiter, int fd);
