@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_cases.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:11:30 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/20 20:25:48 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/25 11:27:42 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ void	change_current_string(char **str)
 	tmp = head;
 	while (tmp)
 	{
-		// printf("=========%s\n", tmp->data);
 		tmp_char = new_str;
 		new_str = ft_strjoin(new_str, tmp->data);
 		if (!new_str)
@@ -136,8 +135,8 @@ void	export_cases(t_tree **tree)
 {
 	int		i;
 
-	if(!tree)
-		return;
+	if (!tree)
+		return ;
 	if ((*tree) && (*tree)->left)
 		export_cases(&(*tree)->left);
 	if ((*tree) && (*tree)->right)
@@ -149,7 +148,6 @@ void	export_cases(t_tree **tree)
 		{
 			while ((*tree)->command_arr[i])
 			{
-				// exit(1);
 				change_current_string(&(*tree)->command_arr[i]);
 				i++;
 			}
