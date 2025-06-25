@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:57:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/23 14:09:42 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 17:24:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_modulo(char *str)
 	return (m);
 }
 
-void	ft_exit_error(int check, char **s)
+int	ft_exit_error(int check, char **s)
 {
 	if (check == 1)
 	{
@@ -40,6 +40,7 @@ void	ft_exit_error(int check, char **s)
 	}
 	else if (check == 2)
 		write(2, "minishell: exit: too many arguments\n", 37);
+	return (1);
 }
 
 void	ft_exit_m(int m, t_env **h)
@@ -56,7 +57,7 @@ void	ft_exit_m(int m, t_env **h)
 	}
 }
 
-void	ft_exit(char **s, t_env **h, int status)
+int	ft_exit(char **s, t_env **h, int status)
 {
 	int	m;
 
@@ -68,7 +69,7 @@ void	ft_exit(char **s, t_env **h, int status)
 	else
 	{
 		if (ft_check_string(s[1]) != 0)
-			ft_exit_error(1, s);
+			return (ft_exit_error(1, s));
 		else if (s[2] != NULL)
 			ft_exit_error(2, s);
 		else
@@ -77,4 +78,5 @@ void	ft_exit(char **s, t_env **h, int status)
 			ft_exit_m(m, h);
 		}
 	}
+	return (0);
 }

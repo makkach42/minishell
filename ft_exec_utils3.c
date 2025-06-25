@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/24 16:34:56 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 17:24:56 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_cmd_exec(t_tree *tree, t_env **h)
 	if (ft_strcmp(tree->command_arr[0], "env") == 0)
 		status = ft_env(*h);
 	if (ft_strcmp(tree->command_arr[0], "exit") == 0)
-		ft_exit(tree->command_arr, h, tree->status);
+		status = ft_exit(tree->command_arr, h, tree->status);
 	if (ft_strcmp(tree->command_arr[0], "export") == 0)
 		status = ft_export(tree->command_arr, *h, tree);
 	if (ft_strcmp(tree->command_arr[0], "pwd") == 0)

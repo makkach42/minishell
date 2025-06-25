@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 18:33:10 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/25 10:46:37 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,10 +337,10 @@ int			ft_cd(char **s, t_env *h);
 int			ft_echo(char **s);
 int			ft_env(t_env *h);
 int			ft_check_string(char *str);
-void		ft_exit(char **s, t_env **h, int status);
+int			ft_exit(char **s, t_env **h, int status);
 int			ft_export(char  **s, t_env *h, t_tree *tree);
 int			ft_pwd(t_env *h);
-void		t_unset(t_env **h, char **s);
+int			ft_unset(t_env **h, char **s);
 int			ft_file_check(char *str);
 int			ft_file_create(char *str, int n);
 void		ft_putstr_fd(int fd, char *s);
@@ -587,11 +587,11 @@ void		ft_new_handler_pip(int sig);
 void		ft_free_array(char **p);
 void		if_question_mark(t_tmp_tree **tmp, int n, t_hdoc_data *h_data);
 int			underscore_case_check(char *var_name, char **command_arr, int arr_idx);
-void		f_question_mark_two(char **line, int status, int n);
+void		if_question_mark_two(char **line, int status, int n);
 void		ommand_arr_fill_helper(t_tree **tree, char **str);
 void		ommand_arr_fill(t_tree **tree);
-void		nv_fill_helper(t_env **node, int *i, int *j, char **argev);
-void		nv_fill_empty(t_env **node, int *i, int *j);
+void		env_fill_helper(t_env **node, int *i, int *j, char **argev);
+void		env_fill_empty(t_env **node, int *i, int *j);
 t_env		*env_fill(char **argev);
 void		free_array(char **s);
 int			ft_space_check(char *str);
@@ -611,14 +611,14 @@ void		ft_exec_redir(t_tree *tree, t_env **h, char **env);
 int			ft_cmd_redir(t_tree *tree, t_env **h);
 int			ft_variable(t_tree *tree, t_env **h, char **e, int *check);
 int			check_amb(t_tree *tree);
-int			ft_para_redir(t_tree *tree, t_env **h);
-int			ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check);
+// int			ft_para_redir(t_tree *tree, t_env **h);
+// int			ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check);
 void		ft_is_dir(char *s);
 void		ft_new_handler(int sig);
 void		ft_new_handler_pip(int sig);
 void		display_terminal_control_chars(void);
 void		ft_word_handle(t_tree *tree, t_env **h, char **e, int *check);
-void		ft_execute(t_tree *tree, t_env **h, char **e, int *check, t_hdoc_data *h_data);
+void		ft_execute(t_tree *tree, char **e, int *check, t_hdoc_data *h_data);
 int			ft_hdoc_first(t_list_fd *tmp);
 void		ft_hdoc_check(t_tree *tree, t_hdoc_data *h_data, int status);
 int			ft_hdoc_count_second(t_tree *tree);
@@ -632,26 +632,24 @@ t_env		*env_fill(char **argev);
 void		*env_fill_pwd(t_env *head);
 void		ft_close_handle(t_list_fd *head);
 int			ft_wait_for_child(int status, int status1);
-void		ft_second_child(t_tree *tree, int *check, char **e, t_env **h);
-void		ft_first_child(t_tree *tree, int *check, char **e, t_env **h);
 void		ft_pip_signal(void);
 void		ft_exec_redir(t_tree *tree, t_env **h, char **env);
 void		ft_exec_redir_helper(t_tree *tree, int i);
 void		ft_exec_redir_support(t_tree *tree, int i);
 int			check_amb(t_tree *tree);
-int			ft_para_redir(t_tree *tree, t_env **h);
-int			ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check);
+int			ft_para_redir(t_tree *tree, t_hdoc_data *h_data);
+int			ft_parenthasis(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
 void		ft_signal_ign(void);
 void		ft_word_handle_signal(t_tree *tree, int *check);
 void		quote_check_filename(char **old_redirs, int *i);
-int			ft_op_and(t_tree *tree, t_env **h, char **e, int *check);
-int			ft_op_or(t_tree *tree, t_env **h, char **e, int *check);
-void		ft_first_child(t_tree *tree, int *check, char **e, t_env **h);
-void		ft_second_child(t_tree *tree, int *check, char **e, t_env **h);
+int			ft_op_and(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
+int			ft_op_or(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
+void		ft_first_child(t_tree *tree, int *check, char **e, t_hdoc_data *h_data);
+void		ft_second_child(t_tree *tree, int *check, char **e, t_hdoc_data *h_data);
 int			ft_cmd_redir_support(t_tree *tree);
 int			ft_n_return(int org_stdin, int org_stdout, int *check);
 int			ft_para_signal(int status, int org_stdout, int org_stdin);
-void		ft_para_child(t_tree *tree, int *check, t_env **h, char **e);
+void		ft_para_child(t_tree *tree, int *check, t_hdoc_data *h_data, char **e);
 void		ft_exec_test2(t_tree *tree, int *test, t_hdoc_data *h_data);
 void		ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data);
 void		ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data);
@@ -660,6 +658,14 @@ int			check_inside_parenths(char *str);
 int			parenth_case(char *str);
 int			process_variable_expantion(char **command_arr,
 				int arr_idx, int *var_pos, t_env **env);
+char		*ft_str_back(char *s);
+int			ft_cd_helper(t_env *h);
+int			ft_chdir_fail(char **s, char *past);
+int			ft_cd_fail(t_env *n, char **s, char *past);
+void		ft_remove_sign(char *str);
+int			ft_equal_check(char *str);
+char		**ft_equal_str(char *str);
+t_env		*ft_sort_list(t_env *h);
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);
 // void	ft_hdoc_free(char **str, char **limiter, int fd);
