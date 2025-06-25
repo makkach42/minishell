@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 19:25:00 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/25 11:18:29 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,63 +72,29 @@ void	while_loop_syntax_error(t_list *tmp,
 
 int	parenth_case(char *str)
 {
-	int		in_quotes;
-	char	quote_type;
-	int		open_par;
-	int		closed_par;
-	int		i;
+	t_qfilter	qfil;
+	t_par		par;
+	int			i;
 
-	in_quotes = 0;
-	open_par = 0;
-	closed_par = 0;
-	i = 0;
-	while (str[i])
+	qfil.in_quotes = 0;
+	par.open_par = 0;
+	par.closed_par = 0;
+	i = -1;
+	while (str[++i])
 	{
 		if (str[i] == '(')
-			open_par++;
+			par.open_par++;
 		else if (str[i] == ')')
-			closed_par++;
-		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
+			par.closed_par++;
+		if (!qfil.in_quotes && (str[i] == '"' || str[i] == '\''))
 		{
-			in_quotes = 1;
-			quote_type = str[i];
+			qfil.in_quotes = 1;
+			qfil.quote_type = str[i];
 		}
-		else if (in_quotes && str[i] == quote_type)
-			in_quotes = 0;
-		if ((str[i] == '>' || str[i] == '<'
-			) && !in_quotes && open_par > closed_par)
-		{
-			while (str[i] && (str[i] == '>' || str[i] == '<'))
-				i++;
-			while (str[i] && str[i] == 32)
-				i++;
-			while (str[i] && str[i] != 32)
-			{
-				if (!in_quotes && (str[i] == '"' || str[i] == '\''))
-				{
-					in_quotes = 1;
-					quote_type = str[i];
-				}
-				else if (in_quotes && str[i] == quote_type)
-					in_quotes = 0;
-				if (!is_operator(str[i]) && !in_quotes)
-					break ;
-				i++;
-			}
-			if (is_operator(str[i]) && !in_quotes)
-				return (1);
-			while (str[i] && str[i] == 32)
-				i++;
-		}
-		if ((is_operator(str[i])
-			) && !in_quotes && str[i + 1] && str[i + 1] == ')')
+		else if (qfil.in_quotes && str[i] == qfil.quote_type)
+			qfil.in_quotes = 0;
+		if (return_error_cases(str, &i, &qfil, &par))
 			return (1);
-		if (!in_quotes && str[i + 1] && str[i] == '(' && str[i + 1] == ')')
-			return (1);
-		if (!in_quotes && str[i + 1] && str[i] == '(' && (
-				is_operator(str[i + 1])))
-			return (1);
-		i++;
 	}
 	return (0);
 }

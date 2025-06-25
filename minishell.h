@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/25 10:46:37 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/25 11:18:20 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,12 @@ typedef struct s_matchpattern_idxs
 	int			star_idx;
 	int			str_idx;
 }	t_matchpattern_idxs;
+
+typedef struct s_par
+{
+	int	open_par;
+	int	closed_par;
+}	t_par;
 
 typedef struct s_expand
 {
@@ -666,6 +672,8 @@ void		ft_remove_sign(char *str);
 int			ft_equal_check(char *str);
 char		**ft_equal_str(char *str);
 t_env		*ft_sort_list(t_env *h);
+int			if_redir_in_para(char *str, int *i, int *in_quotes, char *quote_type);
+int			return_error_cases(char *str, int *i, t_qfilter *qfil, t_par *par);
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);
 // void	ft_hdoc_free(char **str, char **limiter, int fd);

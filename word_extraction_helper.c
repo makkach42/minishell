@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:50:28 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/06 12:58:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/25 11:17:57 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,30 @@ void	if_par_loop(int *i, char *str, char **word)
 	*word = ft_substr(str, 0, *i);
 	if (!*word)
 		return ;
+}
+
+int	if_redir_in_para(char *str, int *i, int *in_quotes, char *quote_type)
+{
+	while (str[*i] && (str[*i] == '>' || str[*i] == '<'))
+		(*i)++;
+	while (str[*i] && str[*i] == 32)
+		(*i)++;
+	while (str[*i] && str[*i] != 32)
+	{
+		if (!*in_quotes && (str[*i] == '"' || str[*i] == '\''))
+		{
+			*in_quotes = 1;
+			*quote_type = str[*i];
+		}
+		else if (*in_quotes && str[*i] == *quote_type)
+			*in_quotes = 0;
+		if (!is_operator(str[*i]) && !*in_quotes)
+			break ;
+		(*i)++;
+	}
+	if (is_operator(str[*i]) && !*in_quotes)
+		return (1);
+	while (str[*i] && str[*i] == 32)
+		(*i)++;
+	return (0);
 }

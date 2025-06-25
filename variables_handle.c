@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 18:11:29 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/25 11:19:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,21 @@ int	process_variable_expantion(char **command_arr,
 	free(tmp.var_name);
 	return (new_str_fill(tmp.var_value, &command_arr[arr_idx],
 			tmp.before, tmp.after), 0);
+}
+
+int	return_error_cases(char *str, int *i, t_qfilter *qfil, t_par *par)
+{
+	if ((str[*i] == '>' || str[*i] == '<'
+		) && !qfil->in_quotes && par->open_par > par->closed_par)
+		if (if_redir_in_para(str, i, &qfil->in_quotes, &qfil->quote_type))
+			return (1);
+	if ((is_operator(str[*i])
+		) && !qfil->in_quotes && str[*i + 1] && str[*i + 1] == ')')
+		return (1);
+	if (!qfil->in_quotes && str[*i + 1] && str[*i] == '(' && str[*i + 1] == ')')
+		return (1);
+	if (!qfil->in_quotes && str[*i + 1] && str[*i] == '(' && (
+			is_operator(str[*i + 1])))
+		return (1);
+	return (0);
 }
