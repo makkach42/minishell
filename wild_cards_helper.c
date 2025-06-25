@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:05:52 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 17:28:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:01:24 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static char	**process_directory(DIR *dir, char *pattern,
 			entry = readdir(dir);
 			continue ;
 		}
-		// dprintf(2, "----------------%s\n", pattern);
 		if (match_pattern(pattern, entry->d_name))
 		{
 			if (!handle_matching_entry(matches, match_count, &capacity,

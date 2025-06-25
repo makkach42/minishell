@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 10:45:00 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/24 18:20:37 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,21 @@ void	syntax_error_parentheses_while_loop(t_list *tmp,
 		*flag = 3;
 }
 
+void	last_pack_of_ifs(char *prev_token,
+		char *prev_data, t_list *tmp, int *flag)
+{
+	if (!*flag && (!ft_strcmp("PIPE", prev_token) && !tmp))
+		(print_syntax_error(), *flag = 1);
+	if (!*flag && (!ft_strcmp("REDIRECTION", prev_token)) && (
+			!ft_strcmp("REDIRECTION", tmp->token) && tmp->next && (
+				!ft_strcmp("WORD", tmp->next->token) || !ft_strcmp(
+					"COMMAND", tmp->next->token)) && tmp->next->next && (
+				!ft_strcmp("WORD", tmp->next->next->token))))
+		(print_syntax_error(), *flag = 1);
+}
+
 void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 {
-	if (!*flag && (!ft_strcmp("REDIRECTION", prev_token) && (!ft_strcmp("WORD", tmp->token) || !ft_strcmp("COMMAND", tmp->token)) && tmp->next && (!ft_strcmp("WORD", tmp->next->token))))
-		(print_syntax_error(), *flag = 1);
-	if (prev_token && tmp && tmp->next)
 	if (!*flag && (ft_strcmp("REDIRECTION", prev_token) == 0 && (
 				ft_strcmp(tmp->token, "OPERATION_&&") == 0 || ft_strcmp(
 					tmp->token, "OPERATION_||") == 0)))
@@ -80,7 +90,9 @@ void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 	if (!*flag && (ft_strcmp("PARENTHASIS", prev_token) == 0 && ft_strcmp(
 				tmp->token, "WORD") == 0))
 		(print_syntax_error(), *flag = 1);
-	if (!*flag && (!ft_strcmp(tmp->token, "PARENTHASIS") &&
-				check_inside_parenths((tmp->data))))
+	if (!*flag && (!ft_strcmp(tmp->token, "PARENTHASIS"
+			) && check_inside_parenths((tmp->data))))
 		(print_syntax_error(), *flag = 1);
+	if (!*flag)
+		(last_pack_of_ifs(prev_token, prev_data, tmp, flag));
 }

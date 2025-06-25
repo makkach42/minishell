@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:03:26 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/13 11:36:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:04:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static t_tree	*create_command_node(t_list **node_list, int offset)
 	command->fd_list = NULL;
 	command->ambiguous = 0;
 	command->var = 0;
-	// command->quotes = 0;
 	command->status = 0;
 	return (command);
 }

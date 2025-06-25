@@ -6,18 +6,21 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:15:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 17:17:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/24 18:03:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pattern_match_inits(int *i, int *j, int *star_idx, int *str_idx)
+void	pattern_match_inits(int *i, int *j,
+		t_matchpattern_idxs	*mp, t_qfilter *qfil)
 {
 	*i = 0;
 	*j = 0;
-	*star_idx = -1;
-	*str_idx = -1;
+	mp->star_idx = -1;
+	mp->str_idx = -1;
+	qfil->in_quotes = 0;
+	qfil->quote_idx = 0;
 }
 
 int	skip_stars(int *i, const char *pattern)
@@ -29,7 +32,7 @@ int	skip_stars(int *i, const char *pattern)
 	return (0);
 }
 
-void	update_vars(int *star_idx, int *i, int *str_idx, int *j, int in_quotes)
+void	update_vars(int *star_idx, int *i, int *str_idx, int *j)
 {
 	*star_idx = (*i)++;
 	*str_idx = *j;

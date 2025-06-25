@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   reset_vars_helper.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 07:46:27 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/20 15:27:13 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 17:10:22 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	expand_dollar(t_tmp_tree *tmp, int *in_quotes, t_env **env, int *j, t_hdoc_data *h_data)
+static void	expand_dollar(t_tmp_tree *tmp, int *in_quotes,
+				t_env **env, int *j, t_hdoc_data *h_data)
 {
 	int		n;
 
@@ -55,7 +56,7 @@ void	reset_var_expand(t_tmp_tree	*tmp, t_env **env, t_hdoc_data *h_data)
 			in_quotes = 0;
 		if (tmp->tmp->data[j] == '$' && (!in_quotes || (
 					in_quotes && quote_type == '"')))
-			expand_dollar(tmp, &in_quotes, h_data->env,  &j, h_data);
+			expand_dollar(tmp, &in_quotes, h_data->env, &j, h_data);
 		j++;
 	}
 }

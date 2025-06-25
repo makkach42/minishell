@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:22:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 11:01:13 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/24 16:17:35 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,26 +66,6 @@ void	if_question_mark(t_tmp_tree **tmp, int n, t_hdoc_data *h_data)
 	new_str = ft_strjoin_three(before, num, after);
 	free((*tmp)->tmp->data);
 	(*tmp)->tmp->data = new_str;
-	free(before);
-	free(after);
-	free(num);
-}
-
-void	if_question_mark_two(char **line, int status, int n)
-{
-	char	*before;
-	char	*after;
-	char	*num;
-	char	*new_str;
-
-	before = ft_substr((*line), 0, n);
-	n++;
-	after = ft_substr((*line), n + 1,
-			ft_strlen((*line)) - (n + 1));
-	num = ft_itoa(status);
-	new_str = ft_strjoin_three(before, num, after);
-	free((*line));
-	(*line) = new_str;
 	free(before);
 	free(after);
 	free(num);

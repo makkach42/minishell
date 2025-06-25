@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 10:46:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/24 19:25:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ void	more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 {
 	if (!tmp)
 		return ;
+	if (!*flag && (!ft_strcmp("PARENTHASIS", prev_token) && (
+				!ft_strcmp("PARENTHASIS", tmp->token))))
+		(print_syntax_error(), *flag = 1);
 	if ((!*flag && (ft_strcmp("OPERATION_&&", prev_token
 				) == 0 || ft_strcmp("OPERATION_||", prev_token) == 0
 			) && ft_strcmp(prev_token, tmp->token) == 0))
@@ -46,7 +49,8 @@ void	while_loop_syntax_error(t_list *tmp,
 		prev_token = tmp->token;
 		prev_data = tmp->data;
 		tmp = tmp->next;
-		if (!*flag && !ft_strcmp(prev_token, "PARENTHASIS") && (parenth_case(prev_data)))
+		if (!*flag && !ft_strcmp(prev_token, "PARENTHASIS"
+			) && (parenth_case(prev_data)))
 			(print_syntax_error(), *flag = 1);
 		if (!*flag && (ft_strcmp("REDIRECTION", prev_token) == 0 && !tmp))
 		{
@@ -58,10 +62,8 @@ void	while_loop_syntax_error(t_list *tmp,
 			else
 				(print_syntax_error(), *flag = 1);
 		}
-		if (!*flag && ((ft_strcmp("OPERATION_&&", prev_token) == 0 || ft_strcmp(
-						"OPERATION_||", prev_token) == 0) && tmp == NULL))
-			(print_syntax_error(), *flag = 1);
-		if (!*flag && (ft_strcmp("PIPE", prev_token) == 0 && tmp == NULL))
+		if (!*flag && ((!ft_strcmp("OPERATION_&&", prev_token) || !ft_strcmp(
+						"OPERATION_||", prev_token)) && !tmp))
 			(print_syntax_error(), *flag = 1);
 		if (!*flag)
 			(more_ifs(prev_token, prev_data, tmp, flag));
@@ -93,7 +95,8 @@ int	parenth_case(char *str)
 		}
 		else if (in_quotes && str[i] == quote_type)
 			in_quotes = 0;
-		if ((str[i] == '>' || str[i] == '<') && !in_quotes && open_par > closed_par)
+		if ((str[i] == '>' || str[i] == '<'
+			) && !in_quotes && open_par > closed_par)
 		{
 			while (str[i] && (str[i] == '>' || str[i] == '<'))
 				i++;
@@ -116,14 +119,14 @@ int	parenth_case(char *str)
 				return (1);
 			while (str[i] && str[i] == 32)
 				i++;
-			if (str[i] && (!is_operator(str[i]) || str[i] == '$'))
-				return (1);
 		}
-		if (is_operator(str[i]) && !in_quotes && str[i + 1] && str[i + 1] == ')')
+		if ((is_operator(str[i])
+			) && !in_quotes && str[i + 1] && str[i + 1] == ')')
 			return (1);
 		if (!in_quotes && str[i + 1] && str[i] == '(' && str[i + 1] == ')')
 			return (1);
-		if (!in_quotes && str[i + 1] && str[i] == '(' && is_operator(str[i + 1]))
+		if (!in_quotes && str[i + 1] && str[i] == '(' && (
+				is_operator(str[i + 1])))
 			return (1);
 		i++;
 	}
@@ -143,8 +146,6 @@ void	syntax_error(t_list **head, int *flag)
 	i = 0;
 	prev_data = NULL;
 	prev_token = NULL;
-	// if (!i && !ft_strcmp((*head)->token, "PARENTHASIS") && (parenth_case()))
-	// 	(print_syntax_error(), *flag = 1, i = 1);
 	if (!i && (!ft_strcmp((*head)->token, "PARENTHASIS") && !(
 				*head)->next && no_words_beside((*head)->data)))
 		(print_syntax_error(), *flag = 1, i = 1);
@@ -155,19 +156,6 @@ void	syntax_error(t_list **head, int *flag)
 		(print_syntax_error(), *flag = 1, i = 1);
 	if (!i)
 		while_loop_syntax_error(tmp, prev_token, prev_data, flag);
-}
-
-void	syntax_error_two(t_tree **tree, int *flag)
-{
-	if (!tree || !*tree)
-		return ;
-	if ((*tree)->left)
-		syntax_error_two(&(*tree)->left, flag);
-	if ((*tree)->right)
-		syntax_error_two(&(*tree)->right, flag);
-	if ((*tree)->command)
-		if (check_quotes((*tree)->command, flag) == 1)
-			(*tree)->status = 258;
 }
 
 int	syntax_error_parentheses(t_list **head)
