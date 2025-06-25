@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:19:50 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/24 16:45:55 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/25 10:34:47 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_para_redir(t_tree *tree, t_hdoc_data *h_data)
 	return (status);
 }
 
-int	ft_parenthasis(t_tree *tree, t_hdoc_data *h, char **e, int *check)
+int	ft_parenthasis(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 {
 	int	org_stdout;
 	int	org_stdin;
@@ -114,7 +114,7 @@ int	ft_parenthasis(t_tree *tree, t_hdoc_data *h, char **e, int *check)
 	org_stdin = dup(0);
 	if (!tree)
 		return (-1);
-	n = ft_para_redir(tree, h);
+	n = ft_para_redir(tree, h_data);
 	if (n)
 		return (ft_n_return(org_stdin, org_stdout, check));
 	id1 = fork();
@@ -122,7 +122,7 @@ int	ft_parenthasis(t_tree *tree, t_hdoc_data *h, char **e, int *check)
 	{
 		close (org_stdout);
 		close (org_stdin);
-		ft_para_child(tree, check, h, e);
+		ft_para_child(tree, check, h_data, e);
 	}
 	waitpid(id1, &status, 0);
 	return (ft_para_signal(status, org_stdout, org_stdin));

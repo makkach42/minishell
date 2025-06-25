@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:10:12 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/25 10:24:31 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/25 10:44:14 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,7 +330,7 @@ int	ft_expo_helper(char *s, t_tree *tree, int *status, t_env *h)
 		}
 		else
 		{
-			if (ft_expo_plus(s, &status, h, act));
+			if (ft_expo_plus(s, status, h, act));
 				return (1);
 		}
 	}
