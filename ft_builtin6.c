@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin6.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:10:12 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/25 10:44:14 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/25 13:11:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_str_export(t_env *h)
 	ft_str_expo_buff(&buff, h->key);
 	ft_str_expo_buff(&buff, "=");
 	ft_str_expo_buff(&buff, h->value);
-	ft_str_expo_buff(&buff,"\n");
+	ft_str_expo_buff(&buff, "\n");
 	return (buff);
 }
 
@@ -110,7 +110,7 @@ void	ft_free_v(char **v, char *tmp)
 void	ft_expo_equal_free(char **v, t_env *f, int check)
 {
 	char	*tmp;
-	
+
 	tmp = NULL;
 	if (check == 1)
 	{
@@ -267,10 +267,10 @@ int	ft_expo_plus_free(t_env *f, char **v)
 int	ft_expo_plus(char *s, int *status, t_env *h, int act)
 {
 	t_env	*new;
-	char	**v;
 	t_env	*f;
+	char	**v;
 	char	*tmp;
-	
+
 	new = NULL;
 	v = NULL;
 	f = NULL;
@@ -330,17 +330,17 @@ int	ft_expo_helper(char *s, t_tree *tree, int *status, t_env *h)
 		}
 		else
 		{
-			if (ft_expo_plus(s, status, h, act));
+			if (ft_expo_plus(s, status, h, act))
 				return (1);
 		}
 	}
 	return (0);
 }
 
-int    ft_export(char  **s, t_env *h, t_tree *tree)
+int	ft_export(char **s, t_env *h, t_tree *tree)
 {
-	int     i;
-	int     status;
+	int	i;
+	int	status;
 
 	i = 1;
 	status = 0;
@@ -359,4 +359,3 @@ int    ft_export(char  **s, t_env *h, t_tree *tree)
 	}
 	return (status);
 }
-

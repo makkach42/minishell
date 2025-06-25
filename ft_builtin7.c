@@ -3,101 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin7.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 17:55:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/24 17:03:52 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/25 13:14:09 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int    ft_pwd(t_env *h)
+int	ft_pwd(t_env *h)
 {
-    char *path;
-    char *temp;
-    t_env *n;
+	t_env	*n;
+	char	*path;
+	char	*temp;
 	char	*pwd_path;
-    
-    n = ft_check(h, "1PWD");
+
+	n = ft_check(h, "1PWD");
 	pwd_path = ft_strdup(n->value);
-    path = getcwd(NULL, 0);
-    if (path)
-    {
-        temp = pwd_path;
-        pwd_path = path;
-        free (temp);// to free 1PWD when it is allocated in cd
-    }
-    else if (!path)
-        path = pwd_path;
-    printf("%s\n", path);
-    free (pwd_path);
-    return (0);
+	path = getcwd(NULL, 0);
+	if (path)
+	{
+		temp = pwd_path;
+		pwd_path = path;
+		free (temp);
+	}
+	else if (!path)
+		path = pwd_path;
+	printf("%s\n", path);
+	free (pwd_path);
+	return (0);
 }
 
-void    ft_f_node(t_env *node)
+void	ft_f_node(t_env *node)
 {
-    free (node->key);
-    free (node->value);
-    free (node);
-    node = NULL;
+	free (node->key);
+	free (node->value);
+	free (node);
+	node = NULL;
 }
 
 int	ft_unset_error(char *s)
 {
 	write(2, "unset: ", 8);
-    write(2, s, ft_strlen(s));
-    write(2, ": invalid parameter name\n", 26);
+	write(2, s, ft_strlen(s));
+	write(2, ": invalid parameter name\n", 26);
 	return (1);
 }
 
 int	ft_unset(t_env **h, char **s)
 {
-    t_env   *node;
-    int     flag;
-    t_env   *start;
-    int     i;
+	t_env	*node;
+	t_env	*start;
+	int		flag;
+	int		i;
 
-    flag = 0;
-    i = 1;
-    start = NULL;
-    if (s == NULL)
-        return (1);
-    while (s[i] != NULL)
-    {
-        if (ft_parse(s[i]) == 1)
-            return (ft_unset_error(s));
-        else
-        {
-            node = NULL;
-            node = ft_check(*h, s[i]);
-            if (node != NULL)
-            {
-                if (*h == node)
-                {
-                    *h = (*h)->next;
-                    node->next = NULL;
-                    ft_f_node(node);
-                }
-                else 
-                {
-                    start = *h;
-                    while (start != NULL)
-                    {
-                        if (start->next == node)
-                        {
-                            start->next = node->next;
-                            node->next = NULL;
-                            ft_f_node(node);
-                            break ;
-                        }
-                        start = start->next;
-                    }
-                }
-            }
-        }
-        i++;
-    }
+	flag = 0;
+	i = 1;
+	start = NULL;
+	if (s == NULL)
+		return (1);
+	while (s[i] != NULL)
+	{
+		if (ft_parse(s[i]) == 1)
+			return (ft_unset_error(s));
+		else
+		{
+			node = NULL;
+			node = ft_check(*h, s[i]);
+			if (node != NULL)
+			{
+				if (*h == node)
+				{
+					*h = (*h)->next;
+					node->next = NULL;
+					ft_f_node(node);
+				}
+				else
+				{
+					start = *h;
+					while (start != NULL)
+					{
+						if (start->next == node)
+						{
+							start->next = node->next;
+							node->next = NULL;
+							ft_f_node(node);
+							break ;
+						}
+						start = start->next;
+					}
+				}
+			}
+		}
+		i++;
+	}
 	return (0);
 }
 

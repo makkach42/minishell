@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils5.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:30:59 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/25 10:27:32 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/25 13:20:16 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ int	ft_cmd_redir(t_tree *tree, t_env **h)
 
 int	ft_variable(t_tree *tree, t_env **h, char **e, int *check)
 {
-	if (!tree->command || !tree->command_arr || !tree->command_arr[0] || check_empty(tree->command_arr[0]))
+	if (!tree->command || !tree->command_arr || (
+			!tree->command_arr[0]) || check_empty(tree->command_arr[0]))
 		return (0);
 	if (cmd_check(tree) == 1)
 		ft_word_handle(tree, h, e, check);

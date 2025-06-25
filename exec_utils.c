@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 13:05:14 by makkach           #+#    #+#             */
+/*   Updated: 2025/06/25 13:07:56 by makkach          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	delimiter(char c, char del)
@@ -51,7 +63,6 @@ char	*ft_cmd_check(char *env, char *s)
 		return (NULL);
 	if (ft_strchr(s, '/') != NULL || env == NULL || env[0] == '\0')
 	{
-		// ft_is_dir(s);
 		fd = open(s, O_DIRECTORY);
 		if (fd != -1)
 		{
@@ -187,39 +198,36 @@ static char	*ft_word(char	const	*s, char c)
 // 	return (strings);
 // }
 
-t_env *ft_check(t_env *h, char *str)
+t_env	*ft_check(t_env *h, char *str)
 {
 	if (!h || !h->next)
 		return (NULL);
-    while (h != NULL)
-    {
-        if (ft_strcmp(h->key, str) == 0)
-            return (h);
-        h = h->next;
-    }
-    return (NULL);
+	while (h != NULL)
+	{
+		if (ft_strcmp(h->key, str) == 0)
+			return (h);
+		h = h->next;
+	}
+	return (NULL);
 }
 
-int ft_parse(char *s)
+int	ft_parse(char *s)
 {
-    int i;
+	int	i;
 
-    i = 0;
-	// if (s == NULL)
-	// 	return (1);
-    if (ft_isalpha(s[0]) != 0 && s[0] != '_')
-    {
+	i = 0;
+	if (ft_isalpha(s[0]) != 0 && s[0] != '_')
+	{
 		return (1);
 	}
-    while (s[i] != '\0')
-    {
-        if (ft_isalpha(s[i]) != 0 && s[i] != '_' && ft_isdigit(s[i]) != 0)  
-            return (1);
-        i++;
-    }
-    return (0);
+	while (s[i] != '\0')
+	{
+		if (ft_isalpha(s[i]) != 0 && s[i] != '_' && ft_isdigit(s[i]) != 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }
-
 
 static int	ft_space(const char **str, int sign)
 {
@@ -236,8 +244,8 @@ static int	ft_space(const char **str, int sign)
 
 long	ft_atoi(const char *str)
 {
-	int				i;
-	int				sign;
+	int			i;
+	int			sign;
 	long		res;
 	long		tmp;
 
@@ -311,7 +319,7 @@ t_env	*ft_lstnew(void *key, void *value)
 	if (newnode == NULL)
 		return (NULL);
 	newnode -> key = ft_strdup((char *)key);
-    newnode -> value = ft_strdup((char *)value);
+	newnode -> value = ft_strdup((char *)value);
 	newnode -> next = NULL;
 	return (newnode);
 }

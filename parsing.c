@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 18:32:55 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/25 13:17:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	protect_wild_card(t_tree **tree)
 			if (if_has_wildcards((*tree)->command_arr[i]))
 			{
 				tmp = (*tree)->command_arr[i];
-				(*tree)->command_arr[i] = ft_strjoin_three("\"", (*tree)->command_arr[i], "\"");
+				(*tree)->command_arr[i] = ft_strjoin_three("\"",
+						(*tree)->command_arr[i], "\"");
 				free(tmp);
 			}
 			i++;
@@ -55,7 +56,6 @@ void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data)
 		handle_wildcards_in_fdlst(tree);
 	if (!*flag && has_wild_cards_comarr(tree))
 		protect_wild_card(tree);
-
 }
 
 void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
@@ -74,7 +74,7 @@ void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 		exit (2);
 	}
 	ft_hdoc_handle(tree, h_data, tree->status);
- 	ft_st(tree, *(h_data->sig_flag));
+	ft_st(tree, *(h_data->sig_flag));
 	ft_exec_test(tree, &test, h_data);
 	if (*(h_data->sig_flag))
 	{
@@ -98,19 +98,19 @@ void	ft_str_empty(t_env **env, char **e, t_hdoc_data *h_data)
 
 int	main(int argc, char **argv, char **argev)
 {
-	char		*str;
-	int			flag;
-	t_env		*env;
-	t_tree		*tree;
-	char 		**e;
-	t_env 		*tmp;
-	int			status;
-	int			sig_flag;
-	int			hdoc_num;
+	t_tree			*tree;
+	t_env			*tmp;
+	t_env			*env;
+	char			*str;
+	char			**e;
+	int				status;
+	int				flag;
+	int				sig_flag;
+	int				hdoc_num;
+	int				check;
+	int				test;
+	t_hdoc_data		*h_data;
 	struct termios	termios_a;
-	int check;
-	t_hdoc_data	*h_data;
-	int	test;
 
 	tmp = getcwd(NULL, 0);
 	if (!isatty(0) || !isatty(1) || !tmp)
@@ -176,6 +176,6 @@ int	main(int argc, char **argv, char **argev)
 		if (tree && flag != 1)
 			free_tree(tree);
 	}
-	// free_env(&env);
+	free_env(&env);
 	exit (status);
 }
