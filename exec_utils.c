@@ -51,7 +51,6 @@ char	*ft_cmd_check(char *env, char *s)
 		return (NULL);
 	if (ft_strchr(s, '/') != NULL || env == NULL || env[0] == '\0')
 	{
-		// ft_is_dir(s);
 		fd = open(s, O_DIRECTORY);
 		if (fd != -1)
 		{
@@ -64,6 +63,8 @@ char	*ft_cmd_check(char *env, char *s)
 			return (ft_strdup(s));
 		else if (access(s, X_OK) == -1)
 		{
+			ft_putstr_fd(2, s);
+			ft_putstr_fd(2, ": ");
 			perror("");
 			if (errno == 2)
 				exit (127);
