@@ -75,6 +75,8 @@ char	*ft_cmd_check(char *env, char *s)
 			return (ft_strdup(s));
 		else if (access(s, X_OK) == -1)
 		{
+			ft_putstr_fd(2, s);
+			ft_putstr_fd(2, ": ");
 			perror("");
 			if (errno == 2)
 				exit (127);

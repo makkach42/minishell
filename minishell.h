@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/25 15:21:30 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/26 11:01:18 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -687,6 +687,15 @@ void		ft_remove_sign(char *str);
 int			ft_equal_check(char *str);
 char		**ft_equal_str(char *str);
 t_env		*ft_sort_list(t_env *h);
+void		ft_expo_equal_free(char **v, t_env *f, int check);
+void		ft_free_v(char **v, char *tmp);
+void		ft_expo_error(int *status, char *s);
+void		ft_expo_error2(int *status, char *s);
+int			ft_exp_print(t_env *h);
+void		ft_f_node(t_env *node);
+int			ft_export(char **s, t_env *h, t_tree *tree);
+int			ft_act_helper(int act, char **v, t_env **new);
+void		ft_expo_equal_helper(char **v, int act, t_env *f);
 int			if_redir_in_para(char *str, int *i,
 				int *in_quotes, char *quote_type);
 int			return_error_cases(char *str, int *i, t_qfilter *qfil, t_par *par);
