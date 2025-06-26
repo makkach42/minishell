@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/25 13:31:37 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/26 15:59:53 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ typedef struct s_expand
 	char	*before;
 	char	*after;
 }	t_expand;
+
 
 int	global_status;
 
@@ -615,7 +616,7 @@ int			ft_space_check(char *str);
 void		ft_exec(t_tree *tree, t_env *h, char **e);
 void		ft_close_handle(t_list_fd *head);
 void		ft_close_fd(t_tree *tree);
-int			ft_pip(t_tree *tree, t_env **h, char **e, int *check);
+int			ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
 int			cmd_check(t_tree *tree);
 int			ft_cmd_exec(t_tree *tree, t_env **h);
 int			ft_redir_check(char *str);
@@ -673,7 +674,6 @@ void		ft_para_child(t_tree *tree,
 				int *check, t_hdoc_data *h_data, char **e);
 void		ft_exec_test2(t_tree *tree, int *test, t_hdoc_data *h_data);
 void		ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data);
-void		ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data);
 void		ft_free_data(t_hdoc_data *h_data);
 int			check_inside_parenths(char *str);
 int			parenth_case(char *str);
@@ -699,6 +699,14 @@ void		ft_expo_equal_helper(char **v, int act, t_env *f);
 int			if_redir_in_para(char *str, int *i,
 				int *in_quotes, char *quote_type);
 int			return_error_cases(char *str, int *i, t_qfilter *qfil, t_par *par);
+void		ft_v_expo(char *s, char ***v);
+void		ft_free_error(char **v, int *status, char *s);
+int			ft_expo_equal(char *s, t_env *h, int act, int *status);
+int			ft_equal(char *s);
+int			delimiter(char c, char del);
+void		ft_execute_redir(t_tree *tree, t_env **h, char **e);
+void		ft_execute_com(t_tree *tree, t_env **h);
+void		ft_var_helper(t_tree **tree, char **e, int *check, t_hdoc_data *h_data);
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);
 // void	ft_hdoc_free(char **str, char **limiter, int fd);

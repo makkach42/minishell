@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:57:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/24 17:24:41 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/25 14:13:51 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,12 @@ int	ft_exit(char **s, t_env **h, int status)
 		}
 	}
 	return (0);
+}
+
+void	ft_f_node(t_env *node)
+{
+	free (node->key);
+	free (node->value);
+	free (node);
+	node = NULL;
 }

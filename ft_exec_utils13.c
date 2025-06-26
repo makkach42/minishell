@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:15:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/24 16:58:05 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:00:08 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,72 +47,151 @@ int	ft_hdoc_count(t_tree *tree)
 	return (lent + left_lent + right_lent);
 }
 
-void	ft_exec_test2(t_tree *tree, int *test, t_hdoc_data *h_data)
-{
-	int	id1;
-	int	id2;
-	int	status;
-	int	status1;
+// void	ft_exec_test_error(int *test)
+// {
+// 	if (*test)
+// 	{
+// 		perror("fork: ");
+// 		exit (1);
+// 	}
+// }
 
-	id1 = 0;
-	id2 = 0;
-	status = 0;
-	status1 = 0;
-	id1 = fork();
-	if (id1 == -1)
-	{
-		perror("fork: ");
-		if (*test)
-			exit (1);
-		return ;
-	}
-	if (id1 == 0)
-	{
-		*test = 1;
-		ft_exec_test(tree->left, test, h_data);
-		exit (0);
-	}
-	id2 = fork();
-	if (id2 == -1)
-	{
-		perror("fork: ");
-		if (*test)
-			exit (1);
-		return ;
-	}
-	if (id2 == 0)
-	{
-		*test = 1;
-		ft_exec_test(tree->right, test, h_data);
-		exit (0);
-	}
-	waitpid(id1, &status, 0);
-	waitpid(id2, &status1, 0);
-	status = WEXITSTATUS(status);
-	status1 = WEXITSTATUS(status1);
-	if (*test)
-	{
-		if (status)
-			exit (status);
-		else
-			exit (status1);
-	}
-	if (status == 1 || status1 == 1)
-	{
-		*(h_data->sig_flag) = 0;
-	}
-	return ;
+// void	ft_test_children(int status, int status1, int *test, int *sig_flag)
+// {
+// 	status = WEXITSTATUS(status);
+// 	status1 = WEXITSTATUS(status1);
+// 	if (*test)
+// 	{
+// 		if (status)
+// 			exit (status);
+// 		else
+// 			exit (status1);
+// 	}
+// 	if (status == 1 || status1 == 1)
+// 		*sig_flag = 0;
+// }
+
+// void	ft_exec_test2(t_tree *tree, int *test, t_hdoc_data *h_data, int *p)
+// {
+// 	int	id1;
+// 	int	id2;
+// 	int	status;
+// 	int	status1;
+
+// 	id1 = 0;
+// 	id2 = 0;
+// 	status = 0;
+// 	status1 = 0;
+// 	id1 = fork();
+// 	if (id1 == -1 && !*p)
+// 	{
+// 		*p = 1;
+// 		perror("fork: ");
+// 		if (*test)
+// 			exit (1);
+// 	}
+// 		// return (*p = 1, ft_exec_test_error(test));
+// 	if (id1 == 0)
+// 	{
+// 		*test = 1;
+// 		return (ft_exec_test(tree->left, test, h_data, p), exit (0));
+// 	}
+// 	id2 = fork();
+// 	if (id2 == -1 && !*p)
+// 	{
+// 		*p = 1;
+// 		perror("fork: ");
+// 		if (*test)
+// 			exit (1);
+// 	}
+// 		// return (*p = 1, ft_exec_test_error(test));
+// 	if (id2 == 0)
+// 	{
+// 		*test = 1;
+// 		return (ft_exec_test(tree->left, test, h_data, p), exit (0));
+// 	}
+// 	waitpid(id1, &status, 0);
+// 	waitpid(id2, &status1, 0);
+// 	return (ft_test_children(status, status1, test, h_data->sig_flag));
+// }
+
+// void	ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data, int *p)
+// {
+// 	if (!tree)
+// 		return ;
+// 	if (ft_strcmp("PIPE", tree->type) == 0)
+// 		ft_exec_test2(tree, test, h_data, p);
+// 	return ;
+// }
+
+void ft_exec_test_error(int *test)
+{
+    perror("fork: ");
+    if (*test)
+        exit(1);
 }
 
-void	ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data)
+void ft_test_children(int status, int status1, int *test, int *sig_flag)
 {
-	if (!tree)
-		return ;
-	if (ft_strcmp("PIPE", tree->type) == 0)
-	{
-		ft_exec_test2(tree, test, h_data);
-	}
-	return ;
+    status = WEXITSTATUS(status);
+    status1 = WEXITSTATUS(status1);
+    if (*test)
+    {
+        if (status)
+            exit(status);
+        else
+            exit(status1);
+    }
+    if (status == 1 || status1 == 1)
+        *sig_flag = 0;
+}
+
+void ft_exec_test2(t_tree *tree, int *test, t_hdoc_data *h_data)
+{
+    int id1, id2, status, status1;
+
+    id1 = 0; id2 = 0; status = 0; status1 = 0;
+    
+    id1 = fork();
+    if (id1 == -1)
+    {
+        perror("fork: ");
+        if (*test)
+            exit(1);
+        return;
+    }
+    
+    if (id1 == 0)
+    {
+        *test = 1;
+		return (ft_exec_test(tree->left, test, h_data), exit (0));
+    }
+    id2 = fork();
+    if (id2 == -1)
+    {
+        perror("fork: ");
+        if (*test)
+            exit(1);
+        return;
+    }
+    
+    if (id2 == 0)
+    {
+        *test = 1;
+        ft_exec_test(tree->right, test, h_data);
+        exit(0);
+    }
+    waitpid(id1, &status, 0);
+    waitpid(id2, &status1, 0);
+    ft_test_children(status, status1, test, h_data->sig_flag);
+}
+
+void ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data)
+{
+    if (!tree)
+        return;
+    if (ft_strcmp("PIPE", tree->type) == 0)
+        ft_exec_test2(tree, test, h_data);
 }
 
 void	ft_free_data(t_hdoc_data *h_data)
@@ -122,3 +201,5 @@ void	ft_free_data(t_hdoc_data *h_data)
 	free (h_data);
 	h_data = NULL;
 }
+
+

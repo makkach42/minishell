@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:43:13 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/24 16:45:21 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:10:37 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_first_child(t_tree *tree, int *check, char **e, t_hdoc_data *h_data)
 {
+	dprintf(2, "entered in first child %s\n", tree->left->command_arr[0]);
 	signal(SIGINT, SIG_DFL);
 	*check = 1;
 	dup2(tree->fd[1], 1);
@@ -25,6 +26,7 @@ void	ft_first_child(t_tree *tree, int *check, char **e, t_hdoc_data *h_data)
 
 void	ft_second_child(t_tree *tree, int *check, char **e, t_hdoc_data *h_data)
 {
+	dprintf(2, "entered in second child\n");
 	signal(SIGINT, SIG_DFL);
 	*check = 1;
 	dup2(tree->fd[0], 0);

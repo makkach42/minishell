@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils5.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:30:59 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/25 13:20:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:20:56 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	ft_cmd_redir_helper(t_tree *tree, int i)
 
 int	ft_cmd_redir_support(t_tree *tree)
 {
+	close(tree->fd_list->fd1);
 	if (ft_redir_check(tree->fd_list->redir) == 1)
 	{
 		if (ft_cmd_redir_helper(tree, 1))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/25 13:17:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/26 15:59:40 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 		ft_execute(tree, e, check, h_data);
 		ft_signal_exec();
 	}
+	else
+		tree->status = 1;
 	if (tree->status > 0)
 		h_data->check_stat = 1;
 	else
@@ -176,6 +178,6 @@ int	main(int argc, char **argv, char **argev)
 		if (tree && flag != 1)
 			free_tree(tree);
 	}
-	free_env(&env);
+	// free_env(&env);
 	exit (status);
 }

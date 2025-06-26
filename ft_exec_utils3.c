@@ -6,13 +6,13 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/24 17:24:56 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/26 12:06:24 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
+int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 {
 	int	id1;
 	int	id2;
@@ -29,18 +29,21 @@ int	ft_pip(t_tree *tree, t_env **h, char **e, int *check)
 	if (id1 == -1)
 		return (perror("minishell: fork: "), 1);
 	if (id1 == 0)
-		ft_first_child(tree, check, e, h);
+		ft_first_child(tree, check, e, h_data);
 	id2 = fork();
 	if (id2 == -1)
 		return (perror("minishell: fork: "), 1);
 	if (id2 == 0)
-		ft_second_child(tree, check, e, h);
+		ft_second_child(tree, check, e, h_data);
 	close (tree->fd[0]);
 	close (tree->fd[1]);
 	ft_close_fd(tree);
 	if (waitpid(id1, &status1, 0) == -1 || waitpid(id2, &(status), 0) == -1)
 		return (1);
+	dprintf(2, "this is status %d\n", WEXITSTATUS(status));
+	dprintf(2, "this is status1 %d\n", WEXITSTATUS(status1));
 	status = ft_wait_for_child(status, status1);
+	dprintf(2, "this is check %d\n", *check);
 	if (*check)
 		exit (status);
 	return (status);

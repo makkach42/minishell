@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:18:26 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/23 14:23:18 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/25 14:07:02 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	ft_remove_sign(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return ;
 	while (str[i] != '\0')
 	{
 		if (str[i] == '+' && str[i + 1] == '\0')
