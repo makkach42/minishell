@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/26 16:33:25 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:35:18 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,12 @@ void	lexer_to_tree(char *str, t_tree **tree, int *flag, t_hdoc_data *h_data)
 	if (!*flag)
 	{
 		head = list_init(str);
+		if (if_not_head(head, str))
+			return ;
 		lexer(&head);
 	}
 	if (new_syntax_error(&head))
-	{
-		h_data->stat = 258;
-		(print_syntax_error(), *flag = 1);
-	}
+		(print_syntax_error(), *flag = 1, h_data->stat = 258);
 	syntax_error(&head, flag);
 	if (*flag)
 		h_data->stat = 258;
@@ -84,6 +83,8 @@ void	quote_parse(char **str, int *flag)
 	*str = replace_whites_spaces(*str);
 	tmp_str = *str;
 	*str = ft_strtrim(*str, " ");
+	if (!str)
+		return ;
 	free(tmp_str);
 	check_quotes(*str, flag);
 }

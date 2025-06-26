@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:29:57 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/28 08:21:07 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:21:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,14 @@ int	countwords(char *s, char c)
 		s++;
 	}
 	return (count);
+}
+
+int	if_not_head(t_list *head, char *str)
+{
+	if (!head)
+	{
+		free(str);
+		return (1);
+	}
+	return (0);
 }
