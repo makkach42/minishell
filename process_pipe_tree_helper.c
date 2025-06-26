@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 10:11:11 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 16:19:59 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:48:26 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_tree	*handle_pipe_token(t_list **head, char *left_cmd,
 	t_list	*right_head;
 
 	root = create_tree_node(NULL, "PIPE");
-	command_node = create_tree_node(left_cmd, "COMMAND");
+	command_node = create_tree_node(left_cmd, (*head)->token);
 	root->left = command_node;
 	free_list_to_position(head, pipe_pos);
 	right_head = *head;
