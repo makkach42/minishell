@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/25 11:26:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:21:30 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -690,6 +690,7 @@ t_env		*ft_sort_list(t_env *h);
 int			if_redir_in_para(char *str, int *i,
 				int *in_quotes, char *quote_type);
 int			return_error_cases(char *str, int *i, t_qfilter *qfil, t_par *par);
+int			if_not_head(t_list *head, char *str);
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);
 // void	ft_hdoc_free(char **str, char **limiter, int fd);

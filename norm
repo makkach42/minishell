@@ -79,8 +79,7 @@ ft_exec_utils3.c: Error!
 Error: TOO_MANY_LINES       (line:  47, col:   1):	Function has more than 25 lines
 ft_exec_utils4.c: Error!
 Error: TOO_MANY_LINES       (line:  88, col:   1):	Function has more than 25 lines
-ft_exec_utils5.c: Error!
-Error: LINE_TOO_LONG        (line: 103, col:  85):	line too long
+ft_exec_utils5.c: OK!
 ft_exec_utils6.c: OK!
 ft_exec_utils7.c: Error!
 Error: TOO_MANY_FUNCS       (line:  72, col:   1):	Too many functions in file
