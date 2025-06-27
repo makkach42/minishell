@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 07:46:27 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/26 18:48:20 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 13:54:01 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	expand_dollar(t_tmp_tree *tmp, int *in_quotes,
 	}
 }
 
-void	reset_var_expand(t_tmp_tree	*tmp, t_env **env, t_hdoc_data *h_data)
+void	reset_var_expand(t_tmp_tree	*tmp, t_hdoc_data *h_data)
 {
 	int		in_quotes;
 	int		j;
@@ -74,7 +74,7 @@ static void	expanding(t_tree **tree, int i, t_env **env, t_hdoc_data *h_data)
 	tmp.tree = (*tree);
 	while (tmp.tmp)
 	{
-		reset_var_expand(&tmp, env, h_data);
+		reset_var_expand(&tmp, h_data);
 		tmp.tmp = tmp.tmp->next;
 	}
 	tmp.tmp = head;

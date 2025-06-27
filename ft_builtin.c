@@ -6,35 +6,11 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 10:25:20 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 20:52:41 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 16:52:40 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// char	*ft_str_back(char *s)
-// {
-// 	int		lent;
-// 	int		flag;
-// 	int		i;
-// 	char	*new;
-
-// 	flag = 0;
-// 	i = 0;
-// 	if (!s)
-// 		return (NULL);
-// 	lent = ft_strlen(s);
-// 	while (lent > 0)
-// 	{
-// 		if (s[lent] == '/')
-// 			break ;
-// 		lent--;
-// 	}
-// 	new = ft_substr(s, 0, lent);
-// 	if (!new)
-// 		return (NULL);
-// 	return (new);
-// }
 
 int	ft_cd_helper(t_env *h)
 {

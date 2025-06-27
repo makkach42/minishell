@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 13:43:17 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 16:39:15 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,25 @@ int	cmd_check(t_tree *tree)
 	return (1);
 }
 
-int	ft_cmd_exec(t_tree *tree, t_env **h)
+int	ft_cmd_exec(t_tree *tree, t_hdoc_data *h_data)
 {
 	int	status;
 
 	status = 0;
 	if (ft_strcmp(tree->command_arr[0], "cd") == 0)
-		status = ft_cd(tree->command_arr, *h);
+		status = ft_cd(tree->command_arr, *(h_data->env));
 	if (ft_strcmp(tree->command_arr[0], "echo") == 0)
 		status = ft_echo(tree->command_arr);
 	if (ft_strcmp(tree->command_arr[0], "env") == 0)
-		status = ft_env(*h);
+		status = ft_env(*(h_data->env));
 	if (ft_strcmp(tree->command_arr[0], "exit") == 0)
-		status = ft_exit(tree->command_arr, h, tree->status);
+		status = ft_exit(tree->command_arr, h_data, tree->status);
 	if (ft_strcmp(tree->command_arr[0], "export") == 0)
-		status = ft_export(tree->command_arr, *h, tree);
+		status = ft_export(tree->command_arr, *(h_data->env), tree);
 	if (ft_strcmp(tree->command_arr[0], "pwd") == 0)
-		status = ft_pwd(*h);
+		status = ft_pwd(*(h_data->env));
 	if (ft_strcmp(tree->command_arr[0], "unset") == 0)
-		status = ft_unset(h, tree->command_arr);
+		status = ft_unset(h_data->env, tree->command_arr);
 	return (status);
 }
 

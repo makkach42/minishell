@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 18:11:52 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 16:37:06 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ void	ft_cmd_word(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 		|| (ft_strcmp("WORD", tree->type) == 0 && cmd_check(tree) == 0))
 	{
 		reset_vars(&tree, h_data->env, h_data);
-		tree->status = ft_cmd_exec(tree, h_data->env);
+		tree->status = ft_cmd_exec(tree, h_data);
 		ft_check_exit(check, tree->status);
 	}
 	if ((ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections != NULL)
 		|| (cmd_check(tree) == 0 && ft_strcmp("REDIRECTION", tree->type) == 0))
 	{
-		ft_execute_com(tree, h_data->env);
+		ft_execute_com(tree, h_data);
 		ft_check_exit(check, tree->status);
 	}
 	if (tree->redirections == NULL && ft_strcmp("WORD", tree->type) == 0

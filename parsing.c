@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/27 13:32:19 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 18:21:49 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 	else
 		h_data->check_stat = 0;
 	status = tree->status;
+	h_data->end = status;
 }
 
 void	ft_str_empty(t_env **env, char **e, t_hdoc_data *h_data)
@@ -93,7 +94,7 @@ void	ft_str_empty(t_env **env, char **e, t_hdoc_data *h_data)
 	ft_putstr_fd(1, "exit\n");
 	ft_free_array(e);
 	free_env(env);
-	ft_free_data(h_data);
+	// ft_free_data(h_data);
 }
 
 int	main(int argc, char **argv, char **argev)
@@ -103,7 +104,7 @@ int	main(int argc, char **argv, char **argev)
 	t_env			*env;
 	char			*str;
 	char			**e;
-	int				status;
+	// int				*status;
 	int				flag;
 	int				hdoc_num;
 	int				check;
@@ -123,7 +124,6 @@ int	main(int argc, char **argv, char **argev)
 	tree = NULL;
 	hdoc_num = 0;
 	test = 0;
-	status = 0;
 	h_data = malloc(sizeof(t_hdoc_data));
 	if (!h_data)
 		return (1);
@@ -153,6 +153,7 @@ int	main(int argc, char **argv, char **argev)
 		str = readline("minishell$> ");
 		if (!str)
 		{
+			dprintf(2, "this is it\n");
 			ft_str_empty(&env, e, h_data);
 			break ;
 		}
@@ -178,5 +179,7 @@ int	main(int argc, char **argv, char **argev)
 			free_tree(tree);
 	}
 	// free_env(&env);
-	exit (status);
+	if (h_data->stat != -1)
+		exit (h_data->stat);
+	exit (h_data->end);
 }

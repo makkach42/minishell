@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:21:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 16:02:30 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:17:22 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	ft_op_and(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 	ft_execute(tree->left, e, &x, h_data);
 	if (tree->left->status == 0)
 	{
-		dprintf(2, "entered in right of &&\n");
 		ft_execute(tree->right, e, &x, h_data);
 		return (tree->right->status);
 	}
@@ -88,7 +87,6 @@ int	ft_op_or(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 	ft_execute(tree->left, e, &x, h_data);
 	if (tree->left->status != 0)
 	{
-		dprintf(2, "entered here\n");
 		ft_execute(tree->right, e, &x, h_data);
 		return (tree->right->status);
 	}

@@ -6,11 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/27 13:48:44 by aakroud          ###   ########.fr       */
-=======
-/*   Updated: 2025/06/27 13:32:01 by aakroud          ###   ########.fr       */
->>>>>>> master
+/*   Updated: 2025/06/27 18:12:17 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +97,8 @@ typedef struct s_hdoc_data
 	int		prev_fd;
 	int		stat;
 	int		check_stat;
+	int		end;
+	int		hdoc_num;
 }	t_hdoc_data;
 
 typedef struct s_pip
@@ -166,6 +164,22 @@ typedef struct s_expand
 	char	*before;
 	char	*after;
 }	t_expand;
+
+// typedef struct s_var_main
+// {
+// 	t_tree			*tree;
+// 	t_env			*tmp;
+// 	t_env			*env;
+// 	char			*str;
+// 	char			**e;
+// 	int				flag;
+// 	int				check;
+// 	int				test;
+// 	t_hdoc_data		*h_data;
+// 	struct termios	termios_a;
+// 	char			*temp;
+
+// }	t_var_main;
 
 
 int	global_status;
@@ -356,7 +370,7 @@ int			ft_cd(char **s, t_env *h);
 int			ft_echo(char **s);
 int			ft_env(t_env *h);
 int			ft_check_string(char *str);
-int			ft_exit(char **s, t_env **h, int status);
+int			ft_exit(char **s, t_hdoc_data *h_data, int status);
 int			ft_export(char **s, t_env *h, t_tree *tree);
 int			ft_pwd(t_env *h);
 int			ft_unset(t_env **h, char **s);
@@ -573,7 +587,7 @@ void		new_parenthasis_word_extractor(char **word, int i, char **str);
 void		new_variable_word_extractor(char **str, char **word, int i);
 void		new_operator_word_extractor(char **word, char **str);
 void		equal_handle(char **str, char **word);
-void		reset_var_expand(t_tmp_tree	*tmp, t_env **env, t_hdoc_data *h_data);
+void		reset_var_expand(t_tmp_tree	*tmp, t_hdoc_data *h_data);
 void		reset_var_expand_var(t_tree **tree,
 				t_env **env, t_hdoc_data *h_data);
 void		process_no_list_size(t_list	*head,
@@ -630,7 +644,7 @@ void		ft_close_handle(t_list_fd *head);
 void		ft_close_fd(t_tree *tree);
 int			ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
 int			cmd_check(t_tree *tree);
-int			ft_cmd_exec(t_tree *tree, t_env **h);
+int			ft_cmd_exec(t_tree *tree, t_hdoc_data *h_data);
 int			ft_redir_check(char *str);
 void		ft_hdoc_free(char **str, char **limiter, int fd);
 char		*ft_name_check(char *name);
@@ -638,7 +652,7 @@ void		ft_hdoc_signal(int sig);
 void		ft_hdoc_expand(char **line, t_env **env, int status);
 void		ft_hdoc(char *limiter, int fd, t_env **env, int status);
 void		ft_exec_redir(t_tree *tree, t_env **h, char **env);
-int			ft_cmd_redir(t_tree *tree, t_env **h);
+int			ft_cmd_redir(t_tree *tree, t_hdoc_data *h_data);
 int			ft_variable(t_tree *tree, t_env **h, char **e, int *check);
 int			check_amb(t_tree *tree);
 // int			ft_para_redir(t_tree *tree, t_env **h);
@@ -717,7 +731,7 @@ int			ft_expo_equal(char *s, t_env *h, int act, int *status);
 int			ft_equal(char *s);
 int			delimiter(char c, char del);
 void		ft_execute_redir(t_tree *tree, t_env **h, char **e);
-void		ft_execute_com(t_tree *tree, t_env **h);
+void		ft_execute_com(t_tree *tree, t_hdoc_data *h_data);
 void		ft_var_helper(t_tree **tree, char **e, int *check, t_hdoc_data *h_data);
 int			if_not_head(t_list *head, char *str);
 int			in_para_check(char *str);

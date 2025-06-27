@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:57:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/25 14:13:51 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 16:52:28 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,14 @@ void	ft_exit_m(int m, t_env **h)
 	}
 }
 
-int	ft_exit(char **s, t_env **h, int status)
+void	ft_exit_empty(int status, int stat)
+{
+	if (stat != -1)
+		exit (stat);
+	exit (status);
+}
+
+int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 {
 	int	m;
 
@@ -65,7 +72,7 @@ int	ft_exit(char **s, t_env **h, int status)
 	if (isatty(0) && isatty(1))
 		ft_putstr_fd(1, "exit\n");
 	if (s[1] == NULL)
-		exit (status);
+		ft_exit_empty(status, h_data->stat);
 	else
 	{
 		if (ft_check_string(s[1]) != 0)
@@ -75,16 +82,8 @@ int	ft_exit(char **s, t_env **h, int status)
 		else
 		{
 			m = ft_modulo(s[1]);
-			ft_exit_m(m, h);
+			ft_exit_m(m, h_data->env);
 		}
 	}
 	return (0);
-}
-
-void	ft_f_node(t_env *node)
-{
-	free (node->key);
-	free (node->value);
-	free (node);
-	node = NULL;
 }

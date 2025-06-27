@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:37:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/20 18:39:59 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:47:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,13 @@ void	env_fill_empty(t_env **node, int *i, int *j)
 	t_env	*tmp;
 
 	env_fill_empty_helper(node);
+	tmp = *node;
+	while (tmp->next)
+	{
+		tmp->h = 0;
+		tmp->active = 0;
+		tmp = tmp->next;
+	}
 	tmp = ft_check(*node, "OLDPWD");
 	if (tmp)
 		tmp->active = 1;
@@ -108,12 +115,5 @@ void	env_fill_empty(t_env **node, int *i, int *j)
 	{
 		tmp->active = 1;
 		tmp->h = 1;
-	}
-	tmp = *node;
-	while (tmp->next)
-	{
-		tmp->h = 0;
-		tmp->active = 0;
-		tmp = tmp->next;
 	}
 }

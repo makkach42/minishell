@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:30:59 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 11:07:41 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 16:48:31 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_close_st(int org_stdout, int org_stdin)
 	close (org_stdout);
 }
 
-int	ft_cmd_redir(t_tree *tree, t_env **h)
+int	ft_cmd_redir(t_tree *tree, t_hdoc_data *h_data)
 {
 	int			org_stdout;
 	int			org_stdin;
@@ -100,5 +100,5 @@ int	ft_cmd_redir(t_tree *tree, t_env **h)
 	}
 	if (tree->ambiguous == 1)
 		return (1);
-	return (ft_cmd_redir_end(org_stdout, org_stdin), ft_cmd_exec(tree, h));
+	return (ft_cmd_redir_end(org_stdout, org_stdin), ft_cmd_exec(tree, h_data));
 }
