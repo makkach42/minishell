@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:54:54 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 11:55:06 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:58:15 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,31 @@ void	ft_var_helper(t_tree **tree, char **e, int *check, t_hdoc_data *h_data)
 {
 	reset_vars(tree, h_data->env, h_data);
 	(*tree)->status = ft_variable(*tree, h_data->env, e, check);
+}
+
+int	ft_variable(t_tree *tree, t_env **h, char **e, int *check)
+{
+	if (!tree->command || !tree->command_arr || (
+			!tree->command_arr[0]) || check_empty(tree->command_arr[0]))
+		return (0);
+	if (cmd_check(tree) == 1 && tree->redirections == NULL)
+		ft_word_handle(tree, h, e, check);
+	else if (cmd_check(tree) == 1 && tree->redirections != NULL)
+		ft_word_redir(tree, h, e, check);
+	else if (cmd_check(tree) == 0)
+		tree->status = ft_cmd_exec(tree, h);
+	else
+	{
+		ft_putstr_fd(2, "minishell: ");
+		ft_putstr_fd(2, tree->command_arr[0]);
+		ft_putstr_fd(2, ": command not found\n");
+	}
+	return (tree->status);
+}
+
+void	ft_hdoc_free(char **str, char **limiter, int fd)
+{
+	free (*str);
+	free (*limiter);
+	close (fd);
 }

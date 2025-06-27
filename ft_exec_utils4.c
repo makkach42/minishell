@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:17:14 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 11:51:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/26 18:47:00 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,53 +52,13 @@ char	*ft_name_check(char *name)
 	return (name);
 }
 
-void	ft_hdoc_expand_inits(int *i, int *in_quotes, int *flag, char *quote_type)
+void	ft_hdoc_expand_inits(int *i, int *in_quotes,
+	int *flag, char *quote_type)
 {
 	*i = 0;
 	*in_quotes = 0;
 	*flag = 0;
 	*quote_type = 0;
-}
-
-int	if_dollar(int *i, char **line, t_env **env, int *status)
-{
-	int		n;
-
-	n = *i;
-	if (process_array_variable(line, 0, i, env) == -1)
-		return (1);
-	if (*i == -1)
-		if_question_mark_two(line, *status, n);
-	*i = -1;
-	return (0);
-}
-
-void	ft_hdoc_expand(char **line, t_env **env, int status)
-{
-	int		in_quotes;
-	int		i;
-	int		n;
-	int		flag;
-	char	quote_type;
-
-	ft_hdoc_expand_inits(&i, &in_quotes, &flag, &quote_type);
-	while ((*line) && (*line)[i])
-	{
-		if (!in_quotes && ((*line)[i] == '"' || (*line)[i] == '\''))
-		{
-			in_quotes = 1;
-			quote_type = (*line)[i];
-		}
-		else if ((*line)[i] == quote_type)
-			in_quotes = 0;
-		if ((*line)[i] == '$' && (
-				!in_quotes || (in_quotes && quote_type == '"')))
-		{
-			if (if_dollar(&i, line, env, &status))
-				break ;
-		}
-		i++;
-	}
 }
 
 int	ft_space_count(char *str)

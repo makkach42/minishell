@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 17:55:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/25 13:28:24 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:32:52 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_unset(t_env **h, char **s)
 	while (s[i] != NULL)
 	{
 		if (ft_parse(s[i]) == 1)
-			return (ft_unset_error(s));
+			return (ft_unset_error(s[i]));
 		else
 		{
 			node = NULL;

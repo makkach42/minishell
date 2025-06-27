@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:30:59 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/25 16:20:56 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:07:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,49 +70,35 @@ int	ft_cmd_redir_support(t_tree *tree)
 	return (0);
 }
 
+void	ft_close_st(int org_stdout, int org_stdin)
+{
+	close (org_stdin);
+	close (org_stdout);
+}
+
 int	ft_cmd_redir(t_tree *tree, t_env **h)
 {
-	int	org_stdout;
-	int	org_stdin;
-	int	status;
-	int	check;
+	int			org_stdout;
+	int			org_stdin;
+	int			check;
+	t_list_fd	*tmp;
 
-	status = 0;
 	check = 0;
+	tmp = tree->fd_list;
 	org_stdout = dup(1);
 	org_stdin = dup(0);
 	if (check_empty(tree->fd_list->name) == 1)
 		return (1);
-	while (tree->fd_list != NULL && tree->ambiguous == 0)
+	while (tmp != NULL && tree->ambiguous == 0)
 	{
 		if (ft_cmd_redir_support(tree))
 		{
 			dup2(org_stdin, 0);
-			return (1);
+			return (ft_close_st(org_stdout, org_stdin), 1);
 		}
-		tree->fd_list = tree->fd_list->next;
+		tmp = tmp->next;
 	}
 	if (tree->ambiguous == 1)
 		return (1);
-	status = ft_cmd_exec(tree, h);
-	ft_cmd_redir_end(org_stdout, org_stdin);
-	return (status);
-}
-
-int	ft_variable(t_tree *tree, t_env **h, char **e, int *check)
-{
-	if (!tree->command || !tree->command_arr || (
-			!tree->command_arr[0]) || check_empty(tree->command_arr[0]))
-		return (0);
-	if (cmd_check(tree) == 1)
-		ft_word_handle(tree, h, e, check);
-	else if (cmd_check(tree) == 0)
-		tree->status = ft_cmd_exec(tree, h);
-	else
-	{
-		ft_putstr_fd(2, "minishell: ");
-		ft_putstr_fd(2, tree->command_arr[0]);
-		ft_putstr_fd(2, ": command not found\n");
-	}
-	return (tree->status);
+	return (ft_cmd_redir_end(org_stdout, org_stdin), ft_cmd_exec(tree, h));
 }

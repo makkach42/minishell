@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:08:37 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/25 14:47:02 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:32:31 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	ft_expo_plus_free(t_env *f, char **v)
 	f->active = 0;
 	f->h = 0;
 	ft_free_v(v, tmp);
+	return (0);
 }
 
 int	ft_expo_plus(char *s, int *status, t_env *h, int act)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/27 11:02:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/27 13:32:01 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,14 @@ typedef struct s_hdoc_data
 	int		stat;
 	int		check_stat;
 }	t_hdoc_data;
+
+typedef struct s_pip
+{
+	int	id1;
+	int	id2;
+	int	status;
+	int	status1;
+} t_pip;
 
 typedef struct s_cmd
 {
@@ -649,7 +657,7 @@ void		ft_signal_exec(void);
 t_env		*env_fill(char **argev);
 void		*env_fill_pwd(t_env *head);
 void		ft_close_handle(t_list_fd *head);
-int			ft_wait_for_child(int status, int status1);
+int			ft_wait_for_child(int status, int status1, int *check);
 void		ft_pip_signal(void);
 void		ft_exec_redir(t_tree *tree, t_env **h, char **env);
 void		ft_exec_redir_helper(t_tree *tree, int i);
@@ -709,6 +717,9 @@ void		ft_execute_com(t_tree *tree, t_env **h);
 void		ft_var_helper(t_tree **tree, char **e, int *check, t_hdoc_data *h_data);
 int			if_not_head(t_list *head, char *str);
 int			in_para_check(char *str);
+void		ft_hdoc_expand_inits(int *i, int *in_quotes, int *flag, char *quote_type);
+t_pip		*ft_test_x(t_pip *x);
+void		ft_word_redir(t_tree *tree, t_env **h, char **e, int *check);
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);
 // void	ft_hdoc_free(char **str, char **limiter, int fd);
