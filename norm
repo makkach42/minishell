@@ -33,7 +33,8 @@ ft_builtin8.c: OK!
 ft_builtin9.c: OK!
 ft_exec_utils1.c: OK!
 ft_exec_utils10.c: OK!
-ft_exec_utils11.c: OK!
+ft_exec_utils11.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  87, col:   5):	Comment is invalid in this scope
 ft_exec_utils12.c: OK!
 ft_exec_utils13.c: OK!
 ft_exec_utils14.c: OK!
@@ -64,12 +65,8 @@ list_init.c: OK!
 list_init_handlers.c: OK!
 main_helper.c: OK!
 minishell.h: Error!
-Error: SPACE_REPLACE_TAB    (line: 108, col:   2):	Found space when expecting tab
-Error: CONSECUTIVE_NEWLINES (line: 166, col:   1):	Consecutive newlines
-Notice: GLOBAL_VAR_DETECTED  (line: 167, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
-Error: GLOBAL_VAR_NAMING    (line: 167, col:   5):	Global variable must start with g_
-Error: LINE_TOO_LONG        (line: 717, col:  83):	line too long
-Error: LINE_TOO_LONG        (line: 720, col:  85):	line too long
+Notice: GLOBAL_VAR_DETECTED  (line: 165, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+Error: GLOBAL_VAR_NAMING    (line: 165, col:   5):	Global variable must start with g_
 more_libft_funcs.c: OK!
 new_list_init.c: OK!
 new_list_init_handlers.c: OK!

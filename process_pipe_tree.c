@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:13:29 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/26 16:49:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/27 14:40:42 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void	process_command_with_pipes(char *command_str, t_tree **command_tree)
 	free_cmd_list(cmd_list);
 }
 
-static int	has_unquoted_pipe_or_amp(char *str)
+static int	has_unquoted_pipe_or_and(char *str)
 {
 	int		i;
 	char	quote;
@@ -122,7 +122,7 @@ void	process_pipe_trees(t_tree *tree)
 		return ;
 	if (tree->command && tree->type && (
 			ft_strcmp(tree->type, "PARENTHASIS") != 0
-		) && has_unquoted_pipe_or_amp(tree->command))
+		) && has_unquoted_pipe_or_and(tree->command))
 	{
 		cmd_tree = NULL;
 		process_command_with_pipes(tree->command, &cmd_tree);

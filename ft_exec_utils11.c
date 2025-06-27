@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils11.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:21:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 16:02:30 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 15:45:59 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	ft_op_or(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 	int	x;
 
 	x = 0;
-	print_tree_visual(tree, 1, 1);
+	// print_tree_visual(tree, 1, 1);
 	ft_execute(tree->left, e, &x, h_data);
 	if (tree->left->status != 0)
 	{
