@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/27 11:02:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:05:03 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	last_pack_of_ifs(char *prev_token,
 				!ft_strcmp("WORD", tmp->next->next->token))))
 		(print_syntax_error(), *flag = 1);
 	if (!*flag && (!ft_strcmp(prev_token,
-			"PARENTHASIS") && in_para_check(prev_data)))
+				"PARENTHASIS") && in_para_check(prev_data)))
 		(print_syntax_error(), *flag = 1);
 }
 
@@ -88,8 +88,8 @@ void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 				tmp->token, prev_token)))
 		(print_syntax_error(), *flag = 1);
 	if (!*flag && tmp && ((!ft_strcmp("WORD", prev_token) || !ft_strcmp(
-			"COMMAND", prev_token)) && (!ft_strcmp(
-				tmp->token, "PARENTHASIS"))))
+					"COMMAND", prev_token)) && (!ft_strcmp(
+					tmp->token, "PARENTHASIS"))))
 		(print_syntax_error(), *flag = 1);
 	if (!*flag && tmp && (!ft_strcmp("PARENTHASIS", prev_token) && !ft_strcmp(
 				tmp->token, "WORD")))
