@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/26 16:35:34 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:02:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -708,6 +708,7 @@ void		ft_execute_redir(t_tree *tree, t_env **h, char **e);
 void		ft_execute_com(t_tree *tree, t_env **h);
 void		ft_var_helper(t_tree **tree, char **e, int *check, t_hdoc_data *h_data);
 int			if_not_head(t_list *head, char *str);
+int			in_para_check(char *str);
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);
 // void	ft_hdoc_free(char **str, char **limiter, int fd);

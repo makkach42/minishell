@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/26 16:35:12 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 10:31:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,8 @@ int	main(int argc, char **argv, char **argev)
 		add_history(str);
 		tree = NULL;
 		ft_parsing(&str, &flag, &tree, h_data);
-		if (!flag)
-			ft_execution(tree, h_data, &check, e);
+		// if (!flag)
+		// 	ft_execution(tree, h_data, &check, e);
 		if (flag)
 			h_data->check_stat = 0;
 		tcsetattr(0, TCSANOW, &termios_a);
