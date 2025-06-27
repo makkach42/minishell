@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 10:25:20 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/24 17:04:30 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/26 20:52:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	ft_cd_helper(t_env *h)
 		ft_putstr_fd(2, "minishell: cd: HOME not set\n");
 		return (1);
 	}
+	if (home->value[0] == '\0')
+		return (0);
 	if (chdir(home->value) == -1)
 	{
 		ft_putstr_fd(2, "minishell: cd: ");

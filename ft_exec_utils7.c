@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 16:30:22 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/26 18:11:52 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ int	ft_cmd_word_check(t_tree *tree)
 
 void	ft_cmd_word(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 {
-	dprintf(2, "this is the command %s\n", tree->command_arr[0]);
-	// print_tree_visual(tree, 1, 1);
 	if ((ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections == NULL)
 		|| (ft_strcmp("WORD", tree->type) == 0 && cmd_check(tree) == 0))
 	{
@@ -76,7 +74,6 @@ void	ft_cmd_word(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 		&& cmd_check(tree) == 1)
 	{
 		reset_vars(&tree, h_data->env, h_data);
-		dprintf(2, "this is the command %s\n", tree->command_arr[0]);
 		ft_word_handle(tree, h_data->env, e, check);
 	}
 	if ((tree->redirections != NULL && ft_strcmp("WORD", tree->type) == 0)
@@ -86,9 +83,6 @@ void	ft_cmd_word(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 
 void	ft_execute(t_tree *tree, char **e, int *check, t_hdoc_data *h_data)
 {
-	// if (tree->command_arr && tree->command_arr[0])
-	// 	dprintf(2, "entered in exec child %s\n", tree->command_arr[0]);
-	// print_tree_visual(tree, 1, 1);
 	if (!tree)
 		return (free_env(h_data->env), ft_check_exit(check, 1));
 	if (!ft_cmd_word_check(tree))

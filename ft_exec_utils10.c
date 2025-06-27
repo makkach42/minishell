@@ -6,13 +6,13 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:19:50 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 11:41:12 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/26 18:33:30 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	ft_wait_for_child(int status, int status1)
+int	ft_wait_for_child(int status, int status1, int *check)
 {
 	if (WIFSIGNALED(status))
 	{
@@ -33,6 +33,8 @@ int	ft_wait_for_child(int status, int status1)
 	}
 	if (!WIFSIGNALED(status))
 		status = WEXITSTATUS(status);
+	if (*check)
+		exit (status);
 	return (status);
 }
 

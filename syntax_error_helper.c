@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error_helper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 18:20:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/26 17:00:11 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	syntax_error_parentheses_while_loop(t_list *tmp,
 void	last_pack_of_ifs(char *prev_token,
 		char *prev_data, t_list *tmp, int *flag)
 {
-	if (!*flag && (!ft_strcmp("PIPE", prev_token) && !tmp))
+	if (!*flag && (!ft_strcmp("PIPE", tmp->token) && !tmp->next))
 		(print_syntax_error(), *flag = 1);
 	if (!*flag && (!ft_strcmp("REDIRECTION", prev_token)) && (
 			!ft_strcmp("REDIRECTION", tmp->token) && tmp->next && (
