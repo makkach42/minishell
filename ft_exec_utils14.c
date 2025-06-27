@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:54:54 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 10:30:47 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:58:15 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,11 @@ int	ft_variable(t_tree *tree, t_env **h, char **e, int *check)
 		ft_putstr_fd(2, ": command not found\n");
 	}
 	return (tree->status);
+}
+
+void	ft_hdoc_free(char **str, char **limiter, int fd)
+{
+	free (*str);
+	free (*limiter);
+	close (fd);
 }

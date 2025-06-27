@@ -6,38 +6,45 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 21:38:47 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:58:43 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+void	ft_close_pip(t_tree *tree)
+{
+	close (tree->fd[0]);
+	close (tree->fd[1]);
+}
+
 int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 {
-	t_pip	x;
+	t_pip	*x;
 
-	ft_test_x(x);
+	x = ft_test_x(x);
+	if (!x)
+		return (1);
 	tree->left->status = tree->status;
 	if (pipe(tree->fd) == -1)
 		perror("minishell: pipe: ");
 	ft_signal_ign();
-	x.id1 = fork();
-	if (x.id1 == -1)
+	x->id1 = fork();
+	if (x->id1 == -1)
 		return (perror("minishell: fork: "), 1);
-	if (x.id1 == 0)
+	if (x->id1 == 0)
 		ft_first_child(tree, check, e, h_data);
-	x.id2 = fork();
-	if (x.id2 == -1)
+	x->id2 = fork();
+	if (x->id2 == -1)
 		return (perror("minishell: fork: "), 1);
-	if (x.id2 == 0)
+	if (x->id2 == 0)
 		ft_second_child(tree, check, e, h_data);
-	close (tree->fd[0]);
-	close (tree->fd[1]);
+	ft_close_pip(tree);
 	ft_close_fd(tree);
-	if (waitpid(x.id1, &(x.status1), 0) == -1
-		|| waitpid(x.id2, &(x.status), 0) == -1)
+	if (waitpid(x->id1, &(x->status1), 0) == -1
+		|| waitpid(x->id2, &(x->status), 0) == -1)
 		return (1);
-	return (ft_wait_for_child(x.status, x.status1, check));
+	return (ft_wait_for_child(x->status, x->status1, check));
 }
 
 int	cmd_check(t_tree *tree)
@@ -96,11 +103,4 @@ int	ft_redir_check(char *str)
 	else if (ft_strcmp(str, ">>") == 0)
 		return (4);
 	return (-1);
-}
-
-void	ft_hdoc_free(char **str, char **limiter, int fd)
-{
-	free (*str);
-	free (*limiter);
-	close (fd);
 }

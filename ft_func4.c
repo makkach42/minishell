@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:38:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 11:39:19 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:32:16 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,4 @@ void	ft_free_array(char **p)
 		i++;
 	}
 	free (p);
-}
-
-static int	ft_count_strings(char	const	*s, char c)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i] != '\0')
-	{
-		while (s[i] != '\0' && delimiter(s[i], c) == 1)
-			i++;
-		if (s[i] != '\0')
-			count++;
-		while (s[i] != '\0' && delimiter(s[i], c) == 0)
-			i++;
-	}
-	return (count);
 }

@@ -6,13 +6,11 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/27 10:28:18 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:36:07 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	global_status;
 
 void	protect_wild_card(t_tree **tree)
 {
@@ -107,24 +105,25 @@ int	main(int argc, char **argv, char **argev)
 	char			**e;
 	int				status;
 	int				flag;
-	int				sig_flag;
 	int				hdoc_num;
 	int				check;
 	int				test;
 	t_hdoc_data		*h_data;
 	struct termios	termios_a;
+	char			*temp;
 
-	tmp = getcwd(NULL, 0);
-	if (!isatty(0) || !isatty(1) || !tmp)
+	temp = getcwd(NULL, 0);
+	if (!isatty(0) || !isatty(1) || !temp)
 		return (1);
 	((void)argc, (void)argv, inits_main(&env, &tree, argev));
 	e = ft_env_str(env);
-	free (tmp);
+	free (temp);
 	tmp = NULL;
 	tmp = env;
 	tree = NULL;
 	hdoc_num = 0;
 	test = 0;
+	status = 0;
 	h_data = malloc(sizeof(t_hdoc_data));
 	if (!h_data)
 		return (1);

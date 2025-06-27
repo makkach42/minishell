@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:15:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 18:31:51 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:34:07 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	ft_hdoc_expand(char **line, t_env **env, int status)
 {
 	int		in_quotes;
 	int		i;
-	int		n;
 	int		flag;
 	char	quote_type;
 
