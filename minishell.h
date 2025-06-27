@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/27 11:53:18 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 13:48:44 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -655,7 +655,7 @@ char		**ft_env_str(t_env *h);
 void		ft_st(t_tree *tree, int stat_flag);
 void		ft_signal_exec(void);
 t_env		*env_fill(char **argev);
-void		*env_fill_pwd(t_env *head);
+void		env_fill_pwd(t_env *head);
 void		ft_close_handle(t_list_fd *head);
 int			ft_wait_for_child(int status, int status1, int *check);
 void		ft_pip_signal(void);
@@ -717,7 +717,7 @@ void		ft_execute_com(t_tree *tree, t_env **h);
 void		ft_var_helper(t_tree **tree, char **e, int *check, t_hdoc_data *h_data);
 int			if_not_head(t_list *head, char *str);
 void		ft_hdoc_expand_inits(int *i, int *in_quotes, int *flag, char *quote_type);
-t_pip		*ft_test_x(t_pip *x);
+t_pip		*ft_test_x(t_pip **x);
 void		ft_word_redir(t_tree *tree, t_env **h, char **e, int *check);
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);

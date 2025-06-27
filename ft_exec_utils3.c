@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 11:58:43 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 13:43:17 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 {
 	t_pip	*x;
 
-	x = ft_test_x(x);
-	if (!x)
+	x = NULL;
+	if (!ft_test_x(&x))
 		return (1);
 	tree->left->status = tree->status;
 	if (pipe(tree->fd) == -1)

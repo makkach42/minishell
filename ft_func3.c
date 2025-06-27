@@ -6,21 +6,11 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:26:59 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 11:31:58 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 13:41:03 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static int	ft_lent_strlen(char	const *s, char c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0' && delimiter(s[i], c) == 0)
-		i++;
-	return (i);
-}
 
 t_env	*ft_check(t_env *h, char *str)
 {

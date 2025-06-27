@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 18:27:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 11:54:51 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 13:44:52 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,24 @@ void	ft_test_children(int status, int status1, int *test, int *sig_flag)
 		*sig_flag = 0;
 }
 
-t_pip	*ft_test_x(t_pip *x)
+t_pip	*ft_test_x(t_pip **x)
 {
-	x = malloc(sizeof(t_pip));
+	*x = malloc(sizeof(t_pip));
 	if (!x)
 		return (NULL);
-	x->id1 = 0;
-	x->id2 = 0;
-	x->status = 0;
-	x->status1 = 0;
-	return (x);
+	(*x)->id1 = 0;
+	(*x)->id2 = 0;
+	(*x)->status = 0;
+	(*x)->status1 = 0;
+	return (*x);
 }
 
 void	ft_exec_test2(t_tree *tree, int *test, t_hdoc_data *h_data)
 {
 	t_pip	*x;
 
-	x = ft_test_x(x);
-	if (!x)
+	x = NULL;
+	if (!ft_test_x(&x))
 		return ;
 	x->id1 = fork();
 	if (x->id1 == -1)

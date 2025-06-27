@@ -6,13 +6,13 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:26:36 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/20 17:55:20 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/27 13:41:21 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	*env_fill_pwd(t_env *head)
+void	env_fill_pwd(t_env *head)
 {
 	t_env	*tmp;
 
