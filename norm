@@ -1,0 +1,269 @@
+dynamic_allocations_buffers.c: OK!
+even_more_libft_funcs.c: OK!
+exec_utils.c: OK!
+export_cases.c: OK!
+extra_tools.c: Error!
+Error: FORBIDDEN_CS         (line:  19, col:   5):	Forbidden control structure
+Error: TERNARY_FBIDDEN      (line:  22, col:  34):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line:  26, col:  29):	Ternaries are forbidden
+Error: WRONG_SCOPE_COMMENT  (line:  35, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  36, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  37, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  38, col:   5):	Comment is invalid in this scope
+Error: FORBIDDEN_CS         (line:  46, col:   9):	Forbidden control structure
+Error: SPC_AFTER_OPERATOR   (line:  46, col:  24):	missing space after operator
+Error: FORBIDDEN_CS         (line:  57, col:   9):	Forbidden control structure
+Error: LINE_TOO_LONG        (line:  60, col:  82):	line too long
+Error: LINE_TOO_LONG        (line:  62, col:  82):	line too long
+Error: FORBIDDEN_CS         (line:  72, col:   9):	Forbidden control structure
+Error: FORBIDDEN_CS         (line:  80, col:   9):	Forbidden control structure
+Error: TOO_MANY_LINES       (line:  86, col:   1):	Function has more than 25 lines
+free_everything.c: OK!
+ft_builtin.c: OK!
+ft_builtin1.c: OK!
+ft_builtin10.c: OK!
+ft_builtin11.c: OK!
+ft_builtin2.c: OK!
+ft_builtin3.c: OK!
+ft_builtin4.c: OK!
+ft_builtin5.c: OK!
+ft_builtin6.c: OK!
+ft_builtin7.c: OK!
+ft_builtin8.c: OK!
+ft_builtin9.c: OK!
+ft_exec_utils1.c: OK!
+ft_exec_utils10.c: OK!
+ft_exec_utils11.c: OK!
+ft_exec_utils12.c: OK!
+ft_exec_utils13.c: Error!
+Error: SPACE_BEFORE_FUNC    (line: 127, col:   5):	space before function name
+Error: TOO_FEW_TAB          (line: 129, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 129, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 130, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 130, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 131, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 131, col:   9):	Found space when expecting tab
+Error: SPACE_BEFORE_FUNC    (line: 134, col:   5):	space before function name
+Error: TOO_FEW_TAB          (line: 136, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 136, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 137, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 137, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 138, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 138, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 139, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 139, col:   5):	Space on empty line
+Error: TOO_FEW_TAB          (line: 140, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 140, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 141, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 141, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 142, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 142, col:   9):	Space on empty line
+Error: TOO_FEW_TAB          (line: 143, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 143, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 144, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 144, col:   5):	Space on empty line
+Error: TOO_FEW_TAB          (line: 145, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 145, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 146, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 146, col:   9):	Found space when expecting tab
+Error: SPACE_BEFORE_FUNC    (line: 149, col:   5):	space before function name
+Error: TOO_FEW_TAB          (line: 151, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 151, col:   5):	Found space when expecting tab
+Error: SPACE_REPLACE_TAB    (line: 151, col:   8):	Found space when expecting tab
+Error: MULT_DECL_LINE       (line: 151, col:  12):	Multiple declarations on a single line
+Error: MULT_DECL_LINE       (line: 151, col:  17):	Multiple declarations on a single line
+Error: MULT_DECL_LINE       (line: 151, col:  25):	Multiple declarations on a single line
+Error: TOO_FEW_TAB          (line: 153, col:   1):	Missing tabs for indent level
+Error: TOO_FEW_TAB          (line: 153, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 153, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 153, col:  14):	Missing tabs for indent level
+Error: TOO_FEW_TAB          (line: 153, col:  14):	Missing tabs for indent level
+Error: TOO_MANY_INSTR       (line: 153, col:  14):	Too many instructions on a single line
+Error: TOO_FEW_TAB          (line: 153, col:  23):	Missing tabs for indent level
+Error: TOO_FEW_TAB          (line: 153, col:  23):	Missing tabs for indent level
+Error: TOO_MANY_INSTR       (line: 153, col:  23):	Too many instructions on a single line
+Error: TOO_FEW_TAB          (line: 153, col:  35):	Missing tabs for indent level
+Error: TOO_MANY_INSTR       (line: 153, col:  35):	Too many instructions on a single line
+Error: EMPTY_LINE_FUNCTION  (line: 154, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line: 154, col:   1):	Space on empty line
+Error: TOO_FEW_TAB          (line: 155, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 155, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 156, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 156, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 157, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 157, col:   5):	Space on empty line
+Error: TOO_FEW_TAB          (line: 158, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 158, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 159, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 159, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 160, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 160, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 161, col:   1):	Missing tabs for indent level
+Error: SPACE_AFTER_KW       (line: 161, col:   9):	Missing space after keyword
+Error: SPACE_REPLACE_TAB    (line: 161, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 162, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 162, col:   5):	Space on empty line
+Error: EMPTY_LINE_FUNCTION  (line: 163, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line: 163, col:   1):	Space on empty line
+Error: TOO_FEW_TAB          (line: 164, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 164, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 165, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 165, col:   5):	Space on empty line
+Error: TOO_FEW_TAB          (line: 166, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 166, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 168, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 168, col:   5):	Space on empty line
+Error: TOO_FEW_TAB          (line: 169, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 169, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 170, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 170, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 171, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 171, col:   5):	Space on empty line
+Error: TOO_FEW_TAB          (line: 172, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 172, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 173, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 173, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 174, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 174, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 175, col:   1):	Missing tabs for indent level
+Error: SPACE_AFTER_KW       (line: 175, col:   9):	Missing space after keyword
+Error: SPACE_REPLACE_TAB    (line: 175, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 176, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 176, col:   5):	Space on empty line
+Error: EMPTY_LINE_FUNCTION  (line: 177, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line: 177, col:   1):	Space on empty line
+Error: TOO_FEW_TAB          (line: 178, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 178, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 179, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 179, col:   5):	Space on empty line
+Error: TOO_FEW_TAB          (line: 180, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 180, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 181, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 181, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 182, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 182, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 183, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 183, col:   5):	Space on empty line
+Error: TOO_FEW_TAB          (line: 184, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 184, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 185, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 185, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 186, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 186, col:   5):	Found space when expecting tab
+Error: TOO_MANY_LINES       (line: 187, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 189, col:   1):	Too many functions in file
+Error: SPACE_BEFORE_FUNC    (line: 189, col:   5):	space before function name
+Error: TOO_FEW_TAB          (line: 191, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 191, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 192, col:   1):	Missing tabs for indent level
+Error: SPACE_AFTER_KW       (line: 192, col:   9):	Missing space after keyword
+Error: SPACE_REPLACE_TAB    (line: 192, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 193, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 193, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 194, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 194, col:   9):	Found space when expecting tab
+Error: TOO_MANY_FUNCS       (line: 197, col:   1):	Too many functions in file
+Error: CONSECUTIVE_NEWLINES (line: 205, col:   1):	Consecutive newlines
+Error: EMPTY_LINE_EOF       (line: 205, col:   1):	Empty line at end of file
+ft_exec_utils14.c: OK!
+ft_exec_utils2.c: OK!
+ft_exec_utils3.c: Error!
+Error: TOO_MANY_LINES       (line:  50, col:   1):	Function has more than 25 lines
+ft_exec_utils4.c: Error!
+Error: LINE_TOO_LONG        (line:  55, col:  82):	line too long
+Error: TOO_MANY_FUNCS       (line: 104, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 120, col:   1):	Too many functions in file
+ft_exec_utils5.c: OK!
+ft_exec_utils6.c: OK!
+ft_exec_utils7.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  61, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  89, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  90, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  91, col:   5):	Comment is invalid in this scope
+Error: TOO_MANY_LINES       (line: 115, col:   1):	Function has more than 25 lines
+ft_exec_utils8.c: OK!
+ft_exec_utils9.c: OK!
+ft_func.c: OK!
+ft_func1.c: OK!
+ft_func2.c: OK!
+ft_func3.c: OK!
+ft_func4.c: OK!
+ft_hdoc.c: OK!
+ft_split.c: OK!
+ft_strtrim.c: OK!
+helpers.c: OK!
+lexer.c: OK!
+lexer_helper.c: OK!
+lexer_helper_three.c: OK!
+lexer_helper_two.c: OK!
+libft_funcs.c: OK!
+list_init.c: OK!
+list_init_handlers.c: OK!
+main_helper.c: OK!
+minishell.h: Error!
+Error: CONSECUTIVE_NEWLINES (line: 158, col:   1):	Consecutive newlines
+Notice: GLOBAL_VAR_DETECTED  (line: 159, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+Error: GLOBAL_VAR_NAMING    (line: 159, col:   5):	Global variable must start with g_
+Error: LINE_TOO_LONG        (line: 709, col:  83):	line too long
+more_libft_funcs.c: OK!
+new_list_init.c: OK!
+new_list_init_handlers.c: OK!
+new_list_init_handlers_helper.c: OK!
+new_list_init_handlers_helper_two.c: OK!
+operation_extraction.c: OK!
+parentheses_extraction.c: OK!
+parsing.c: Error!
+Notice: GLOBAL_VAR_DETECTED  (line:  15, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+Error: GLOBAL_VAR_NAMING    (line:  15, col:   5):	Global variable must start with g_
+Error: TOO_MANY_LINES       (line:  91, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_VARS_FUNC   (line: 108, col:   1):	Too many variables declarations in a function
+Error: TOO_MANY_VARS_FUNC   (line: 109, col:   1):	Too many variables declarations in a function
+Error: TOO_MANY_VARS_FUNC   (line: 110, col:   1):	Too many variables declarations in a function
+Error: TOO_MANY_VARS_FUNC   (line: 111, col:   1):	Too many variables declarations in a function
+Error: TOO_MANY_VARS_FUNC   (line: 112, col:   1):	Too many variables declarations in a function
+Error: TOO_MANY_VARS_FUNC   (line: 113, col:   1):	Too many variables declarations in a function
+Error: TOO_MANY_VARS_FUNC   (line: 114, col:   1):	Too many variables declarations in a function
+Error: TOO_MANY_VARS_FUNC   (line: 115, col:   1):	Too many variables declarations in a function
+Error: WRONG_SCOPE_COMMENT  (line: 173, col:   9):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 174, col:   9):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 181, col:   5):	Comment is invalid in this scope
+Error: TOO_MANY_LINES       (line: 183, col:   1):	Function has more than 25 lines
+process_all_redirections.c: OK!
+process_all_redirections_helper.c: OK!
+process_all_redirections_helper_two.c: OK!
+process_nested_parentheses.c: OK!
+process_nested_parentheses_helper.c: OK!
+process_pipe_tree.c: OK!
+process_pipe_tree_helper.c: OK!
+process_pipe_tree_helper_two.c: OK!
+quote_handle_three.c: OK!
+quote_handle_two.c: OK!
+quotes_handle.c: OK!
+redirections_opener.c: OK!
+redirections_opener_helper.c: OK!
+reset_vars.c: OK!
+reset_vars_helper.c: Error!
+Error: TOO_MANY_ARGS        (line:  16, col:  58):	Function has more than 4 arguments
+reset_vars_helper_two.c: OK!
+signals.c: OK!
+some_new_other_helpers.c: OK!
+some_other_helpers.c: OK!
+str_extraction.c: OK!
+syntax_error.c: OK!
+syntax_error_helper.c: OK!
+tree_maker.c: OK!
+tree_maker_helper.c: OK!
+tree_maker_helper_three.c: OK!
+tree_maker_helper_two.c: OK!
+variable_handle_helper.c: OK!
+variable_handle_helper_two.c: OK!
+variables_handle.c: OK!
+wild_cards.c: OK!
+wild_cards_helper.c: OK!
+wild_cards_helper_five.c: OK!
+wild_cards_helper_four.c: OK!
+wild_cards_helper_six.c: OK!
+wild_cards_helper_three.c: OK!
+wild_cards_helper_two.c: OK!
+word_extraction.c: OK!
+word_extraction_helper.c: OK!

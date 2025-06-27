@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 18:13:20 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:10:25 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,6 @@ void	quote_filtering_and_expantion(t_list_fd **tmp, t_env **env)
 void	variable_expantion_para(t_tree **tree, t_env **env)
 {
 	t_list_fd	*tmp;
-	int			i;
-	int			in_quotes;
-	char		quote_type;
-	int			flag;
 
 	if ((*tree)->left)
 		variable_expantion_para(&(*tree)->left, env);
@@ -82,32 +78,7 @@ void	variable_expantion_para(t_tree **tree, t_env **env)
 			tmp = tmp->next;
 		}
 		if (tmp)
-		{
-			i = 0;
-			in_quotes = 0;
-			flag = 0;
-			while (tmp->name && tmp->name[i])
-			{
-				if (!in_quotes && (tmp->name[i] == '"' || tmp->name[i] == '\''))
-				{
-					in_quotes = 1;
-					quote_type = tmp->name[i];
-				}
-				else if (tmp->name[i] == quote_type)
-					in_quotes = 0;
-				if (tmp->name[i] == '$' && (
-						!in_quotes || (in_quotes && quote_type == '"')))
-				{
-					if (process_array_variable(&tmp->name, 0, &i, env) == -1)
-						break ;
-					if (flag == 1)
-						(*tree)->ambiguous = 1;
-					if (!variable_search_inlnkedlst(tree))
-						i = -1;
-				}
-				i++;
-			}
-		}
+			quote_filtering_and_expantion(&tmp, env);
 	}
 }
 

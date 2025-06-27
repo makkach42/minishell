@@ -6,7 +6,11 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/27 13:48:44 by aakroud          ###   ########.fr       */
+=======
+/*   Updated: 2025/06/27 13:32:01 by aakroud          ###   ########.fr       */
+>>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -716,6 +720,7 @@ void		ft_execute_redir(t_tree *tree, t_env **h, char **e);
 void		ft_execute_com(t_tree *tree, t_env **h);
 void		ft_var_helper(t_tree **tree, char **e, int *check, t_hdoc_data *h_data);
 int			if_not_head(t_list *head, char *str);
+int			in_para_check(char *str);
 void		ft_hdoc_expand_inits(int *i, int *in_quotes, int *flag, char *quote_type);
 t_pip		*ft_test_x(t_pip **x);
 void		ft_word_redir(t_tree *tree, t_env **h, char **e, int *check);

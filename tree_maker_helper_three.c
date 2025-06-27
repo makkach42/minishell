@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:12:02 by makkach           #+#    #+#             */
-/*   Updated: 2025/04/27 15:05:54 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:05:48 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,19 @@ void	process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
 		return ;
 	if_prev(tmp, &prev_part, tree, head);
 	*head = NULL;
+}
+
+int	in_para_check(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if ((!is_operator(str[i]) && str[i + 1] && str[i] == '('
+			) || (str[i] == ')' && str[i + 1] && !is_operator(str[i + 1])))
+			return (1);
+		i++;
+	}
+	return (0);
 }
