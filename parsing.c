@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/27 18:21:49 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 10:36:18 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int	main(int argc, char **argv, char **argev)
 	}
 	h_data->check_stat = 0;
 	h_data->stat = -1;
+	h_data->end = 0;
 	tcgetattr(0, &termios_a);
 	while (1)
 	{
@@ -179,6 +180,7 @@ int	main(int argc, char **argv, char **argev)
 			free_tree(tree);
 	}
 	// free_env(&env);
+	// ft_free_data(h_data);
 	if (h_data->stat != -1)
 		exit (h_data->stat);
 	exit (h_data->end);
