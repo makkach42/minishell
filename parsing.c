@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 17:17:59 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 17:48:20 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,15 +182,7 @@ int	main(int argc, char **argv, char **argev)
 		if (i == 2)
 			continue ;
 		add_history(shell.str);
-		// print_tree_visual(tree, 1, 1);
 		execution(&shell);
-		// shell.tree = NULL;
-		// ft_parsing(&shell.str, &shell.flag, &shell.tree, shell.h_data);
-		// if (!shell.flag)
-		// 	ft_execution(shell.tree, shell.h_data, &shell.check, shell.e);
-		// if (shell.flag)
-		// 	shell.h_data->check_stat = 0;
-		// tcsetattr(0, TCSANOW, &shell.termios_a);
 		if (shell.tree && shell.flag != 1)
 			free_tree(shell.tree);
 	}

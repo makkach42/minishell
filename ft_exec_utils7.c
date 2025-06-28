@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils7.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 17:13:21 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 17:47:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,13 @@ void	ft_cmd_word(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 	if (tree->redirections == NULL && ft_strcmp("WORD", tree->type) == 0
 		&& cmd_check(tree) == 1)
 	{
-		// print_tree_visual(tree, 1, 1);
 		reset_vars(&tree, h_data->env, h_data);
 		ft_word_handle(tree, h_data->env, e, check);
 	}
 	if ((tree->redirections != NULL && ft_strcmp("WORD", tree->type) == 0)
 		|| (ft_strcmp("REDIRECTION", tree->type) == 0 && cmd_check(tree) == 1))
 	{
-		// print_tree_visual(tree, 1, 1);
-		reset_vars(&tree, h_data->env, h_data);
-		// reset_var_expand_var(tree, h_data);
-		// process_array_variable(tree->command_arr, 0, )
+		reset_var_expand_var(&tree, h_data);;
 		ft_word_redir(tree, h_data->env, e, check);
 	}
 }
@@ -93,7 +89,6 @@ void	ft_execute(t_tree *tree, char **e, int *check, t_hdoc_data *h_data)
 	if (!tree)
 		return (ft_free_data(h_data),
 			free_env(h_data->env), ft_check_exit(check, 1));
-		// print_tree_visual(tree, 1, 1);
 	if (!ft_cmd_word_check(tree))
 		ft_cmd_word(tree, h_data, check, e);
 	else if (ft_strcmp("PARENTHASIS", tree->type) == 0)

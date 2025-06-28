@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 dynamic_allocations_buffers.c
 echo
 even_more_libft_funcs.c
@@ -117,11 +116,11 @@ $
 $
        $
 $a$
-=======
-leaks Report Version: 4.0
-Process 94717: 564 nodes malloced for 342 KB
-Process 94717: 1 leak for 16 total leaked bytes.
 
-    1 (16 bytes) ROOT LEAK: 0x7ff00f8041d0 [16]
 
->>>>>>> 1fd683a67e82913126c3f4a907631016fe1b4f30
+
+$
+
+
+
+
