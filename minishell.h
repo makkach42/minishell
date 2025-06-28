@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 10:39:37 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 13:47:38 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -587,8 +587,7 @@ void		new_variable_word_extractor(char **str, char **word, int i);
 void		new_operator_word_extractor(char **word, char **str);
 void		equal_handle(char **str, char **word);
 void		reset_var_expand(t_tmp_tree	*tmp, t_hdoc_data *h_data);
-void		reset_var_expand_var(t_tree **tree,
-				t_env **env, t_hdoc_data *h_data);
+void		reset_var_expand_var(t_tree **tree, t_hdoc_data *h_data);
 void		process_no_list_size(t_list	*head,
 				int list_size, char ***cmd2, int *i);
 char		***cmd2_fill(t_tree **tree);
@@ -652,7 +651,7 @@ void		ft_hdoc_expand(char **line, t_env **env, int status);
 void		ft_hdoc(char *limiter, int fd, t_env **env, int status);
 void		ft_exec_redir(t_tree *tree, t_env **h, char **env);
 int			ft_cmd_redir(t_tree *tree, t_hdoc_data *h_data);
-int			ft_variable(t_tree *tree, t_env **h, char **e, int *check);
+int			ft_variable(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
 int			check_amb(t_tree *tree);
 // int			ft_para_redir(t_tree *tree, t_env **h);
 // int			ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check);

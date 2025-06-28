@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:08:07 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/21 17:34:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/28 13:47:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	reset_vars(t_tree **tree, t_env **env, t_hdoc_data *h_data)
 	if ((*tree) && (*tree)->command_arr)
 	{
 		head = NULL;
-		reset_var_expand_var(tree, env, h_data);
+		reset_var_expand_var(tree, h_data);
 		reset_var_cmd_split(tree);
 		if (has_wild_cards_comarr(tree) == 1)
 			handle_wildcards_in_cmdarr(tree);

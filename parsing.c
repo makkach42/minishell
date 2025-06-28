@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 10:36:18 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 13:46:26 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_str_empty(t_env **env, char **e, t_hdoc_data *h_data)
 	ft_putstr_fd(1, "exit\n");
 	ft_free_array(e);
 	free_env(env);
-	// ft_free_data(h_data);
+	ft_free_data(h_data);
 }
 
 int	main(int argc, char **argv, char **argev)
@@ -154,7 +154,6 @@ int	main(int argc, char **argv, char **argev)
 		str = readline("minishell$> ");
 		if (!str)
 		{
-			dprintf(2, "this is it\n");
 			ft_str_empty(&env, e, h_data);
 			break ;
 		}
