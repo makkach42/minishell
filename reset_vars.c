@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:08:07 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 17:08:19 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 17:18:29 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ void	reset_vars(t_tree **tree, t_env **env, t_hdoc_data *h_data)
 		reset_vars(&(*tree)->right, env, h_data);
 	if ((*tree) && (*tree)->command_arr)
 	{
-		head = NULL;
 		i = 0;
+		head = NULL;
 		reset_var_expand_var(tree, h_data);
 		while ((*tree)->command_arr[i])
 		{
