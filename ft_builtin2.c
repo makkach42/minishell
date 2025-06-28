@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:57:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 16:52:28 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 15:55:56 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,19 @@ void	ft_exit_empty(int status, int stat)
 		exit (stat);
 	exit (status);
 }
+// void	ft_skip_space(char *str)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] != 32 && str[i] != 9)
+// 			return (&str[i]);
+// 		i++;
+// 	}
+	
+// }
 
 int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 {
@@ -71,6 +84,7 @@ int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 	m = 0;
 	if (isatty(0) && isatty(1))
 		ft_putstr_fd(1, "exit\n");
+	// ft_skip_space();
 	if (s[1] == NULL)
 		ft_exit_empty(status, h_data->stat);
 	else
@@ -78,7 +92,7 @@ int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 		if (ft_check_string(s[1]) != 0)
 			return (ft_exit_error(1, s));
 		else if (s[2] != NULL)
-			ft_exit_error(2, s);
+			return (ft_exit_error(2, s));
 		else
 		{
 			m = ft_modulo(s[1]);

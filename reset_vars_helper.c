@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 07:46:27 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/27 13:54:01 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 13:56:39 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	reset_var_expand(t_tmp_tree	*tmp, t_hdoc_data *h_data)
 	}
 }
 
-static void	expanding(t_tree **tree, int i, t_env **env, t_hdoc_data *h_data)
+static void	expanding(t_tree **tree, int i, t_hdoc_data *h_data)
 {
 	char		*old_cmd;
 	char		*new_str;
@@ -87,7 +87,7 @@ static void	expanding(t_tree **tree, int i, t_env **env, t_hdoc_data *h_data)
 	free_list(&head);
 }
 
-void	reset_var_expand_var(t_tree **tree, t_env **env, t_hdoc_data *h_data)
+void	reset_var_expand_var(t_tree **tree, t_hdoc_data *h_data)
 {
 	int		i;
 
@@ -100,7 +100,7 @@ void	reset_var_expand_var(t_tree **tree, t_env **env, t_hdoc_data *h_data)
 			) || ft_strchr(
 				(*tree)->command_arr[i], '$'))
 		{
-			expanding(tree, i, env, h_data);
+			expanding(tree, i, h_data);
 		}
 		i++;
 	}

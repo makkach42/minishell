@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 16:39:15 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 14:49:38 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 		ft_second_child(tree, check, e, h_data);
 	ft_close_pip(tree);
 	ft_close_fd(tree);
+	free (x);
 	if (waitpid(x->id1, &(x->status1), 0) == -1
 		|| waitpid(x->id2, &(x->status), 0) == -1)
 		return (1);

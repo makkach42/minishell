@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:19:50 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 18:33:30 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 13:58:03 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	check_amb(t_tree *tree)
 	return (amb_check || left_check || right_check);
 }
 
-int	ft_para_redir(t_tree *tree, t_hdoc_data *h_data)
+int	ft_para_redir(t_tree *tree)
 {
 	int	status;
 
@@ -116,7 +116,7 @@ int	ft_parenthasis(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 	ft_signal_ign();
 	if (!tree)
 		return (-1);
-	n = ft_para_redir(tree, h_data);
+	n = ft_para_redir(tree);
 	if (n)
 		return (ft_n_return(org_stdin, org_stdout, check));
 	id1 = fork();

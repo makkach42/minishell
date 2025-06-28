@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:37:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 15:47:41 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 13:50:06 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	env_fill_empty_helper(t_env **node)
 	ft_lstadd_back(node, ft_lstnew("1PWD", NULL));
 }
 
-void	env_fill_empty(t_env **node, int *i, int *j)
+void	env_fill_empty(t_env **node)
 {
 	t_env	*tmp;
 

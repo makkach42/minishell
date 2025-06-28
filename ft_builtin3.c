@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 18:25:28 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/22 18:35:17 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 13:59:27 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_nline_check(char *str)
 	return (1);
 }
 
-int	ft_echo_helper(char **buff, char **s, int i, int flag)
+int	ft_echo_helper(char **buff, char **s, int i)
 {
 	char	*tmp;
 
@@ -80,13 +80,13 @@ int	ft_echo(char **s)
 	buff = NULL;
 	if (!ft_nline_check(s[i]))
 	{
-		while (ft_nline_check(s[i]) == 0)
+		while (!ft_nline_check(s[i]))
 			i++;
 		flag = 0;
 	}
 	while (s[i] != NULL)
 	{
-		if (ft_echo_helper(&buff, s, i, flag))
+		if (ft_echo_helper(&buff, s, i))
 			return (1);
 		i++;
 	}
