@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 13:46:26 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/28 15:05:40 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	protect_wild_card(t_tree **tree)
 void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data)
 {
 	quote_parse(str, flag);
+	if (*flag)
+		free(*str);
 	if (!*flag)
 	{
 		lexer_to_tree(*str, tree, flag, h_data);
@@ -94,8 +96,10 @@ void	ft_str_empty(t_env **env, char **e, t_hdoc_data *h_data)
 	ft_putstr_fd(1, "exit\n");
 	ft_free_array(e);
 	free_env(env);
-	ft_free_data(h_data);
+	// ft_free_data(h_data);
 }
+
+void	f(){system("leaks -q minishell");}
 
 int	main(int argc, char **argv, char **argev)
 {
@@ -113,7 +117,8 @@ int	main(int argc, char **argv, char **argev)
 	struct termios	termios_a;
 	char			*temp;
 
-	temp = getcwd(NULL, 0);
+	atexit(f);
+;	temp = getcwd(NULL, 0);
 	if (!isatty(0) || !isatty(1) || !temp)
 		return (1);
 	((void)argc, (void)argv, inits_main(&env, &tree, argev));
