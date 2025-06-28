@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/27 18:12:17 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 11:08:47 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -653,7 +653,7 @@ void		ft_hdoc_expand(char **line, t_env **env, int status);
 void		ft_hdoc(char *limiter, int fd, t_env **env, int status);
 void		ft_exec_redir(t_tree *tree, t_env **h, char **env);
 int			ft_cmd_redir(t_tree *tree, t_hdoc_data *h_data);
-int			ft_variable(t_tree *tree, t_env **h, char **e, int *check);
+int			ft_variable(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
 int			check_amb(t_tree *tree);
 // int			ft_para_redir(t_tree *tree, t_env **h);
 // int			ft_parenthasis(t_tree *tree, t_env **h, char **e, int *check);

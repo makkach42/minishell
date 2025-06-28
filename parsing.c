@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 10:36:18 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 10:44:08 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ int	main(int argc, char **argv, char **argev)
 		str = readline("minishell$> ");
 		if (!str)
 		{
-			dprintf(2, "this is it\n");
 			ft_str_empty(&env, e, h_data);
 			break ;
 		}
