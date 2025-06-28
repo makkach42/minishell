@@ -65,12 +65,12 @@ list_init_handlers.c: OK!
 main_helper.c: OK!
 minishell.h: Error!
 Error: SPACE_REPLACE_TAB    (line: 110, col:   2):	Found space when expecting tab
-Error: CONSECUTIVE_NEWLINES (line: 184, col:   1):	Consecutive newlines
-Notice: GLOBAL_VAR_DETECTED  (line: 185, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
-Error: GLOBAL_VAR_NAMING    (line: 185, col:   5):	Global variable must start with g_
-Error: LINE_TOO_LONG        (line: 655, col:  82):	line too long
-Error: LINE_TOO_LONG        (line: 734, col:  83):	line too long
-Error: LINE_TOO_LONG        (line: 737, col:  85):	line too long
+Error: CONSECUTIVE_NEWLINES (line: 182, col:   1):	Consecutive newlines
+Notice: GLOBAL_VAR_DETECTED  (line: 183, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+Error: GLOBAL_VAR_NAMING    (line: 183, col:   5):	Global variable must start with g_
+Error: LINE_TOO_LONG        (line: 653, col:  82):	line too long
+Error: LINE_TOO_LONG        (line: 732, col:  83):	line too long
+Error: LINE_TOO_LONG        (line: 735, col:  85):	line too long
 more_libft_funcs.c: OK!
 new_list_init.c: OK!
 new_list_init_handlers.c: OK!
@@ -80,24 +80,17 @@ operation_extraction.c: OK!
 parentheses_extraction.c: OK!
 parsing.c: Error!
 Error: TOO_MANY_LINES       (line:  89, col:   1):	Function has more than 25 lines
-Error: WRONG_SCOPE_COMMENT  (line: 106, col:   5):	Comment is invalid in this scope
-Error: TOO_MANY_VARS_FUNC   (line: 107, col:   1):	Too many variables declarations in a function
-Error: VAR_DECL_START_FUNC  (line: 107, col:   1):	Variable declaration not at start of function
-Error: TOO_MANY_VARS_FUNC   (line: 108, col:   1):	Too many variables declarations in a function
-Error: VAR_DECL_START_FUNC  (line: 108, col:   1):	Variable declaration not at start of function
-Error: TOO_MANY_VARS_FUNC   (line: 109, col:   1):	Too many variables declarations in a function
-Error: VAR_DECL_START_FUNC  (line: 109, col:   1):	Variable declaration not at start of function
-Error: TOO_MANY_VARS_FUNC   (line: 110, col:   1):	Too many variables declarations in a function
-Error: VAR_DECL_START_FUNC  (line: 110, col:   1):	Variable declaration not at start of function
-Error: TOO_MANY_VARS_FUNC   (line: 111, col:   1):	Too many variables declarations in a function
-Error: VAR_DECL_START_FUNC  (line: 111, col:   1):	Variable declaration not at start of function
-Error: TOO_MANY_VARS_FUNC   (line: 112, col:   1):	Too many variables declarations in a function
-Error: VAR_DECL_START_FUNC  (line: 112, col:   1):	Variable declaration not at start of function
-Error: TOO_MANY_VARS_FUNC   (line: 113, col:   1):	Too many variables declarations in a function
-Error: VAR_DECL_START_FUNC  (line: 113, col:   1):	Variable declaration not at start of function
-Error: WRONG_SCOPE_COMMENT  (line: 180, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 181, col:   5):	Comment is invalid in this scope
-Error: TOO_MANY_LINES       (line: 185, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 128, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 155, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 166, col:   1):	Too many functions in file
+Error: WRONG_SCOPE_COMMENT  (line: 182, col:   9):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 183, col:   9):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 184, col:   9):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 185, col:   9):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 186, col:   9):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 187, col:   9):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 188, col:   9):	Comment is invalid in this scope
+Error: TOO_MANY_LINES       (line: 195, col:   1):	Function has more than 25 lines
 process_all_redirections.c: OK!
 process_all_redirections_helper.c: OK!
 process_all_redirections_helper_two.c: OK!

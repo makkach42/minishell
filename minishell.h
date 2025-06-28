@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 13:58:43 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 14:05:15 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,21 +165,19 @@ typedef struct s_expand
 	char	*after;
 }	t_expand;
 
-// typedef struct s_var_main
-// {
-// 	t_tree			*tree;
-// 	t_env			*tmp;
-// 	t_env			*env;
-// 	char			*str;
-// 	char			**e;
-// 	int				flag;
-// 	int				check;
-// 	int				test;
-// 	t_hdoc_data		*h_data;
-// 	struct termios	termios_a;
-// 	char			*temp;
-
-// }	t_var_main;
+typedef struct s_var_main
+{
+	t_tree			*tree;
+	t_env			*env;
+	char			*str;
+	char			**e;
+	int				flag;
+	int				hdoc_num;
+	int				check;
+	t_hdoc_data		*h_data;
+	struct termios	termios_a;
+	char			*temp;
+}	t_var_main;
 
 
 int	global_status;

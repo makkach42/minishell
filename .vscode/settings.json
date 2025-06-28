@@ -58,6 +58,7 @@
 "C_Cpp_Runner.msvcSecureNoWarnings": false,
 "files.associations": {
 	"locale": "c",
-	"minishell.h": "c"
+	"minishell.h": "c",
+	"sstream": "c"
 }
 }
