@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 11:08:47 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 13:58:43 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -588,8 +588,7 @@ void		new_variable_word_extractor(char **str, char **word, int i);
 void		new_operator_word_extractor(char **word, char **str);
 void		equal_handle(char **str, char **word);
 void		reset_var_expand(t_tmp_tree	*tmp, t_hdoc_data *h_data);
-void		reset_var_expand_var(t_tree **tree,
-				t_env **env, t_hdoc_data *h_data);
+void		reset_var_expand_var(t_tree **tree, t_hdoc_data *h_data);
 void		process_no_list_size(t_list	*head,
 				int list_size, char ***cmd2, int *i);
 char		***cmd2_fill(t_tree **tree);
@@ -635,7 +634,7 @@ void		if_question_mark_two(char **line, int status, int n);
 void		ommand_arr_fill_helper(t_tree **tree, char **str);
 void		ommand_arr_fill(t_tree **tree);
 void		env_fill_helper(t_env **node, int *i, int *j, char **argev);
-void		env_fill_empty(t_env **node, int *i, int *j);
+void		env_fill_empty(t_env **node);
 t_env		*env_fill(char **argev);
 void		free_array(char **s);
 int			ft_space_check(char *str);
@@ -681,14 +680,14 @@ void		ft_exec_redir(t_tree *tree, t_env **h, char **env);
 void		ft_exec_redir_helper(t_tree *tree, int i);
 void		ft_exec_redir_support(t_tree *tree, int i);
 int			check_amb(t_tree *tree);
-int			ft_para_redir(t_tree *tree, t_hdoc_data *h_data);
+int			ft_para_redir(t_tree *tree);
 int			ft_parenthasis(t_tree *tree, t_hdoc_data *h_data,
 				char **e, int *check);
 void		ft_signal_ign(void);
 void		ft_word_handle_signal(t_tree *tree, int *check);
 void		quote_check_filename(char **old_redirs, int *i);
-int			ft_op_and(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
-int			ft_op_or(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
+int			ft_op_and(t_tree *tree, t_hdoc_data *h_data, char **e);
+int			ft_op_or(t_tree *tree, t_hdoc_data *h_data, char **e);
 void		ft_first_child(t_tree *tree, int *check,
 				char **e, t_hdoc_data *h_data);
 void		ft_second_child(t_tree *tree, int *check,

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:21:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 15:17:22 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 13:58:33 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_exec_redir_helper(t_tree *tree, int i)
 	}
 }
 
-int	ft_op_and(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
+int	ft_op_and(t_tree *tree, t_hdoc_data *h_data, char **e)
 {
 	int	x;
 
@@ -78,7 +78,7 @@ int	ft_op_and(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 	return (tree->left->status);
 }
 
-int	ft_op_or(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
+int	ft_op_or(t_tree *tree, t_hdoc_data *h_data, char **e)
 {
 	int	x;
 

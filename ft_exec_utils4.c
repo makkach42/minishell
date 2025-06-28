@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:17:14 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 18:47:00 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 11:16:47 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ char	*ft_name_helper(char *name, int i)
 	tmp = name;
 	add = ft_itoa(i);
 	if (!add)
-		return (NULL);
+		return (free(name), NULL);
 	name = ft_strjoin(name, add);
 	if (!name)
 		return (NULL);
 	free (tmp);
+	free (add);
 	return (name);
 }
 

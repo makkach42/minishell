@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 16:37:06 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 14:02:21 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	ft_cmd_word(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 void	ft_execute(t_tree *tree, char **e, int *check, t_hdoc_data *h_data)
 {
 	if (!tree)
-		return (free_env(h_data->env), ft_check_exit(check, 1));
+		return (ft_free_data(h_data),
+			free_env(h_data->env), ft_check_exit(check, 1));
 	if (!ft_cmd_word_check(tree))
 		ft_cmd_word(tree, h_data, check, e);
 	else if (ft_strcmp("PARENTHASIS", tree->type) == 0)
@@ -94,12 +95,12 @@ void	ft_execute(t_tree *tree, char **e, int *check, t_hdoc_data *h_data)
 	}
 	else if (ft_strcmp("OPERATION_&&", tree->type) == 0)
 	{
-		tree->status = ft_op_and(tree, h_data, e, check);
+		tree->status = ft_op_and(tree, h_data, e);
 		ft_check_exit(check, tree->status);
 	}
 	else if (ft_strcmp("OPERATION_||", tree->type) == 0)
 	{
-		tree->status = ft_op_or(tree, h_data, e, check);
+		tree->status = ft_op_or(tree, h_data, e);
 		ft_check_exit(check, tree->status);
 	}
 	else if (ft_strcmp("VARIABLE", tree->type) == 0)

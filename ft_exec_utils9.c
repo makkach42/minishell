@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:26:36 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 18:18:37 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 13:49:53 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_env	*env_fill(char **argev)
 	i = 0;
 	j = 0;
 	if (!argev || !*argev)
-		env_fill_empty(&head, &i, &j);
+		env_fill_empty(&head);
 	else
 	{
 		ft_env_helper2(&head, &i, &j, argev);

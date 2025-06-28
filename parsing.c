@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 10:44:08 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 14:03:39 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,14 @@ void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data)
 
 void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 {
-	int			hdoc_num;
 	static int	status;
 	int			test;
 
-	hdoc_num = 0;
+	h_data->hdoc_num = 0;
 	test = 0;
 	tree->status = status;
-	hdoc_num = ft_hdoc_count(tree);
-	if (hdoc_num > 16)
+	h_data->hdoc_num = ft_hdoc_count(tree);
+	if (h_data->hdoc_num > 16)
 	{
 		ft_putstr_fd(2, "minishell: maximum here-document count exceeded\n");
 		exit (2);
@@ -94,7 +93,7 @@ void	ft_str_empty(t_env **env, char **e, t_hdoc_data *h_data)
 	ft_putstr_fd(1, "exit\n");
 	ft_free_array(e);
 	free_env(env);
-	// ft_free_data(h_data);
+	ft_free_data(h_data);
 }
 
 int	main(int argc, char **argv, char **argev)
