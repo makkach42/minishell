@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/27 10:56:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/27 14:56:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	tree_to_rediropen(t_tree *tree, int *flag)
 		process_pipe_trees(tree);
 		process_all_redirections(&tree);
 		command_arr_fill(&tree);
-		print_tree_visual(tree, 1, 1);
 		syntax_error_two(&tree, flag);
 	}
 }

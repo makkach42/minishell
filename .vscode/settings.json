@@ -55,9 +55,16 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
+<<<<<<< HEAD
 "C_Cpp_Runner.msvcSecureNoWarnings": false,
 "files.associations": {
 	"locale": "c",
 	"minishell.h": "c"
+=======
+  "C_Cpp_Runner.msvcSecureNoWarnings": false,
+  "files.associations": {
+	"locale": "c",
+	"ios": "c"
+>>>>>>> 5039f163d8cf4ee7adbd2f3483e4329747882fda
 }
 }
