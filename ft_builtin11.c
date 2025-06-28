@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:12:00 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/25 14:13:29 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 16:14:09 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ char	*ft_str_back(char *s)
 	flag = 0;
 	i = 0;
 	if (!s)
+	{
+		dprintf(2, "here\n");
 		return (NULL);
+	}
 	lent = ft_strlen(s);
 	while (lent > 0)
 	{

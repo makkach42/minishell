@@ -1663,3 +1663,98 @@ minishell$> ../../../minishell
 minishell$> pwd
 
 minishell$> ls
+
+===========================================================
+
+minishell$> "
+Syntax error: open quotes.
+minishell$> echo $?
+127 with leak in parsing
+
+
+minishell$> export PATH="      "
+minishell$> makefile 
+makefile: Permission denied
+minishell$> $?
+126: No such file or directory
+
+minishell$> export b="tabs"
+minishell$> ls$b-l
+minishell: ls                   -l: command not found
+
+
+minishell$> << 'p' cat
+> $USER
+> p
+aakroud
+minishell$> << "p" cat
+> $USER
+> p
+aakroud
+
+minishell$> echo$>>k|cat
+minishell$> export a="     "
+minishell$> rm ;
+minishell$> echo$a$>>k|cat$a-e
+minishell: echo$a$: command not found
+minishell$> echo$a-qwerty
+-qwerty
+minishell$> echo$a $>>k|cat$a-e
+minishell: echo$a: command not found
+minishell$> echo$a>>k|cat$a-e
+minishell: echo$a: command not found
+minishell$> export a="      "
+minishell$> echo$a>>k|cat$a-e
+minishell: echo$a: command not found
+
+    3 (48 bytes) << TOTAL >>
+      1 (16 bytes) ROOT LEAK: 0x7f9a1b004570 [16]  length: 2  "$""
+      1 (16 bytes) ROOT LEAK: 0x7f9a1b104280 [16]  length: 1  "'"
+      1 (16 bytes) ROOT LEAK: 0x7f9a1b204420 [16]  length: 1  """
+
+
+➜  mini2 git:(executor) ✗ ./minishell
+minishell$> exit "   1"
+exit
+minishell: exit:    1: numeric argument required
+➜  mini2 git:(executor) ✗ $?
+zsh: command not found: 255
+
+minishell$> exit 9223372036854775808
+exit
+➜  mini2 git:(executor) ✗ $?
+zsh: command not found: 0
+
+minishell$> ./minishell
+minishell$> cntrl + c
+minishell$> 
+exit
+minishell$> $?
+minishell: 0: command not found
+
+minishell$> ctrl c
+minishell$> enter
+minishell$> $?
+minishell: 0: command not found
+minishell$> 
+minishell$> 
+minishell$> $?
+minishell: 127: command not found
+
+minishell$> cd /bin
+[1]    16650 segmentation fault  env -i ./minishell
+
+in env -i ./minishell when i unset all variables 1PWD is NULL
+
+expor''t
+
+getcwd: cannot access parent directories: 
+
+minishell$> ($?)
+syntax error near unexpected token
+
+minishell$> export y=pop
+minishell$> ./minishell
+minishell$> echo $y
+
+ 1 (16 bytes) ROOT LEAK: 0x7fbfcac084f0 [16]  length: 4  "&'&;"

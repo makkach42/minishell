@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 14:49:14 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 16:57:12 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	protect_wild_card(t_tree **tree)
 void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data)
 {
 	quote_parse(str, flag);
+	if (*flag)
+		(free(*str), h_data->stat = 258);
 	if (!*flag)
 	{
 		lexer_to_tree(*str, tree, flag, h_data);
@@ -133,6 +135,7 @@ int	second_inits(t_var_main *shell)
 	global_status = 0;
 	shell->check = 0;
 	shell->flag = 0;
+	shell->e = ft_env_str(shell->env);
 	hide_terminal_control_chars();
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
@@ -147,6 +150,7 @@ int	second_inits(t_var_main *shell)
 	if (global_status == SIGINT)
 	{
 		shell->h_data->stat = 1;
+		shell->h_data->end = 1;
 		global_status = 0;
 	}
 	return (0);
@@ -178,6 +182,7 @@ int	main(int argc, char **argv, char **argev)
 		if (i == 2)
 			continue ;
 		add_history(shell.str);
+		// print_tree_visual(tree, 1, 1);
 		execution(&shell);
 		// shell.tree = NULL;
 		// ft_parsing(&shell.str, &shell.flag, &shell.tree, shell.h_data);
