@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 14:05:15 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 21:29:48 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -735,6 +735,7 @@ int			in_para_check(char *str);
 void		ft_hdoc_expand_inits(int *i, int *in_quotes, int *flag, char *quote_type);
 t_pip		*ft_test_x(t_pip **x);
 void		ft_word_redir(t_tree *tree, t_env **h, char **e, int *check);
+void	ft_print_env(t_env *env);//hydha 9bl matpushi
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);
 // void	ft_hdoc_free(char **str, char **limiter, int fd);

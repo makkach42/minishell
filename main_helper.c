@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 14:31:22 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 21:29:02 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,15 @@ void	tree_to_rediropen(t_tree *tree, int *flag)
 		command_arr_fill(&tree);
 		// print_tree_visual(tree, 1, 1);
 		syntax_error_two(&tree, flag);
+	}
+}
+
+void	ft_print_env(t_env *env)
+{
+	while (env)
+	{
+		dprintf(2, "this is env key %s and value %s and hidden %d and active %d\n", env->key, env->value, env->h, env->active);
+		env = env->next;
 	}
 }
 

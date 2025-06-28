@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:24:48 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/26 11:25:00 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 21:12:03 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ long	ft_atoi(const char *str)
 	tmp = 0;
 	sign = ft_space(&str, sign);
 	if (ft_strcmp((char *)str, "9223372036854775808") == 0)
-		return (LONG_MIN);
+		return (LONG_MAX);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		res = res * 10 + (str[i] - 48);

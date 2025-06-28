@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 16:57:12 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 21:32:22 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,9 @@ int	first_inits(t_var_main *shell, char **argev, char **argv, int argc)
 {
 	shell->temp = getcwd(NULL, 0);
 	if (!isatty(0) || !isatty(1) || !shell->temp)
-		return (1);
+		return (perror(""), 1);
 	((void)argc, (void)argv, inits_main(&shell->env, &shell->tree, argev));
-	shell->e = ft_env_str(shell->env);
+	// shell->e = ft_env_str(shell->env);
 	free (shell->temp);
 	shell->tree = NULL;
 	shell->hdoc_num = 0;
@@ -132,7 +132,6 @@ int	second_inits(t_var_main *shell)
 	if (shell->h_data->check_stat)
 		shell->h_data->stat = -1;
 	*(shell->h_data->sig_flag) = 1;
-	global_status = 0;
 	shell->check = 0;
 	shell->flag = 0;
 	shell->e = ft_env_str(shell->env);

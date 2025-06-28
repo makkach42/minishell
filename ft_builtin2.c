@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:57:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 15:55:56 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 21:15:53 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_modulo(char *str)
 	{
 		write (2, "minishell: exit: ", 18);
 		write(2, str, ft_strlen(str));
-		write(2, ": numeric argument required", 28);
+		write(2, ": numeric argument required\n", 29);
 		exit (255);
 	}
 	m = n % 256;
@@ -63,19 +63,23 @@ void	ft_exit_empty(int status, int stat)
 		exit (stat);
 	exit (status);
 }
-// void	ft_skip_space(char *str)
-// {
-// 	int	i;
+char	*ft_skip_space(char *str)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] != 32 && str[i] != 9)
-// 			return (&str[i]);
-// 		i++;
-// 	}
-	
-// }
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (str[i])
+	{
+		if (str[i] != 32 && str[i] != 9)
+			return (&str[i]);
+		i++;
+	}
+	if (str[i] == '\0')
+		return (NULL);
+	return (str);
+}
 
 int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 {
@@ -84,7 +88,7 @@ int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 	m = 0;
 	if (isatty(0) && isatty(1))
 		ft_putstr_fd(1, "exit\n");
-	// ft_skip_space();
+	s[1] = ft_skip_space(s[1]);
 	if (s[1] == NULL)
 		ft_exit_empty(status, h_data->stat);
 	else

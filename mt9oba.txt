@@ -1714,13 +1714,13 @@ minishell: echo$a: command not found
 
 
 ➜  mini2 git:(executor) ✗ ./minishell
-minishell$> exit "   1"
+minishell$> exit "   1" // yes
 exit
 minishell: exit:    1: numeric argument required
 ➜  mini2 git:(executor) ✗ $?
 zsh: command not found: 255
 
-minishell$> exit 9223372036854775808
+minishell$> exit 9223372036854775808 // yes
 exit
 ➜  mini2 git:(executor) ✗ $?
 zsh: command not found: 0
