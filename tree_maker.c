@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:09:28 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 16:05:16 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 19:16:59 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,3 @@ void	tree_maker(t_list **head, t_tree **tree)
 	node_index = total_nodes;
 	process_regular_node(head, tree, node_index);
 }
-
-//(ls>file | ls>file2) && (la>file3 | la>file4)
-//"(ls>file | ls>file2) && (la>file3 | la>file4)"
-//"sksksksk | kksksl"
-//"sksksksk && kksksl"

@@ -6,51 +6,12 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:39:46 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 16:13:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 19:16:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// char	*str_extractor(char *str)
-// {
-// 	int		i;
-// 	int		in_quotes;
-// 	int		flag;
-// 	char	quote_type;
-// 	char	*word;
-
-// 	i = 0;
-// 	in_quotes = 0;
-// 	quote_type = 0;
-// 	while (str[i])
-// 	{
-// 		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
-// 		{
-// 			in_quotes = 1;
-// 			quote_type = str[i];
-// 		}
-// 		else if (in_quotes && (str[i] == quote_type))
-// 		{
-// 			in_quotes = 0;
-// 			break ;
-// 		}
-// 		i++;
-// 	}
-// 	if (str[i] != '\0' && str[i + 1] && (
-// 			str[i + 1] == 32 || str[i + 1
-// 			] == '\0' || is_operator(str[i + 1])))
-// 	{
-// 		word = ft_substr(str, 0, i + 1);
-// 		return (word);
-// 	}
-// 	else
-// 	{
-// 		i++;
-// 		str_extractor_helper(str, &i, &flag, &word);
-// 	}
-// 	return (word);
-// }
 int	process_quotes(char *str, int *in_quotes, char *quote_type)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:11:30 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/25 11:27:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 19:15:42 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,6 @@ void	while_tmp2(t_list **tmp2)
 	if (flag == 1)
 		add_quotes(tmp2);
 }
-
-// void	while_tmp(t_list **tmp)
-// {
-// 	t_list	*tmp2;
-
-// 	while ((*tmp))
-// 	{
-// 		if (!ft_strcmp((*tmp)->data, "="))
-// 		{
-// 			tmp2 = (*tmp);
-// 			if (!isnt_valid(tmp2->prev->data))
-// 			{
-// 				tmp2 = (*tmp)->next;
-// 				while (tmp2)
-// 				{
-// 					while_tmp2(&tmp2);
-// 					tmp2 = tmp2->next;
-// 				}
-// 			}
-// 		}
-// 		(*tmp) = (*tmp)->next;
-// 	}
-// }
 
 void	while_tmp(t_list **tmp)
 {

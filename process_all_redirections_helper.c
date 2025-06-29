@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:10:32 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 10:22:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 19:16:35 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@ int	is_command_char(char c, int in_quotes)
 {
 	return ((c != '>' && c != '<') || in_quotes);
 }
-
-// int	skip_spaces_in_str(char *str, int start)
-// {
-// 	while (str[start] && str[start] == ' ')
-// 		start++;
-// 	return (start);
-// }
 
 void	init_extraction_vars(int *i, int *in_quotes, char *quote_type,
 				int *paren_count)

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:57:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 14:26:47 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 19:16:02 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,28 +81,3 @@ char	*ft_skip_space(char *str)
 		return (NULL);
 	return (str);
 }
-
-// int	ft_exit(char **s, t_hdoc_data *h_data, int status)
-// {
-// 	int	m;
-
-// 	m = 0;
-// 	if (isatty(0) && isatty(1))
-// 		ft_putstr_fd(1, "exit\n");
-// 	s[1] = ft_skip_space(s[1]);
-// 	if (s[1] == NULL)
-// 		ft_exit_empty(status, h_data->stat);
-// 	else
-// 	{
-// 		if (ft_check_string(s[1]) != 0)
-// 			return (ft_exit_error(1, s));
-// 		else if (s[2] != NULL)
-// 			return (ft_exit_error(2, s));
-// 		else
-// 		{
-// 			m = ft_modulo(s[1]);
-// 			ft_exit_m(m, h_data->env);
-// 		}
-// 	}
-// 	return (0);
-// }
