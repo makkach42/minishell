@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:30:59 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 13:20:03 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 14:26:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ int	ft_cmd_redir(t_tree *tree, t_hdoc_data *h_data)
 	}
 	if (tree->ambiguous == 1)
 		return (1);
-	return (ft_cmd_exec(tree, h_data), ft_cmd_redir_end(org_stdout, org_stdin), 0);
+	return (ft_cmd_exec(tree, h_data),
+		ft_cmd_redir_end(org_stdout, org_stdin), 0);
 }

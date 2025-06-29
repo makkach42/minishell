@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 14:49:38 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 13:33:23 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 		ft_second_child(tree, check, e, h_data);
 	ft_close_pip(tree);
 	ft_close_fd(tree);
-	free (x);
 	if (waitpid(x->id1, &(x->status1), 0) == -1
 		|| waitpid(x->id2, &(x->status), 0) == -1)
 		return (1);
-	return (ft_wait_for_child(x->status, x->status1, check));
+	return (free (x), ft_wait_for_child(x->status, x->status1, check));
 }
 
 int	cmd_check(t_tree *tree)
@@ -54,6 +53,7 @@ int	cmd_check(t_tree *tree)
 		return (1);
 	if (!tree->command_arr || !tree->command_arr[0])
 		return (1);
+	reset_var_remove_quotes(&tree);
 	if (ft_strcmp(tree->command_arr[0], "cd") == 0)
 		return (0);
 	if (ft_strcmp(tree->command_arr[0], "echo") == 0)

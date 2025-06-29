@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:57:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 13:17:44 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 14:26:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_modulo(char *str)
 	{
 		write (2, "minishell: exit: ", 18);
 		write(2, str, ft_strlen(str));
-		write(2, ": numeric argument required", 28);
+		write(2, ": numeric argument required\n", 29);
 		exit (255);
 	}
 	m = n % 256;
@@ -63,39 +63,46 @@ void	ft_exit_empty(int status, int stat)
 		exit (stat);
 	exit (status);
 }
-// void	ft_skip_space(char *str)
-// {
-// 	int	i;
 
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] != 32 && str[i] != 9)
-// 			return (&str[i]);
-// 		i++;
-// 	}
-// }
-
-int	ft_exit(char **s, t_hdoc_data *h_data, int status)
+char	*ft_skip_space(char *str)
 {
-	int	m;
+	int	i;
 
-	m = 0;
-	if (isatty(0) && isatty(1))
-		ft_putstr_fd(1, "exit\n");
-	if (s[1] == NULL)
-		ft_exit_empty(status, h_data->stat);
-	else
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (str[i])
 	{
-		if (ft_check_string(s[1]) != 0)
-			return (ft_exit_error(1, s));
-		else if (s[2] != NULL)
-			return (ft_exit_error(2, s));
-		else
-		{
-			m = ft_modulo(s[1]);
-			ft_exit_m(m, h_data->env);
-		}
+		if (str[i] != 32 && str[i] != 9)
+			return (&str[i]);
+		i++;
 	}
-	return (0);
+	if (str[i] == '\0')
+		return (NULL);
+	return (str);
 }
+
+// int	ft_exit(char **s, t_hdoc_data *h_data, int status)
+// {
+// 	int	m;
+
+// 	m = 0;
+// 	if (isatty(0) && isatty(1))
+// 		ft_putstr_fd(1, "exit\n");
+// 	s[1] = ft_skip_space(s[1]);
+// 	if (s[1] == NULL)
+// 		ft_exit_empty(status, h_data->stat);
+// 	else
+// 	{
+// 		if (ft_check_string(s[1]) != 0)
+// 			return (ft_exit_error(1, s));
+// 		else if (s[2] != NULL)
+// 			return (ft_exit_error(2, s));
+// 		else
+// 		{
+// 			m = ft_modulo(s[1]);
+// 			ft_exit_m(m, h_data->env);
+// 		}
+// 	}
+// 	return (0);
+// }

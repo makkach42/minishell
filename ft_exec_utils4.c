@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:17:14 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 11:16:47 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:41:47 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,21 @@ int	ft_space_count(char *str)
 	return (count);
 }
 
-void	ft_hdoc(char *limiter, int fd, t_env **env, int status)
+void	ft_hdoc(char *limiter, t_list_fd *tmp, t_env **env, int status)
 {
 	char	*str;
-	char	*tmp;
+	char	*temp;
 
 	str = readline("> ");
 	while (str != NULL && ft_strcmp(limiter, str) != 0)
 	{
-		ft_hdoc_expand(&str, env, status);
-		write(fd, str, ft_strlen(str));
-		write(fd, "\n", 1);
-		tmp = str;
+		if (!tmp->in_quotes)
+			ft_hdoc_expand(&str, env, status);
+		write(tmp->fd, str, ft_strlen(str));
+		write(tmp->fd, "\n", 1);
+		temp = str;
 		str = readline("> ");
-		free(tmp);
+		free(temp);
 	}
-	ft_hdoc_free(&str, &limiter, fd);
+	ft_hdoc_free(&str, &limiter, tmp->fd);
 }

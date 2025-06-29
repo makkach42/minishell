@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:26:36 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 13:49:53 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 21:19:11 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,21 @@ void	env_fill_pwd(t_env *head)
 		tmp->active = 1;
 		(free(tmp->value), tmp->value = NULL);
 	}
-	ft_lstadd_back(&head, ft_lstnew("1PWD", NULL));
 	tmp = ft_check(head, "1PWD");
 	if (tmp)
 	{
 		tmp->active = 1;
 		tmp->h = 1;
+	}
+	else
+	{
+		ft_lstadd_back(&head, ft_lstnew("1PWD", NULL));
+		tmp = ft_check(head, "1PWD");
+		if (tmp)
+		{
+			tmp->active = 1;
+			tmp->h = 1;
+		}
 	}
 }
 

@@ -1683,11 +1683,11 @@ minishell$> ls$b-l
 minishell: ls                   -l: command not found
 
 
-minishell$> << 'p' cat
+minishell$> << 'p' cat // yes
 > $USER
 > p
 aakroud
-minishell$> << "p" cat
+minishell$> << "p" cat // yes
 > $USER
 > p
 aakroud
@@ -1714,19 +1714,19 @@ minishell: echo$a: command not found
 
 
 ➜  mini2 git:(executor) ✗ ./minishell
-minishell$> exit "   1"
+minishell$> exit "   1" // yes
 exit
 minishell: exit:    1: numeric argument required
 ➜  mini2 git:(executor) ✗ $?
 zsh: command not found: 255
 
-minishell$> exit 9223372036854775808
+minishell$> exit 9223372036854775808 // yes
 exit
 ➜  mini2 git:(executor) ✗ $?
 zsh: command not found: 0
 
 minishell$> ./minishell
-minishell$> cntrl + c
+minishell$> cntrl + c // yes
 minishell$> 
 exit
 minishell$> $?
@@ -1741,10 +1741,10 @@ minishell$>
 minishell$> $?
 minishell: 127: command not found
 
-minishell$> cd /bin
-[1]    16650 segmentation fault  env -i ./minishell
+minishell$> cd /bin // yes
+[1]    16650 segmentation fault  env -i ./minishell 
 
-in env -i ./minishell when i unset all variables 1PWD is NULL
+in env -i ./minishell when i unset all variables 1PWD is NULL // yes
 
 expor''t
 
@@ -1753,7 +1753,7 @@ getcwd: cannot access parent directories:
 minishell$> ($?)
 syntax error near unexpected token
 
-minishell$> export y=pop
+minishell$> export y=pop // yes
 minishell$> ./minishell
 minishell$> echo $y
 

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 18:27:00 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 16:15:15 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:13:26 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	ft_cd(char **s, t_env *h)
 	static char	*tmp;
 
 	n = ft_check(h, "1PWD");
-	if (!n)
-		dprintf(2, "here\n");
 	past = ft_str_back(n->value);
 	if (s[1] == NULL)
 		return (ft_cd_helper(h));

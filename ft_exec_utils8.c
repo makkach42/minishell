@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:18:39 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 16:59:24 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/28 21:31:44 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**ft_env_str(t_env *h)
 		free_env(&h);
 		exit (1);
 	}
-	while (i < lst_lent && h && h->h == 0)//must be checked
+	while (i < lst_lent && h)
 	{
 		p[i] = ft_node_joint(h);
 		h = h->next;
