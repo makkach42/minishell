@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 17:17:27 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:26:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,6 @@ void		process_operation_node(t_list **head, t_tree **tree, t_list *tmp,
 				int *node_info);
 void		process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
 				int *node_info);
-int			skip_spaces(char *str, int start);
 int			check_quotes(char *str, int *flag);
 t_tree		*build_pipe_tree(t_list **head);
 t_tree		*create_tree_node(void *command, char *type);
@@ -311,7 +310,7 @@ int			handle_space_after_redir(char *redir_start, int i, char **args);
 int			update_redir_state(char *redir_start, int i, int *redir_active);
 int			check_spaces_and_redirs(char *str, int i, int *redir_active);
 int			is_command_char(char c, int in_quotes);
-int			skip_spaces_in_str(char *str, int start);
+// int			skip_spaces_in_str(char *str, int start);
 void		init_extraction_vars(int *i, int *in_quotes, char *quote_type,
 				int *paren_count);
 void		handle_quotes_and_parens(char c, int *in_quotes, char *quote_type,

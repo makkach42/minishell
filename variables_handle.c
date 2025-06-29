@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:20:09 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/25 11:19:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:26:17 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,15 @@ int	return_error_cases(char *str, int *i, t_qfilter *qfil, t_par *par)
 		if (if_redir_in_para(str, i, &qfil->in_quotes, &qfil->quote_type))
 			return (1);
 	if ((is_operator(str[*i])
-		) && !qfil->in_quotes && str[*i + 1] && str[*i + 1] == ')')
-		return (1);
+		) && !qfil->in_quotes && str[*i + 1])
+	{
+		while (is_operator(str[*i]))
+			(*i)++;
+		while (str[*i] == 32 || (str[*i] >= 9 && str[*i] <= 13))
+			(*i)++;
+		if (str[*i] == ')')
+			return (1);
+	}
 	if (!qfil->in_quotes && str[*i + 1] && str[*i] == '(' && str[*i + 1] == ')')
 		return (1);
 	if (!qfil->in_quotes && str[*i + 1] && str[*i] == '(' && (

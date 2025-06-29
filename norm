@@ -23,9 +23,12 @@ ft_builtin.c: OK!
 ft_builtin1.c: OK!
 ft_builtin10.c: OK!
 ft_builtin11.c: OK!
-ft_builtin2.c: OK!
+ft_builtin2.c: Error!
+Error: SPACE_EMPTY_LINE     (line:  77, col:   1):	Space on empty line
+Error: WRONG_SCOPE_COMMENT  (line:  87, col:   5):	Comment is invalid in this scope
 ft_builtin3.c: OK!
-ft_builtin4.c: OK!
+ft_builtin4.c: Error!
+Error: TOO_MANY_LINES       (line:  44, col:   1):	Function has more than 25 lines
 ft_builtin5.c: OK!
 ft_builtin6.c: OK!
 ft_builtin7.c: OK!
@@ -33,19 +36,26 @@ ft_builtin8.c: OK!
 ft_builtin9.c: OK!
 ft_exec_utils1.c: OK!
 ft_exec_utils10.c: OK!
-ft_exec_utils11.c: Error!
-Error: WRONG_SCOPE_COMMENT  (line:  87, col:   5):	Comment is invalid in this scope
+ft_exec_utils11.c: OK!
 ft_exec_utils12.c: OK!
 ft_exec_utils13.c: OK!
 ft_exec_utils14.c: OK!
-ft_exec_utils15.c: OK!
+ft_exec_utils15.c: Error!
+Error: TOO_MANY_LINES       (line:  77, col:   1):	Function has more than 25 lines
 ft_exec_utils2.c: OK!
-ft_exec_utils3.c: OK!
+ft_exec_utils3.c: Error!
+Error: TOO_MANY_LINES       (line:  49, col:   1):	Function has more than 25 lines
 ft_exec_utils4.c: OK!
-ft_exec_utils5.c: OK!
+ft_exec_utils5.c: Error!
+Error: LINE_TOO_LONG        (line: 103, col:  82):	line too long
 ft_exec_utils6.c: OK!
-ft_exec_utils7.c: OK!
-ft_exec_utils8.c: OK!
+ft_exec_utils7.c: Error!
+Error: TOO_FEW_TAB          (line:  82, col:  45):	Missing tabs for indent level
+Error: EMPTY_LINE_FUNCTION  (line:  82, col:  46):	Empty line in function
+ft_exec_utils8.c: Error!
+Error: SPC_AFTER_PAR        (line:  58, col:  42):	Missing space after parenthesis (brace/bracket)
+Error: WRONG_SCOPE_COMMENT  (line:  58, col:  43):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  58, col:  43):	Comment is invalid in this scope
 ft_exec_utils9.c: OK!
 ft_func.c: OK!
 ft_func1.c: OK!
@@ -63,15 +73,15 @@ lexer_helper_two.c: OK!
 libft_funcs.c: OK!
 list_init.c: OK!
 list_init_handlers.c: OK!
-main_helper.c: OK!
+main_helper.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  68, col:   9):	Comment is invalid in this scope
 minishell.h: Error!
-Error: SPACE_REPLACE_TAB    (line: 110, col:   2):	Found space when expecting tab
-Error: CONSECUTIVE_NEWLINES (line: 182, col:   1):	Consecutive newlines
-Notice: GLOBAL_VAR_DETECTED  (line: 183, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
-Error: GLOBAL_VAR_NAMING    (line: 183, col:   5):	Global variable must start with g_
-Error: LINE_TOO_LONG        (line: 653, col:  82):	line too long
-Error: LINE_TOO_LONG        (line: 732, col:  83):	line too long
-Error: LINE_TOO_LONG        (line: 735, col:  85):	line too long
+Error: CONSECUTIVE_NEWLINES (line: 181, col:   1):	Consecutive newlines
+Notice: GLOBAL_VAR_DETECTED  (line: 182, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+Error: GLOBAL_VAR_NAMING    (line: 182, col:   5):	Global variable must start with g_
+Error: LINE_TOO_LONG        (line: 652, col:  82):	line too long
+Error: LINE_TOO_LONG        (line: 731, col:  83):	line too long
+Error: LINE_TOO_LONG        (line: 734, col:  85):	line too long
 more_libft_funcs.c: OK!
 new_list_init.c: OK!
 new_list_init_handlers.c: OK!
@@ -80,18 +90,10 @@ new_list_init_handlers_helper_two.c: OK!
 operation_extraction.c: OK!
 parentheses_extraction.c: OK!
 parsing.c: Error!
-Error: TOO_MANY_LINES       (line:  89, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_FUNCS       (line: 128, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 155, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 166, col:   1):	Too many functions in file
-Error: WRONG_SCOPE_COMMENT  (line: 182, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 183, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 184, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 185, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 186, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 187, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 188, col:   9):	Comment is invalid in this scope
-Error: TOO_MANY_LINES       (line: 195, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_LINES       (line:  91, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_FUNCS       (line: 130, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 159, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 170, col:   1):	Too many functions in file
 process_all_redirections.c: OK!
 process_all_redirections_helper.c: OK!
 process_all_redirections_helper_two.c: OK!
@@ -113,7 +115,8 @@ some_new_other_helpers.c: OK!
 some_other_helpers.c: OK!
 str_extraction.c: OK!
 syntax_error.c: OK!
-syntax_error_helper.c: OK!
+syntax_error_helper.c: Error!
+Error: TOO_MANY_LINES       (line: 103, col:   1):	Function has more than 25 lines
 tree_maker.c: OK!
 tree_maker_helper.c: OK!
 tree_maker_helper_three.c: OK!

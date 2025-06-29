@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 19:55:09 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:09:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	last_pack_of_ifs(char *prev_token,
 {
 	if (!*flag && tmp && (!ft_strcmp("PIPE", tmp->token) && !tmp->next))
 		(print_syntax_error(), *flag = 1);
-	if (!*flag && tmp && (!ft_strcmp("REDIRECTION", prev_token)) && (
+	if (!*flag && tmp && (!ft_strcmp("PARENTHASIS", prev_token)) && (
 			!ft_strcmp("REDIRECTION", tmp->token) && tmp->next && (
 				!ft_strcmp("WORD", tmp->next->token) || !ft_strcmp(
 					"COMMAND", tmp->next->token)) && tmp->next->next && (
