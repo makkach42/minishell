@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 10:41:58 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 11:29:03 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -734,6 +734,7 @@ int			in_para_check(char *str);
 void		ft_hdoc_expand_inits(int *i, int *in_quotes, int *flag, char *quote_type);
 t_pip		*ft_test_x(t_pip **x);
 void		ft_word_redir(t_tree *tree, t_env **h, char **e, int *check);
+void	reset_var_remove_quotes(t_tree **tree);
 void	ft_print_env(t_env *env);//hydha 9bl matpushi
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);

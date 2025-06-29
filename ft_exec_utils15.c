@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 18:27:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 14:48:56 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 11:03:10 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,5 @@ void	ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data)
 	if (!tree)
 		return ;
 	if (ft_strcmp("PIPE", tree->type) == 0)
-	{
 		ft_exec_test2(tree, test, h_data);
-	}
 }
