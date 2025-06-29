@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils10.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:19:50 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 13:58:03 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ int	ft_wait_for_child(int status, int status1, int *check)
 	{
 		status = WTERMSIG(status);
 		if (status == 2)
-			global_status = SIGINT;
+			g_global_status = SIGINT;
 		else if (status == 3)
-			global_status = SIGQUIT;
+			g_global_status = SIGQUIT;
 		status += 128;
 	}
 	if (WIFSIGNALED(status1))
 	{
 		status1 = WTERMSIG(status1);
 		if (status1 == 2)
-			global_status = SIGINT;
+			g_global_status = SIGINT;
 		else if (status1 == 3)
-			global_status = SIGQUIT;
+			g_global_status = SIGQUIT;
 	}
 	if (!WIFSIGNALED(status))
 		status = WEXITSTATUS(status);

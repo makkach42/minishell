@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:52:32 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 14:08:47 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 void	execution(t_var_main *shell)
 {
 	shell->tree = NULL;
-	global_status = 0;
+	g_global_status = 0;
 	ft_parsing(&shell->str, &shell->flag, &shell->tree, shell->h_data);
 	if (!shell->flag)
 		ft_execution(shell->tree, shell->h_data, &shell->check, shell->e);

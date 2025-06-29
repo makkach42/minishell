@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils8.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:18:39 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 21:31:44 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	ft_st(t_tree *tree, int stat_flag)
 
 void	ft_signal_exec(void)
 {
-	if (global_status == 2)
+	if (g_global_status == 2)
 		ft_putstr_fd(1, "\n");
-	else if (global_status == 3)
+	else if (g_global_status == 3)
 		ft_putstr_fd(1, "Quit: 3\n");
 }

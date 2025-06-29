@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils12.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:43:13 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 15:17:25 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int	ft_para_signal(int status, int org_stdout, int org_stdin)
 	{
 		status = WTERMSIG(status);
 		if (status == 2)
-			global_status = SIGINT;
+			g_global_status = SIGINT;
 		else if (status == 3)
-			global_status = SIGQUIT;
+			g_global_status = SIGQUIT;
 		status += 128;
 	}
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils6.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:03:06 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/19 14:25:47 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	ft_word_handle_signal(t_tree *tree, int *check)
 	{
 		tree->status = WTERMSIG(tree->status);
 		if (tree->status == 2)
-			global_status = SIGINT;
+			g_global_status = SIGINT;
 		else if (tree->status == 3)
-			global_status = SIGQUIT;
+			g_global_status = SIGQUIT;
 		tree->status += 128;
 	}
 	if (*check)

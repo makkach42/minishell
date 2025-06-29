@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 14:26:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	second_inits(t_var_main *shell)
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	shell->str = readline("minishell$> ");
-	if (global_status == SIGINT && shell->tree->status != 130
+	if (g_global_status == SIGINT && shell->tree->status != 130
 		&& shell->tree->status != 131)
 		shell->h_data->stat = 1;
 	if (!shell->str)
