@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 14:26:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 18:09:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,6 @@ void	tree_to_rediropen(t_tree *tree, int *flag)
 		process_all_redirections(&tree);
 		command_arr_fill(&tree);
 		syntax_error_two(&tree, flag);
-	}
-}
-
-void	ft_print_env(t_env *env)
-{
-	while (env)
-	{
-		dprintf(2, "this is env key %s and value %s and hidden %d and active %d\n", env->key, env->value, env->h, env->active);
-		env = env->next;
 	}
 }
 
