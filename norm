@@ -69,8 +69,7 @@ lexer_helper_two.c: OK!
 libft_funcs.c: OK!
 list_init.c: OK!
 list_init_handlers.c: OK!
-main_helper.c: Error!
-Error: WRONG_SCOPE_COMMENT  (line:  68, col:   9):	Comment is invalid in this scope
+main_helper.c: OK!
 minishell.h: Error!
 Error: CONSECUTIVE_NEWLINES (line: 181, col:   1):	Consecutive newlines
 Notice: GLOBAL_VAR_DETECTED  (line: 182, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
