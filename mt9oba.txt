@@ -1683,11 +1683,11 @@ minishell$> ls$b-l
 minishell: ls                   -l: command not found
 
 
-minishell$> << 'p' cat
+minishell$> << 'p' cat // yes
 > $USER
 > p
 aakroud
-minishell$> << "p" cat
+minishell$> << "p" cat // yes
 > $USER
 > p
 aakroud
@@ -1726,7 +1726,7 @@ exit
 zsh: command not found: 0
 
 minishell$> ./minishell
-minishell$> cntrl + c
+minishell$> cntrl + c // yes
 minishell$> 
 exit
 minishell$> $?

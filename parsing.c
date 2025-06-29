@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 21:32:22 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:50:10 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ int	second_inits(t_var_main *shell)
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	shell->str = readline("minishell$> ");
+	if (global_status == SIGINT)
+		shell->h_data->stat = 1;
 	if (!shell->str)
 	{
 		ft_str_empty(&shell->env, shell->e, shell->h_data);
@@ -146,18 +148,13 @@ int	second_inits(t_var_main *shell)
 	}
 	else if (!*shell->str || check_empty(shell->str))
 		return (free(shell->str), 2);
-	if (global_status == SIGINT)
-	{
-		shell->h_data->stat = 1;
-		shell->h_data->end = 1;
-		global_status = 0;
-	}
 	return (0);
 }
 
 void	execution(t_var_main *shell)
 {
 	shell->tree = NULL;
+	global_status = 0;
 	ft_parsing(&shell->str, &shell->flag, &shell->tree, shell->h_data);
 	if (!shell->flag)
 		ft_execution(shell->tree, shell->h_data, &shell->check, shell->e);

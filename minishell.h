@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 21:29:48 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:41:58 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_tree
 	char			**command_arr;
 	char			*redirections;
 	int				ambiguous;
-	// int				quotes;
 	int				var;
 	t_list_fd		*fd_list;
 	int				status;
@@ -647,7 +646,7 @@ void		ft_hdoc_free(char **str, char **limiter, int fd);
 char		*ft_name_check(char *name);
 void		ft_hdoc_signal(int sig);
 void		ft_hdoc_expand(char **line, t_env **env, int status);
-void		ft_hdoc(char *limiter, int fd, t_env **env, int status);
+void		ft_hdoc(char *limiter, t_list_fd *tmp, t_env **env, int status);
 void		ft_exec_redir(t_tree *tree, t_env **h, char **env);
 int			ft_cmd_redir(t_tree *tree, t_hdoc_data *h_data);
 int			ft_variable(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
