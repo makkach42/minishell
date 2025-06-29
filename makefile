@@ -9,7 +9,7 @@ OBJ = $(SRC:.c=.o)
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -lreadline -g3 -fsanitize=address -o $(NAME)
 
 %.o:	%.c minishell.h
 	$(CC) $(CFLAGS) -c $< -o $@

@@ -1741,10 +1741,10 @@ minishell$>
 minishell$> $?
 minishell: 127: command not found
 
-minishell$> cd /bin
-[1]    16650 segmentation fault  env -i ./minishell
+minishell$> cd /bin // yes
+[1]    16650 segmentation fault  env -i ./minishell 
 
-in env -i ./minishell when i unset all variables 1PWD is NULL
+in env -i ./minishell when i unset all variables 1PWD is NULL // yes
 
 expor''t
 
@@ -1753,7 +1753,7 @@ getcwd: cannot access parent directories:
 minishell$> ($?)
 syntax error near unexpected token
 
-minishell$> export y=pop
+minishell$> export y=pop // yes
 minishell$> ./minishell
 minishell$> echo $y
 

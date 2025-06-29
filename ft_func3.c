@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:26:59 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 11:12:20 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 10:12:28 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_env	*ft_check(t_env *h, char *str)
 {
-	if (!h || !h->next || !str)
+	if (!h || !str)
 		return (NULL);
 	while (h != NULL)
 	{
