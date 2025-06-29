@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 19:58:20 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ int	first_inits(t_var_main *shell, char **argev, char **argv, int argc)
 	return (0);
 }
 
+void	ft_status(t_var_main *shell)
+{
+	if (shell->tree->status != 130 && shell->tree->status != 131)
+		shell->h_data->stat = 1;
+}
+
 int	second_inits(t_var_main *shell)
 {
 	if (shell->h_data->check_stat)
@@ -67,19 +73,21 @@ int	second_inits(t_var_main *shell)
 	*(shell->h_data->sig_flag) = 1;
 	shell->check = 0;
 	shell->flag = 0;
+	ft_free_array(shell->e);
 	shell->e = ft_env_str(shell->env);
 	hide_terminal_control_chars();
 	signal(SIGINT, handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	shell->str = readline("minishell$> ");
-	if (g_global_status == SIGINT && shell->tree->status != 130
-		&& shell->tree->status != 131)
-		shell->h_data->stat = 1;
-	if (!shell->str)
+	if (g_global_status == SIGINT)
 	{
-		ft_str_empty(&shell->env, shell->e, shell->h_data);
-		return (1);
+		if (shell->tree)
+			ft_status(shell);
+		else
+			shell->h_data->stat = 1;
 	}
+	if (!shell->str)
+		return (ft_str_empty(&shell->env, shell->e, shell->h_data), 1);
 	else if (!*shell->str || check_empty(shell->str))
 		return (free(shell->str), 2);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   some_new_other_helpers.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:09:50 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 19:16:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 19:58:49 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,3 @@ int	process_array_variable(char **command_arr,
 		return (-1);
 	return (process_variable_expantion(command_arr, arr_idx, var_pos, env));
 }
-
