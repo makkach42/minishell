@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 11:29:03 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 14:12:08 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -735,6 +735,20 @@ void		ft_hdoc_expand_inits(int *i, int *in_quotes, int *flag, char *quote_type);
 t_pip		*ft_test_x(t_pip **x);
 void		ft_word_redir(t_tree *tree, t_env **h, char **e, int *check);
 void	reset_var_remove_quotes(t_tree **tree);
+void	ft_check_exit(int *check, int status);
+void	ft_free_data(t_hdoc_data *h_data);
+int		ft_cmd_word_check(t_tree *tree);
+void	ft_cmd_word(t_tree *tree, t_hdoc_data *h_data, int *check, char **e);
+char	*ft_skip_space(char *str);
+void	ft_exit_empty(int status, int stat);
+void	ft_exit_m(int m, t_env **h);
+int		ft_modulo(char *str);
+int		ft_exit_error(int check, char **s);
+void	ft_str_empty(t_env **env, char **e, t_hdoc_data *h_data);
+void	execution(t_var_main *shell);
+void	protect_wild_card(t_tree **tree);
+void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data);
+void	ft_hdoc_exed(void);
 void	ft_print_env(t_env *env);//hydha 9bl matpushi
 // char	*ft_cmd_check(char *env, char *s);
 // int	ft_cmd_exec(t_tree *tree, t_env **h);

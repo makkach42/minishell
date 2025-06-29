@@ -62,15 +62,34 @@ lexer_helper_two.c: OK!
 libft_funcs.c: OK!
 list_init.c: OK!
 list_init_handlers.c: OK!
-main_helper.c: OK!
+main_helper.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  68, col:   9):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line:  77, col:  83):	line too long
+Error: TOO_MANY_FUNCS       (line:  89, col:   1):	Too many functions in file
 minishell.h: Error!
-Error: SPACE_REPLACE_TAB    (line: 110, col:   2):	Found space when expecting tab
-Error: CONSECUTIVE_NEWLINES (line: 182, col:   1):	Consecutive newlines
-Notice: GLOBAL_VAR_DETECTED  (line: 183, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
-Error: GLOBAL_VAR_NAMING    (line: 183, col:   5):	Global variable must start with g_
-Error: LINE_TOO_LONG        (line: 653, col:  82):	line too long
-Error: LINE_TOO_LONG        (line: 732, col:  83):	line too long
-Error: LINE_TOO_LONG        (line: 735, col:  85):	line too long
+Error: SPACE_REPLACE_TAB    (line: 109, col:   2):	Found space when expecting tab
+Error: CONSECUTIVE_NEWLINES (line: 181, col:   1):	Consecutive newlines
+Notice: GLOBAL_VAR_DETECTED  (line: 182, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+Error: GLOBAL_VAR_NAMING    (line: 182, col:   5):	Global variable must start with g_
+Error: LINE_TOO_LONG        (line: 652, col:  82):	line too long
+Error: LINE_TOO_LONG        (line: 731, col:  83):	line too long
+Error: LINE_TOO_LONG        (line: 734, col:  85):	line too long
+Error: MISALIGNED_FUNC_DECL (line: 737, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 738, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 739, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 740, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 741, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 742, col:  10):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 743, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 744, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 745, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 746, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 747, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 748, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 749, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 750, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 751, col:   9):	Misaligned function declaration
+Error: MISALIGNED_FUNC_DECL (line: 752, col:   9):	Misaligned function declaration
 more_libft_funcs.c: OK!
 new_list_init.c: OK!
 new_list_init_handlers.c: OK!
@@ -78,19 +97,8 @@ new_list_init_handlers_helper.c: OK!
 new_list_init_handlers_helper_two.c: OK!
 operation_extraction.c: OK!
 parentheses_extraction.c: OK!
-parsing.c: Error!
-Error: TOO_MANY_LINES       (line:  89, col:   1):	Function has more than 25 lines
-Error: TOO_MANY_FUNCS       (line: 128, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 155, col:   1):	Too many functions in file
-Error: TOO_MANY_FUNCS       (line: 166, col:   1):	Too many functions in file
-Error: WRONG_SCOPE_COMMENT  (line: 182, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 183, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 184, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 185, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 186, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 187, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 188, col:   9):	Comment is invalid in this scope
-Error: TOO_MANY_LINES       (line: 195, col:   1):	Function has more than 25 lines
+parsing.c: OK!
+parsing_helper.c: OK!
 process_all_redirections.c: OK!
 process_all_redirections_helper.c: OK!
 process_all_redirections_helper_two.c: OK!

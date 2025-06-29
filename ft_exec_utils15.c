@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 18:27:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 11:03:10 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 13:32:07 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,16 @@ void	ft_exec_test2(t_tree *tree, int *test, t_hdoc_data *h_data)
 	if (x->id1 == -1)
 		return (ft_exec_test_error(test));
 	if (x->id1 == 0)
-	{
-		*test = 1;
-		return (ft_exec_test(tree->left, test, h_data), exit (0));
-	}
+		return (*test = 1, ft_exec_test(tree->left, test, h_data), exit (0));
 	x->id2 = fork();
 	if (x->id2 == -1)
 		return (ft_exec_test_error(test));
 	if (x->id2 == 0)
-	{
-		*test = 1;
-		ft_exec_test(tree->right, test, h_data);
-		exit(0);
-	}
+		return (*test = 1, ft_exec_test(tree->right, test, h_data), exit (0));
 	waitpid(x->id1, &(x->status), 0);
 	waitpid(x->id2, &(x->status1), 0);
-	free (x);
-	ft_test_children(x->status, x->status1, test, h_data->sig_flag);
+	return (free (x),
+		ft_test_children(x->status, x->status1, test, h_data->sig_flag));
 }
 
 void	ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data)
