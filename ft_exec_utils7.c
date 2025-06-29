@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 17:47:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/29 13:20:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	ft_cmd_word(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 	if ((tree->redirections != NULL && ft_strcmp("WORD", tree->type) == 0)
 		|| (ft_strcmp("REDIRECTION", tree->type) == 0 && cmd_check(tree) == 1))
 	{
-		reset_var_expand_var(&tree, h_data);;
+		reset_var_expand_var(&tree, h_data);
 		ft_word_redir(tree, h_data->env, e, check);
 	}
 }

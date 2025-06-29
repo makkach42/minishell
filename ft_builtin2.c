@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:57:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 15:55:56 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/29 13:17:44 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	ft_exit_empty(int status, int stat)
 // 			return (&str[i]);
 // 		i++;
 // 	}
-	
 // }
 
 int	ft_exit(char **s, t_hdoc_data *h_data, int status)
@@ -84,7 +83,6 @@ int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 	m = 0;
 	if (isatty(0) && isatty(1))
 		ft_putstr_fd(1, "exit\n");
-	// ft_skip_space();
 	if (s[1] == NULL)
 		ft_exit_empty(status, h_data->stat);
 	else

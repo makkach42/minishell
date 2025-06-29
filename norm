@@ -23,9 +23,7 @@ ft_builtin.c: OK!
 ft_builtin1.c: OK!
 ft_builtin10.c: OK!
 ft_builtin11.c: OK!
-ft_builtin2.c: Error!
-Error: SPACE_EMPTY_LINE     (line:  77, col:   1):	Space on empty line
-Error: WRONG_SCOPE_COMMENT  (line:  87, col:   5):	Comment is invalid in this scope
+ft_builtin2.c: OK!
 ft_builtin3.c: OK!
 ft_builtin4.c: Error!
 Error: TOO_MANY_LINES       (line:  44, col:   1):	Function has more than 25 lines
@@ -49,9 +47,7 @@ ft_exec_utils4.c: OK!
 ft_exec_utils5.c: Error!
 Error: LINE_TOO_LONG        (line: 103, col:  82):	line too long
 ft_exec_utils6.c: OK!
-ft_exec_utils7.c: Error!
-Error: TOO_FEW_TAB          (line:  82, col:  45):	Missing tabs for indent level
-Error: EMPTY_LINE_FUNCTION  (line:  82, col:  46):	Empty line in function
+ft_exec_utils7.c: OK!
 ft_exec_utils8.c: Error!
 Error: SPC_AFTER_PAR        (line:  58, col:  42):	Missing space after parenthesis (brace/bracket)
 Error: WRONG_SCOPE_COMMENT  (line:  58, col:  43):	Comment is invalid in this scope
@@ -79,9 +75,9 @@ minishell.h: Error!
 Error: CONSECUTIVE_NEWLINES (line: 181, col:   1):	Consecutive newlines
 Notice: GLOBAL_VAR_DETECTED  (line: 182, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
 Error: GLOBAL_VAR_NAMING    (line: 182, col:   5):	Global variable must start with g_
-Error: LINE_TOO_LONG        (line: 652, col:  82):	line too long
-Error: LINE_TOO_LONG        (line: 731, col:  83):	line too long
-Error: LINE_TOO_LONG        (line: 734, col:  85):	line too long
+Error: LINE_TOO_LONG        (line: 651, col:  82):	line too long
+Error: LINE_TOO_LONG        (line: 730, col:  83):	line too long
+Error: LINE_TOO_LONG        (line: 733, col:  85):	line too long
 more_libft_funcs.c: OK!
 new_list_init.c: OK!
 new_list_init_handlers.c: OK!
@@ -115,8 +111,7 @@ some_new_other_helpers.c: OK!
 some_other_helpers.c: OK!
 str_extraction.c: OK!
 syntax_error.c: OK!
-syntax_error_helper.c: Error!
-Error: TOO_MANY_LINES       (line: 103, col:   1):	Function has more than 25 lines
+syntax_error_helper.c: OK!
 tree_maker.c: OK!
 tree_maker_helper.c: OK!
 tree_maker_helper_three.c: OK!
