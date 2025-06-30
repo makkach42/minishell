@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 13:33:23 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:26:14 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,28 @@ int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 	return (free (x), ft_wait_for_child(x->status, x->status1, check));
 }
 
+int	ft_var_check_quote(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '"' || str[i] != '\'')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	cmd_check(t_tree *tree)
 {
 	if (!tree)
 		return (1);
 	if (!tree->command_arr || !tree->command_arr[0])
 		return (1);
-	reset_var_remove_quotes(&tree);
+	if (ft_var_check_quote(tree->command_arr[0]))
+		reset_var_remove_quotes(&tree);
 	if (ft_strcmp(tree->command_arr[0], "cd") == 0)
 		return (0);
 	if (ft_strcmp(tree->command_arr[0], "echo") == 0)

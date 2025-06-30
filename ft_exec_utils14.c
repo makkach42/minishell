@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils14.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:54:54 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 17:15:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:22:13 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ft_execute_redir(t_tree *tree, t_env **h, char **e)
 void	ft_var_helper(t_tree **tree, char **e, int *check, t_hdoc_data *h_data)
 {
 	reset_vars(tree, h_data->env, h_data);
+	print_tree_visual(*tree, 1, 1);
 	(*tree)->status = ft_variable(*tree, h_data, e, check);
 }
 
@@ -49,7 +50,14 @@ int	ft_variable(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 			!tree->command_arr[0]))
 		return (0);
 	if (cmd_check(tree) == 1 && tree->redirections == NULL)
+	{
+		print_tree_visual(tree, 1, 1);
 		ft_word_handle(tree, h_data->env, e, check);
+	}
+	if (1)
+	{
+		puts("yes");
+	}
 	else if (cmd_check(tree) == 1 && tree->redirections != NULL)
 		ft_word_redir(tree, h_data->env, e, check);
 	else if (cmd_check(tree) == 0)
