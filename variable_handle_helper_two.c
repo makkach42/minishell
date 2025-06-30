@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_handle_helper_two.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:56:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/30 16:27:46 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:11:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ void	extract_var_value(t_env **env, char *var_name, char **var_value)
 			while (var_value && *var_value && (*var_value)[i])
 			{
 				if ((*var_value)[i] == '"')
-					(*var_value)[i] = 10;
+					(*var_value)[i] = 3;
 				else if ((*var_value)[i] == '\'')
-					(*var_value)[i] = 11;
+					(*var_value)[i] = 4;
 				i++;
 			}
 			break ;

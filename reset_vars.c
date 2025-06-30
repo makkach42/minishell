@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reset_vars.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:08:07 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 17:18:29 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:13:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ void	reset_var_remove_quotes(t_tree **tree)
 		j = 0;
 		while ((*tree)->command_arr[i][j])
 		{
-			if ((*tree)->command_arr[i][j] == 10)
+			if ((*tree)->command_arr[i][j] == 3)
 				(*tree)->command_arr[i][j] = '"';
-			else if ((*tree)->command_arr[i][j] == 11)
+			else if ((*tree)->command_arr[i][j] == 4)
 				(*tree)->command_arr[i][j] = '\'';
 			j++;
 		}
