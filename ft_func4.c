@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_func4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:38:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 18:22:07 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 19:17:08 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,26 +85,9 @@ int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 	return (0);
 }
 
-// void	reset_var_cmd_split_str(t_tree **tree)
-// {
-// 	int		i;
-// 	char	***cmd2;
-
-// 	cmd2 = cmd2_fill(tree);
-// 	free_twod_char((*tree)->command_arr);
-// 	i = count_triple_ptr(cmd2);
-// 	(*tree)->command_arr = malloc(sizeof(char *) * (i + 1));
-// 	fill_twod_char_with_triple((*tree)->command_arr, cmd2);
-// 	free_three_d(cmd2);
-// }
-
 void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
 {
 	int		i;
-	int		in_quotes;
-	char	quote_type;
-	char	c;
-	int	j;
 
 	i = 0;
 	while ((tree)->command_arr[i])
@@ -116,24 +99,7 @@ void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
 		{
 			if (ft_strchr((tree)->command_arr[i], '$'))
 			{
-				j = 0;
-				in_quotes = 0;
-				while (tree->command_arr[i][j])
-				{
-					c = tree->command_arr[i][j];
-					if (!in_quotes && (c == '"' || c== '\''))
-					{
-						in_quotes = 1;
-						quote_type = c;
-					}
-					else if (in_quotes && c == quote_type)
-						in_quotes = 0;
-					if (c == '$' && (!in_quotes || (in_quotes && quote_type == '"')))
-						if (if_dollar(&j, &tree->command_arr[i], h_data->env, &tree->status))
-							break ;
-					j++;
-				}
-				reset_var_cmd_split(&tree);
+				if_dollar_two(tree, i, h_data);
 			}
 			else 
 				reset_var_remove_quotes(&tree);
