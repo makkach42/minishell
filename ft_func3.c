@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:26:59 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 19:17:30 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 19:51:02 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ void	if_dollar_two(t_tree *tree, int i, t_hdoc_data *h_data)
 	int		in_quotes;
 	char	quote_type;
 	char	c;
-	int	j;
+	int		j;
 
 	j = 0;
 	in_quotes = 0;
 	while (tree->command_arr[i][j])
 	{
 		c = tree->command_arr[i][j];
-		if (!in_quotes && (c == '"' || c== '\''))
+		if (!in_quotes && (c == '"' || c == '\''))
 		{
 			in_quotes = 1;
 			quote_type = c;
@@ -85,10 +85,25 @@ void	if_dollar_two(t_tree *tree, int i, t_hdoc_data *h_data)
 		else if (in_quotes && c == quote_type)
 			in_quotes = 0;
 		if (c == '$' && (!in_quotes || (in_quotes && quote_type == '"')))
-			if (if_dollar(&j, &tree->command_arr[i], h_data->env, &tree->status))
+			if (if_dollar(&j, &tree->command_arr[i],
+					h_data->env, &tree->status))
 				break ;
 		j++;
 	}
 	replace_whites_spaces(tree->command_arr[i]);
 	reset_var_cmd_split(&tree);
+}
+
+int	ft_var_check_quote(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '"' || str[i] != '\'')
+			return (0);
+		i++;
+	}
+	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 17:26:14 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 19:49:22 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,6 @@ int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 		|| waitpid(x->id2, &(x->status), 0) == -1)
 		return (1);
 	return (free (x), ft_wait_for_child(x->status, x->status1, check));
-}
-
-int	ft_var_check_quote(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != '"' || str[i] != '\'')
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 int	cmd_check(t_tree *tree)

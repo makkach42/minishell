@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:38:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 19:17:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 19:51:32 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
 			{
 				if_dollar_two(tree, i, h_data);
 			}
-			else 
+			else
 				reset_var_remove_quotes(&tree);
 		}
 		i--;

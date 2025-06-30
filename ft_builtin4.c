@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 18:27:00 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 17:10:27 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 19:48:31 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ int	ft_cd(char **s, t_env *h)
 	else
 	{
 		if (chdir(s[1]) == -1)
-		{
-			dprintf(2, "nooooo\n");
 			return (ft_chdir_fail(s, past));
-		}
 		t = getcwd(NULL, 0);
 		if (t)
 		{
@@ -39,10 +36,7 @@ int	ft_cd(char **s, t_env *h)
 			tmp = n->value;
 		}
 		else
-		{
-			dprintf(2, "entered here\n");
 			return (ft_cd_fail(n, s, past));
-		}
 	}
 	return (0);
 }

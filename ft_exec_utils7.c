@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 19:06:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 19:50:24 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	ft_cmd_word_check(t_tree *tree)
 		return (0);
 	return (1);
 }
-
 
 void	ft_cmd_word_helper(t_tree *tree, t_hdoc_data *h_data,
 							int *check, char **e)

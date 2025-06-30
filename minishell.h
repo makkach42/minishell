@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/30 19:17:36 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 19:52:08 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -484,10 +484,10 @@ void	ft_st(t_tree *tree, int stat_flag);
 void	ft_signal_exec(void);
 void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data);
 void	remove_quotes_from_var(char	**arr);
-void	print_tree_visual(t_tree *tree, int level, int is_left); // 7ydha 9bl matpushi
 void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data);
 int		if_dollar(int *i, char **line, t_env **env, int *status);
 void	reset_var_cmd_split(t_tree **tree);
 void	if_dollar_two(t_tree *tree, int i, t_hdoc_data *h_data);
+int		ft_var_check_quote(char *str);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:37:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 15:51:23 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 19:49:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	env_fill_helper(t_env **node, int *i, int *j, char **argev)
 void	env_fill_empty_helper(t_env **node)
 {
 	char	*tmp;
-	
+
 	tmp = getcwd(NULL, 0);
 	if (node == NULL)
 		exit (1);
