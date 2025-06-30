@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 17:18:28 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 12:23:43 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -483,5 +483,7 @@ void	ft_hdoc_handle(t_tree *tree, t_hdoc_data *h_data, int status);
 void	ft_st(t_tree *tree, int stat_flag);
 void	ft_signal_exec(void);
 void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data);
+void	remove_quotes_from_var(char	**arr);
+void	print_tree_visual(t_tree *tree, int level, int is_left);
 
 #endif

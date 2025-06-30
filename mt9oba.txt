@@ -1802,3 +1802,22 @@ minishell$> export a="sfaeafaef'aefaefaefaef"
 minishell$> echo $?
 258
 minishell$> 
+
+
+
+minishell$> cat << r
+> "$USER"
+> '$USER'
+> $USER
+> e
+> r
+"makkach"
+'$USER'
+makkach
+e
+
+
+export a="        "
+$a""
+""$a
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils14.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:54:54 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 11:07:48 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 14:16:18 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,10 @@ void	ft_var_helper(t_tree **tree, char **e, int *check, t_hdoc_data *h_data)
 	reset_vars(tree, h_data->env, h_data);
 	(*tree)->status = ft_variable(*tree, h_data, e, check);
 }
-
 int	ft_variable(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 {
 	if (!tree->command || !tree->command_arr || (
-			!tree->command_arr[0]) || check_empty(tree->command_arr[0]))
+			!tree->command_arr[0]))
 		return (0);
 	if (cmd_check(tree) == 1 && tree->redirections == NULL)
 		ft_word_handle(tree, h_data->env, e, check);

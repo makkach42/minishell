@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:52:32 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 10:52:39 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 	}
 	else
 		tree->status = 1;
-	if (tree->status > 0)
+	if (tree->status >= 0)
 		h_data->check_stat = 1;
 	else
 		h_data->check_stat = 0;

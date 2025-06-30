@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils13.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:15:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/27 11:34:07 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 12:28:07 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,27 @@ int	if_dollar(int *i, char **line, t_env **env, int *status)
 	return (0);
 }
 
+// void	expand_quote_in_str(char	**arr)
+// {
+// 	char	*old_cmd;
+// 	int		final_len;
+// 	char	*new_str;
+
+// 	if (ft_strchr(*arr, '"'
+// 		) || ft_strchr(
+// 			*arr, '\''))
+// 	{
+// 		old_cmd = *arr;
+// 		final_len = count_filtered_length(old_cmd);
+// 		new_str = create_filtered_string(old_cmd, final_len);
+// 		if (!new_str)
+// 			return ;
+// 		free(*arr);
+// 		*arr = new_str;
+// 	}
+
+// }
+
 void	ft_hdoc_expand(char **line, t_env **env, int status)
 {
 	int		in_quotes;
@@ -83,14 +104,14 @@ void	ft_hdoc_expand(char **line, t_env **env, int status)
 			in_quotes = 1;
 			quote_type = (*line)[i];
 		}
-		else if ((*line)[i] == quote_type)
+		else if (in_quotes && (*line)[i] == quote_type)
 			in_quotes = 0;
-		if ((*line)[i] == '$' && (
-				!in_quotes || (in_quotes && quote_type == '"')))
+		if ((*line)[i] == '$')
 		{
 			if (if_dollar(&i, line, env, &status))
 				break ;
 		}
 		i++;
 	}
+	// expand_quote_in_str(line);
 }

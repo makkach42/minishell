@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:56:19 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/30 08:08:48 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 10:28:17 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,14 @@ int	operation_recognizer(char *str)
 
 int	variable_recognizer(char *str)
 {
+	int	i;
+
 	if (!str)
 		return (0);
-	if (*str == '$')
+	i = 0;
+	while (str[i] == '"' || str[i] == '\'')
+		i++;
+	if (str[i] == '$')
 		return (1);
 	return (0);
 }
