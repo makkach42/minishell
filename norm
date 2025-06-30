@@ -6,18 +6,14 @@ extra_tools.c: Error!
 Error: FORBIDDEN_CS         (line:  19, col:   5):	Forbidden control structure
 Error: TERNARY_FBIDDEN      (line:  22, col:  34):	Ternaries are forbidden
 Error: TERNARY_FBIDDEN      (line:  26, col:  29):	Ternaries are forbidden
-Error: WRONG_SCOPE_COMMENT  (line:  35, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line:  36, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line:  37, col:   5):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line:  38, col:   5):	Comment is invalid in this scope
-Error: FORBIDDEN_CS         (line:  46, col:   9):	Forbidden control structure
-Error: SPC_AFTER_OPERATOR   (line:  46, col:  24):	missing space after operator
-Error: FORBIDDEN_CS         (line:  57, col:   9):	Forbidden control structure
-Error: LINE_TOO_LONG        (line:  60, col:  82):	line too long
-Error: LINE_TOO_LONG        (line:  62, col:  82):	line too long
-Error: FORBIDDEN_CS         (line:  72, col:   9):	Forbidden control structure
-Error: FORBIDDEN_CS         (line:  80, col:   9):	Forbidden control structure
-Error: TOO_MANY_LINES       (line:  86, col:   1):	Function has more than 25 lines
+Error: FORBIDDEN_CS         (line:  42, col:   9):	Forbidden control structure
+Error: SPC_AFTER_OPERATOR   (line:  42, col:  24):	missing space after operator
+Error: FORBIDDEN_CS         (line:  53, col:   9):	Forbidden control structure
+Error: LINE_TOO_LONG        (line:  56, col:  82):	line too long
+Error: LINE_TOO_LONG        (line:  58, col:  82):	line too long
+Error: FORBIDDEN_CS         (line:  68, col:   9):	Forbidden control structure
+Error: FORBIDDEN_CS         (line:  76, col:   9):	Forbidden control structure
+Error: TOO_MANY_LINES       (line:  82, col:   1):	Function has more than 25 lines
 free_everything.c: OK!
 ft_builtin.c: OK!
 ft_builtin1.c: OK!
@@ -62,9 +58,7 @@ lexer_helper_two.c: OK!
 libft_funcs.c: OK!
 list_init.c: OK!
 list_init_handlers.c: OK!
-main_helper.c: Error!
-Error: LINE_TOO_LONG        (line:  76, col:  83):	line too long
-Error: TOO_MANY_FUNCS       (line:  88, col:   1):	Too many functions in file
+main_helper.c: OK!
 minishell.h: OK!
 Notice: GLOBAL_VAR_DETECTED  (line: 181, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
 more_libft_funcs.c: OK!

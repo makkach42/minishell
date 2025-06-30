@@ -1758,3 +1758,47 @@ minishell$> ./minishell
 minishell$> echo $y
 
  1 (16 bytes) ROOT LEAK: 0x7fbfcac084f0 [16]  length: 4  "&'&;"
+///////////////////////////////////////////////////
+
+minishell$> "           "
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==5239==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0001032b974b bp 0x7ffeec956330 sp 0x7ffeec9562f0 T0)
+==5239==The signal is caused by a READ memory access.
+==5239==Hint: address points to the zero page.
+    #0 0x1032b974b in ft_cmd_check+0x1b (minishell:x86_64+0x10001074b)
+    #1 0x1032ba011 in ft_exec+0xc1 (minishell:x86_64+0x100011011)
+    #2 0x1032bb0e6 in ft_word_handle+0x56 (minishell:x86_64+0x1000120e6)
+    #3 0x1032bb467 in ft_cmd_word_helper+0x187 (minishell:x86_64+0x100012467)
+    #4 0x1032bb605 in ft_cmd_word+0x105 (minishell:x86_64+0x100012605)
+    #5 0x1032bfc61 in ft_execute+0x71 (minishell:x86_64+0x100016c61)
+    #6 0x1032c076e in ft_execution+0xbe (minishell:x86_64+0x10001776e)
+    #7 0x1032c088e in execution+0x8e (minishell:x86_64+0x10001788e)
+    #8 0x1032aa044 in main+0xd4 (minishell:x86_64+0x100001044)
+    #9 0x7fff69ccbcc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+==5239==Register values:
+rax = 0x0000000000000000  rbx = 0x0000000000000000  rcx = 0x0000000000000000  rdx = 0x000000000000002f  
+rdi = 0x0000613000000200  rsi = 0x0000000000000000  rbp = 0x00007ffeec956330  rsp = 0x00007ffeec9562f0  
+ r8 = 0x0000000000000403   r9 = 0x0000000000000000  r10 = 0x0000000000000402  r11 = 0x0000000000000202  
+r12 = 0x0000000000000000  r13 = 0x0000000000000000  r14 = 0x0000000000000000  r15 = 0x0000000000000000  
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV (minishell:x86_64+0x10001074b) in ft_cmd_check+0x1b
+==5239==ABORTING
+
+''$c
+
+
+inishell$> export a="sfaeafaef'aefaefaefaef"
+minishell$> echo $?
+258
+minishell$> export a="sfaeafaef'aefaefaefaef"
+minishell$> echo $?
+258
+minishell$> export a="sfaeafaef'aefaefaefaef"
+minishell$> echo $?
+258
+minishell$> export a="sfaeafaef'aefaefaefaef"
+minishell$> echo $?
+258
+minishell$> 
