@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:15:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 12:28:07 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 15:39:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,4 @@ void	ft_hdoc_expand(char **line, t_env **env, int status)
 		}
 		i++;
 	}
-	// expand_quote_in_str(line);
 }

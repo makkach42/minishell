@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:54:54 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 14:16:18 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 15:39:31 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	ft_var_helper(t_tree **tree, char **e, int *check, t_hdoc_data *h_data)
 	reset_vars(tree, h_data->env, h_data);
 	(*tree)->status = ft_variable(*tree, h_data, e, check);
 }
+
 int	ft_variable(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 {
 	if (!tree->command || !tree->command_arr || (

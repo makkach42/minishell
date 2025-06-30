@@ -39,7 +39,8 @@ ft_exec_utils3.c: OK!
 ft_exec_utils4.c: OK!
 ft_exec_utils5.c: OK!
 ft_exec_utils6.c: OK!
-ft_exec_utils7.c: OK!
+ft_exec_utils7.c: Error!
+Error: TOO_MANY_LINES       (line:  87, col:   1):	Function has more than 25 lines
 ft_exec_utils8.c: OK!
 ft_exec_utils9.c: OK!
 ft_func.c: OK!
