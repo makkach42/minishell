@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 10:37:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 10:13:45 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 15:51:23 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,15 @@ void	env_fill_helper(t_env **node, int *i, int *j, char **argev)
 
 void	env_fill_empty_helper(t_env **node)
 {
+	char	*tmp;
+	
+	tmp = getcwd(NULL, 0);
 	if (node == NULL)
 		exit (1);
 	*node = NULL;
 	ft_lstadd_back(node, ft_lstnew("OLDPWD", NULL));
-	ft_lstadd_back(node, ft_lstnew("PWD", getcwd(NULL, 0)));
+	ft_lstadd_back(node, ft_lstnew("PWD", tmp));
+	free (tmp);
 	ft_lstadd_back(node, ft_lstnew("SHLVL", "1"));
 	ft_lstadd_back(node, ft_lstnew("PATH",
 			"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));

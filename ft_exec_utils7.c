@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils7.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 10:45:47 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:15:14 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,10 @@ int	ft_cmd_word_check(t_tree *tree)
 	return (1);
 }
 
+
 void	ft_cmd_word_helper(t_tree *tree, t_hdoc_data *h_data,
 							int *check, char **e)
 {
-	int	i;
-
 	if ((ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections == NULL)
 		|| (ft_strcmp("WORD", tree->type) == 0 && cmd_check(tree) == 0))
 	{
@@ -67,15 +66,7 @@ void	ft_cmd_word_helper(t_tree *tree, t_hdoc_data *h_data,
 	if (tree->redirections == NULL && ft_strcmp("WORD", tree->type) == 0
 		&& cmd_check(tree) == 1)
 	{
-		i = 0;
-		while ((tree)->command_arr[i])
-		{
-			if (ft_strchr((tree)->command_arr[i], '$'))
-				reset_vars(&tree, h_data->env, h_data);
-			else
-				reset_var_remove_quotes(&tree);
-			i++;
-		}
+		ft_word_expand(tree, h_data);
 		ft_word_handle(tree, h_data->env, e, check);
 	}
 	if ((tree->redirections != NULL && ft_strcmp("WORD", tree->type) == 0)
@@ -88,9 +79,13 @@ void	ft_cmd_word_helper(t_tree *tree, t_hdoc_data *h_data,
 
 void	ft_cmd_word(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 {
+	// puts("++++++++++++++++++++++++++++++++++\n");
+	// print_tree_visual(tree, 1, 1);
+	// puts("++++++++++++++++++++++++++++++++++\n");
 	if (!ft_strcmp("WORD", tree->type) && !cmd_check(tree)
 		&& !tree->redirections)
 	{
+		dprintf(2, "did  not entere here\n");
 		reset_vars(&tree, h_data->env, h_data);
 		tree->status = ft_cmd_exec(tree, h_data);
 		ft_check_exit(check, tree->status);

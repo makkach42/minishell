@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/30 12:23:43 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 15:47:03 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -484,6 +484,7 @@ void	ft_st(t_tree *tree, int stat_flag);
 void	ft_signal_exec(void);
 void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data);
 void	remove_quotes_from_var(char	**arr);
-void	print_tree_visual(t_tree *tree, int level, int is_left);
+void	print_tree_visual(t_tree *tree, int level, int is_left); // 7ydha 9bl matpushi
+void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data);
 
 #endif

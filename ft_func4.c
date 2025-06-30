@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_func4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:38:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 14:16:03 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:15:04 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,19 @@ int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 		}
 	}
 	return (0);
+}
+
+void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
+{
+	int	i;
+
+	i = 0;
+	while ((tree)->command_arr[i])
+	{
+		if (ft_strchr((tree)->command_arr[i], '$'))
+			reset_var_expand_var(&tree, h_data);
+		else
+			reset_var_remove_quotes(&tree);
+		i++;
+	}
 }

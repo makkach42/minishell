@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_handle_helper_two.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:56:56 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:18:44 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:27:46 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,13 @@ void	var_end_set(char **command_arr, int arr_idx, int *var_end)
 		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'
 			) || ((c >= '0' && c <= '9')) || c == '?')
 		{
-			if (c >= '0' && c <= '9' && command_arr[
-					arr_idx][*var_end - 1] == '$')
+			if (c >= '0' && c <= '9' && c == '$')
 			{
 				(*var_end)++;
 				break ;
 			}
+			if (c == '?' && command_arr[arr_idx][*var_end - 1] != '$')
+				break ;
 			else
 				(*var_end)++;
 		}
