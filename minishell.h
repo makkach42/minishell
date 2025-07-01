@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/01 10:06:05 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/01 10:21:28 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -485,5 +485,9 @@ void	ft_signal_exec(void);
 void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data);
 void	remove_quotes_from_var(char	**arr);
 void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data);
+int		if_dollar(int *i, char **line, t_env **env, int *status);
+void	reset_var_cmd_split(t_tree **tree);
+void	if_dollar_two(t_tree *tree, int i, t_hdoc_data *h_data);
+int		ft_var_check_quote(char *str);
 
 #endif

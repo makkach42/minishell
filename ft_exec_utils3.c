@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 13:33:23 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 19:49:22 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	cmd_check(t_tree *tree)
 		return (1);
 	if (!tree->command_arr || !tree->command_arr[0])
 		return (1);
-	reset_var_remove_quotes(&tree);
+	if (ft_var_check_quote(tree->command_arr[0]))
+		reset_var_remove_quotes(&tree);
 	if (ft_strcmp(tree->command_arr[0], "cd") == 0)
 		return (0);
 	if (ft_strcmp(tree->command_arr[0], "echo") == 0)

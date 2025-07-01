@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:54:54 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 17:15:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 23:13:38 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ int	ft_variable(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 			!tree->command_arr[0]))
 		return (0);
 	if (cmd_check(tree) == 1 && tree->redirections == NULL)
+	{
 		ft_word_handle(tree, h_data->env, e, check);
+	}
 	else if (cmd_check(tree) == 1 && tree->redirections != NULL)
 		ft_word_redir(tree, h_data->env, e, check);
 	else if (cmd_check(tree) == 0)

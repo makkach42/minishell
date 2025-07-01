@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:38:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 17:00:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/06/30 19:51:32 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_free_array(char **p)
 		return ;
 	while (p[i] != NULL)
 	{
-		free (p[i]);
+		free(p[i]);
 		i++;
 	}
 	free (p);
@@ -87,15 +87,23 @@ int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 
 void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while ((tree)->command_arr[i])
-	{
-		if (ft_strchr((tree)->command_arr[i], '$'))
-			reset_var_expand_var(&tree, h_data);
-		else
-			reset_var_remove_quotes(&tree);
 		i++;
+	i--;
+	while (i >= 0)
+	{
+		if (tree->command_arr)
+		{
+			if (ft_strchr((tree)->command_arr[i], '$'))
+			{
+				if_dollar_two(tree, i, h_data);
+			}
+			else
+				reset_var_remove_quotes(&tree);
+		}
+		i--;
 	}
 }
