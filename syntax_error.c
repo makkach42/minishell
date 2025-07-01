@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 10:11:18 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/01 14:23:48 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ void	more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 	if (!*flag && tmp && (!ft_strcmp("PARENTHASIS", prev_token) && (
 				!ft_strcmp("PARENTHASIS", tmp->token))))
 		(print_syntax_error(), *flag = 1);
-	if ((!*flag && tmp && (ft_strcmp("OPERATION_&&", prev_token
-				) == 0 || ft_strcmp("OPERATION_||", prev_token) == 0
-			) && ft_strcmp(prev_token, tmp->token) == 0))
+	if ((!*flag && tmp && (!ft_strcmp("OPERATION_&&", prev_token
+				) || ft_strcmp("OPERATION_||", prev_token) == 0
+			) && ((ft_strcmp("OPERATION_||", tmp->token) == 0
+				) || !ft_strcmp("OPERATION_&&", tmp->token))))
 		(print_syntax_error(), *flag = 1);
 	if (!*flag && tmp && (ft_strcmp("PIPE", prev_token
 			) == 0 && ft_strcmp(prev_token, tmp->token) == 0))
