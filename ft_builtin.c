@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 10:25:20 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/28 14:01:58 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/01 17:08:55 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,15 @@ int	ft_cd_fail(t_env *n, char **s, char *past)
 {
 	int			lent;
 	char		*temp;
-	static char	*cd_path;
+	char		*cd_path;
 
 	lent = 0;
-	temp = NULL;
-	if (cd_path)
-		free (cd_path);
+	cd_path = NULL;
+	temp = n->value;
 	cd_path = ft_strdup(n->value);
 	if (!cd_path)
 		return (1);
+	free (temp);
 	perror("getcwd: cannot access parent directories: ");
 	lent = ft_strlen(n->value);
 	if (n->value[lent - 1] != '/')

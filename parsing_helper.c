@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:52:32 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/01 10:21:49 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/01 14:08:55 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,11 @@ void	execution(t_var_main *shell)
 	tcsetattr(0, TCSANOW, &shell->termios_a);
 }
 
-void	ft_str_empty(t_env **env, char **e, t_hdoc_data *h_data)
+void	ft_str_empty(t_var_main *shell, t_env **env, char **e, t_hdoc_data *h_data)
 {
 	ft_putstr_fd(1, "exit\n");
+	shell->main_stat = shell->h_data->stat;
+	shell->main_end = shell->h_data->end;
 	ft_free_array(e);
 	free_env(env);
 	ft_free_data(h_data);

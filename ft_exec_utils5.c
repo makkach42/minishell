@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils5.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:30:59 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 14:26:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:43:24 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,51 +20,52 @@ void	ft_cmd_redir_end(int org_stdout, int org_stdin)
 	close (org_stdout);
 }
 
-int	ft_cmd_redir_helper(t_tree *tree, int i)
+int	ft_cmd_redir_helper(t_list_fd *tmp, int i)
 {
 	if (i == 1)
 	{
-		tree->fd_list->fd = ft_file_check(tree->fd_list->name);
-		if (tree->fd_list ->fd == -1)
+		tmp->fd = ft_file_check(tmp->name);
+		if (tmp->fd == -1)
 			return (perror(""), 1);
-		dup2(tree->fd_list->fd, 0);
-		close(tree->fd_list->fd);
+		dup2(tmp->fd, 0);
+		close(tmp->fd);
 	}
 	else if (i == 2)
 	{
-		tree->fd_list->fd = ft_file_create(tree->fd_list->name, 1);
-		if (tree->fd_list ->fd == -1)
+		tmp->fd = ft_file_create(tmp->name, 1);
+		if (tmp ->fd == -1)
 			return (perror(""), 1);
-		dup2(tree->fd_list->fd, 1);
-		close(tree->fd_list->fd);
+		dprintf(2, "you are on the right way %d and name %s\n", tmp->fd, tmp->name);
+		dup2(tmp->fd, 1);
+		close(tmp->fd);
 	}
 	else if (i == 4)
 	{
-		tree->fd_list->fd = ft_file_create(tree->fd_list->name, 2);
-		if (tree->fd_list ->fd == -1)
+		tmp->fd = ft_file_create(tmp->name, 2);
+		if (tmp ->fd == -1)
 			return (perror(""), 1);
-		dup2(tree->fd_list->fd, 1);
-		close(tree->fd_list->fd);
+		dup2(tmp->fd, 1);
+		close(tmp->fd);
 	}
 	return (0);
 }
 
-int	ft_cmd_redir_support(t_tree *tree)
+int	ft_cmd_redir_support(t_list_fd *tmp)
 {
-	close(tree->fd_list->fd1);
-	if (ft_redir_check(tree->fd_list->redir) == 1)
+	close(tmp->fd1);
+	if (ft_redir_check(tmp->redir) == 1)
 	{
-		if (ft_cmd_redir_helper(tree, 1))
+		if (ft_cmd_redir_helper(tmp, 1))
 			return (1);
 	}
-	else if (ft_redir_check(tree->fd_list->redir) == 2)
+	else if (ft_redir_check(tmp->redir) == 2)
 	{
-		if (ft_cmd_redir_helper(tree, 2))
+		if (ft_cmd_redir_helper(tmp, 2))
 			return (1);
 	}
-	else if (ft_redir_check(tree->fd_list->redir) == 4)
+	else if (ft_redir_check(tmp->redir) == 4)
 	{
-		if (ft_cmd_redir_helper(tree, 4))
+		if (ft_cmd_redir_helper(tmp, 4))
 			return (1);
 	}
 	return (0);
@@ -91,7 +92,7 @@ int	ft_cmd_redir(t_tree *tree, t_hdoc_data *h_data)
 		return (1);
 	while (tmp != NULL && tree->ambiguous == 0)
 	{
-		if (ft_cmd_redir_support(tree))
+		if (ft_cmd_redir_support(tmp))
 		{
 			dup2(org_stdin, 0);
 			return (ft_close_st(org_stdout, org_stdin), 1);

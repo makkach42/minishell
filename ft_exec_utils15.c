@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 18:27:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 13:32:07 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:32:24 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	ft_exec_test2(t_tree *tree, int *test, t_hdoc_data *h_data)
 		return (*test = 1, ft_exec_test(tree->right, test, h_data), exit (0));
 	waitpid(x->id1, &(x->status), 0);
 	waitpid(x->id2, &(x->status1), 0);
-	return (free (x),
-		ft_test_children(x->status, x->status1, test, h_data->sig_flag));
+	return (ft_test_children(x->status, x->status1, test, h_data->sig_flag),
+		free (x));
 }
 
 void	ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data)

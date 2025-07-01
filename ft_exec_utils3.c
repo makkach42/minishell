@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 19:49:22 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:36:45 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ void	ft_close_pip(t_tree *tree)
 int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 {
 	t_pip	*x;
+	int		status;
 
 	x = NULL;
+	status = 0;
 	if (!ft_test_x(&x))
 		return (1);
 	tree->left->status = tree->status;
@@ -44,7 +46,7 @@ int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 	if (waitpid(x->id1, &(x->status1), 0) == -1
 		|| waitpid(x->id2, &(x->status), 0) == -1)
 		return (1);
-	return (free (x), ft_wait_for_child(x->status, x->status1, check));
+	return (ft_wait_for_child(x->status, x->status1, check, &status), free (x), status);
 }
 
 int	cmd_check(t_tree *tree)

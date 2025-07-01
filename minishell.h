@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/01 10:21:28 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:43:40 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,12 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <signal.h>
 # include <termios.h>
 # include <dirent.h>
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <sys/stat.h>
 # include <errno.h>
-# include <signal.h>
 
 typedef struct s_list
 {
@@ -176,12 +173,14 @@ typedef struct s_var_main
 	t_hdoc_data		*h_data;
 	struct termios	termios_a;
 	char			*temp;
+	int				main_stat;
+	int				main_end;
 }	t_var_main;
 
 int	g_global_status;
 
 int		check_empty(char *str);
-void	ft_str_empty(t_env **env, char **e, t_hdoc_data *h_data);
+void	ft_str_empty(t_var_main *shell, t_env **env, char **e, t_hdoc_data *h_data);
 void	handle_signal(int sig);
 void	hide_terminal_control_chars(void);
 void	free_tree(t_tree *tree);
@@ -388,7 +387,7 @@ void	ft_first_child(t_tree *tree, int *check, char **e, t_hdoc_data *h_data);
 void	ft_second_child(t_tree *tree, int *check,
 			char **e, t_hdoc_data *h_data);
 void	ft_close_fd(t_tree *tree);
-int		ft_wait_for_child(int status, int status1, int *check);
+int		ft_wait_for_child(int status, int status1, int *check, int *s);
 void	reset_var_remove_quotes(t_tree **tree);
 int		ft_cd(char **s, t_env *h);
 int		ft_echo(char **s);
@@ -419,7 +418,7 @@ char	*ft_name_check(char *name);
 void	ft_hdoc(char *limiter, t_list_fd *tmp, t_env **env, int status);
 void	quote_remove_lst(t_tree **tree);
 void	ft_exec_redir_helper(t_tree *tree, int i);
-int		ft_cmd_redir_support(t_tree *tree);
+int		ft_cmd_redir_support(t_list_fd *tmp);
 int		ft_n_return(int org_stdin, int org_stdout, int *check);
 void	ft_para_child(t_tree *tree, int *check, t_hdoc_data *h_data, char **e);
 int		ft_para_signal(int status, int org_stdout, int org_stdin);

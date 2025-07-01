@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/01 09:57:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/01 14:14:02 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	first_inits(t_var_main *shell, char **argev, char **argv, int argc)
 	shell->h_data->check_stat = 0;
 	shell->h_data->stat = -1;
 	shell->h_data->end = 0;
+	shell->main_stat = -1;
+	shell->main_end = 0;
 	tcgetattr(0, &shell->termios_a);
 	return (0);
 }
@@ -83,12 +85,14 @@ int	second_inits(t_var_main *shell)
 	if (g_global_status == SIGINT)
 	{
 		if (shell->tree)
+			dprintf(2, "this is wrong %p\n", shell->tree);
+		if (shell->tree)
 			ft_status(shell);
 		else
 			shell->h_data->stat = 1;
 	}
 	if (!shell->str)
-		return (ft_str_empty(&shell->env, shell->e, shell->h_data), 1);
+		return (ft_str_empty(shell, &shell->env, shell->e, shell->h_data), 1);
 	else if (!*shell->str || check_empty(shell->str))
 		return (free(shell->str), 2);
 	return (0);
@@ -111,9 +115,9 @@ int	main(int argc, char **argv, char **argev)
 		add_history(shell.str);
 		execution(&shell);
 		if (shell.tree && shell.flag != 1)
-			free_tree(shell.tree);
+			(free_tree(shell.tree), shell.tree = NULL);
 	}
-	if (shell.h_data->stat != -1)
-		exit (shell.h_data->stat);
-	exit (shell.h_data->end);
+	if (shell.main_stat != -1)
+		exit (shell.main_stat);
+	exit (shell.main_end);
 }

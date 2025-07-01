@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 18:27:00 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 19:48:31 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/01 17:08:04 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_cd(char **s, t_env *h)
 
 	n = ft_check(h, "1PWD");
 	past = ft_str_back(n->value);
+	tmp = n->value;
 	if (s[1] == NULL)
 		return (ft_cd_helper(h));
 	else

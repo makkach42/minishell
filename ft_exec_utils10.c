@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils10.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:19:50 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:44:12 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	ft_wait_for_child(int status, int status1, int *check)
+int	ft_wait_for_child(int status, int status1, int *check, int *s)
 {
 	if (WIFSIGNALED(status))
 	{
@@ -33,6 +33,7 @@ int	ft_wait_for_child(int status, int status1, int *check)
 	}
 	if (!WIFSIGNALED(status))
 		status = WEXITSTATUS(status);
+	*s = status;
 	if (*check)
 		exit (status);
 	return (status);
@@ -94,7 +95,7 @@ int	ft_para_redir(t_tree *tree)
 		return (1);
 	while (tree->fd_list != NULL && check_empty(tree->fd_list->name) != 1)
 	{
-		status = ft_cmd_redir_support(tree);
+		status = ft_cmd_redir_support(tree->fd_list);
 		tree->fd_list = tree->fd_list->next;
 	}
 	return (status);
