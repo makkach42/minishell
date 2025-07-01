@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:52:32 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 16:18:05 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/01 10:13:13 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 void	execution(t_var_main *shell)
 {
 	shell->tree = NULL;
+	dprintf(2, "yesss\n");
 	g_global_status = 0;
 	ft_parsing(&shell->str, &shell->flag, &shell->tree, shell->h_data);
 	if (!shell->flag)

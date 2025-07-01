@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 16:15:14 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/01 10:06:44 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	ft_cmd_word_check(t_tree *tree)
 	return (1);
 }
 
-
 void	ft_cmd_word_helper(t_tree *tree, t_hdoc_data *h_data,
 							int *check, char **e)
 {
@@ -79,9 +78,6 @@ void	ft_cmd_word_helper(t_tree *tree, t_hdoc_data *h_data,
 
 void	ft_cmd_word(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 {
-	// puts("++++++++++++++++++++++++++++++++++\n");
-	// print_tree_visual(tree, 1, 1);
-	// puts("++++++++++++++++++++++++++++++++++\n");
 	if (!ft_strcmp("WORD", tree->type) && !cmd_check(tree)
 		&& !tree->redirections)
 	{

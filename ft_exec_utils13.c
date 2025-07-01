@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils13.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:15:04 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 15:39:51 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/01 10:19:13 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,27 +67,6 @@ int	if_dollar(int *i, char **line, t_env **env, int *status)
 	*i = -1;
 	return (0);
 }
-
-// void	expand_quote_in_str(char	**arr)
-// {
-// 	char	*old_cmd;
-// 	int		final_len;
-// 	char	*new_str;
-
-// 	if (ft_strchr(*arr, '"'
-// 		) || ft_strchr(
-// 			*arr, '\''))
-// 	{
-// 		old_cmd = *arr;
-// 		final_len = count_filtered_length(old_cmd);
-// 		new_str = create_filtered_string(old_cmd, final_len);
-// 		if (!new_str)
-// 			return ;
-// 		free(*arr);
-// 		*arr = new_str;
-// 	}
-
-// }
 
 void	ft_hdoc_expand(char **line, t_env **env, int status)
 {
