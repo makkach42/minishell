@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:38:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 18:22:35 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/01 10:05:08 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,6 @@ int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
 {
 	int		i;
-	int		in_quotes;
-	char	quote_type;
-	char	c;
-	int	j;
 
 	i = 0;
 	while ((tree)->command_arr[i])
@@ -103,24 +99,7 @@ void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
 		{
 			if (ft_strchr((tree)->command_arr[i], '$'))
 			{
-				j = 0;
-				in_quotes = 0;
-				while (tree->command_arr[i][j])
-				{
-					c = tree->command_arr[i][j];
-					if (!in_quotes && (c == '"' || c== '\''))
-					{
-						in_quotes = 1;
-						quote_type = c;
-					}
-					else if (in_quotes && c == quote_type)
-						in_quotes = 0;
-					if (c == '$' && (!in_quotes || (in_quotes && quote_type == '"')))
-						if (if_dollar(&j, &tree->command_arr[i], h_data->env, &tree->status))
-							break ;
-					j++;
-				}
-				reset_var_cmd_split(&tree);
+				if_dollar_two(tree, i, h_data);
 			}
 			else 
 				reset_var_remove_quotes(&tree);

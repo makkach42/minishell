@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/30 18:01:54 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 19:17:36 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -488,5 +488,6 @@ void	print_tree_visual(t_tree *tree, int level, int is_left); // 7ydha 9bl matpu
 void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data);
 int		if_dollar(int *i, char **line, t_env **env, int *status);
 void	reset_var_cmd_split(t_tree **tree);
+void	if_dollar_two(t_tree *tree, int i, t_hdoc_data *h_data);
 
 #endif
