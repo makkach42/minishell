@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 07:46:27 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/01 14:23:01 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/01 14:51:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	expand_dollar(t_tmp_tree *tmp, int *in_quotes,
 	else
 	{
 		n = *j;
-		printf("sjsjs\n");
 		process_array_variable(&tmp->tmp->data, 0, j, h_data->env);
 		if (*j == -1)
 			if_question_mark(&tmp, n, h_data);
