@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/01 10:21:28 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/01 10:27:37 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,12 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <signal.h>
 # include <termios.h>
 # include <dirent.h>
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <sys/stat.h>
 # include <errno.h>
-# include <signal.h>
 
 typedef struct s_list
 {

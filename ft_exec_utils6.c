@@ -6,25 +6,11 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:03:06 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/01 10:26:46 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void	ft_is_dir(char *s)
-{
-	struct stat	buf;
-
-	stat(s, &buf);
-	if (S_ISDIR(buf.st_mode) != 0)
-	{
-		ft_putstr_fd(2, "minishell: ");
-		ft_putstr_fd(2, s);
-		ft_putstr_fd(2, ": is a directory\n");
-		exit (126);
-	}
-}
 
 void	ft_new_handler_pip(int sig)
 {
