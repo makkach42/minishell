@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:52:32 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/01 10:21:49 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/01 13:57:57 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	execution(t_var_main *shell)
 	shell->tree = NULL;
 	g_global_status = 0;
 	ft_parsing(&shell->str, &shell->flag, &shell->tree, shell->h_data);
-	if (!shell->flag)
-		ft_execution(shell->tree, shell->h_data, &shell->check, shell->e);
+	// if (!shell->flag)
+	// 	ft_execution(shell->tree, shell->h_data, &shell->check, shell->e);
 	if (shell->flag)
 		shell->h_data->check_stat = 0;
 	tcsetattr(0, TCSANOW, &shell->termios_a);
