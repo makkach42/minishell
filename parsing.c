@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 19:58:20 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/01 09:57:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	first_inits(t_var_main *shell, char **argev, char **argv, int argc)
 	free (shell->temp);
 	shell->tree = NULL;
 	shell->hdoc_num = 0;
+	shell->e = NULL;
 	shell->h_data = malloc(sizeof(t_hdoc_data));
 	if (!shell->h_data)
 		return (1);
