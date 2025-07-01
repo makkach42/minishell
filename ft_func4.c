@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:38:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 18:22:07 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/06/30 18:22:35 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,6 @@ int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 	}
 	return (0);
 }
-
-// void	reset_var_cmd_split_str(t_tree **tree)
-// {
-// 	int		i;
-// 	char	***cmd2;
-
-// 	cmd2 = cmd2_fill(tree);
-// 	free_twod_char((*tree)->command_arr);
-// 	i = count_triple_ptr(cmd2);
-// 	(*tree)->command_arr = malloc(sizeof(char *) * (i + 1));
-// 	fill_twod_char_with_triple((*tree)->command_arr, cmd2);
-// 	free_three_d(cmd2);
-// }
 
 void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
 {
