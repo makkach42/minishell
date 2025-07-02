@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_funcs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:16:32 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/24 16:22:46 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/02 10:43:53 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char	*ft_strcpy(char *dest, char *src)
 	int	i;
 
 	i = 0;
+	dprintf(2, "%s\n", src);
 	if (!dest || !src)
 		return (NULL);
 	while (src[i])
@@ -81,6 +82,7 @@ char	*ft_strcpy(char *dest, char *src)
 		dest[i] = src[i];
 		i++;
 	}
+	dprintf(2, "tjos os i %d\n", i);
 	dest[i] = '\0';
 	return (dest);
 }

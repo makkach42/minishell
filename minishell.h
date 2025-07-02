@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/01 17:17:59 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/02 10:18:04 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -488,5 +488,6 @@ int		if_dollar(int *i, char **line, t_env **env, int *status);
 void	reset_var_cmd_split(t_tree **tree);
 void	if_dollar_two(t_tree *tree, int i, t_hdoc_data *h_data);
 int		ft_var_check_quote(char *str);
+void	print_tree_visual(t_tree *tree, int level, int is_left);///7ydha 9bl MATPUSHI
 
 #endif

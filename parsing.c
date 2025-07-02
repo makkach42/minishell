@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/01 14:14:02 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/02 10:09:08 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data)
 	if (!*flag && has_wild_cards_fdlst(tree) == 1)
 		handle_wildcards_in_fdlst(tree);
 	if (!*flag && has_wild_cards_comarr(tree))
+		protect_wild_card(tree);
+	if (!*flag && has_wild_cards_fdlst(tree))
 		protect_wild_card(tree);
 }
 

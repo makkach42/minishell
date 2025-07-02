@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/01 16:36:45 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/02 11:03:36 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,29 +49,56 @@ int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 	return (ft_wait_for_child(x->status, x->status1, check, &status), free (x), status);
 }
 
+void	remove_quotes_from_var_two(char	**arr)
+{
+	int		i;
+	char	*old_cmd;
+	int		final_len;
+	char	*new_str;
+
+	i = 0;
+	if (arr[i])
+	{
+		if (ft_strchr(arr[i], '"'
+			) || ft_strchr(
+				arr[i], '\''))
+		{
+			old_cmd = arr[i];
+			final_len = count_filtered_length(old_cmd);
+			new_str = create_filtered_string(old_cmd, final_len);
+			if (!new_str)
+				return ;
+			free(arr[i]);
+			arr[i] = new_str;
+		}
+	}
+}
+
 int	cmd_check(t_tree *tree)
 {
+	char	*str;
+
 	if (!tree)
 		return (1);
 	if (!tree->command_arr || !tree->command_arr[0])
 		return (1);
-	if (ft_var_check_quote(tree->command_arr[0]))
-		reset_var_remove_quotes(&tree);
-	if (ft_strcmp(tree->command_arr[0], "cd") == 0)
-		return (0);
-	if (ft_strcmp(tree->command_arr[0], "echo") == 0)
-		return (0);
-	if (ft_strcmp(tree->command_arr[0], "env") == 0)
-		return (0);
-	if (ft_strcmp(tree->command_arr[0], "exit") == 0)
-		return (0);
-	if (ft_strcmp(tree->command_arr[0], "export") == 0)
-		return (0);
-	if (ft_strcmp(tree->command_arr[0], "pwd") == 0)
-		return (0);
-	if (ft_strcmp(tree->command_arr[0], "unset") == 0)
-		return (0);
-	return (1);
+	str = ft_strdup(tree->command_arr[0]);
+	remove_quotes_from_var_two(&str);
+	if (ft_strcmp(str, "cd") == 0)
+		return (free(str), 0);
+	if (ft_strcmp(str, "echo") == 0)
+		return (free(str), 0);
+	if (ft_strcmp(str, "env") == 0)
+		return (free(str), 0);
+	if (ft_strcmp(str, "exit") == 0)
+		return (free(str), 0);
+	if (ft_strcmp(str, "export") == 0)
+		return (free(str), 0);
+	if (ft_strcmp(str, "pwd") == 0)
+		return (free(str), 0);
+	if (ft_strcmp(str, "unset") == 0)
+		return (free(str), 0);
+	return (free(str), 1);
 }
 
 int	ft_cmd_exec(t_tree *tree, t_hdoc_data *h_data)
