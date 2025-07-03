@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils8.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:18:39 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/03 16:10:50 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,5 @@ void	ft_signal_exec(void)
 		ft_putstr_fd(1, "\n");
 	else if (g_global_status == 3)
 		ft_putstr_fd(1, "Quit: 3\n");
+	g_global_status = 0;
 }

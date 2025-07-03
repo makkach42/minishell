@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/02 10:18:04 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 16:21:41 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,7 +389,7 @@ void	ft_second_child(t_tree *tree, int *check,
 void	ft_close_fd(t_tree *tree);
 int		ft_wait_for_child(int status, int status1, int *check, int *s);
 void	reset_var_remove_quotes(t_tree **tree);
-int		ft_cd(char **s, t_env *h);
+int		ft_cd(char **s, t_env *h, int var);
 int		ft_echo(char **s);
 int		ft_env(t_env *h);
 int		ft_exit(char **s, t_hdoc_data *h_data, int status);

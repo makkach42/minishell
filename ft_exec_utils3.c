@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/02 11:03:36 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 16:22:33 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,10 @@ int	ft_cmd_exec(t_tree *tree, t_hdoc_data *h_data)
 
 	status = 0;
 	if (ft_strcmp(tree->command_arr[0], "cd") == 0)
-		status = ft_cd(tree->command_arr, *(h_data->env));
+	{
+		print_tree_visual(tree, 1, 1);
+		status = ft_cd(tree->command_arr, *(h_data->env), tree->var);
+	}
 	if (ft_strcmp(tree->command_arr[0], "echo") == 0)
 		status = ft_echo(tree->command_arr);
 	if (ft_strcmp(tree->command_arr[0], "env") == 0)
