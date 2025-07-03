@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 07:46:27 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/03 16:36:35 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 16:38:35 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	expand_dollar(t_tmp_tree *tmp, int *in_quotes,
 	{
 		n = *j;
 		process_array_variable(&tmp->tmp->data, 0, j, h_data->env);
+		tmp->tree->var = 1;
 		if (*j == -1)
 			if_question_mark(&tmp, n, h_data);
 		*j = -1;
