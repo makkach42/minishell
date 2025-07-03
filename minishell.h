@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/03 21:04:51 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 21:44:14 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,15 @@ typedef struct s_var_main
 	int				main_stat;
 	int				main_end;
 }	t_var_main;
+
+typedef struct s_rm_dollar
+{
+	int		j;
+	char	*before;
+	char	*after;
+	char	*dollars;
+	char	*new_str;
+}	t_rm_dollar;
 
 int	g_global_status;
 

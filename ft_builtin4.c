@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 18:27:00 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/03 20:55:52 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 21:46:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,53 +82,29 @@ int	ft_redir_check(char *str)
 
 int	remove_dollar(char **str, int i)
 {
-	int		j;
-	char	*before;
-	char	*after;
-	char	*new_str;
+	t_rm_dollar	x;
 
-	j = i;
-	while ((*str)[j] == '$')
-		j++;
-	if ((*str)[j] == '"' || (*str)[j] == '\'')
+	x.j = i;
+	while ((*str)[x.j] == '$')
+		x.j++;
+	if (x.j % 2 == 1 && (*str)[x.j] && (
+			(*str)[x.j] == '"' || (*str)[x.j] == '\''))
 	{
-		before = ft_substr((*str), 0, i);
-		if (!before)
+		x.before = ft_substr((*str), 0, i);
+		if (!x.before)
 			return (1);
-		after = ft_substr((*str), j, ft_strlen((*str)) - j);
-		if (!after)
-			return (free(before), 1);
-		new_str = ft_strjoin(before, after);
-		if (!new_str)
-			return (free(before), free(after), 1);
+		x.dollars = ft_substr((*str), i, x.j - 1);
+		if (!x.dollars)
+			return (free(x.before), 1);
+		x.after = ft_substr((*str), x.j, ft_strlen((*str)) - x.j);
+		if (!x.after)
+			return (free(x.before), free(x.dollars), 1);
+		x.new_str = ft_strjoin_three(x.before, x.dollars, x.after);
+		if (!x.new_str)
+			return (free(x.before), free(x.after), free(x.dollars), 1);
 		free((*str));
-		(*str) = new_str;
+		(*str) = x.new_str;
+		(free(x.before), free(x.after), free(x.dollars));
 	}
 	return (0);
 }
-
-// void	rem_dollar(char **str)
-// {
-// 	int		i;
-// 	int		in_quotes;
-// 	char	quote_type;
-
-// 	i = 0;
-// 	in_quotes = 0;
-// 	while ((*str)[i])
-// 	{
-// 		if (!in_quotes && ((*str)[i] == '"' || (*str)[i] == '\''))
-// 		{
-// 			in_quotes = 1;
-// 			quote_type = (*str)[i];
-// 		}
-// 		else if (in_quotes && quote_type == (*str)[i])
-// 			in_quotes = 0;
-// 		if (!in_quotes && (*str)[i] == '$')
-// 		{
-// 			if (remove_dollar(str, i))
-// 				break ;
-// 		}
-// 		i++;
-// 	}
-// }

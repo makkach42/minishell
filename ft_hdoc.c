@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_hdoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:30:26 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/03 20:55:27 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 21:36:38 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,7 @@ void	ft_hdoc_check(t_tree *tree, t_hdoc_data *h_data, int status)
 		if (ft_redir_check(tmp->redir) == 3 && *(h_data->sig_flag) == 1)
 		{
 			if (ft_strchr(tmp->name, '$'))
-			{
 				rem_dollar(&tmp->name);
-			}
 			if (ft_strchr(tmp->name, '\'') || ft_strchr(tmp->name, '"'))
 				tmp->in_quotes = 1;
 			quote_remove_lst(&tree);
