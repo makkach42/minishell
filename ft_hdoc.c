@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:30:26 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 10:40:29 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 17:27:10 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,18 @@
 
 int	ft_hdoc_first(t_list_fd *tmp)
 {
+	int	id;
+	int	h_doc;
+
+	h_doc = 0;
+	id = fork();
+	if (id == 0)
+		exit (0);
+	if (id != 0)
+		h_doc = id;
+	waitpid(id, NULL, 0);
 	tmp->name_split = ft_split("e", 32);
-	tmp->name_split[0] = ft_name_check(tmp->name_split[0]);
+	tmp->name_split[0] = ft_name_check(tmp->name_split[0], h_doc);
 	tmp->fd = open(tmp->name_split[0], O_RDWR | O_CREAT, 0777);
 	if (tmp->fd == -1)
 		return (1);

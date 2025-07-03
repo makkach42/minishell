@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/03 16:21:41 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 17:27:54 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -414,7 +414,7 @@ void	ft_hdoc_check(t_tree *tree, t_hdoc_data *h_data, int status);
 int		ft_lstsize(t_env *lst);
 void	env_fill_helper(t_env **node, int *i, int *j, char **argev);
 void	env_fill_empty(t_env **node);
-char	*ft_name_check(char *name);
+char	*ft_name_check(char *name, int h_doc);
 void	ft_hdoc(char *limiter, t_list_fd *tmp, t_env **env, int status);
 void	quote_remove_lst(t_tree **tree);
 void	ft_exec_redir_helper(t_tree *tree, int i);

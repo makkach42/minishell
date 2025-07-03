@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:17:14 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 12:00:14 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/03 17:27:46 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_name_helper(char *name, int i)
 	return (name);
 }
 
-char	*ft_name_check(char *name)
+char	*ft_name_check(char *name, int h_doc)
 {
 	int		i;
 	char	*tmp;
@@ -41,7 +41,7 @@ char	*ft_name_check(char *name)
 	if (name == NULL)
 		return (NULL);
 	tmp = name;
-	name = ft_strdup("e");
+	name = ft_strjoin("e", ft_itoa(h_doc));
 	if (!name)
 		return (NULL);
 	free (tmp);
