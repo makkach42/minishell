@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:08:37 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/03 20:10:06 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 20:43:08 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ int	ft_expo_plus(char *s, int *status, t_env *h, int act)
 	v = NULL;
 	f = NULL;
 	if (ft_equal_check(s) == 1)
-	{
 		ft_expo_error2(status, s);
-	}
 	else
 	{
 		ft_v_expo(s, &v);

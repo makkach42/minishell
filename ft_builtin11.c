@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:12:00 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/02 11:12:44 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 20:56:43 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_expo_error2(int *status, char *s)
 char	**ft_equal_str_helper(char **p, char *str, int i)
 {
 	int	count;
-	
+
 	count = 0;
 	p[0] = ft_substr(str, 0, i);
 	if (p[0] == NULL)
@@ -81,4 +81,30 @@ char	*ft_str_back(char *s)
 	if (!new)
 		return (NULL);
 	return (new);
+}
+
+void	rem_dollar(char **str)
+{
+	int		i;
+	int		in_quotes;
+	char	quote_type;
+
+	i = 0;
+	in_quotes = 0;
+	while ((*str)[i])
+	{
+		if (!in_quotes && ((*str)[i] == '"' || (*str)[i] == '\''))
+		{
+			in_quotes = 1;
+			quote_type = (*str)[i];
+		}
+		else if (in_quotes && quote_type == (*str)[i])
+			in_quotes = 0;
+		if (!in_quotes && (*str)[i] == '$')
+		{
+			if (remove_dollar(str, i))
+				break ;
+		}
+		i++;
+	}
 }

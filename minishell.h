@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/03 17:27:54 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 21:04:51 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,8 @@ typedef struct s_var_main
 int	g_global_status;
 
 int		check_empty(char *str);
-void	ft_str_empty(t_var_main *shell, t_env **env, char **e, t_hdoc_data *h_data);
+void	ft_str_empty(t_var_main *shell,
+			t_env **env, char **e, t_hdoc_data *h_data);
 void	handle_signal(int sig);
 void	hide_terminal_control_chars(void);
 void	free_tree(t_tree *tree);
@@ -488,6 +489,8 @@ int		if_dollar(int *i, char **line, t_env **env, int *status);
 void	reset_var_cmd_split(t_tree **tree);
 void	if_dollar_two(t_tree *tree, int i, t_hdoc_data *h_data);
 int		ft_var_check_quote(char *str);
+void	rem_dollar(char **str);
+int		remove_dollar(char **str, int i);
 void	print_tree_visual(t_tree *tree, int level, int is_left);///7ydha 9bl MATPUSHI
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/03 18:32:13 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 20:53:46 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@ void	ft_close_pip(t_tree *tree)
 {
 	close (tree->fd[0]);
 	close (tree->fd[1]);
+}
+
+int	ft_c(t_tree *tree, t_pip *x)
+{
+	ft_close_pip(tree);
+	ft_close_fd(tree);
+	if (waitpid(x->id1, &(x->status1), 0) == -1
+		|| waitpid(x->id2, &(x->status), 0) == -1)
+		return (1);
+	return (0);
 }
 
 int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
@@ -41,12 +51,10 @@ int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 		return (perror("minishell: fork: "), 1);
 	if (x->id2 == 0)
 		ft_second_child(tree, check, e, h_data);
-	ft_close_pip(tree);
-	ft_close_fd(tree);
-	if (waitpid(x->id1, &(x->status1), 0) == -1
-		|| waitpid(x->id2, &(x->status), 0) == -1)
+	if (ft_c(tree, x))
 		return (1);
-	return (ft_wait_for_child(x->status, x->status1, check, &status), free (x), status);
+	return (ft_wait_for_child(x->status, x->status1,
+			check, &status), free (x), status);
 }
 
 void	remove_quotes_from_var_two(char	**arr)
@@ -101,39 +109,37 @@ int	cmd_check(t_tree *tree)
 	return (free(str), 1);
 }
 
-int	ft_cmd_exec(t_tree *tree, t_hdoc_data *h_data)
-{
-	int	status;
+// int	ft_cmd_exec(t_tree *tree, t_hdoc_data *h_data)
+// {
+// 	int	status;
 
-	status = 0;
-	if (ft_strcmp(tree->command_arr[0], "cd") == 0)
-	{
-		status = ft_cd(tree->command_arr, *(h_data->env), tree->var);
-	}
-	if (ft_strcmp(tree->command_arr[0], "echo") == 0)
-		status = ft_echo(tree->command_arr);
-	if (ft_strcmp(tree->command_arr[0], "env") == 0)
-		status = ft_env(*(h_data->env));
-	if (ft_strcmp(tree->command_arr[0], "exit") == 0)
-		status = ft_exit(tree->command_arr, h_data, tree->status);
-	if (ft_strcmp(tree->command_arr[0], "export") == 0)
-		status = ft_export(tree->command_arr, *(h_data->env), tree);
-	if (ft_strcmp(tree->command_arr[0], "pwd") == 0)
-		status = ft_pwd(*(h_data->env));
-	if (ft_strcmp(tree->command_arr[0], "unset") == 0)
-		status = ft_unset(h_data->env, tree->command_arr);
-	return (status);
-}
+// 	status = 0;
+// 	if (ft_strcmp(tree->command_arr[0], "cd") == 0)
+// 		status = ft_cd(tree->command_arr, *(h_data->env), tree->var);
+// 	if (ft_strcmp(tree->command_arr[0], "echo") == 0)
+// 		status = ft_echo(tree->command_arr);
+// 	if (ft_strcmp(tree->command_arr[0], "env") == 0)
+// 		status = ft_env(*(h_data->env));
+// 	if (ft_strcmp(tree->command_arr[0], "exit") == 0)
+// 		status = ft_exit(tree->command_arr, h_data, tree->status);
+// 	if (ft_strcmp(tree->command_arr[0], "export") == 0)
+// 		status = ft_export(tree->command_arr, *(h_data->env), tree);
+// 	if (ft_strcmp(tree->command_arr[0], "pwd") == 0)
+// 		status = ft_pwd(*(h_data->env));
+// 	if (ft_strcmp(tree->command_arr[0], "unset") == 0)
+// 		status = ft_unset(h_data->env, tree->command_arr);
+// 	return (status);
+// }
 
-int	ft_redir_check(char *str)
-{
-	if (ft_strcmp(str, "<") == 0)
-		return (1);
-	else if (ft_strcmp(str, ">") == 0)
-		return (2);
-	else if (ft_strcmp(str, "<<") == 0)
-		return (3);
-	else if (ft_strcmp(str, ">>") == 0)
-		return (4);
-	return (-1);
-}
+// int	ft_redir_check(char *str)
+// {
+// 	if (ft_strcmp(str, "<") == 0)
+// 		return (1);
+// 	else if (ft_strcmp(str, ">") == 0)
+// 		return (2);
+// 	else if (ft_strcmp(str, "<<") == 0)
+// 		return (3);
+// 	else if (ft_strcmp(str, ">>") == 0)
+// 		return (4);
+// 	return (-1);
+// }

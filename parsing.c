@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/03 18:45:06 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 21:03:32 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,8 @@ int	first_inits(t_var_main *shell, char **argev, char **argv, int argc)
 	shell->h_data->env = &shell->env;
 	shell->h_data->sig_flag = malloc(sizeof(int));
 	if (!shell->h_data->sig_flag)
-	{
-		ft_free_array(shell->e);
-		free_env(&shell->env);
-		free (shell->h_data);
-		return (1);
-	}
+		return (ft_free_array(shell->e),
+			free_env(&shell->env), free (shell->h_data), 1);
 	shell->h_data->check_stat = 0;
 	shell->h_data->stat = -1;
 	shell->h_data->end = 0;
