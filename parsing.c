@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/02 10:09:08 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 18:45:06 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ int	second_inits(t_var_main *shell)
 	shell->str = readline("minishell$> ");
 	if (g_global_status == SIGINT)
 	{
-		if (shell->tree)
-			dprintf(2, "this is wrong %p\n", shell->tree);
 		if (shell->tree)
 			ft_status(shell);
 		else

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:42:37 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/02 11:03:30 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 18:44:27 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	ft_expo_equal(char *s, t_env *h, int act, int *status)
 	new = NULL;
 	v = NULL;
 	ft_v_expo(s, &v);
-	dprintf(2, "this is v0 %s\n", v[0]);
-	dprintf(2, "this is v1 %s\n", v[1]);
 	f = ft_check(h, v[0]);
 	if (f != NULL && f->h == 0)
 		ft_expo_equal_helper(v, act, f);

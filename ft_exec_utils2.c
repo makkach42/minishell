@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:01:55 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/16 10:34:58 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 19:54:08 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_exec(t_tree *tree, t_env *h, char **e)
 		env = path->value;
 	temp = tree->command_arr[0];
 	tree->command_arr[0] = ft_cmd_check(env, tree->command_arr[0]);
-	if (tree->command_arr[0] == NULL || (tree->var && tree->command_arr[1])
+	if (tree->command_arr[0] == NULL
 		|| ft_space_check(temp))
 		ft_exec_error(tree, temp);
 	execve(tree->command_arr[0], tree->command_arr, e);

@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:30:59 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/01 16:43:24 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 18:45:14 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	ft_cmd_redir_helper(t_list_fd *tmp, int i)
 		tmp->fd = ft_file_create(tmp->name, 1);
 		if (tmp ->fd == -1)
 			return (perror(""), 1);
-		dprintf(2, "you are on the right way %d and name %s\n", tmp->fd, tmp->name);
 		dup2(tmp->fd, 1);
 		close(tmp->fd);
 	}

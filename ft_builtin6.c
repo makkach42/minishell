@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:10:12 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 15:56:19 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/03 20:11:40 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,14 @@ char	*ft_str_export(t_env *h)
 	if (!buff)
 		return (NULL);
 	ft_str_expo_buff(&buff, h->key);
-	ft_str_expo_buff(&buff, "=");
-	ft_str_expo_buff(&buff, "\"");
+	if (h->value)
+	{
+		ft_str_expo_buff(&buff, "=");
+		ft_str_expo_buff(&buff, "\"");
+	}
 	ft_str_expo_buff(&buff, h->value);
-	ft_str_expo_buff(&buff, "\"");
+	if (h->value)
+		ft_str_expo_buff(&buff, "\"");
 	ft_str_expo_buff(&buff, "\n");
 	return (buff);
 }

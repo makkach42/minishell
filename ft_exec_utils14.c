@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils14.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:54:54 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/30 23:13:38 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/03 19:50:45 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	ft_variable(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 		return (0);
 	if (cmd_check(tree) == 1 && tree->redirections == NULL)
 	{
+		print_tree_visual(tree, 1, 1);
 		ft_word_handle(tree, h_data->env, e, check);
 	}
 	else if (cmd_check(tree) == 1 && tree->redirections != NULL)
