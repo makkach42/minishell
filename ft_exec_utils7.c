@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 12:30:57 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 16:25:25 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	ft_cmd_word_helper(t_tree *tree, t_hdoc_data *h_data,
 	if ((ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections == NULL)
 		|| (ft_strcmp("WORD", tree->type) == 0 && cmd_check(tree) == 0))
 	{
+		
 		reset_vars(&tree, h_data->env, h_data);
 		tree->status = ft_cmd_exec(tree, h_data);
 		ft_check_exit(check, tree->status);
@@ -66,6 +67,7 @@ void	ft_cmd_word_helper(t_tree *tree, t_hdoc_data *h_data,
 	else if ((tree->redirections != NULL && ft_strcmp("WORD", tree->type) == 0)
 		|| (ft_strcmp("REDIRECTION", tree->type) == 0 && cmd_check(tree) == 1))
 	{
+		
 		reset_vars(&tree, h_data->env, h_data);
 		variable_expantion_inlnkedlst(&tree, h_data);
 		if (has_wild_cards_fdlst(&tree) == 1)

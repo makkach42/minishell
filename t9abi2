@@ -1,7 +1,62 @@
-minishell$> export a="*.c" && ls $a
 
-minishell$> pw''d '&&' echo WTF
-usage: pwd [-L | -P]
-minishell$> 
 
-ls > $?
+minishell$> unset$aPATH
+----WORD (Command: unset$aPATH ) (Ambiguous: 0) (Var: 1) (Fd_list: 0) (Command_arr: unset)
+minishell: unset: command not found
+
+
+///////////////// ls * && echo $? | (cat && lsk ) && pwd
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+minishell$> export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export  | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export | export
+declare -x COLORFGBG="15;0"
+declare -x COLORTERM="truecolor"
+declare -x COMMAND_MODE="unix2003"
+declare -x C_INCLUDE_PATH="/mnt/homes/makkach/.brew/include:"
+declare -x HOME="/mnt/homes/makkach"
+declare -x ITERM_PROFILE="Default"
+declare -x ITERM_SESSION_ID="w0t0p0:524CAD33-5613-4DF0-B9C5-4754132AABA7"
+declare -x LC_CTYPE="UTF-8"
+declare -x LC_TERMINAL="iTerm2"
+declare -x LC_TERMINAL_VERSION="3.4.13"
+declare -x LD_LIBRARY_PATH="/mnt/homes/makkach/.brew/lib:"
+declare -x LESS="-R"
+declare -x LIBRARY_PATH="/mnt/homes/makkach/.brew/lib:"
+declare -x LOGNAME="makkach"
+declare -x LSCOLORS="Gxfxcxdxbxegedabagacad"
+declare -x LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+declare -x LaunchInstanceID="CE8C76BF-D8EE-40E7-9C19-8355B4303E55"
+declare -x OLDPWD
+declare -x PAGER="less"
+declare -x PATH="/mnt/homes/makkach/.brew/bin:/mnt/homes/makkach/.brew/bin:/mnt/homes/makkach/.brew/bin:/mnt/homes/makkach/goinfre/homebrew/bin:/mnt/homes/makkach/.brew/bin:/mnt/homes/makkach/goinfre/homebrew/bin:/mnt/homes/makkach/.brew/bin:/mnt/homes/makkach/goinfre/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin"
+declare -x PWD="/mnt/homes/makkach/Desktop/minishell"
+declare -x SECURITYSESSIONID="186a8"
+declare -x SHELL="/bin/zsh"
+declare -x SHLVL="1"
+declare -x SSH_AUTH_SOCK="/private/tmp/com.apple.launchd.XNP0IN7JBw/Listeners"
+declare -x TERM="xterm-256color"
+declare -x TERM_PROGRAM="iTerm.app"
+declare -x TERM_PROGRAM_VERSION="3.4.13"
+declare -x TERM_SESSION_ID="w0t0p0:524CAD33-5613-4DF0-B9C5-4754132AABA7"
+declare -x TMPDIR="/var/folders/zz/zyxvpxvq6csfxvn_n000cqvm0035yx/T/"
+declare -x USER="makkach"
+declare -x XPC_FLAGS="0x0"
+declare -x XPC_SERVICE_NAME="0"
+declare -x ZSH="/mnt/homes/makkach/.oh-my-zsh"
+declare -x _="/mnt/homes/makkach/Desktop/minishell/./minishell"
+declare -x __CF_USER_TEXT_ENCODING="0x0:0:0"
+minishell$>
+
+
+hang
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+minishell$> ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls 
+fork: : Resource temporarily unavailable
+fork: : Resource temporarily unavailable
+
+you must to execute ls ;;;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
