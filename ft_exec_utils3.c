@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/03 20:53:46 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/04 16:51:45 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,62 @@ void	remove_quotes_from_var_two(char	**arr)
 int	cmd_check(t_tree *tree)
 {
 	char	*str;
+	int		in_quotes;
+	char	quote_type;
+	int		i;
+	int		j;
+	int		n;
+	char	*before;
+	char	*after;
+	char	*new_str;
 
 	if (!tree)
 		return (1);
 	if (!tree->command_arr || !tree->command_arr[0])
 		return (1);
 	str = ft_strdup(tree->command_arr[0]);
+	in_quotes = 0;
+	i = 0;
+	
+	while (str[i])
+	{
+		if (!in_quotes && (str[i] == '\'' || str[i] == '"'))
+			set_quote_vars(&in_quotes, &quote_type, str[i]);
+		else if (in_quotes && str[i] == quote_type)
+			in_quotes = 0;
+		if (str[i] == '$' && (!in_quotes || (in_quotes && quote_type == '"')))
+		{
+			n = i;
+			j = i;
+			while (str[j] == '$')
+				j++;
+			while (str[j])
+			{
+				if ((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z'
+					) || ((str[j] >= '0' && str[j] <= '9')) || str[j] == '?')
+				{
+					if (str[j] >= '0' && str[j] <= '9' && str[j] == '$')
+					{
+						j++;
+						break ;
+					}
+					if (str[j] == '?' && str[j - 1] != '$')
+						break ;
+					else
+						j++;
+				}
+				else
+					break ;
+			}
+			before = ft_substr(str, 0, n);
+			after = ft_substr(str, j, ft_strlen(str) - j);
+			new_str = ft_strjoin(before, after);
+			free(str);
+			str = new_str;
+		}
+		if (i < (int)ft_strlen(str))
+			i++;
+	}
 	remove_quotes_from_var_two(&str);
 	if (ft_strcmp(str, "cd") == 0)
 		return (free(str), 0);
