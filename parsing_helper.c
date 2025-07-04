@@ -3,40 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_helper.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:52:32 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/03 20:40:59 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:05:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void	protect_wild_card(t_tree **tree)
-{
-	int		i;
-	char	*tmp;
-
-	if ((*tree) && (*tree)->left)
-		protect_wild_card(&(*tree)->left);
-	if ((*tree) && (*tree)->right)
-		protect_wild_card(&(*tree)->right);
-	if ((*tree) && (*tree)->command_arr)
-	{
-		i = 1;
-		while ((*tree)->command_arr[i])
-		{
-			if (if_has_wildcards((*tree)->command_arr[i]))
-			{
-				tmp = (*tree)->command_arr[i];
-				(*tree)->command_arr[i] = ft_strjoin_three("\"",
-						(*tree)->command_arr[i], "\"");
-				free(tmp);
-			}
-			i++;
-		}
-	}
-}
 
 void	ft_execution(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 {

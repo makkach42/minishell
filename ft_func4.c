@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_func4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:38:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/03 18:28:25 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:03:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
 	int		i;
 
 	i = 0;
+	if (has_wild_cards_comarr(&tree) == 1)
+		handle_wildcards_in_cmdarr(&tree);
+	if (has_wild_cards_fdlst(&tree) == 1)
+		handle_wildcards_in_fdlst(&tree);
 	while ((tree)->command_arr[i])
 		i++;
 	i--;
@@ -104,12 +108,4 @@ void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
 		}
 		i--;
 	}
-	if (has_wild_cards_comarr(&tree) == 1)
-		handle_wildcards_in_cmdarr(&tree);
-	if (has_wild_cards_fdlst(&tree) == 1)
-		handle_wildcards_in_fdlst(&tree);
-	if (has_wild_cards_comarr(&tree))
-		protect_wild_card(&tree);
-	if (has_wild_cards_fdlst(&tree))
-		protect_wild_card(&tree);
 }

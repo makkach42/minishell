@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/03 21:44:14 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:05:33 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,6 @@ void	handle_wildcards_in_cmdarr(t_tree **tree);
 int		has_wild_cards_fdlst(t_tree **tree);
 char	**ft_env_str(t_env *h);
 void	free_env(t_env **env);
-void	protect_wild_card(t_tree **tree);
 void	ft_free_array(char **p);
 void	inits_main(t_env **env,
 			t_tree **tree, char **argev);

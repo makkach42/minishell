@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 19:35:17 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/03 21:54:32 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:03:41 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,6 @@ void	ft_parsing(char **str, int *flag, t_tree **tree, t_hdoc_data *h_data)
 		export_cases(tree);
 		redirections_list_maker(tree);
 	}
-	if (!*flag && has_wild_cards_comarr(tree) == 1)
-		handle_wildcards_in_cmdarr(tree);
-	if (!*flag && has_wild_cards_fdlst(tree) == 1)
-		handle_wildcards_in_fdlst(tree);
-	if (!*flag && has_wild_cards_comarr(tree))
-		protect_wild_card(tree);
-	if (!*flag && has_wild_cards_fdlst(tree))
-		protect_wild_card(tree);
 }
 
 int	first_inits(t_var_main *shell, char **argev, char **argv, int argc)
