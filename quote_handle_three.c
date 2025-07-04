@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:29:57 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/25 15:21:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 12:28:05 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,10 @@ int	if_not_head(t_list *head, char *str)
 		return (1);
 	}
 	return (0);
+}
+
+void	set_quote_vars(int *in_quotes, char *quote_type, char c)
+{
+	*in_quotes = 1;
+	*quote_type = c;
 }
