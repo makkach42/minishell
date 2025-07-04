@@ -87,9 +87,7 @@ quote_handle_two.c: OK!
 quotes_handle.c: OK!
 redirections_opener.c: OK!
 redirections_opener_helper.c: OK!
-reset_vars.c: Error!
-Error: WRONG_SCOPE_COMMENT  (line: 124, col:   9):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line: 125, col:   9):	Comment is invalid in this scope
+reset_vars.c: OK!
 reset_vars_helper.c: OK!
 reset_vars_helper_two.c: OK!
 signals.c: OK!

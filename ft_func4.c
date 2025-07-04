@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:38:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 12:34:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 12:40:05 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,7 @@ void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
 		handle_wildcards_in_fdlst(&tree);
 	while ((tree)->command_arr[i])
 		i++;
-	i--;
-	while (i >= 0)
+	while (--i >= 0)
 	{
 		if (tree->command_arr)
 		{
@@ -108,7 +107,6 @@ void	ft_word_expand(t_tree *tree, t_hdoc_data *h_data)
 			else
 				reset_var_remove_quotes(&tree);
 		}
-		i--;
 	}
 	if (tree->var == 1)
 	{
