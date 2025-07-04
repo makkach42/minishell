@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/03 20:53:46 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/04 16:29:06 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	cmd_check(t_tree *tree)
 		return (1);
 	if (!tree->command_arr || !tree->command_arr[0])
 		return (1);
+	print_tree_visual(tree, 1, 1);
 	str = ft_strdup(tree->command_arr[0]);
 	remove_quotes_from_var_two(&str);
 	if (ft_strcmp(str, "cd") == 0)
