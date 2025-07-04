@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils7.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 09:58:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:51:08 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ void	ft_cmd_word_helper(t_tree *tree, t_hdoc_data *h_data,
 		tree->status = ft_cmd_exec(tree, h_data);
 		ft_check_exit(check, tree->status);
 	}
-	if ((ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections != NULL)
+	else if ((ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections != NULL)
 		|| (cmd_check(tree) == 0 && ft_strcmp("REDIRECTION", tree->type) == 0))
 		(ft_execute_com(tree, h_data), ft_check_exit(check, tree->status));
-	if (tree->redirections == NULL && ft_strcmp("WORD", tree->type) == 0
+	else if (tree->redirections == NULL && ft_strcmp("WORD", tree->type) == 0
 		&& cmd_check(tree) == 1)
 		(ft_word_expand(tree, h_data),
 			ft_word_handle(tree, h_data->env, e, check));
-	if ((tree->redirections != NULL && ft_strcmp("WORD", tree->type) == 0)
+	else if ((tree->redirections != NULL && ft_strcmp("WORD", tree->type) == 0)
 		|| (ft_strcmp("REDIRECTION", tree->type) == 0 && cmd_check(tree) == 1))
 	{
 		reset_vars(&tree, h_data->env, h_data);

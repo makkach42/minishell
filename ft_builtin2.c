@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:57:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 19:16:02 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:50:51 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,18 @@ int	ft_exit_error(int check, char **s)
 	return (1);
 }
 
-void	ft_exit_m(int m, t_env **h)
+void	ft_exit_m(int m, t_env **h, char *tmp)
 {
 	if (m < 0)
 	{
 		free_env(h);
+		free (tmp);
 		exit (m + 256);
 	}
 	else
 	{
 		free_env(h);
+		free (tmp);
 		exit (m);
 	}
 }
@@ -64,20 +66,42 @@ void	ft_exit_empty(int status, int stat)
 	exit (status);
 }
 
-char	*ft_skip_space(char *str)
+int	ft_lent_char(char *str)
 {
 	int	i;
+	int	count;
 
 	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] != 32 && str[i] != 9)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+char	*ft_skip_space(char *str)
+{
+	int		i;
+	int		j;
+	char	*dup;
+
+	i = 0;
+	j = 0;
+	dup = NULL;
 	if (!str)
+		return (NULL);
+	dup = malloc(ft_lent_char(str) + 1);
+	if (!dup)
 		return (NULL);
 	while (str[i])
 	{
 		if (str[i] != 32 && str[i] != 9)
-			return (&str[i]);
+			dup[j++] = str[i];
 		i++;
 	}
-	if (str[i] == '\0')
-		return (NULL);
-	return (str);
+	dup[j] = '\0';
+	return (dup);
 }

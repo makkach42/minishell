@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_func4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:38:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 10:03:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:43:49 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,26 @@ void	ft_execute(t_tree *tree, char **e, int *check, t_hdoc_data *h_data)
 
 int	ft_exit(char **s, t_hdoc_data *h_data, int status)
 {
-	int	m;
+	int		m;
+	char	*tmp;
 
 	m = 0;
+	tmp = s[1];
 	if (isatty(0) && isatty(1))
 		ft_putstr_fd(1, "exit\n");
 	s[1] = ft_skip_space(s[1]);
 	if (s[1] == NULL)
-		ft_exit_empty(status, h_data->stat);
+		return (free (tmp), ft_exit_empty(status, h_data->stat), 0);
 	else
 	{
 		if (ft_check_string(s[1]) != 0)
-			return (ft_exit_error(1, s));
+			return (free (tmp), ft_exit_error(1, s));
 		else if (s[2] != NULL)
-			return (ft_exit_error(2, s));
+			return (free (tmp), ft_exit_error(2, s));
 		else
 		{
 			m = ft_modulo(s[1]);
-			ft_exit_m(m, h_data->env);
+			ft_exit_m(m, h_data->env, tmp);
 		}
 	}
 	return (0);
