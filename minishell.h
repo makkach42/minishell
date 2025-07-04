@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/04 11:07:57 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 11:12:55 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -462,7 +462,7 @@ int		ft_exp_print(t_env *h);
 char	*ft_strncpy(char *dest, char *src, int n);
 char	*ft_strcpy(char *dest, char *src);
 int		ft_isalpha(int c);
-void	ft_exit_m(int m, t_env **h);
+void	ft_exit_m(int m, t_env **h, char *tmp);
 int		ft_modulo(char *str);
 int		ft_exit_error(int check, char **s);
 int		ft_check_string(char *str);
