@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 16:51:45 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 18:01:28 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	cmd_check(t_tree *tree)
 	str = ft_strdup(tree->command_arr[0]);
 	in_quotes = 0;
 	i = 0;
-	
 	while (str[i])
 	{
 		if (!in_quotes && (str[i] == '\'' || str[i] == '"'))
@@ -133,10 +132,18 @@ int	cmd_check(t_tree *tree)
 					break ;
 			}
 			before = ft_substr(str, 0, n);
+			if (!before)	
+				return (-1);
 			after = ft_substr(str, j, ft_strlen(str) - j);
+			if (!after)	
+				return (free(before), -1);
 			new_str = ft_strjoin(before, after);
+			if (!new_str)
+				return (free(before), free(after), -1);
 			free(str);
 			str = new_str;
+			free(before);
+			free(after);
 		}
 		if (i < (int)ft_strlen(str))
 			i++;
