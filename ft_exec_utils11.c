@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:21:41 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 11:16:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:30:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	ft_op_and(t_tree *tree, t_hdoc_data *h_data, char **e)
 	int	x;
 
 	x = 0;
+	tree->left->status = tree->status;
 	ft_execute(tree->left, e, &x, h_data);
 	if (tree->left->status == 0)
 	{
@@ -83,6 +84,7 @@ int	ft_op_or(t_tree *tree, t_hdoc_data *h_data, char **e)
 	int	x;
 
 	x = 0;
+	tree->left->status = tree->status;
 	ft_execute(tree->left, e, &x, h_data);
 	if (tree->left->status != 0)
 	{

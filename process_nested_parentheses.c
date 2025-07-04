@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:35:48 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/06 13:05:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 16:02:41 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	has_outer_parenthases(char *str)
 			par_closed++;
 		i++;
 	}
-	if (par_open == par_closed)
+	if (par_open == par_closed && par_open != 0)
 		return (1);
 	return (0);
 }
@@ -102,6 +102,7 @@ void	process_nested_parentheses(t_tree **tree)
 		process_nested_parentheses(&((*tree)->right));
 	if ((*tree) && (*tree)->command && has_outer_parenthases((*tree)->command))
 	{
+		print_tree_visual(*tree, 1, 1);
 		redirections_in_par_handle(tree, &cmd_part, &original_redirs, &content);
 		sub_tree_creation(&sub_tree, &content, &sub_list);
 		if (sub_tree)

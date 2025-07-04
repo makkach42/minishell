@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:54:54 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 11:16:25 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 16:19:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	ft_execute_com(t_tree *tree, t_hdoc_data *h_data)
 {
+	if (has_wild_cards_comarr(&tree))
+		handle_wildcards_in_cmdarr(&tree);
+	if (has_wild_cards_fdlst(&tree))
+		handle_wildcards_in_fdlst(&tree);
 	if (variable_search_inlnkedlst(&tree) == 1)
 		variable_expantion_inlnkedlst(&tree, h_data);
 	quote_remove_lst(&tree);

@@ -40,7 +40,11 @@ ft_exec_utils3.c: OK!
 ft_exec_utils4.c: OK!
 ft_exec_utils5.c: OK!
 ft_exec_utils6.c: OK!
-ft_exec_utils7.c: OK!
+ft_exec_utils7.c: Error!
+Error: EMPTY_LINE_FUNCTION  (line:  55, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line:  55, col:   1):	Space on empty line
+Error: EMPTY_LINE_FUNCTION  (line:  70, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line:  70, col:   1):	Space on empty line
 ft_exec_utils8.c: OK!
 ft_exec_utils9.c: OK!
 ft_func.c: OK!
@@ -48,7 +52,7 @@ ft_func1.c: OK!
 ft_func2.c: OK!
 ft_func3.c: OK!
 ft_func4.c: Error!
-Error: TOO_MANY_LINES       (line: 120, col:   1):	Function has more than 25 lines
+Error: TOO_MANY_LINES       (line: 118, col:   1):	Function has more than 25 lines
 ft_hdoc.c: OK!
 ft_split.c: OK!
 ft_strtrim.c: OK!
@@ -95,7 +99,8 @@ some_new_other_helpers.c: OK!
 some_other_helpers.c: OK!
 str_extraction.c: OK!
 syntax_error.c: OK!
-syntax_error_helper.c: OK!
+syntax_error_helper.c: Error!
+Error: TOO_FEW_TAB          (line:  95, col:  17):	Missing tabs for indent level
 tree_maker.c: OK!
 tree_maker_helper.c: OK!
 tree_maker_helper_three.c: OK!

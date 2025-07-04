@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:12:02 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/28 20:51:56 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 15:46:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,14 @@ int	in_para_check(char *str)
 	flag = 0;
 	while (str[i])
 	{
-		if ((str[i] == ')' && str[i + 1] && !is_operator(str[i + 1])))
-			return (1);
+		if (str[i] == ')')
+		{
+			i++;
+			while (str[i] == 32)
+				i++;
+			if (str[i] && !is_operator(str[i]))
+				return (1);
+		}
 		i++;
 	}
 	return (0);
