@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/07/04 18:01:28 by makkach          ###   ########.fr       */
+=======
+/*   Updated: 2025/07/04 17:43:57 by aakroud          ###   ########.fr       */
+>>>>>>> ed8482765de3d49145474b947d97dba69679728a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +102,7 @@ int	cmd_check(t_tree *tree)
 		return (1);
 	if (!tree->command_arr || !tree->command_arr[0])
 		return (1);
+	print_tree_visual(tree, 1, 1);
 	str = ft_strdup(tree->command_arr[0]);
 	in_quotes = 0;
 	i = 0;

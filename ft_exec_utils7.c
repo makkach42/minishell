@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils7.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 16:25:25 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:43:47 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	ft_cmd_word(t_tree *tree, t_hdoc_data *h_data, int *check, char **e)
 	if (!ft_strcmp("WORD", tree->type) && !cmd_check(tree)
 		&& !tree->redirections)
 	{
+		dprintf(2, "here\n");
 		reset_vars(&tree, h_data->env, h_data);
 		tree->status = ft_cmd_exec(tree, h_data);
 		ft_check_exit(check, tree->status);
