@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:17:14 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/03 17:27:46 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/04 11:56:32 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,19 @@ char	*ft_name_check(char *name, int h_doc)
 {
 	int		i;
 	char	*tmp;
+	char	*num;
 
 	i = 0;
 	tmp = NULL;
+	num = ft_itoa(h_doc);
 	if (name == NULL)
 		return (NULL);
 	tmp = name;
-	name = ft_strjoin("e", ft_itoa(h_doc));
+	name = ft_strjoin("e", num);
 	if (!name)
-		return (NULL);
+		return (free(num), NULL);
 	free (tmp);
+	free (num);
 	while (access(name, F_OK) == 0)
 	{
 		name = ft_name_helper(name, i);
