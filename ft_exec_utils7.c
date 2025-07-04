@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 09:58:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 11:10:56 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_word_redir(t_tree *tree, t_env **h, char **e, int *check)
+void	ft_word_redir(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 {
 	int	id;
 
@@ -22,11 +22,11 @@ void	ft_word_redir(t_tree *tree, t_env **h, char **e, int *check)
 	{
 		id = fork();
 		if (id == 0)
-			ft_execute_redir(tree, h, e);
+			ft_execute_redir(tree, h_data, e);
 		ft_signal_ign();
 	}
 	else
-		ft_execute_redir(tree, h, e);
+		ft_execute_redir(tree, h_data, e);
 	close (tree->fd_list->fd1);
 	waitpid(id, &(tree->status), 0);
 	ft_word_handle_signal(tree, check);
@@ -67,12 +67,12 @@ void	ft_cmd_word_helper(t_tree *tree, t_hdoc_data *h_data,
 		|| (ft_strcmp("REDIRECTION", tree->type) == 0 && cmd_check(tree) == 1))
 	{
 		reset_vars(&tree, h_data->env, h_data);
-		variable_expantion_inlnkedlst(&tree, h_data->env);
+		variable_expantion_inlnkedlst(&tree, h_data);
 		if (has_wild_cards_comarr(&tree) == 1)
 			handle_wildcards_in_cmdarr(&tree);
 		if (has_wild_cards_fdlst(&tree) == 1)
 			handle_wildcards_in_fdlst(&tree);
-		ft_word_redir(tree, h_data->env, e, check);
+		ft_word_redir(tree, h_data, e, check);
 	}
 }
 

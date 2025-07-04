@@ -4,3 +4,4 @@ minishell$> pw''d '&&' echo WTF
 usage: pwd [-L | -P]
 minishell$> 
 
+ls > $?

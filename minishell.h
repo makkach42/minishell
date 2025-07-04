@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/04 10:05:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 11:07:57 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,9 @@ typedef struct s_id
 
 typedef struct s_tmp_tree
 {
-	t_list	*tmp;
-	t_tree	*tree;
+	t_list		*tmp;
+	t_list_fd	*tmp_fd;
+	t_tree		*tree;
 }	t_tmp_tree;
 
 typedef struct s_qfilter
@@ -375,7 +376,7 @@ t_list	*new_list_init(char *str);
 void	new_parenthasis_word_extractor(char **word, int i, char **str);
 void	new_variable_word_extractor(char **str, char **word, int i);
 void	new_operator_word_extractor(char **word, char **str);
-void	if_question_mark(t_tmp_tree **tmp, int n, t_hdoc_data *h_data);
+int		if_question_mark(t_tmp_tree **tmp, int n, t_hdoc_data *h_data);
 int		lst_size(t_list **head);
 void	process_no_list_size(t_list	*head, int list_size, char ***cmd2, int *i);
 int		fd_list_size(t_list_fd **head);
@@ -413,7 +414,7 @@ int		ft_redir_check(char *str);
 int		ft_cmd_exec(t_tree *tree, t_hdoc_data *h_data);
 void	ft_exec(t_tree *tree, t_env *h, char **e);
 void	display_terminal_control_chars(void);
-void	ft_execute_redir(t_tree *tree, t_env **h, char **e);
+void	ft_execute_redir(t_tree *tree, t_hdoc_data *h_data, char **e);
 void	ft_word_handle_signal(t_tree *tree, int *check);
 int		cmd_check(t_tree *tree);
 void	reset_vars(t_tree **tree, t_env **env, t_hdoc_data *h_data);
@@ -477,13 +478,13 @@ int		ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
 char	*ft_skip_space(char *str);
 void	ft_exit_empty(int status, int stat);
 int		variable_search_inlnkedlst(t_tree **tree);
-void	variable_expantion_inlnkedlst(t_tree **tree, t_env **env);
+void	variable_expantion_inlnkedlst(t_tree **tree, t_hdoc_data *h_data);
 void	ambiguous_set(t_tree **tree);
 int		ambiguous_syntax_error(t_tree **tree, t_env **env);
 int		ft_cmd_redir(t_tree *tree, t_hdoc_data *h_data);
 void	ft_exec_redir(t_tree *tree, t_env **h, char **env);
 int		ft_variable(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
-void	ft_word_redir(t_tree *tree, t_env **h, char **e, int *check);
+void	ft_word_redir(t_tree *tree, t_hdoc_data *h_data, char **e, int *check);
 void	ft_exec_test(t_tree *tree, int *test, t_hdoc_data *h_data);
 int		ft_hdoc_count(t_tree *tree);
 void	ft_hdoc_exed(void);
@@ -499,6 +500,7 @@ void	if_dollar_two(t_tree *tree, int i, t_hdoc_data *h_data);
 int		ft_var_check_quote(char *str);
 void	rem_dollar(char **str);
 int		remove_dollar(char **str, int i);
+int		if_question_mark_three(t_tmp_tree **tmp, int n, t_hdoc_data *h_data);
 void	print_tree_visual(t_tree *tree, int level, int is_left);///7ydha 9bl MATPUSHI
 
 #endif

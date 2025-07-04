@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 14:45:24 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 18:09:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 10:30:50 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,9 @@ int	variable_search_instr(char *str)
 	while (str[i])
 	{
 		if (str[i] == '$')
-			break ;
+			return (1);
 		i++;
 	}
-	if (str && str[i])
-		return (1);
 	return (0);
 }
 
