@@ -36,15 +36,19 @@ ft_exec_utils13.c: OK!
 ft_exec_utils14.c: OK!
 ft_exec_utils15.c: OK!
 ft_exec_utils2.c: OK!
-ft_exec_utils3.c: OK!
+ft_exec_utils3.c: Error!
+Error: TOO_MANY_VARS_FUNC   (line:  92, col:   1):	Too many variables declarations in a function
+Error: TOO_MANY_VARS_FUNC   (line:  93, col:   1):	Too many variables declarations in a function
+Error: TOO_MANY_VARS_FUNC   (line:  94, col:   1):	Too many variables declarations in a function
+Error: TOO_MANY_VARS_FUNC   (line:  95, col:   1):	Too many variables declarations in a function
+Error: LINE_TOO_LONG        (line: 118, col:  82):	line too long
+Error: TAB_INSTEAD_SPC      (line: 135, col:  25):	Found tab when expecting space
+Error: TAB_INSTEAD_SPC      (line: 138, col:  24):	Found tab when expecting space
+Error: TOO_MANY_LINES       (line: 167, col:   1):	Function has more than 25 lines
 ft_exec_utils4.c: OK!
 ft_exec_utils5.c: OK!
 ft_exec_utils6.c: OK!
-ft_exec_utils7.c: Error!
-Error: EMPTY_LINE_FUNCTION  (line:  55, col:   1):	Empty line in function
-Error: SPACE_EMPTY_LINE     (line:  55, col:   1):	Space on empty line
-Error: EMPTY_LINE_FUNCTION  (line:  70, col:   1):	Empty line in function
-Error: SPACE_EMPTY_LINE     (line:  70, col:   1):	Space on empty line
+ft_exec_utils7.c: OK!
 ft_exec_utils8.c: OK!
 ft_exec_utils9.c: OK!
 ft_func.c: OK!

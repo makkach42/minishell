@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 19:59:13 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/05 09:04:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int	cmd_check(t_tree *tree)
 		return (1);
 	if (!tree->command_arr || !tree->command_arr[0])
 		return (1);
-	print_tree_visual(tree, 1, 1);
 	str = ft_strdup(tree->command_arr[0]);
 	in_quotes = 0;
 	i = 0;
