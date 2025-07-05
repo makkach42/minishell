@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:12:02 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/05 13:56:03 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/05 14:04:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,21 @@ void	handle_parenthases_two(char **str, char **word)
 	*word = ft_substr(*str, 0, 1);
 	if (!*word)
 		return ;
+	tmp = *word;
+	*word = ft_strtrim(*word, " ");
+	free(tmp);
+	if (!*word)
+		return ;
 	tmp = *str;
 	*str = ft_substr(*str, 1, ft_strlen(*str) - 1);
-	if (!*str)
-	{
-		free(tmp);
-		return ;
-	}
 	free(tmp);
+	if (!*str)
+		return ;
+	tmp = *str;
+	*str = ft_strtrim(*str, " ");
+	free(tmp);
+	if (!*str)
+		return ;
 }
 
 void	cut_and_slice_two(char **word, char **str)
@@ -182,6 +189,9 @@ int	parenthasis_syntax_error(t_list *head)
 		prev_data = tmp->data;
 		prev_token = tmp->token;
 		tmp = tmp->next;
+		// printf("%s\n", prev_token);
+		// if (tmp)
+		// 	printf("%s\n", tmp->token);
 		if (!ft_strcmp("&", prev_data))
 			return (1);
 		else if (tmp && !ft_strcmp(prev_token, "OPEN_PAR") && (!ft_strcmp(tmp->token, "CLOSED_PAR")))
