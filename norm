@@ -19,8 +19,7 @@ ft_builtin.c: OK!
 ft_builtin1.c: OK!
 ft_builtin10.c: OK!
 ft_builtin11.c: OK!
-ft_builtin2.c: Error!
-Error: TOO_MANY_FUNCS       (line:  85, col:   1):	Too many functions in file
+ft_builtin2.c: OK!
 ft_builtin3.c: OK!
 ft_builtin4.c: OK!
 ft_builtin5.c: OK!
@@ -36,15 +35,7 @@ ft_exec_utils13.c: OK!
 ft_exec_utils14.c: OK!
 ft_exec_utils15.c: OK!
 ft_exec_utils2.c: OK!
-ft_exec_utils3.c: Error!
-Error: TOO_MANY_VARS_FUNC   (line:  92, col:   1):	Too many variables declarations in a function
-Error: TOO_MANY_VARS_FUNC   (line:  93, col:   1):	Too many variables declarations in a function
-Error: TOO_MANY_VARS_FUNC   (line:  94, col:   1):	Too many variables declarations in a function
-Error: TOO_MANY_VARS_FUNC   (line:  95, col:   1):	Too many variables declarations in a function
-Error: LINE_TOO_LONG        (line: 118, col:  82):	line too long
-Error: TAB_INSTEAD_SPC      (line: 135, col:  25):	Found tab when expecting space
-Error: TAB_INSTEAD_SPC      (line: 138, col:  24):	Found tab when expecting space
-Error: TOO_MANY_LINES       (line: 167, col:   1):	Function has more than 25 lines
+ft_exec_utils3.c: OK!
 ft_exec_utils4.c: OK!
 ft_exec_utils5.c: OK!
 ft_exec_utils6.c: OK!
@@ -55,8 +46,7 @@ ft_func.c: OK!
 ft_func1.c: OK!
 ft_func2.c: OK!
 ft_func3.c: OK!
-ft_func4.c: Error!
-Error: TOO_MANY_LINES       (line: 118, col:   1):	Function has more than 25 lines
+ft_func4.c: OK!
 ft_hdoc.c: OK!
 ft_split.c: OK!
 ft_strtrim.c: OK!
@@ -71,8 +61,8 @@ list_init_handlers.c: OK!
 main_helper.c: OK!
 minishell.h: Error!
 Notice: GLOBAL_VAR_DETECTED  (line: 190, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
-Error: LINE_TOO_LONG        (line: 505, col:  65):	line too long
-Error: LINE_TOO_LONG        (line: 505, col:  86):	line too long
+Error: LINE_TOO_LONG        (line: 506, col:  65):	line too long
+Error: LINE_TOO_LONG        (line: 506, col:  86):	line too long
 more_libft_funcs.c: OK!
 new_list_init.c: OK!
 new_list_init_handlers.c: OK!
@@ -103,8 +93,7 @@ some_new_other_helpers.c: OK!
 some_other_helpers.c: OK!
 str_extraction.c: OK!
 syntax_error.c: OK!
-syntax_error_helper.c: Error!
-Error: TOO_FEW_TAB          (line:  95, col:  17):	Missing tabs for indent level
+syntax_error_helper.c: OK!
 tree_maker.c: OK!
 tree_maker_helper.c: OK!
 tree_maker_helper_three.c: OK!

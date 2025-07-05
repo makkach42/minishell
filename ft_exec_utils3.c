@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/05 09:04:52 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/05 10:21:51 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,97 +57,117 @@ int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 			check, &status), free (x), status);
 }
 
-void	remove_quotes_from_var_two(char	**arr)
+// void	remove_quotes_from_var_two(char	**arr)
+// {
+// 	int		i;
+// 	char	*old_cmd;
+// 	int		final_len;
+// 	char	*new_str;
+
+// 	i = 0;
+// 	if (arr[i])
+// 	{
+// 		if (ft_strchr(arr[i], '"'
+// 			) || ft_strchr(
+// 				arr[i], '\''))
+// 		{
+// 			old_cmd = arr[i];
+// 			final_len = count_filtered_length(old_cmd);
+// 			new_str = create_filtered_string(old_cmd, final_len);
+// 			if (!new_str)
+// 				return ;
+// 			free(arr[i]);
+// 			arr[i] = new_str;
+// 		}
+// 	}
+// }
+
+// void	get_var_name_in_str(char **str, int *j)
+// {
+// 	while ((*str)[*j] == '$')
+// 		(*j)++;
+// 	while ((*str)[*j])
+// 	{
+// 		if (((*str)[*j] >= 'a' && (*str)[*j] <= 'z') || (
+// 			(*str)[*j] >= 'A' && (*str)[*j] <= 'Z'
+// 			) || (((*str)[*j] >= '0' && (*str)[*j] <= '9')
+// 			) || (*str)[*j] == '?')
+// 		{
+// 			if ((*str)[*j] >= '0' && (*str)[*j] <= '9' && (*str)[*j] == '$')
+// 			{
+// 				(*j)++;
+// 				break ;
+// 			}
+// 			if ((*str)[*j] == '?' && (*str)[*j - 1] != '$')
+// 				break ;
+// 			else
+// 				(*j)++;
+// 		}
+// 		else
+// 			break ;
+// 	}
+// }
+
+// int	expand_str_if_dollar(char **str, int *i, t_rm_dollar *s)
+// {
+// 	int			n;
+// 	int			j;
+
+// 	n = *i;
+// 	j = *i;
+// 	get_var_name_in_str(str, &j);
+// 	s->before = ft_substr((*str), 0, n);
+// 	if (!s->before)
+// 		return (-1);
+// 	s->after = ft_substr((*str), j, ft_strlen((*str)) - j);
+// 	if (!s->after)
+// 		return (free(s->before), -1);
+// 	s->new_str = ft_strjoin(s->before, s->after);
+// 	if (!s->new_str)
+// 		return (free(s->before), free(s->after), -1);
+// 	free((*str));
+// 	(*str) = s->new_str;
+// 	free(s->before);
+// 	free(s->after);
+// 	return (0);
+// }
+
+int	expand_str(char **str)
 {
-	int		i;
-	char	*old_cmd;
-	int		final_len;
-	char	*new_str;
+	int			i;
+	t_rm_dollar	s;
+	t_qfilter	t;
 
 	i = 0;
-	if (arr[i])
+	t.in_quotes = 0;
+	while ((*str)[i])
 	{
-		if (ft_strchr(arr[i], '"'
-			) || ft_strchr(
-				arr[i], '\''))
+		if (!t.in_quotes && ((*str)[i] == '\'' || (*str)[i] == '"'))
+			set_quote_vars(&t.in_quotes, &t.quote_type, (*str)[i]);
+		else if (t.in_quotes && (*str)[i] == t.quote_type)
+			t.in_quotes = 0;
+		if ((*str)[i] == '$' && (!t.in_quotes || (
+				t.in_quotes && t.quote_type == '"')))
 		{
-			old_cmd = arr[i];
-			final_len = count_filtered_length(old_cmd);
-			new_str = create_filtered_string(old_cmd, final_len);
-			if (!new_str)
-				return ;
-			free(arr[i]);
-			arr[i] = new_str;
+			if (expand_str_if_dollar(str, &i, &s) == -1)
+				break ;
 		}
+		if (i < (int)ft_strlen((*str)))
+			i++;
 	}
+	return (0);
 }
 
 int	cmd_check(t_tree *tree)
 {
 	char	*str;
-	int		in_quotes;
-	char	quote_type;
-	int		i;
-	int		j;
-	int		n;
-	char	*before;
-	char	*after;
-	char	*new_str;
 
 	if (!tree)
 		return (1);
 	if (!tree->command_arr || !tree->command_arr[0])
 		return (1);
 	str = ft_strdup(tree->command_arr[0]);
-	in_quotes = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (!in_quotes && (str[i] == '\'' || str[i] == '"'))
-			set_quote_vars(&in_quotes, &quote_type, str[i]);
-		else if (in_quotes && str[i] == quote_type)
-			in_quotes = 0;
-		if (str[i] == '$' && (!in_quotes || (in_quotes && quote_type == '"')))
-		{
-			n = i;
-			j = i;
-			while (str[j] == '$')
-				j++;
-			while (str[j])
-			{
-				if ((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z'
-					) || ((str[j] >= '0' && str[j] <= '9')) || str[j] == '?')
-				{
-					if (str[j] >= '0' && str[j] <= '9' && str[j] == '$')
-					{
-						j++;
-						break ;
-					}
-					if (str[j] == '?' && str[j - 1] != '$')
-						break ;
-					else
-						j++;
-				}
-				else
-					break ;
-			}
-			before = ft_substr(str, 0, n);
-			if (!before)	
-				return (-1);
-			after = ft_substr(str, j, ft_strlen(str) - j);
-			if (!after)	
-				return (free(before), -1);
-			new_str = ft_strjoin(before, after);
-			if (!new_str)
-				return (free(before), free(after), -1);
-			free(str);
-			str = new_str;
-			free(before);
-			free(after);
-		}
-		if (i < (int)ft_strlen(str))
-			i++;
-	}
+	expand_str(&str);
 	remove_quotes_from_var_two(&str);
 	if (ft_strcmp(str, "cd") == 0)
 		return (free(str), 0);

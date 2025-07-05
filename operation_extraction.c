@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:11:20 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/05 10:23:21 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,22 @@ char	*extract_variable(char *str)
 	if (!word)
 		return (NULL);
 	return (word);
+}
+
+void	ft_exit_empty(int status, int stat)
+{
+	if (stat != -1)
+		exit (stat);
+	exit (status);
+}
+
+void	if_var(t_tree **tree)
+{
+	if ((*tree)->var == 1)
+	{
+		if (has_wild_cards_comarr(tree) == 1)
+			handle_wildcards_in_cmdarr(tree);
+		if (has_wild_cards_fdlst(tree) == 1)
+			handle_wildcards_in_fdlst(tree);
+	}
 }
