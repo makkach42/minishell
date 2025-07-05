@@ -67,9 +67,7 @@ void	process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
 void	handle_parenthases_two(char **str, char **word)
 {
 	char	*tmp;
-	int		i;
 
-	i = 0;
 	*word = ft_substr(*str, 0, 1);
 	if (!*word)
 		return ;
@@ -90,6 +88,34 @@ void	handle_parenthases_two(char **str, char **word)
 		return ;
 }
 
+void	handle_else_two(char **word, char **str)
+{
+	char	*tmp_char;
+
+	tmp_char = *str;
+	*str = ft_strtrim(*str, " ");
+	if (!*str)
+		return ;
+	free(tmp_char);
+	*word = word_extractor(*str);
+	if (!*word)
+		return ;
+	tmp_char = *word;
+	*word = ft_strtrim(*word, " ");
+	free(tmp_char);
+	if (!*word)
+		return ;
+	tmp_char = *str;
+	*str = first_word_remover(*str, *word);
+	free(tmp_char);
+	if (*str)
+	{
+		tmp_char = *str;
+		*str = ft_strtrim(*str, " ");
+		free(tmp_char);
+	}
+}
+
 void	cut_and_slice_two(char **word, char **str)
 {
 	if (**str == '\"' || **str == '\'')
@@ -101,7 +127,7 @@ void	cut_and_slice_two(char **word, char **str)
 	else if (**str == '(' || **str == ')')
 		handle_parenthases_two(str, word);
 	else
-		handle_else(word, str);
+		handle_else_two(word, str);
 }
 
 t_list	*new_list_init_two(char *str)

@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int	g_global_status;
+
 int	variable_search_instr(char *str)
 {
 	int	i;

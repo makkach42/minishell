@@ -101,7 +101,6 @@ void	reset_var_remove_quotes(t_tree **tree)
 
 void	reset_vars(t_tree **tree, t_env **env, t_hdoc_data *h_data)
 {
-	t_list	*head;
 	int		i;
 
 	if ((*tree) && (*tree)->left)
@@ -111,7 +110,6 @@ void	reset_vars(t_tree **tree, t_env **env, t_hdoc_data *h_data)
 	if ((*tree) && (*tree)->command_arr)
 	{
 		i = 0;
-		head = NULL;
 		reset_var_expand_var(tree, h_data);
 		while ((*tree)->command_arr[i])
 		{
