@@ -23,6 +23,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
+# include <signal.h>
 
 typedef struct s_list
 {
@@ -229,6 +230,7 @@ void	handle_operator(char **word, char **str);
 void	variable_handle(char **word, char **str);
 void	handle_parenthases(char **word, char **str);
 void	handle_else(char **word, char **str);
+void	handle_else_two(char **word, char **str);
 void	init_tree_node(t_tree **node, char *type);
 char	*side_maker(t_list **head, int number, int j);
 int		ft_strcmp(char *s1, char *s2);

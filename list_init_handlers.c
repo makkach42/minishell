@@ -151,3 +151,74 @@ void	handle_else(char **word, char **str)
 		free(tmp_char);
 	}
 }
+
+void	handle_else_two(char **word, char **str)
+{
+	char	*tmp_char;
+	int		i;
+
+	if (!str || !*str)
+		return ;
+	tmp_char = *str;
+	*str = ft_strtrim(*str, " ");
+	if (!*str)
+	{
+		free(tmp_char);
+		return ;
+	}
+	free(tmp_char);
+	
+	// Find the first operator, parenthesis, or dollar sign
+	i = 0;
+	while ((*str)[i] && (*str)[i] != '(' && (*str)[i] != ')' && 
+		   (*str)[i] != '$' && !is_operator((*str)[i]))
+		i++;
+	
+	if (i == 0)
+		return ;
+	
+	// Extract the word before the special character
+	*word = ft_substr(*str, 0, i);
+	if (!*word)
+		return ;
+	
+	tmp_char = *word;
+	*word = ft_strtrim(*word, " ");
+	if (!*word)
+	{
+		free(tmp_char);
+		return ;
+	}
+	free(tmp_char);
+	
+	// Check if the trimmed word is empty
+	if (!**word)
+	{
+		free(*word);
+		*word = NULL;
+		return ;
+	}
+	
+	// Update str to remove the extracted word
+	tmp_char = *str;
+	*str = ft_substr(*str, i, ft_strlen(*str) - i);
+	if (!*str)
+	{
+		free(tmp_char);
+		return ;
+	}
+	free(tmp_char);
+	
+	// Trim whitespace from the remaining string
+	if (*str)
+	{
+		tmp_char = *str;
+		*str = ft_strtrim(*str, " ");
+		if (!*str)
+		{
+			free(tmp_char);
+			return ;
+		}
+		free(tmp_char);
+	}
+}

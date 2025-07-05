@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 void	ft_execute_com(t_tree *tree, t_hdoc_data *h_data)
 {

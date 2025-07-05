@@ -1,0 +1,18 @@
+# Object files
+*.o
+*.obj
+
+# Executables
+minishell
+*.exe
+
+# Debug files
+*.dSYM/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build artifacts
+build/
+dist/

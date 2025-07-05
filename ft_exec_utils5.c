@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 void	ft_cmd_redir_end(int org_stdout, int org_stdin)
 {
