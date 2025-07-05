@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:58:14 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/20 18:23:43 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/05 19:05:07 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,45 +51,54 @@ int	lst_size(t_list **head)
 	return (i);
 }
 
-static void	extract_content_from_parentheses_helper(
-		char *command, int *i, int *j)
-{
-	while (command[*i] && *j > 0)
-	{
-		if (command[*i] == '(')
-			(*j)++;
-		else if (command[*i] == ')')
-			(*j)--;
-		(*i)++;
-	}
-}
+// static void	extract_content_from_parentheses_helper(
+// 		char *command, int *i, int *j)
+// {
+// 	while (command[*i] && *j > 0)
+// 	{
+// 		if (command[*i] == '(')
+// 			(*j)++;
+// 		else if (command[*i] == ')')
+// 			(*j)--;
+// 		(*i)++;
+// 	}
+// }
 
+// char	*extract_content_from_parentheses(char *command)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		start;
+// 	int		end;
+// 	char	*content;
+
+// 	if (!command)
+// 		return (NULL);
+// 	i = 0;
+// 	while (command[i] && command[i] != '(')
+// 		i++;
+// 	if (!command[i])
+// 		return (NULL);
+// 	start = i + 1;
+// 	i++;
+// 	j = 1;
+// 	extract_content_from_parentheses_helper(command, &i, &j);
+// 	if (j != 0)
+// 		return (NULL);
+// 	end = i - 1;
+// 	content = ft_substr(command, start, end - start);
+// 	if (!content)
+// 		return (NULL);
+// 	return (content);
+// }
 char	*extract_content_from_parentheses(char *command)
 {
-	int		i;
-	int		j;
-	int		start;
-	int		end;
-	char	*content;
-
-	if (!command)
+	char	*str;
+	
+	str = ft_substr(command, 1, ft_strlen(command) - 1);
+	if (!str)
 		return (NULL);
-	i = 0;
-	while (command[i] && command[i] != '(')
-		i++;
-	if (!command[i])
-		return (NULL);
-	start = i + 1;
-	i++;
-	j = 1;
-	extract_content_from_parentheses_helper(command, &i, &j);
-	if (j != 0)
-		return (NULL);
-	end = i - 1;
-	content = ft_substr(command, start, end - start);
-	if (!content)
-		return (NULL);
-	return (content);
+	return (str);
 }
 
 int	check_quotes(char *str, int *flag)

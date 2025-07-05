@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:06:02 by makkach           #+#    #+#             */
-/*   Updated: 2025/05/21 13:54:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/05 18:52:58 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_list	*node_maker(char *word)
 void	cut_and_slice(char **word, char **str)
 {
 	if (**str == '\"' || **str == '\'')
-		handle_quotes(word, str);
+		handle_quotes_two(word, str);
 	else if (is_operator(**str))
 		handle_operator(word, str);
 	else if (**str == '$')
