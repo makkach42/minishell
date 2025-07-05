@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:12:02 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/04 15:46:15 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/05 13:56:03 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,180 @@ void	process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
 	*head = NULL;
 }
 
-int	in_para_check(char *str)
+// int	in_para_check(char *str)
+// {
+// 	int	i;
+// 	int	flag;
+
+// 	i = 0;
+// 	flag = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == ')')
+// 		{
+// 			i++;
+// 			while (str[i] == 32)
+// 				i++;
+// 			if (str[i] && !is_operator(str[i]))
+// 				return (1);
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+void	handle_parenthases_two(char **str, char **word)
 {
-	int	i;
-	int	flag;
+	char	*tmp;
+	int		i;
 
 	i = 0;
-	flag = 0;
-	while (str[i])
+	*word = ft_substr(*str, 0, 1);
+	if (!*word)
+		return ;
+	tmp = *str;
+	*str = ft_substr(*str, 1, ft_strlen(*str) - 1);
+	if (!*str)
 	{
-		if (str[i] == ')')
-		{
-			i++;
-			while (str[i] == 32)
-				i++;
-			if (str[i] && !is_operator(str[i]))
-				return (1);
-		}
-		i++;
+		free(tmp);
+		return ;
 	}
+	free(tmp);
+}
+
+void	cut_and_slice_two(char **word, char **str)
+{
+	if (**str == '\"' || **str == '\'')
+		handle_quotes(word, str);
+	else if (is_operator(**str))
+		handle_operator(word, str);
+	else if (**str == '$')
+		variable_handle(word, str);
+	else if (**str == '(' || **str == ')')
+		handle_parenthases_two(str, word);
+	else
+		handle_else(word, str);
+}
+
+t_list	*new_list_init_two(char *str)
+{
+	char	*word;
+	t_list	*head;
+	t_list	*new_node;
+	t_list	*tmp;
+
+	word = NULL;
+	head = NULL;
+	new_node = NULL;
+	tmp = NULL;
+	if (!str || !*str)
+		return (NULL);
+	cut_and_slice_two(&word, &str);
+	head = node_maker(word);
+	if (!head)
+		return (NULL);
+	tmp = head;
+	while (str && *str)
+	{
+		cut_and_slice_two(&word, &str);
+		handle_new_node(&new_node, &tmp, &word);
+	}
+	if (str)
+		free(str);
+	return (head);
+}
+
+int	parenthasis_recognizer_two(char *str)
+{
+	if (!ft_strcmp("(", str))
+		return (1);
+	else if (!ft_strcmp(")", str))
+		return (2);
+	return (0);
+}
+
+void	tokenizer_two(t_list *tmp)
+{
+	if (command_recognizer(tmp->data) == 1)
+		tmp->token = "COMMAND";
+	else if (variable_recognizer(tmp->data) == 1)
+		tmp->token = "VARIABLE";
+	else if (parenthasis_recognizer_two(tmp->data) == 1)
+		tmp->token = "OPEN_PAR";
+	else if (parenthasis_recognizer_two(tmp->data) == 2)
+		tmp->token = "CLOSED_PAR";
+	else if (word_recognizer(tmp->data) == 1)
+		tmp->token = "WORD";
+	else if (pipe_recognizer(tmp->data) == 1)
+		tmp->token = "PIPE";
+	else if (pipe_recognizer(tmp->data) == 2)
+		tmp->token = "OPERATION_||";
+	else if (redirection_recognizer(tmp->data) == 1)
+		tmp->token = "REDIRECTION";
+	else if (operation_recognizer(tmp->data) == 1)
+		tmp->token = "OPERATION_&&";
+	else
+		tmp->token = "WORD";
+}
+
+void	lexer_two(t_list **head)
+{
+	t_list	*tmp;
+
+	tmp = *head;
+	while (tmp)
+	{
+		tokenizer_two(tmp);
+		tmp = tmp->next;
+	}
+}
+
+int	parenthasis_syntax_error(t_list *head)
+{
+	t_list	*tmp;
+	char	*prev_data;
+	char	*prev_token;
+
+	tmp = head;
+	while (tmp)
+	{
+		prev_data = tmp->data;
+		prev_token = tmp->token;
+		tmp = tmp->next;
+		if (!ft_strcmp("&", prev_data))
+			return (1);
+		else if (tmp && !ft_strcmp(prev_token, "OPEN_PAR") && (!ft_strcmp(tmp->token, "CLOSED_PAR")))
+			return (1);
+		else if (tmp && !ft_strcmp(prev_token, "OPEN_PAR") && ((!ft_strcmp(tmp->token, "OPERATION_||") || !ft_strcmp(tmp->token, "OPERATION_&&"))))
+			return (1);
+		else if (tmp && !ft_strcmp(prev_token, "OPEN_PAR") && !ft_strcmp(tmp->token, "PIPE"))
+			return (1);
+		else if (tmp && !ft_strcmp(prev_token, "PIPE") && !ft_strcmp(tmp->token, "CLOSED_PAR"))
+			return (1);
+		else if (tmp && !ft_strcmp(prev_token, "REDIRECTION") && !ft_strcmp(tmp->token, "CLOSED_PAR"))
+			return (1);
+		else if (tmp && !ft_strcmp(prev_token, "REDIRECTION") && !ft_strcmp(tmp->token, "PIPE"))
+			return (1);
+		else if (tmp && !ft_strcmp(prev_token, "REDIRECTION") && (!ft_strcmp(tmp->token, "OPERATION_&&") || !ft_strcmp(tmp->token, "OPERATION_||")))
+			return (1);
+		else if (tmp && ((!ft_strcmp(prev_token, "OPERATION_||") || !ft_strcmp(prev_token, "OPERATION_&&"))) && (!ft_strcmp(tmp->token, "CLOSED_PAR")))
+			return (1);
+		else if (tmp && ((!ft_strcmp(prev_token, "OPERATION_||") || !ft_strcmp(prev_token, "OPERATION_&&"))) && ((!ft_strcmp(tmp->token, "OPERATION_||") || !ft_strcmp(tmp->token, "OPERATION_&&"))))
+			return (1);
+	}
+	return (0);
+}
+
+int	in_para_check(char *str)
+{
+	t_list	*head;
+	char	*new_str;
+
+	new_str = ft_strdup(str);
+	head = new_list_init_two(new_str);
+	lexer_two(&head);
+	if (parenthasis_syntax_error(head))
+		return (free_list(&head), 1);
+	free_list(&head);
 	return (0);
 }
