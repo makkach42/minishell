@@ -1,0 +1,16 @@
+
+
+X(")(") : not syntax err
+
+
+X(ls(ls)) syntax err
+X(ls > (ls))
+X("(")  (")")
+X(")|(")
+
+X(echo hello)world
+X((echo hello)
+X(echo hello))
+
+(ls)
+(ls ) > ls
