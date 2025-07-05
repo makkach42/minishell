@@ -67,9 +67,7 @@ void	process_pipe_node(t_list **head, t_tree **tree, t_list *tmp,
 void	handle_parenthases_two(char **str, char **word)
 {
 	char	*tmp;
-	int		i;
 
-	i = 0;
 	*word = ft_substr(*str, 0, 1);
 	if (!*word)
 		return ;

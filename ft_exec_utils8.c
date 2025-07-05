@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 void	ft_hdoc_handle(t_tree *tree, t_hdoc_data *h_data, int status)
 {

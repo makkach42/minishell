@@ -41,10 +41,8 @@ void	new_word_word_extractor(char **word, char **str, int i)
 void	new_word_handle(char **str, char **word)
 {
 	int		i;
-	char	*tmp_char;
 
 	i = 0;
-	tmp_char = NULL;
 	while ((*str)[i])
 	{
 		if (((*str)[i] == '"') || ((*str)[i] == '\''

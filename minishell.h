@@ -23,6 +23,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
+# include <signal.h>
 
 typedef struct s_list
 {
@@ -187,7 +188,7 @@ typedef struct s_rm_dollar
 	char	*new_str;
 }	t_rm_dollar;
 
-int	g_global_status;
+extern int	g_global_status;
 
 int		check_empty(char *str);
 void	ft_str_empty(t_var_main *shell,

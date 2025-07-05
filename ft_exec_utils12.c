@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 void	ft_first_child(t_tree *tree, int *check, char **e, t_hdoc_data *h_data)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 void	ft_word_redir(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 {

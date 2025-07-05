@@ -77,7 +77,7 @@ char	**get_matches(char *pattern, char *dir_path, int *match_count)
 		return (NULL);
 	matches = process_directory(dir, pattern, &matches, match_count);
 	closedir(dir);
-	if (*matches <= 0)
+	if (!matches)
 	{
 		free(matches);
 		return (NULL);
