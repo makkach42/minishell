@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/06 08:24:34 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 10:24:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ char	*extract_variable(char *str)
 	char	quote_type;
 	char	*word;
 
-	i = 1;
-	in_quotes = 0;
-	quote_type = 0;
+	extract_variable_inits(&i, &in_quotes, &quote_type);
 	while (str[i])
 	{
 		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
@@ -75,7 +73,8 @@ char	*extract_variable(char *str)
 		}
 		else if (in_quotes && str[i] == quote_type)
 			in_quotes = 0;
-		if (!in_quotes && (str[i] == 32 || is_operator(str[i]) || str[i] == '(' || str[i] == ')'))
+		if (!in_quotes && (str[i] == 32 || is_operator(
+					str[i]) || str[i] == '(' || str[i] == ')'))
 			break ;
 		i++;
 	}

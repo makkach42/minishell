@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_everything.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:16:58 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/01 14:14:24 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/06 10:24:41 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,11 @@ void	free_tree(t_tree *tree)
 	if (tree->fd_list)
 		free_list_fd(&(tree)->fd_list);
 	free(tree);
+}
+
+void	extract_variable_inits(int *i, int *in_quotes, char *quote_type)
+{
+	*i = 1;
+	*in_quotes = 0;
+	*quote_type = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:42:38 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/05 19:07:44 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 10:25:39 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ void	extract_parenthesis_inits(int *i, int
 
 char	*extract_parenthesis(char *str)
 {
-	int	i;
-	int	open_par;
-	int	closed_par;
-	int	in_quotes;
+	int		i;
+	int		open_par;
+	int		closed_par;
+	int		in_quotes;
 	char	quote_type;
 
 	extract_parenthesis_inits(&i, &in_quotes, &open_par, &closed_par);

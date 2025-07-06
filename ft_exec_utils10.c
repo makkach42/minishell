@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils10.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:19:50 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/01 16:44:12 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/06 10:34:30 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,17 @@ int	check_amb(t_tree *tree)
 
 int	ft_para_redir(t_tree *tree)
 {
-	int	status;
+	int			status;
+	t_list_fd	*tmp;
 
 	status = 0;
+	tmp = tree->fd_list;
 	if (check_amb(tree) == 1)
 		return (1);
-	while (tree->fd_list != NULL && check_empty(tree->fd_list->name) != 1)
+	while (tmp != NULL && check_empty(tmp->name) != 1)
 	{
-		status = ft_cmd_redir_support(tree->fd_list);
-		tree->fd_list = tree->fd_list->next;
+		status = ft_cmd_redir_support(tmp);
+		tmp = tmp->next;
 	}
 	return (status);
 }

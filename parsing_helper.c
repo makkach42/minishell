@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:52:32 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/06 09:04:04 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 10:28:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	execution(t_var_main *shell)
 	shell->tree = NULL;
 	g_global_status = 0;
 	ft_parsing(&shell->str, &shell->flag, &shell->tree, shell->h_data);
-	// print_tree_visual(shell->tree, 1, 1);
 	if (!shell->flag)
 		ft_execution(shell->tree, shell->h_data, &shell->check, shell->e);
 	if (shell->flag)
@@ -69,4 +68,10 @@ void	ft_hdoc_exed(void)
 {
 	ft_putstr_fd(2, "minishell: maximum here-document count exceeded\n");
 	exit (2);
+}
+
+void	if_dollar_two_inits(int *j, int *in_quotes)
+{
+	*j = -1;
+	*in_quotes = 0;
 }
