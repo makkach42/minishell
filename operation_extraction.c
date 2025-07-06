@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/12 17:11:20 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 10:24:13 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ char	*extract_variable(char *str)
 	char	quote_type;
 	char	*word;
 
-	i = 1;
-	in_quotes = 0;
-	quote_type = 0;
+	extract_variable_inits(&i, &in_quotes, &quote_type);
 	while (str[i])
 	{
 		if (!in_quotes && (str[i] == '"' || str[i] == '\''))
@@ -75,7 +73,8 @@ char	*extract_variable(char *str)
 		}
 		else if (in_quotes && str[i] == quote_type)
 			in_quotes = 0;
-		if (!in_quotes && (str[i] == 32 || is_operator(str[i])))
+		if (!in_quotes && (str[i] == 32 || is_operator(
+					str[i]) || str[i] == '(' || str[i] == ')'))
 			break ;
 		i++;
 	}
@@ -83,4 +82,22 @@ char	*extract_variable(char *str)
 	if (!word)
 		return (NULL);
 	return (word);
+}
+
+void	ft_exit_empty(int status, int stat)
+{
+	if (stat != -1)
+		exit (stat);
+	exit (status);
+}
+
+void	if_var(t_tree **tree)
+{
+	if ((*tree)->var == 1)
+	{
+		if (has_wild_cards_comarr(tree) == 1)
+			handle_wildcards_in_cmdarr(tree);
+		if (has_wild_cards_fdlst(tree) == 1)
+			handle_wildcards_in_fdlst(tree);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:26:59 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 12:27:53 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 10:27:19 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ void	if_dollar_two(t_tree *tree, int i, t_hdoc_data *h_data)
 	char	c;
 	int		j;
 
-	j = -1;
-	in_quotes = 0;
+	if_dollar_two_inits(&j, &in_quotes);
 	while (tree->command_arr[i][++j])
 	{
 		c = tree->command_arr[i][j];
@@ -87,10 +86,12 @@ void	if_dollar_two(t_tree *tree, int i, t_hdoc_data *h_data)
 					h_data->env, &tree->status))
 				break ;
 			tree->var = 1;
+			in_quotes = 0;
 		}
 	}
 	replace_whites_spaces(tree->command_arr[i]);
 	reset_var_cmd_split(&tree);
+	reset_var_remove_quotes(&tree);
 }
 
 int	ft_var_check_quote(char *str)

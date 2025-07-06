@@ -1,0 +1,37 @@
+
+
+X(")(") : not syntax err
+
+
+X(ls(ls)) syntax err
+X(ls > (ls))
+X("(")  (")")
+X(")|(")
+
+X(echo hello)world
+X((echo hello)
+X(echo hello))
+
+X(ls)
+X
+X($x)
+X
+X
+X""ls""
+X"'"ls"'"
+X
+X
+X(ls " ''" )
+Xlsss"$USER"'$HOME'
+Xlsss"$USER"'''$HOME'"'"
+
+Xlsss"hello$?"$USER
+
+Xminishell$> >>  "lsss"$USER""
+Xminishell: makkach: command not found
+
+
+export a="l l l l l l l "
+export $a=o
+
+(ls) > l leak

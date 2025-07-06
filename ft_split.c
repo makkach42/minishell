@@ -3,43 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:07:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/17 11:52:02 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/05 16:40:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	no_words_beside(char *str)
-{
-	int	i;
-	int	open_par;
-	int	flag;
-	int	closed_par;
+// int	no_words_beside(char *str)
+// {
+// 	int	i;
+// 	int	open_par;
+// 	int	flag;
+// 	int	closed_par;
 
-	i = 0;
-	open_par = 0;
-	closed_par = 0;
-	flag = 0;
-	if (!str || str[i] != '(')
-		return (0);
-	while (str[++i])
-	{
-		if (str[i] == '(')
-			open_par++;
-		else if (str[i] == ')')
-			closed_par++;
-		if (str[i] != '(' && str[i] != ')')
-			flag = 1;
-		if (open_par == closed_par && str[i + 1])
-			return (0);
-	}
-	if (!flag)
-		return (1);
-	return (0);
-}
+// 	i = 0;
+// 	open_par = 0;
+// 	closed_par = 0;
+// 	flag = 0;
+// 	if (!str || str[i] != '(')
+// 		return (0);
+// 	while (str[++i])
+// 	{
+// 		if (str[i] == '(')
+// 			open_par++;
+// 		else if (str[i] == ')')
+// 			closed_par++;
+// 		if (str[i] != '(' && str[i] != ')')
+// 			flag = 1;
+// 		if (open_par == closed_par && str[i + 1])
+// 			return (0);
+// 	}
+// 	if (!flag)
+// 		return (1);
+// 	return (0);
+// }
 
 static char	*makestrs(const char *s, int start, int end)
 {

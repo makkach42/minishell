@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 13:52:32 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 15:53:48 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 10:28:47 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,10 @@ void	ft_hdoc_exed(void)
 {
 	ft_putstr_fd(2, "minishell: maximum here-document count exceeded\n");
 	exit (2);
+}
+
+void	if_dollar_two_inits(int *j, int *in_quotes)
+{
+	*j = -1;
+	*in_quotes = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:57:35 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 10:50:51 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/05 10:00:52 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,6 @@ void	ft_exit_m(int m, t_env **h, char *tmp)
 		free (tmp);
 		exit (m);
 	}
-}
-
-void	ft_exit_empty(int status, int stat)
-{
-	if (stat != -1)
-		exit (stat);
-	exit (status);
 }
 
 int	ft_lent_char(char *str)

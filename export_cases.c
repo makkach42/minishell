@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:11:30 by makkach           #+#    #+#             */
-/*   Updated: 2025/06/29 19:15:42 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/04 20:31:11 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	while_tmp(t_list **tmp)
 			while ((*tmp) && (*tmp)->next)
 				(*tmp) = (*tmp)->next;
 		}
+		valid_key = 0;
 		(*tmp) = (*tmp)->next;
 	}
 }
