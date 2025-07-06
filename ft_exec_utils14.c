@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils14.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:54:54 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 16:19:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 11:04:58 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	ft_execute_redir(t_tree *tree, t_hdoc_data *h_data, char **e)
 void	ft_var_helper(t_tree **tree, char **e, int *check, t_hdoc_data *h_data)
 {
 	reset_vars(tree, h_data->env, h_data);
+	print_tree_visual(*tree, 1, 1);
 	(*tree)->status = ft_variable(*tree, h_data, e, check);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils12.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:43:13 by aakroud           #+#    #+#             */
-/*   Updated: 2025/06/29 15:15:50 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 11:05:46 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,8 @@ void	ft_para_child(t_tree *tree, int *check, t_hdoc_data *h_data, char **e)
 	signal(SIGINT, SIG_DFL);
 	*check = 1;
 	if (tree->left)
+	{
+		tree->left->status = tree->status;
 		ft_execute(tree->left, e, check, h_data);
+	}
 }
