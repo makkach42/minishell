@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_handle_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:53:49 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/04 11:10:27 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 11:31:58 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,28 +65,6 @@ void	quote_filtering_and_expantion(t_tmp_tree **tmp, t_hdoc_data *h_data)
 		i++;
 	}
 }
-
-// void	variable_expantion_para(t_tree **tree, t_env **env)
-// {
-// 	t_list_fd	*tmp;
-
-// 	if ((*tree)->left)
-// 		variable_expantion_para(&(*tree)->left, env);
-// 	if ((*tree)->right)
-// 		variable_expantion_para(&(*tree)->right, env);
-// 	if ((*tree)->fd_list)
-// 	{
-// 		tmp = (*tree)->fd_list;
-// 		while (tmp)
-// 		{
-// 			if (variable_search_instr(tmp->name))
-// 				break ;
-// 			tmp = tmp->next;
-// 		}
-// 		if (tmp)
-// 			quote_filtering_and_expantion(&tmp, env);
-// 	}
-// }
 
 void	variable_expantion_inlnkedlst(t_tree **tree, t_hdoc_data *h_data)
 {

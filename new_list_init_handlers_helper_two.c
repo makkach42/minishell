@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_list_init_handlers_helper_two.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:07:51 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/05 10:27:33 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 11:31:13 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,3 @@ void	equal_handle(char **str, char **word)
 		return ;
 	free(tmp_char);
 }
-
-// int	check_inside_parenths(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '(' && str[i + 1] && str[i + 1] == ')')
-// 			return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
