@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:59:35 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/05 10:23:21 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 08:24:34 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*extract_variable(char *str)
 		}
 		else if (in_quotes && str[i] == quote_type)
 			in_quotes = 0;
-		if (!in_quotes && (str[i] == 32 || is_operator(str[i])))
+		if (!in_quotes && (str[i] == 32 || is_operator(str[i]) || str[i] == '(' || str[i] == ')'))
 			break ;
 		i++;
 	}
