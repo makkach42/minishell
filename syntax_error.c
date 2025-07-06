@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/06 10:36:07 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 11:24:08 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,35 +65,6 @@ void	while_loop_syntax_error(t_list *tmp,
 			(more_ifs(prev_token, prev_data, tmp, flag));
 	}
 }
-
-// int	parenth_case(char *str)
-// {
-// 	t_qfilter	qfil;
-// 	t_par		par;
-// 	int			i;
-
-// 	qfil.in_quotes = 0;
-// 	par.open_par = 0;
-// 	par.closed_par = 0;
-// 	i = -1;
-// 	while (str[++i])
-// 	{
-// 		if (str[i] == '(')
-// 			par.open_par++;
-// 		else if (str[i] == ')')
-// 			par.closed_par++;
-// 		if (!qfil.in_quotes && (str[i] == '"' || str[i] == '\''))
-// 		{
-// 			qfil.in_quotes = 1;
-// 			qfil.quote_type = str[i];
-// 		}
-// 		else if (qfil.in_quotes && str[i] == qfil.quote_type)
-// 			qfil.in_quotes = 0;
-// 		if (return_error_cases(str, &i, &qfil, &par))
-// 			return (1);
-// 	}
-// 	return (0);
-// }
 
 void	syntax_error(t_list **head, int *flag)
 {

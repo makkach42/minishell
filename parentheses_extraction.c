@@ -6,57 +6,11 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:42:38 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/06 10:25:39 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 11:24:00 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static void	extract_parenthesis_helper(char *str, int *i,
-// 	int *open_par, int *closed_par)
-// {
-// 	while (str[*i] != '\0' && str[*i] != ')')
-// 	{
-// 		if (str[*i] == '(')
-// 			(*open_par)++;
-// 		(*i)++;
-// 	}
-// 	if (str[*i] == ')')
-// 		(*closed_par)++;
-// 	(*i)++;
-// 	while (*i < (int)ft_strlen(str) && str[(*i)] != '\0' && (
-// 			*open_par) > (*closed_par))
-// 	{
-// 		if (str[(*i)] == '(')
-// 			(*open_par)++;
-// 		if (str[(*i)] == ')')
-// 			(*closed_par)++;
-// 		(*i)++;
-// 	}
-// }
-
-// static void	extract_parenthesis_helper_two(char *str, int *i,
-// 	int *flag, char **word)
-// {
-// 	int	open_par;
-// 	int	closed_par;
-
-// 	open_par = 1;
-// 	closed_par = 1;
-// 	while (str[*i] != '\0' && !is_operator(str[*i]) && (*flag) == 0)
-// 	{
-// 		if (str[*i] == '(')
-// 			open_par++;
-// 		if (str[*i] == ')')
-// 			closed_par++;
-// 		(*i)++;
-// 		if (str[*i] == 32 && open_par == closed_par)
-// 			(*flag) = 1;
-// 	}
-// 	*word = ft_substr(str, 0, (*i));
-// 	if (!*word)
-// 		return ;
-// }
 
 void	extract_parenthesis_inits(int *i, int
 		*in_quotes, int *open_par, int *closed_par)
@@ -95,33 +49,6 @@ char	*extract_parenthesis(char *str)
 	}
 	return (ft_substr(str, 0, i + 1));
 }
-
-// char	*extract_parenthesis(char *str)
-// {
-// 	int		i;
-// 	int		flag;
-// 	int		open_par;
-// 	int		closed_par;
-// 	char	*word;
-
-// 	extract_parenthesis_inits(&i, &flag, &open_par, &closed_par);
-// 	word = NULL;
-// 	if (!str || !*str)
-// 		return (NULL);
-// 	extract_parenthesis_helper(str, &i, &open_par, &closed_par);
-// 	if (i > (int)ft_strlen(str))
-// 		return (ft_substr(str, 0, ft_strlen(str)));
-// 	if ((str[i] == '\0' || str[i] == 32))
-// 	{
-// 		word = ft_substr(str, 0, i);
-// 		if (!word)
-// 			return (NULL);
-// 		return (word);
-// 	}
-// 	else
-// 		extract_parenthesis_helper_two(str, &i, &flag, &word);
-// 	return (word);
-// }
 
 char	*parenthesis_remover(char *str, char *word)
 {

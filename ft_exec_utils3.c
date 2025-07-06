@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 13:10:18 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/06 10:39:23 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/06 11:23:26 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,81 +56,6 @@ int	ft_pip(t_tree *tree, t_hdoc_data *h_data, char **e, int *check)
 	return (ft_wait_for_child(x->status, x->status1,
 			check, &status), free (x), status);
 }
-
-// void	remove_quotes_from_var_two(char	**arr)
-// {
-// 	int		i;
-// 	char	*old_cmd;
-// 	int		final_len;
-// 	char	*new_str;
-
-// 	i = 0;
-// 	if (arr[i])
-// 	{
-// 		if (ft_strchr(arr[i], '"'
-// 			) || ft_strchr(
-// 				arr[i], '\''))
-// 		{
-// 			old_cmd = arr[i];
-// 			final_len = count_filtered_length(old_cmd);
-// 			new_str = create_filtered_string(old_cmd, final_len);
-// 			if (!new_str)
-// 				return ;
-// 			free(arr[i]);
-// 			arr[i] = new_str;
-// 		}
-// 	}
-// }
-
-// void	get_var_name_in_str(char **str, int *j)
-// {
-// 	while ((*str)[*j] == '$')
-// 		(*j)++;
-// 	while ((*str)[*j])
-// 	{
-// 		if (((*str)[*j] >= 'a' && (*str)[*j] <= 'z') || (
-// 			(*str)[*j] >= 'A' && (*str)[*j] <= 'Z'
-// 			) || (((*str)[*j] >= '0' && (*str)[*j] <= '9')
-// 			) || (*str)[*j] == '?')
-// 		{
-// 			if ((*str)[*j] >= '0' && (*str)[*j] <= '9' && (*str)[*j] == '$')
-// 			{
-// 				(*j)++;
-// 				break ;
-// 			}
-// 			if ((*str)[*j] == '?' && (*str)[*j - 1] != '$')
-// 				break ;
-// 			else
-// 				(*j)++;
-// 		}
-// 		else
-// 			break ;
-// 	}
-// }
-
-// int	expand_str_if_dollar(char **str, int *i, t_rm_dollar *s)
-// {
-// 	int			n;
-// 	int			j;
-
-// 	n = *i;
-// 	j = *i;
-// 	get_var_name_in_str(str, &j);
-// 	s->before = ft_substr((*str), 0, n);
-// 	if (!s->before)
-// 		return (-1);
-// 	s->after = ft_substr((*str), j, ft_strlen((*str)) - j);
-// 	if (!s->after)
-// 		return (free(s->before), -1);
-// 	s->new_str = ft_strjoin(s->before, s->after);
-// 	if (!s->new_str)
-// 		return (free(s->before), free(s->after), -1);
-// 	free((*str));
-// 	(*str) = s->new_str;
-// 	free(s->before);
-// 	free(s->after);
-// 	return (0);
-// }
 
 int	expand_str(char **str)
 {
@@ -185,38 +110,3 @@ int	cmd_check(t_tree *tree)
 		return (free(str), 0);
 	return (free(str), 1);
 }
-
-// int	ft_cmd_exec(t_tree *tree, t_hdoc_data *h_data)
-// {
-// 	int	status;
-
-// 	status = 0;
-// 	if (ft_strcmp(tree->command_arr[0], "cd") == 0)
-// 		status = ft_cd(tree->command_arr, *(h_data->env), tree->var);
-// 	if (ft_strcmp(tree->command_arr[0], "echo") == 0)
-// 		status = ft_echo(tree->command_arr);
-// 	if (ft_strcmp(tree->command_arr[0], "env") == 0)
-// 		status = ft_env(*(h_data->env));
-// 	if (ft_strcmp(tree->command_arr[0], "exit") == 0)
-// 		status = ft_exit(tree->command_arr, h_data, tree->status);
-// 	if (ft_strcmp(tree->command_arr[0], "export") == 0)
-// 		status = ft_export(tree->command_arr, *(h_data->env), tree);
-// 	if (ft_strcmp(tree->command_arr[0], "pwd") == 0)
-// 		status = ft_pwd(*(h_data->env));
-// 	if (ft_strcmp(tree->command_arr[0], "unset") == 0)
-// 		status = ft_unset(h_data->env, tree->command_arr);
-// 	return (status);
-// }
-
-// int	ft_redir_check(char *str)
-// {
-// 	if (ft_strcmp(str, "<") == 0)
-// 		return (1);
-// 	else if (ft_strcmp(str, ">") == 0)
-// 		return (2);
-// 	else if (ft_strcmp(str, "<<") == 0)
-// 		return (3);
-// 	else if (ft_strcmp(str, ">>") == 0)
-// 		return (4);
-// 	return (-1);
-// }
