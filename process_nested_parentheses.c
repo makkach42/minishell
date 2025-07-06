@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_nested_parentheses.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:35:48 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/04 16:02:41 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/05 10:34:37 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	process_nested_parentheses(t_tree **tree)
 		process_nested_parentheses(&((*tree)->right));
 	if ((*tree) && (*tree)->command && has_outer_parenthases((*tree)->command))
 	{
-		print_tree_visual(*tree, 1, 1);
 		redirections_in_par_handle(tree, &cmd_part, &original_redirs, &content);
 		sub_tree_creation(&sub_tree, &content, &sub_list);
 		if (sub_tree)

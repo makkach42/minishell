@@ -6,7 +6,7 @@
 /*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:14:27 by aakroud           #+#    #+#             */
-/*   Updated: 2025/07/04 17:43:47 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/05 10:23:16 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	ft_cmd_word_helper(t_tree *tree, t_hdoc_data *h_data,
 	if ((ft_strcmp("COMMAND", tree->type) == 0 && tree->redirections == NULL)
 		|| (ft_strcmp("WORD", tree->type) == 0 && cmd_check(tree) == 0))
 	{
-		
 		reset_vars(&tree, h_data->env, h_data);
 		tree->status = ft_cmd_exec(tree, h_data);
 		ft_check_exit(check, tree->status);

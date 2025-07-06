@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error_helper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/04 15:49:10 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/05 10:22:24 by aakroud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 					tmp->token, "PARENTHASIS"))))
 		(print_syntax_error(), *flag = 1);
 	if (!*flag && tmp && (!ft_strcmp("PARENTHASIS", prev_token) && (!ft_strcmp(
-				tmp->token, "WORD") || !ft_strcmp(tmp->token, "VARIABLE"))))
+					tmp->token, "WORD") || !ft_strcmp(tmp->token, "VARIABLE"))))
 		(print_syntax_error(), *flag = 1);
 	if (!*flag && tmp && (!ft_strcmp(tmp->token, "PARENTHASIS"
 			) && check_inside_parenths((tmp->data))))
