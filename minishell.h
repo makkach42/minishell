@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/06 10:27:37 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 11:21:03 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -510,6 +510,9 @@ void	remove_quotes_from_var_two(char	**arr);
 void	handle_quotes_two(char **word, char **str);
 void	extract_variable_inits(int *i, int *in_quotes, char *quote_type);
 void	if_dollar_two_inits(int *j, int *in_quotes);
-void	print_tree_visual(t_tree *tree, int level, int is_left);///7ydha 9bl MATPUSHI
+t_list	*new_list_init_two(char *str);
+void	lexer_two(t_list **head);
+void	handle_else_two(char **str, char **word);
+void	handle_quotes_two(char **word, char **str);
 
 #endif

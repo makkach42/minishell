@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/05 16:41:17 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 10:36:07 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ void	while_loop_syntax_error(t_list *tmp,
 		prev_token = tmp->token;
 		prev_data = tmp->data;
 		tmp = tmp->next;
-		// if (!*flag && !ft_strcmp(prev_token, "PARENTHASIS"
-		// 	) && (parenth_case(prev_data)))
-		// 	(print_syntax_error(), *flag = 1);
 		if (!*flag && (ft_strcmp("REDIRECTION", prev_token) == 0 && !tmp))
 		{
 			if (ft_strcmp(prev_data, ">") == 0 && ft_strlen(prev_data) == 1)
@@ -111,9 +108,6 @@ void	syntax_error(t_list **head, int *flag)
 	i = 0;
 	prev_data = NULL;
 	prev_token = NULL;
-	// if (!i && (!ft_strcmp((*head)->token, "PARENTHASIS") && !(
-	// 			*head)->next && no_words_beside((*head)->data)))
-	// 	(print_syntax_error(), *flag = 1, i = 1);
 	if (!i && (ft_strcmp((*head)->token, "PIPE") == 0))
 		(print_syntax_error(), *flag = 1, i = 1);
 	if (!i && (ft_strcmp((*head)->token, "OPERATION_&&") == 0 || ft_strcmp(

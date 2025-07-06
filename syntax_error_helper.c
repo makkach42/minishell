@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:43 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/06 08:19:43 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 10:37:05 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,6 @@ void	even_more_ifs(char *prev_token, char *prev_data, t_list *tmp, int *flag)
 	if (!*flag && tmp && (!ft_strcmp("PARENTHASIS", prev_token) && (!ft_strcmp(
 					tmp->token, "WORD") || !ft_strcmp(tmp->token, "VARIABLE"))))
 		(print_syntax_error(), *flag = 1);
-	// if (!*flag && tmp && (!ft_strcmp(tmp->token, "PARENTHASIS"
-	// 		) && check_inside_parenths((tmp->data))))
-	// 	(print_syntax_error(), *flag = 1);
 	if (!*flag)
 		(last_pack_of_ifs(prev_token, prev_data, tmp, flag));
 }
