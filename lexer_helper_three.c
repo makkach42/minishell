@@ -6,13 +6,13 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 11:07:40 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/05 10:23:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 12:02:15 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	open_quotes(int	*in_quotes, char *quote_type, char **str, int *i)
+void	open_quotes(int *in_quotes, char *quote_type, char **str, int *i)
 {
 	*in_quotes = 1;
 	*quote_type = (*str)[*i];

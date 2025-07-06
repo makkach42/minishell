@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 13:49:23 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/06 11:24:08 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/06 11:57:01 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,28 +88,28 @@ void	syntax_error(t_list **head, int *flag)
 		while_loop_syntax_error(tmp, prev_token, prev_data, flag);
 }
 
-int	syntax_error_parentheses(t_list **head)
-{
-	t_list	*tmp;
-	int		i;
-	int		open_par;
-	int		flag;
+// int	syntax_error_parentheses(t_list **head)
+// {
+// 	t_list	*tmp;
+// 	int		i;
+// 	int		open_par;
+// 	int		flag;
 
-	tmp = *head;
-	flag = 0;
-	if (!head || !*head)
-		return (0);
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->token, "PARENTHASIS") == 0)
-		{
-			i = 0;
-			open_par = 0;
-			syntax_error_parentheses_while_loop(tmp, &i, &flag, &open_par);
-			if (flag == 1 || flag == 2 || flag == 3)
-				return (print_syntax_error(), 1);
-		}
-		tmp = tmp->next;
-	}
-	return (0);
-}
+// 	tmp = *head;
+// 	flag = 0;
+// 	if (!head || !*head)
+// 		return (0);
+// 	while (tmp)
+// 	{
+// 		if (ft_strcmp(tmp->token, "PARENTHASIS") == 0)
+// 		{
+// 			i = 0;
+// 			open_par = 0;
+// 			syntax_error_parentheses_while_loop(tmp, &i, &flag, &open_par);
+// 			if (flag == 1 || flag == 2 || flag == 3)
+// 				return (print_syntax_error(), 1);
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// 	return (0);
+// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reset_vars_helper.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aakroud <aakroud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 07:46:27 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/03 19:53:15 by aakroud          ###   ########.fr       */
+/*   Updated: 2025/07/06 13:07:34 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	reset_var_expand_var(t_tree **tree, t_hdoc_data *h_data)
 	}
 }
 
-void	process_no_list_size(t_list	*head, int list_size, char ***cmd2, int *i)
+void	process_no_list_size(t_list *head, int list_size, char ***cmd2, int *i)
 {
 	char	**cmd;
 	char	*new_str;
