@@ -6,7 +6,7 @@
 /*   By: makkach <makkach@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:34 by makkach           #+#    #+#             */
-/*   Updated: 2025/07/06 13:57:11 by makkach          ###   ########.fr       */
+/*   Updated: 2025/07/09 14:57:49 by makkach          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -501,5 +501,6 @@ t_list	*node_maker(char *word);
 void	handle_new_node(t_list **new_node, t_list **tmp, char **word);
 t_list	*new_list_init_two(char *str);
 void	lexer_two(t_list **head);
+void	print_tree_visual(t_tree *tree, int level, int is_left);
 
 #endif
